@@ -1,0 +1,946 @@
+inherited AlterAssetsF: TAlterAssetsF
+  Left = 217
+  Top = 125
+  Caption = #1578#1593#1583#1610#1604#1575#1578' '#1583#1575#1585#1575#1610#1610' '#1579#1575#1576#1578
+  ClientHeight = 527
+  ClientWidth = 764
+  OnResize = FormResize
+  ExplicitWidth = 772
+  ExplicitHeight = 558
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PnlUnderButton: TPanel
+    Top = 486
+    Width = 764
+    TabOrder = 3
+    ExplicitTop = 486
+    ExplicitWidth = 764
+    object okPanel: TPanel
+      Left = 377
+      Top = 1
+      Width = 153
+      Height = 39
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 1
+      DesignSize = (
+        153
+        39)
+      object BitBtn4: TBitBtn
+        Left = 78
+        Top = 4
+        Width = 75
+        Height = 25
+        Action = DataSetPost1
+        Anchors = [akTop, akRight]
+        Caption = #1578#1571#1610#1610#1600#1600#1600#1583
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00318C2900007B00004A9C4200FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00009C100000AD0800007B0000BDBD5A00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF000084420000AD080000B51000008C00007B841800FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF000084000000BD180000B51000009400007B6300008CB5
+          7300FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00318C290000A5180000B5100000FF420000BD1800BD9C00000073
+          0000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00009C100000A5390000FF420000FF420000AD080000BD1000007B
+          00006BAD5A00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF0000B5210000E7420000FF4200318C2900318C2900BDBD1000008C
+          000018841800FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF000084080000940800FF00FF00FF00FF00BD9C000000B5
+          1000007B00008CB57300FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF007B84210000B5
+          10000084000000730000FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00009C
+          080000B51000007B000000A55A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00318C
+          290000B5100010941800BD9C2100FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF001094290039DE8C00BD9C18006BAD5A00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00189C210000CE210000A55A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF008CB57300FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        TabOrder = 0
+      end
+      object BitBtn5: TBitBtn
+        Left = 0
+        Top = 4
+        Width = 75
+        Height = 25
+        Action = DataSetCancel1
+        Anchors = [akTop, akRight]
+        Caption = #1575#1606#1589#1600#1600#1600#1585#1575#1601
+        Glyph.Data = {
+          36040000424D3604000000000000360000002800000010000000100000000100
+          2000000000000004000000000000000000000000000000000000FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00424A
+          4A00424A4A00424A4A0000424A00424A4A00424A4A00424A4A00005A4A00424A
+          4A00424A4A00424A4A00005A4A00424A4A00424A4A00FF00FF00FF00FF006B73
+          6B00FFFFFF00FFFFFF0000E7FF00FFFFFF00FFFFFF00FFFFFF00BDFFFF00FFFF
+          FF00FFFFFF00FFFFFF00BDFFFF00FFFFFF006B736B00FF00FF00FF00FF006B73
+          6B00FFFFFF000010AD0000844A00FF9C4A00FF9C4A00FF9C4A00BD9C4A00FF9C
+          4A00FF9C4A00FF9C4A00BD9C4A000018CE006B736B00FF00FF00FF00FF006B73
+          6B00FFFFFF000018CE000000AD00FFFFFF00FF9C4A00FFFFFF0000E7FF00FF9C
+          4A00FFFFFF00FFFFFF000000CE00FFFFFF006B736B00FF00FF00FF00FF008484
+          7300FFFFFF00FF9C4A000000CE000010AD00FF9C4A00FFFFFF00BDFFFF00FF9C
+          4A000010AD000018CE00BD9C4A00FFFFFF0084847300FF00FF00FF00FF008484
+          7300FFFFFF00FF9C4A0000844A000018CE000010AD00FF9C4A00BD9C4A000010
+          AD000018CE00FF9C4A00BD9C4A00FFFFFF0084847300FF00FF00FF00FF008484
+          7300FFFFFF00F78C390000E7FF00FFFFFF000018CE000018DE00BD18AD000018
+          DE00FFFFFF00FFFFFF00BD9C3900FFFFFF0084847300FF00FF00FF00FF008C8C
+          8C00F7F7F700F78C390000E7FF00FFFFFF00F78C39000018DE00BD18DE000018
+          CE000010AD00FFFFFF00BD9C3900F7F7F7008C8C8C00FF00FF00FF00FF008C8C
+          8C00F7F7F700E784080000840800E78408000018CE000018E700BD9C0800E784
+          08000018F7000010AD00BD9C0800F7F7F7008C8C8C00FF00FF00FF00FF009494
+          9400E7E7E700E784080000E7FF000018F7000018E700FFFFFF00BDFFFF00E784
+          0800FFFFFF000018F700BD9C0800E7E7E70094949400FF00FF00FF00FF009494
+          9400E7E7E700E78408000000FF000018E700E7840800FFFFFF00BDFFFF00E784
+          0800FFFFFF00FFFFFF00BD18F700E7E7E70094949400FF00FF00FF00FF009C9C
+          9C00CED6CE000018F7000000F700E7840800E7840800E7840800FF9C0800E784
+          0800E7840800E7840800008408000018F7009C9C9C00FF00FF00FF00FF009C9C
+          9C00CED6CE000018F70000C6CE00CED6CE00CED6CE00CED6CE0000DECE00CED6
+          CE00CED6CE00CED6CE0000C6CE00CED6CE009C9C9C00FF00FF00FF00FF009C9C
+          9C009C9C9C009C9C9C0000849C009C9C9C009C9C9C009C9C9C0084849C009C9C
+          9C009C9C9C009C9C9C0000849C009C9C9C009C9C9C00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+          FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
+        TabOrder = 1
+      end
+    end
+    object newPanel: TPanel
+      Left = 530
+      Top = 1
+      Width = 233
+      Height = 39
+      Align = alRight
+      BevelOuter = bvNone
+      TabOrder = 2
+      DesignSize = (
+        233
+        39)
+      object BitBtn1: TBitBtn
+        Left = 155
+        Top = 5
+        Width = 75
+        Height = 25
+        Action = DataSetInsert1
+        Anchors = [akTop, akRight]
+        Caption = #1580#1583#1610#1583
+        TabOrder = 0
+      end
+      object BitBtn2: TBitBtn
+        Left = 79
+        Top = 5
+        Width = 75
+        Height = 25
+        Action = DataSetEdit1
+        Anchors = [akTop, akRight]
+        Caption = #1608#1610#1585#1575#1610#1588
+        TabOrder = 1
+      end
+      object BitBtn3: TBitBtn
+        Left = 2
+        Top = 5
+        Width = 75
+        Height = 25
+        Action = DataSetDelete1
+        Anchors = [akTop, akRight]
+        Caption = #1581#1584#1601
+        TabOrder = 2
+      end
+    end
+    object BitBtn6: TBitBtn
+      Left = 94
+      Top = 8
+      Width = 75
+      Height = 25
+      Action = actSort
+      Caption = #1578#1585#1578#1610#1576
+      TabOrder = 3
+    end
+    object BitBtn7: TBitBtn
+      Left = 171
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = #1580#1587#1578#1580#1608
+      TabOrder = 4
+    end
+    object BitBtn9: TBitBtn
+      Left = 247
+      Top = 8
+      Width = 75
+      Height = 25
+      Caption = #1587#1575#1610#1585' '#1575#1605#1603#1575#1606#1575#1578
+      TabOrder = 5
+      OnClick = actOtherExecute
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 764
+    TabOrder = 2
+    ExplicitWidth = 764
+    inherited ImgTemplate: TImage
+      Left = 722
+      ExplicitLeft = 722
+    end
+    inherited lblCaption: TLabel
+      Left = 601
+      Width = 117
+      Height = 16
+      Caption = #1578#1593#1583#1610#1604#1575#1578' '#1583#1575#1585#1575#1610#1610' '#1579#1575#1576#1578
+      ExplicitLeft = 601
+      ExplicitWidth = 117
+    end
+    object rdoInfoKInd: TRadioGroup
+      Left = 1
+      Top = 1
+      Width = 136
+      Height = 51
+      Align = alLeft
+      Items.Strings = (
+        #1578#1593#1605#1610#1585#1575#1578' '#1575#1587#1575#1587#1610
+        #1605#1575#1586#1575#1583' '#1578#1580#1583#1610#1583' '#1575#1585#1586#1610#1575#1576#1610)
+      TabOrder = 0
+      OnClick = rdoInfoKindClick
+    end
+  end
+  inherited Panel3: TPanel
+    Top = 176
+    Width = 491
+    Height = 310
+    TabOrder = 5
+    ExplicitTop = 176
+    ExplicitWidth = 491
+    ExplicitHeight = 310
+  end
+  object DBGrid2: TDBGrid [3]
+    Left = 491
+    Top = 176
+    Width = 273
+    Height = 310
+    Align = alRight
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    DataSource = srcExpenses
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    TabOrder = 4
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'ExpID'
+        Width = 47
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ExpDesc'
+        Width = 110
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'BuyDate'
+        Width = 71
+        Visible = True
+      end>
+  end
+  object Panel6: TPanel [4]
+    Left = 0
+    Top = 53
+    Width = 764
+    Height = 123
+    Align = alTop
+    Anchors = [akLeft, akTop, akRight, akBottom]
+    TabOrder = 0
+    object DBGrid1: TDBGrid
+      Left = 1
+      Top = 1
+      Width = 762
+      Height = 91
+      Align = alClient
+      Color = clCream
+      DataSource = srcAmval
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+      TabOrder = 0
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'SerialNum'
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'StuffDesc'
+          Width = 521
+          Visible = True
+        end
+        item
+          Expanded = False
+          FieldName = 'PelakNum'
+          Width = 82
+          Visible = True
+        end>
+    end
+    object Panel4: TPanel
+      Left = 1
+      Top = 92
+      Width = 762
+      Height = 30
+      Align = alBottom
+      BevelOuter = bvNone
+      TabOrder = 1
+      DesignSize = (
+        762
+        30)
+      object BitBtn8: TBitBtn
+        Left = 678
+        Top = 3
+        Width = 75
+        Height = 25
+        Action = actAmvalSearch
+        Anchors = [akTop, akRight]
+        Caption = #1580#1587#1578#1580#1608
+        TabOrder = 0
+      end
+      object BitBtn10: TBitBtn
+        Left = 601
+        Top = 3
+        Width = 75
+        Height = 25
+        Action = actAmvalSort
+        Anchors = [akTop, akRight]
+        Caption = #1578#1585#1578#1610#1576
+        TabOrder = 1
+      end
+      object BitBtn11: TBitBtn
+        Left = 512
+        Top = 3
+        Width = 85
+        Height = 25
+        Action = actAmvalExcel
+        Anchors = [akTop, akRight]
+        Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+        TabOrder = 2
+      end
+    end
+  end
+  object Panel7: TPanel [5]
+    Left = 0
+    Top = 176
+    Width = 491
+    Height = 310
+    Align = alClient
+    TabOrder = 1
+    DesignSize = (
+      491
+      310)
+    object Label1: TLabel
+      Left = 349
+      Top = 69
+      Width = 50
+      Height = 13
+      Alignment = taRightJustify
+      Caption = #1578#1575#1585#1610#1582' '#1578#1593#1583#1610#1604
+      FocusControl = DBEdit1
+    end
+    object Label2: TLabel
+      Left = 349
+      Top = 124
+      Width = 106
+      Height = 13
+      Alignment = taRightJustify
+      Caption = #1578#1593#1583#1610#1604' '#1575#1587#1578#1607#1604#1575#1603' '#1575#1606#1576#1575#1588#1578#1607
+      FocusControl = DBEdit2
+    end
+    object Label3: TLabel
+      Left = 349
+      Top = 97
+      Width = 85
+      Height = 13
+      Alignment = taRightJustify
+      Caption = #1578#1593#1583#1610#1604' '#1575#1585#1586#1588' '#1583#1575#1585#1575#1610#1610
+      FocusControl = DBEdit3
+    end
+    object Bevel2: TBevel
+      Left = 9
+      Top = 56
+      Width = 479
+      Height = 9
+      Anchors = [akLeft, akTop, akRight]
+      Shape = bsTopLine
+      Style = bsRaised
+    end
+    object Label4: TLabel
+      Left = 349
+      Top = 12
+      Width = 56
+      Height = 13
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Caption = #1575#1585#1586#1588' '#1583#1575#1585#1575#1610#1610
+      FocusControl = DBEdit5
+    end
+    object Label5: TLabel
+      Left = 349
+      Top = 36
+      Width = 77
+      Height = 13
+      Alignment = taRightJustify
+      Anchors = [akTop, akRight]
+      Caption = #1575#1587#1578#1607#1604#1575#1603' '#1575#1606#1576#1575#1588#1578#1607
+      FocusControl = DBEdit6
+    end
+    object Label6: TLabel
+      Left = 349
+      Top = 149
+      Width = 123
+      Height = 13
+      Alignment = taRightJustify
+      Caption = #1578#1593#1583#1610#1604' '#1575#1587#1578#1607#1604#1575#1603' '#1587#1575#1604' '#1580#1575#1585#1610' '
+      FocusControl = DBEdit4
+    end
+    object DBText1: TDBText
+      Left = 1
+      Top = 276
+      Width = 489
+      Height = 13
+      Align = alBottom
+      DataField = 'FormType'
+      DataSource = srcAlterAssets
+      Font.Charset = ARABIC_CHARSET
+      Font.Color = 1401599
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentFont = False
+      ExplicitLeft = 283
+      ExplicitTop = 295
+      ExplicitWidth = 209
+    end
+    object DBEdit1: TDBEdit
+      Left = 210
+      Top = 65
+      Width = 136
+      Height = 21
+      DataField = 'AlterDate'
+      DataSource = srcAlterAssets
+      TabOrder = 0
+    end
+    object DBEdit2: TDBEdit
+      Left = 210
+      Top = 120
+      Width = 136
+      Height = 21
+      DataField = 'AlterDepValue'
+      DataSource = srcAlterAssets
+      TabOrder = 1
+    end
+    object DBEdit3: TDBEdit
+      Left = 210
+      Top = 93
+      Width = 136
+      Height = 21
+      DataField = 'AlterPrice'
+      DataSource = srcAlterAssets
+      TabOrder = 3
+    end
+    object DBEdit5: TDBEdit
+      Left = 210
+      Top = 8
+      Width = 136
+      Height = 21
+      TabStop = False
+      Anchors = [akTop, akRight]
+      DataField = 'ExpValue'
+      DataSource = srcExpenses
+      ReadOnly = True
+      TabOrder = 5
+    end
+    object DBEdit6: TDBEdit
+      Left = 210
+      Top = 32
+      Width = 136
+      Height = 21
+      TabStop = False
+      Anchors = [akTop, akRight]
+      DataField = 'FirstDepValue'
+      DataSource = srcExpenses
+      ReadOnly = True
+      TabOrder = 6
+    end
+    object DBEdit4: TDBEdit
+      Left = 210
+      Top = 145
+      Width = 136
+      Height = 21
+      DataField = 'AlterDepValueInYear'
+      DataSource = srcAlterAssets
+      TabOrder = 2
+    end
+    object GroupBox1: TGroupBox
+      Left = 1
+      Top = 218
+      Width = 489
+      Height = 58
+      Align = alBottom
+      Caption = #1578#1608#1590#1610#1581#1575#1578' '#1590#1585#1608#1585#1610
+      TabOrder = 4
+      object DBMemo1: TDBMemo
+        Left = 2
+        Top = 15
+        Width = 485
+        Height = 41
+        Align = alClient
+        DataField = 'AlterNote'
+        DataSource = srcAlterAssets
+        TabOrder = 0
+      end
+    end
+    object DBNavigator1: TDBNavigator
+      Left = 1
+      Top = 289
+      Width = 489
+      Height = 20
+      DataSource = srcAlterAssets
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+      Align = alBottom
+      Flat = True
+      TabOrder = 7
+    end
+  end
+  inherited ActionList: TActionList
+    Left = 320
+    Top = 72
+    inherited DataSetInsert1: TDataSetInsert
+      DataSource = srcAlterAssets
+    end
+    inherited DataSetEdit1: TDataSetEdit
+      DataSource = srcAlterAssets
+    end
+    inherited DataSetPost1: TDataSetPost
+      DataSource = srcAlterAssets
+    end
+    inherited DataSetCancel1: TDataSetCancel
+      DataSource = srcAlterAssets
+    end
+    inherited actSearch_: TAction
+      OnExecute = actSearchExecute
+    end
+    object DataSetDelete1: TDataSetDelete
+      Category = 'Dataset'
+      Caption = #1581#1584#1601
+      DataSource = srcAlterAssets
+    end
+    object actSort: TAction
+      Caption = #1578#1585#1578#1610#1576
+      OnExecute = actSortExecute
+    end
+    object actSendToExcel: TAction
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      OnExecute = actSendToExcelExecute
+    end
+    object actAmvalSort: TAction
+      Category = 'Amval'
+      Caption = #1578#1585#1578#1610#1576
+      OnExecute = actAmvalSortExecute
+    end
+    object actAmvalExcel: TAction
+      Category = 'Amval'
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      OnExecute = actAmvalExcelExecute
+    end
+    object actAmvalSearch: TAction
+      Category = 'Amval'
+      Caption = #1580#1587#1578#1580#1608
+      OnExecute = actAmvalSearchExecute
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 424
+    Top = 89
+    Bitmap = {
+      494C010101000500040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000001000000001002000000000000010
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000031000000420000005200000052000000420000003100000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000042
+      000000420000007B0800009C0800009C0800009C0800009C0800007B0800004A
+      0000004A00000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000004A08000063
+      080000A5100000A50800009C0800009C0800009C0800009C080000A5080000A5
+      0800006B08000031000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000004A0800006B100008A5
+      210008A51800009C0800009C0800009C0800009C0800009C0800009C0800009C
+      080000A50800006B0800004A0000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000004A080010AD310008AD
+      290008A5180000A510004AC65200E7F7EF00D6F7DE0010AD2100009C0800009C
+      0800009C080000A50800004A0000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000005200000884210010B5420010A5
+      3100089C180042BD4A00F7FFF700FFFFFF0084D68C0000A51000009C0800009C
+      0800009C080000A50800007B0800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000052000010A5420018B54A0010AD
+      310042BD4A00F7FFF700FFFFFF0073D67B00009C0800009C0800009C0800009C
+      0800009C080000A5080000940800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000006B100021B5520021B5520073D6
+      9400EFFFEF00FFFFFF00F7FFF700B5EFC600B5E7BD00ADE7B500ADE7B500ADE7
+      B500ADE7B500009C0800009C0800004A00000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000873100039BD6B0029BD5A00BDEF
+      CE00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00009C0800009C0800005200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000873100052C67B0042C6730029BD
+      5A00A5E7BD00FFFFFF00F7FFF70084DEA50042BD5A0042BD5A0042BD5A0042BD
+      5A0042BD5A0008A51800009C0800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000087310004ABD6B0084DEA50021B5
+      520021B5520094DEB500FFFFFF00E7F7EF0052C6730010AD310010AD310010AD
+      310008A5290008A51800008C0800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000021A53100ADE7C6006BCE
+      8C0010AD4A0018B54A008CDEAD00FFFFFF00F7FFF70029BD520010A5310008A5
+      290008A5210008AD1800006B0800000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000021A5310052C67300BDEF
+      D60063CE8C0021B5520018B5520094DEB500ADE7C60021B5520010AD390010AD
+      310010AD3100109C2100006B0800000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000109C21006BCE
+      8C00D6F7E7009CE7B50052C67B0039BD630029BD5A0031BD630031BD630021BD
+      4A0010A531000063080000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000004ABD
+      63004ABD630094DEB500BDEFD600A5E7C6008CDEAD007BDE9C004AC67B00189C
+      3900189C39000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000021A5310039B5520042BD630042BD630029A54A00108C29000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000100000000100010000000000800000000000000000000000
+      000000000000000000000000FFFFFF00F81F000000000000E007000000000000
+      C003000000000000800100000000000080010000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000080010000000000008001000000000000C003000000000000
+      E007000000000000F81F00000000000000000000000000000000000000000000
+      000000000000}
+  end
+  object qryAlterAssets: TADOQuery
+    Connection = DmF.adcBSell
+    CursorType = ctStatic
+    BeforeInsert = qryAlterAssetsBeforeInsert
+    AfterInsert = qryAlterAssetsAfterInsert
+    AfterEdit = qryAlterAssetsAfterEdit
+    BeforePost = qryAlterAssetsBeforePost
+    AfterPost = qryAlterAssetsAfterPost
+    BeforeDelete = qryAlterAssetsBeforeDelete
+    Parameters = <
+      item
+        Name = 'PrvID'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      'Select * from Assets.AlterAssets'
+      'where PrvID=:PrvID')
+    Left = 64
+    Top = 328
+    object qryAlterAssetsID: TIntegerField
+      FieldName = 'ID'
+    end
+    object qryAlterAssetsSerial: TIntegerField
+      Tag = 3
+      DisplayLabel = #1587#1585#1610#1575#1604
+      FieldName = 'Serial'
+    end
+    object qryAlterAssetsAlterDate: TStringField
+      Tag = 3
+      DisplayLabel = #1578#1575#1585#1610#1582' '#1578#1593#1583#1610#1604
+      FieldName = 'AlterDate'
+      Required = True
+      OnChange = qryAlterAssetsAlterDateChange
+      EditMask = '9999/99/99'
+      FixedChar = True
+      Size = 10
+    end
+    object qryAlterAssetsAlterPrice: TBCDField
+      Tag = 3
+      DisplayLabel = #1578#1593#1583#1610#1604' '#1575#1585#1586#1588' '#1583#1575#1585#1575#1610#1610
+      FieldName = 'AlterPrice'
+      Required = True
+      currency = True
+      Precision = 19
+    end
+    object qryAlterAssetsAlterDepValue: TBCDField
+      Tag = 3
+      DisplayLabel = #1578#1593#1583#1610#1604' '#1575#1587#1578#1607#1604#1575#1603' '#1575#1606#1576#1575#1588#1578#1607
+      FieldName = 'AlterDepValue'
+      Required = True
+      currency = True
+      Precision = 19
+    end
+    object qryAlterAssetsAlterDepValueInYear: TBCDField
+      Tag = 3
+      DisplayLabel = #1578#1593#1583#1610#1604' '#1575#1587#1578#1607#1604#1575#1603' '#1587#1575#1604' '#1580#1575#1585#1610' '
+      FieldName = 'AlterDepValueInYear'
+      Required = True
+      currency = True
+      Precision = 19
+    end
+    object qryAlterAssetsAlterNote: TMemoField
+      Tag = 3
+      DisplayLabel = #1578#1608#1590#1610#1581#1575#1578
+      FieldName = 'AlterNote'
+      BlobType = ftMemo
+    end
+    object qryAlterAssetsFormType: TWordField
+      FieldName = 'FormType'
+      OnGetText = qryAlterAssetsFormTypeGetText
+    end
+    object qryAlterAssetsPrvID: TIntegerField
+      FieldName = 'PrvID'
+    end
+    object qryAlterAssetsFirstUser: TStringField
+      Tag = 3
+      FieldName = 'FirstUser'
+      Size = 50
+    end
+    object qryAlterAssetsLastUser: TStringField
+      Tag = 3
+      FieldName = 'LastUser'
+      Size = 50
+    end
+    object qryAlterAssetsInfoKind: TWordField
+      FieldName = 'InfoKind'
+    end
+  end
+  object srcAlterAssets: TDataSource
+    DataSet = qryAlterAssets
+    OnStateChange = srcAlterAssetsStateChange
+    Left = 136
+    Top = 304
+  end
+  object qryExpenses: TADOQuery
+    Connection = DmF.adcBSell
+    CursorType = ctStatic
+    AfterScroll = qryExpensesAfterScroll
+    Parameters = <
+      item
+        Name = 'Sn'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'SELECT     ExpID, SerialNum, ExpDesc, BuyDate, ExpValue, FirstDe' +
+        'pValue'
+      'FROM        assets.Expenses'
+      'WHERE     (SerialNum = :Sn)')
+    Left = 632
+    Top = 336
+    object qryExpensesExpID: TIntegerField
+      DisplayLabel = #1587#1585#1610#1575#1604
+      FieldName = 'ExpID'
+    end
+    object qryExpensesSerialNum: TIntegerField
+      FieldName = 'SerialNum'
+    end
+    object qryExpensesExpDesc: TStringField
+      DisplayLabel = #1588#1585#1581
+      FieldName = 'ExpDesc'
+      Size = 200
+    end
+    object qryExpensesBuyDate: TStringField
+      DisplayLabel = #1578#1575#1585#1610#1582
+      FieldName = 'BuyDate'
+      FixedChar = True
+      Size = 10
+    end
+    object qryExpensesExpValue: TBCDField
+      DisplayLabel = #1575#1585#1586#1588' '#1583#1575#1585#1575#1610#1610
+      FieldName = 'ExpValue'
+      currency = True
+      Precision = 19
+    end
+    object qryExpensesFirstDepValue: TBCDField
+      DisplayLabel = #1575#1587#1578#1607#1604#1575#1603' '#1575#1606#1576#1575#1588#1578#1607
+      FieldName = 'FirstDepValue'
+      currency = True
+      Precision = 19
+    end
+  end
+  object popOther: TPopupMenu
+    Left = 96
+    Top = 248
+    object N1: TMenuItem
+      Caption = #1575#1587#1603#1606
+      OnClick = N1Click
+    end
+    object N2: TMenuItem
+      Caption = #1576#1585#1608#1586#1585#1587#1575#1606#1610
+      OnClick = N2Click
+    end
+    object Excel1: TMenuItem
+      Action = actSendToExcel
+    end
+  end
+  object srcExpenses: TDataSource
+    DataSet = qryExpenses
+    Left = 608
+    Top = 258
+  end
+  object qryAmval: TADOQuery
+    Connection = DmF.adcBSell
+    CursorType = ctStatic
+    AfterScroll = qryAmvalAfterScroll
+    Parameters = <>
+    SQL.Strings = (
+      
+        'SELECT Amval.PelakNum, Amval.StuffDesc, Amval.SerialNum, MAX(Exp' +
+        'enses.BuyDate) AS validDate,'
+      'Decrease.DecDate'
+      'FROM Assets.Amval as Amval INNER JOIN'
+      
+        'Assets.Expenses as Expenses  ON Amval.SerialNum = Expenses.Seria' +
+        'lNum LEFT OUTER JOIN'
+      
+        'Assets.Decrease as Decrease ON Amval.SerialNum = Decrease.Serial' +
+        'Num'
+      
+        'GROUP BY Amval.PelakNum, Amval.StuffDesc, Amval.SerialNum, Decre' +
+        'ase.DecDate')
+    Left = 136
+    Top = 97
+    object qryAmvalPelakNum: TStringField
+      Tag = 3
+      DisplayLabel = #1662#1604#1575#1603
+      FieldName = 'PelakNum'
+    end
+    object qryAmvalStuffDesc: TStringField
+      Tag = 3
+      DisplayLabel = #1588#1585#1581
+      FieldName = 'StuffDesc'
+      Size = 150
+    end
+    object qryAmvalSerialNum: TIntegerField
+      Tag = 3
+      DisplayLabel = #1587#1585#1610#1575#1604
+      FieldName = 'SerialNum'
+    end
+    object qryAmvalDecDate: TStringField
+      FieldName = 'DecDate'
+      FixedChar = True
+      Size = 10
+    end
+    object qryAmvalvalidDate: TStringField
+      FieldName = 'validDate'
+      ReadOnly = True
+      FixedChar = True
+      Size = 10
+    end
+  end
+  object srcAmval: TDataSource
+    DataSet = qryAmval
+    Left = 200
+    Top = 113
+  end
+end

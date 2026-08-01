@@ -1,0 +1,26 @@
+BDE/IBX/ADO/ODAC/SDAC/MyDAC/IBDAC/PgDAC/LiteDAC/AnyDAC/FireDAC/FIBPlus Migration Wizard log
+
+Created at: 11/12/2019 04:56:12 È.Ù
+
+Initializing unit list
+
+Creating backup folder
+
+Allocating temporary folder
+
+Processing file: D:\Projects\FaraXE8\Bsell\RptOperational.pas
+
+9 change(s)
+
+Processing file: D:\Projects\FaraXE8\Bsell\RptOperational.DFM
+
+3 change(s)
+
+Replacing original files with changed versions
+
+Backup file: D:\Projects\FaraXE8\Bsell\RBackup\RExpert.reu
+
+Removing temporary folder
+
+Replace procedure was performed sucessfully.
+

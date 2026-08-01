@@ -1,0 +1,36 @@
+# Delphi build output
+Exe/
+Dcus/
+Win32/
+Win64/
+Debug/
+Release/
+*.dcu
+*.exe
+*.obj
+*.map
+*.drc
+*.dres
+
+# Delphi IDE backup / history
+__history/
+__recovery/
+bak/
+RBackup/
+*.~*~
+*.cbk
+*.mine
+*.r[0-9][0-9]
+*.r[0-9][0-9][0-9]
+
+# Delphi IDE local/user state
+*.local
+*.identcache
+*.tvsconfig
+*.stat
+*.otares
+*.ddp
+*.gex
+
+# Claude Code local settings
+.claude/settings.local.json

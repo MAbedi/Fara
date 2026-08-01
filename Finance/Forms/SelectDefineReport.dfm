@@ -1,0 +1,612 @@
+object SelectDefineReportF: TSelectDefineReportF
+  Left = 313
+  Top = 290
+  BiDiMode = bdRightToLeft
+  BorderStyle = bsToolWindow
+  Caption = #1575#1606#1578#1582#1575#1576
+  ClientHeight = 511
+  ClientWidth = 571
+  Color = clBtnFace
+  Font.Charset = ARABIC_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  ParentBiDiMode = False
+  Position = poDesktopCenter
+  OnDestroy = FormDestroy
+  OnResize = FormResize
+  TextHeight = 13
+  object cli4RelatedAllImage: TImage
+    Left = 128
+    Top = 24
+    Width = 14
+    Height = 15
+    AutoSize = True
+    Picture.Data = {
+      07544269746D6170CA020000424DCA0200000000000036000000280000000E00
+      00000F0000000100180000000000940200000000000000000000000000000000
+      0000F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+      F0FBFFF0FBFFF0FBFFF0FBFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0FBFF0000FFFFFFE2EFF1
+      E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF199A8
+      ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFF
+      FFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFF64
+      6F7199A8ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFF00000000000000
+      0000000000000000FFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFFFF
+      FFFF000000000000000000FFFFFF000000000000FFFFFF646F7199A8ACF0FBFF
+      0000FFFFFFE2EFF1FFFFFF000000000000000000FFFFFFFFFFFFFFFFFF000000
+      FFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFF000000000000FFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1
+      FFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8
+      ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1646F71646F71646F
+      71646F71646F71646F71646F71646F71646F71646F7199A8ACF0FBFF0000FFFF
+      FF99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99
+      A8AC99A8ACF0FBFFB700F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0
+      FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF0000}
+    Visible = False
+  end
+  object cli4RelatedAllImage2: TImage
+    Left = 104
+    Top = 24
+    Width = 16
+    Height = 16
+    AutoSize = True
+    Picture.Data = {
+      07544269746D617036030000424D360300000000000036000000280000001000
+      0000100000000100180000000000000300000000000000000000000000000000
+      0000F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+      F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1
+      E2EFF1E2EFF1E2EFF199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+      FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+      FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+      FBFFF0FBFFFFFFFFE2EFF1646F71646F71646F71646F71646F71646F71646F71
+      646F71646F71646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFF99A8AC99A8AC99A8
+      AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8ACF0FBFFF0
+      FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+      F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FB
+      FFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0
+      FBFF}
+    Visible = False
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 0
+    Width = 571
+    Height = 474
+    Align = alClient
+    Color = clCream
+    DataSource = src4RelatedAll
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+    PopupMenu = PopupMenu1
+    TabOrder = 0
+    TitleFont.Charset = ARABIC_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -11
+    TitleFont.Name = 'Tahoma'
+    TitleFont.Style = []
+    OnDrawColumnCell = DBGrid1DrawColumnCell
+    OnDblClick = DBGrid1DblClick
+    OnKeyDown = DBGrid1KeyDown
+    OnKeyPress = DBGrid1KeyPress
+    Columns = <
+      item
+        Expanded = False
+        FieldName = '_checked'
+        Width = 39
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TopicCode'
+        Width = 49
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'MoeenName_L1'
+        Width = 101
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DetailCode'
+        Width = 57
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DetailName'
+        Width = 121
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CTopicCode'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CenterTopicName'
+        Width = 86
+        Visible = True
+      end>
+  end
+  object pnlDown: TPanel
+    Left = 0
+    Top = 474
+    Width = 571
+    Height = 37
+    Align = alBottom
+    ParentShowHint = False
+    ShowHint = True
+    TabOrder = 1
+    ExplicitTop = 486
+    ExplicitWidth = 579
+    DesignSize = (
+      571
+      37)
+    object Image3: TImage
+      Left = 384
+      Top = 16
+      Width = 14
+      Height = 15
+      AutoSize = True
+      Picture.Data = {
+        07544269746D6170CA020000424DCA0200000000000036000000280000000E00
+        00000F0000000100180000000000940200000000000000000000000000000000
+        0000F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+        F0FBFFF0FBFFF0FBFFF0FBFF0000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0FBFF0000FFFFFFE2EFF1
+        E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF199A8
+        ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFF000000FFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFF
+        FFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFF000000000000000000FFFFFFFFFFFF64
+        6F7199A8ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFF00000000000000
+        0000000000000000FFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFFFF
+        FFFF000000000000000000FFFFFF000000000000FFFFFF646F7199A8ACF0FBFF
+        0000FFFFFFE2EFF1FFFFFF000000000000000000FFFFFFFFFFFFFFFFFF000000
+        FFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1FFFFFF000000000000FFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1
+        FFFFFF000000FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8
+        ACF0FBFFB700FFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFF646F7199A8ACF0FBFF0000FFFFFFE2EFF1646F71646F71646F
+        71646F71646F71646F71646F71646F71646F71646F7199A8ACF0FBFF0000FFFF
+        FF99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99
+        A8AC99A8ACF0FBFFB700F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0
+        FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF0000}
+      Visible = False
+    end
+    object Image2: TImage
+      Left = 360
+      Top = 16
+      Width = 16
+      Height = 16
+      AutoSize = True
+      Picture.Data = {
+        07544269746D617036030000424D360300000000000036000000280000001000
+        0000100000000100180000000000000300000000000000000000000000000000
+        0000F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+        F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1E2EFF1
+        E2EFF1E2EFF1E2EFF199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFF646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFFE2EFF1FFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF646F7199A8ACF0FBFFF0
+        FBFFF0FBFFFFFFFFE2EFF1646F71646F71646F71646F71646F71646F71646F71
+        646F71646F71646F7199A8ACF0FBFFF0FBFFF0FBFFFFFFFF99A8AC99A8AC99A8
+        AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8AC99A8ACF0FBFFF0
+        FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFF
+        F0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FB
+        FFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0FBFFF0
+        FBFF}
+      Visible = False
+    end
+    object btnClose: TBitBtn
+      Left = 6
+      Top = 6
+      Width = 75
+      Height = 25
+      Cancel = True
+      Caption = #1576#1575#1586#1711#1588#1578
+      Glyph.Data = {
+        36050000424D3605000000000000360400002800000010000000100000000100
+        08000000000000010000220B0000220B00000001000000010000003100000042
+        0000004A000000520000006B0000004A080000630800006B0800007B0800008C
+        080000940800009C080000A50800006B10000873100000A51000089C180000A5
+        180008A5180008AD180008842100109C210008A5210010AD2100108C290008A5
+        290008AD290008B5290010A5310018A5310021A5310008AD310010AD3100189C
+        390010AD390010A5420010B5420029A54A0010AD4A0018B54A0021BD4A0042BD
+        4A0018B5520021B5520039B5520029BD520042BD52004AC6520029BD5A0039BD
+        5A0042BD5A0042C65A0031BD630039BD630042BD63004ABD630039BD6B004ABD
+        6B0042C673004AC6730052C673004AC67B0052C67B0073D67B0063CE8C006BCE
+        8C006BD68C0084D68C0073D694007BDE9C0084DEA5008CDEAD0094DEB50094E7
+        B5009CE7B500ADE7B500B5E7B500A5E7BD00B5E7BD00A5E7C600ADE7C600B5EF
+        C600BDEFCE00BDEFD600C6F7DE00D6F7DE00D6F7E700E7F7EF00EFFFEF00F7FF
+        F700FF00FF00F7FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF005A5A5A5A5A00
+        01030301005A5A5A5A5A5A5A5A0101080B0B0B0B0802025A5A5A5A5A05060F0C
+        0B0B0B0B0C0C07005A5A5A050D16120B0B0B0B0B0B0B0C07025A5A05201A120F
+        2F5755170B0B0B0C025A0314241C1029595C430F0B0B0B0C0801032327202959
+        5C3F0B0B0B0B0B0C0A010D2B2B44585C59514E4B4B4B4B0B0B020E3830525C5C
+        5C5C5C5C5C5C5C0B0B030E3E3A304D5C59463232323232120B010E39462B2B48
+        5C573C202020191209015A1E50412627475C592D1C191613075A5A1E3C53402B
+        2A48502B22202015075A5A5A1541564A3E35303434281C065A5A5A5A5A373748
+        534F47453D21215A5A5A5A5A5A5A5A1E2C363625185A5A5A5A5A}
+      ModalResult = 2
+      TabOrder = 0
+    end
+    object BitBtn1: TBitBtn
+      Left = 481
+      Top = 6
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Caption = #1578#1575#1574#1610#1583
+      Default = True
+      ModalResult = 1
+      NumGlyphs = 2
+      TabOrder = 1
+      ExplicitLeft = 497
+    end
+    object BitBtn2: TBitBtn
+      Left = 404
+      Top = 6
+      Width = 75
+      Height = 25
+      Anchors = [akTop, akRight]
+      Cancel = True
+      Caption = #1575#1606#1589#1585#1575#1601
+      ModalResult = 2
+      TabOrder = 2
+      ExplicitLeft = 420
+    end
+    object BitBtn3: TBitBtn
+      Left = 83
+      Top = 6
+      Width = 75
+      Height = 25
+      Action = actSort
+      Caption = #1578#1585#1578#1610#1576
+      TabOrder = 3
+    end
+    object BitBtn4: TBitBtn
+      Left = 160
+      Top = 6
+      Width = 75
+      Height = 25
+      Action = actSearch
+      Caption = #1580#1587#1578#1580#1608
+      TabOrder = 4
+    end
+    object btnSelected: TBitBtn
+      Left = 237
+      Top = 6
+      Width = 75
+      Height = 25
+      Action = actSelected
+      Caption = #1575#1606#1578#1582#1575#1576' '#1605#1593#1603#1608#1587
+      TabOrder = 5
+    end
+    object btnSelectAll: TBitBtn
+      Left = 314
+      Top = 6
+      Width = 75
+      Height = 25
+      Action = actSelectAll
+      Caption = #1575#1606#1578#1582#1575#1576' '#1607#1605#1607
+      TabOrder = 6
+    end
+  end
+  object qry4RelatedAll: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    AfterOpen = qry4RelatedAllAfterOpen
+    Parameters = <
+      item
+        Name = 'RepCode'
+        Attributes = [paNullable]
+        DataType = ftWord
+        Precision = 3
+        Size = 1
+        Value = Null
+      end
+      item
+        Name = 'ROwID'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'colnum'
+        Attributes = [paNullable]
+        DataType = ftWord
+        Precision = 3
+        Size = 1
+        Value = Null
+      end
+      item
+        Name = 'YearID'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      'SELECT DISTINCT '
+      
+        '                     Cast( Categories.TopicCode as  Varchar(15))' +
+        ' as TopicCode, 0 AS DetailCode, 0 AS CTopicCode, '#39'-'#39' AS DetailNa' +
+        'me, '#39'-'#39' AS CenterTopicName, '
+      
+        '                      Categories.TopicCode + '#39' - '#39' + 0 + '#39' - '#39' +' +
+        ' 0 AS AccCode, Categories.MoeenName_L1'
+      ''
+      'FROM            Acc.Categories LEFT OUTER JOIN'
+      
+        '                         Acc.CategoriesForUse ON Acc.Categories.' +
+        'TopicCode = Acc.CategoriesForUse.PrvTopicCode'
+      ' LEFT OUTER JOIN'
+      
+        '                       Acc._ReportRowsOnDocs ON Categories.Topic' +
+        'Code = Acc._ReportRowsOnDocs.G_TopicCode'
+      ''
+      
+        'WHERE        (Acc.CategoriesForUse.PrvTopicCode IS NULL) AND (Ac' +
+        'c.Categories.LevelID >= 3)'
+      'AND (Acc._ReportRowsOnDocs.repCode = :RepCode) AND '
+      
+        '    (Acc._ReportRowsOnDocs.rowID = :ROwID) AND (Acc._ReportRowsO' +
+        'nDocs.ColNum = :colnum) AND ( YearID = :YearID )')
+    Left = 337
+    Top = 144
+  end
+  object src4RelatedAll: TDataSource
+    DataSet = cli4RelatedAll
+    Left = 208
+    Top = 104
+  end
+  object DataSetProvider1: TDataSetProvider
+    DataSet = qry4RelatedAll
+    Left = 112
+    Top = 104
+  end
+  object cli4RelatedAll: TClientDataSet
+    Aggregates = <>
+    Params = <>
+    ProviderName = 'DataSetProvider1'
+    AfterScroll = cli4RelatedAllAfterScroll
+    Left = 64
+    Top = 176
+    object cli4RelatedAll_checked: TBooleanField
+      DisplayLabel = #1575#1606#1578#1582#1575#1576
+      FieldKind = fkInternalCalc
+      FieldName = '_checked'
+    end
+    object cli4RelatedAllDetailCode: TIntegerField
+      DisplayLabel = #1705#1583' '#1578#1601#1589#1610#1604#1610
+      FieldName = 'DetailCode'
+    end
+    object cli4RelatedAllMoeenName_L1: TStringField
+      DisplayLabel = #1588#1585#1581' '#1581#1587#1575#1576
+      FieldName = 'MoeenName_L1'
+      Size = 100
+    end
+    object cli4RelatedAllAccCode: TLargeintField
+      FieldName = 'AccCode'
+      ReadOnly = True
+    end
+    object cli4RelatedAllDetailName: TStringField
+      DisplayLabel = #1588#1585#1581' '#1578#1601#1589#1610#1604#1610
+      FieldName = 'DetailName'
+      ReadOnly = True
+      Size = 1
+    end
+    object cli4RelatedAllCTopicCode: TIntegerField
+      DisplayLabel = #1705#1583' '#1605#1585#1705#1586' '#1607#1586#1610#1606#1607
+      FieldName = 'CTopicCode'
+      ReadOnly = True
+    end
+    object cli4RelatedAllCenterTopicName: TStringField
+      DisplayLabel = #1588#1585#1581' '#1605#1585#1705#1586' '#1607#1586#1610#1606#1607
+      FieldName = 'CenterTopicName'
+      ReadOnly = True
+      Size = 1
+    end
+    object cli4RelatedAllTopicCode: TStringField
+      DisplayLabel = #1603#1583' '#1605#1593#1740#1606
+      FieldName = 'TopicCode'
+      ReadOnly = True
+      Size = 30
+    end
+  end
+  object qryUpdate: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    Parameters = <
+      item
+        Name = 'Type'
+        Attributes = [paNullable]
+        DataType = ftWord
+        Precision = 3
+        Size = 1
+        Value = Null
+      end
+      item
+        Name = 'YearID'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'SELECT * FROM acc._ReportRowsOnDocs WHERE (ColNum=:Type) AND ( Y' +
+        'earID = :YearID );')
+    Left = 128
+    Top = 320
+  end
+  object ActionList1: TActionList
+    Left = 472
+    Top = 312
+    object actSort: TAction
+      Caption = #1578#1585#1578#1610#1576
+      OnExecute = actSortExecute
+    end
+    object actSearch: TAction
+      Caption = #1580#1587#1578#1580#1608
+      OnExecute = actSearchExecute
+    end
+    object actSelected: TAction
+      Caption = #1575#1606#1578#1582#1575#1576' '#1605#1593#1603#1608#1587
+      OnExecute = actSelectedExecute
+    end
+    object actSelectAll: TAction
+      Caption = #1575#1606#1578#1582#1575#1576' '#1607#1605#1607
+      OnExecute = actSelectAllExecute
+    end
+    object actSelectTopicCode: TAction
+      Caption = 'actSelectTopicCode'
+      OnExecute = actSelectTopicCodeExecute
+    end
+    object actSelectDetailCode: TAction
+      Caption = 'actSelectDetailCode'
+      OnExecute = actSelectDetailCodeExecute
+    end
+    object actSelectCTopicCode: TAction
+      Caption = 'actSelectCTopicCode'
+      OnExecute = actSelectCTopicCodeExecute
+    end
+  end
+  object qry1: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    AfterOpen = qry4RelatedAllAfterOpen
+    Parameters = <
+      item
+        Name = 'RepCode'
+        Attributes = [paNullable]
+        DataType = ftWord
+        Precision = 3
+        Size = 1
+        Value = Null
+      end
+      item
+        Name = 'ROwID'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'colnum'
+        Attributes = [paNullable]
+        DataType = ftWord
+        Precision = 3
+        Size = 1
+        Value = Null
+      end
+      item
+        Name = 'YearID'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      'SELECT DISTINCT '
+      
+        '                     Cast( Categories.TopicCode as  Varchar(15))' +
+        ' as TopicCode, 0 AS DetailCode, 0 AS CTopicCode, '#39'-'#39' AS DetailNa' +
+        'me, '#39'-'#39' AS CenterTopicName, '
+      
+        '                      Categories.TopicCode + '#39' - '#39' + 0 + '#39' - '#39' +' +
+        ' 0 AS AccCode, Categories.MoeenName_L1'
+      'FROM         Acc.Categories AS Categories LEFT OUTER JOIN'
+      
+        '                      Acc._ReportRowsOnDocs ON Categories.TopicC' +
+        'ode = Acc._ReportRowsOnDocs.G_TopicCode'
+      
+        'WHERE     (Categories.LevelID = 3) AND (Acc._ReportRowsOnDocs.G_' +
+        'TopicCode IS NULL) AND (Acc._ReportRowsOnDocs.repCode = :RepCode' +
+        ') AND '
+      
+        '                      (Acc._ReportRowsOnDocs.rowID = :ROwID) AND' +
+        ' (Acc._ReportRowsOnDocs.ColNum = :colnum) AND ( YearID = :YearID' +
+        ' )')
+    Left = 513
+    Top = 152
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 232
+    Top = 240
+    object actSelectTopicCode1: TMenuItem
+      Action = actSelectTopicCode
+    end
+    object N1: TMenuItem
+      Caption = '-'
+    end
+    object actSelectDetailCode1: TMenuItem
+      Action = actSelectDetailCode
+    end
+    object N2: TMenuItem
+      Caption = '-'
+    end
+    object actSelectTopicCode2: TMenuItem
+      Action = actSelectCTopicCode
+    end
+  end
+end

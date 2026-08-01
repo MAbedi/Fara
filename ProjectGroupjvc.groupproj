@@ -1,0 +1,84 @@
+﻿	<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+		<PropertyGroup>
+			<ProjectGuid>{B26DA9C3-3D0C-4EED-A993-E1CB282AF45C}</ProjectGuid>
+		</PropertyGroup>
+		<ItemGroup>
+			<Projects Include="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvDlgsDesign.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCore.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\Jcl.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\JclVcl.dproj">
+				<Dependencies/>
+			</Projects>
+			<Projects Include="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCoreDesign.dproj">
+				<Dependencies/>
+			</Projects>
+		</ItemGroup>
+		<ProjectExtensions>
+			<Borland.Personality>Default.Personality.12</Borland.Personality>
+			<Borland.ProjectType/>
+			<BorlandProject>
+				<Default.Personality/>
+			</BorlandProject>
+		</ProjectExtensions>
+		<Target Name="JvDlgsDesign">
+			<MSBuild Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvDlgsDesign.dproj"/>
+		</Target>
+		<Target Name="JvDlgsDesign:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvDlgsDesign.dproj"/>
+		</Target>
+		<Target Name="JvDlgsDesign:Make">
+			<MSBuild Targets="Make" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvDlgsDesign.dproj"/>
+		</Target>
+		<Target Name="JvCore">
+			<MSBuild Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCore.dproj"/>
+		</Target>
+		<Target Name="JvCore:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCore.dproj"/>
+		</Target>
+		<Target Name="JvCore:Make">
+			<MSBuild Targets="Make" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCore.dproj"/>
+		</Target>
+		<Target Name="Jcl">
+			<MSBuild Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\Jcl.dproj"/>
+		</Target>
+		<Target Name="Jcl:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\Jcl.dproj"/>
+		</Target>
+		<Target Name="Jcl:Make">
+			<MSBuild Targets="Make" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\Jcl.dproj"/>
+		</Target>
+		<Target Name="JclVcl">
+			<MSBuild Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\JclVcl.dproj"/>
+		</Target>
+		<Target Name="JclVcl:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\JclVcl.dproj"/>
+		</Target>
+		<Target Name="JclVcl:Make">
+			<MSBuild Targets="Make" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jcl\jcl\packages\d12\JclVcl.dproj"/>
+		</Target>
+		<Target Name="JvCoreDesign">
+			<MSBuild Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCoreDesign.dproj"/>
+		</Target>
+		<Target Name="JvCoreDesign:Clean">
+			<MSBuild Targets="Clean" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCoreDesign.dproj"/>
+		</Target>
+		<Target Name="JvCoreDesign:Make">
+			<MSBuild Targets="Make" Projects="..\..\Tools2010\JVCL347CompleteJCL241-Build4571\jvcl\packages\d12\JvCoreDesign.dproj"/>
+		</Target>
+		<Target Name="Build">
+			<CallTarget Targets="JvDlgsDesign;JvCore;Jcl;JclVcl;JvCoreDesign"/>
+		</Target>
+		<Target Name="Clean">
+			<CallTarget Targets="JvDlgsDesign:Clean;JvCore:Clean;Jcl:Clean;JclVcl:Clean;JvCoreDesign:Clean"/>
+		</Target>
+		<Target Name="Make">
+			<CallTarget Targets="JvDlgsDesign:Make;JvCore:Make;Jcl:Make;JclVcl:Make;JvCoreDesign:Make"/>
+		</Target>
+		<Import Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')" Project="$(BDS)\Bin\CodeGear.Group.Targets"/>
+	</Project>

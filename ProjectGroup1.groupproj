@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{DDA81D54-7A25-41DA-8E3D-7C5328AE7FB4}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Fara.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="C:\Users\a.abedi\Documents\Embarcadero\Studio\Projects\SmartSlidePanel.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Fara">
+        <MSBuild Projects="Fara.dproj"/>
+    </Target>
+    <Target Name="Fara:Clean">
+        <MSBuild Projects="Fara.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fara:Make">
+        <MSBuild Projects="Fara.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SmartSlidePanel">
+        <MSBuild Projects="C:\Users\a.abedi\Documents\Embarcadero\Studio\Projects\SmartSlidePanel.dproj"/>
+    </Target>
+    <Target Name="SmartSlidePanel:Clean">
+        <MSBuild Projects="C:\Users\a.abedi\Documents\Embarcadero\Studio\Projects\SmartSlidePanel.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SmartSlidePanel:Make">
+        <MSBuild Projects="C:\Users\a.abedi\Documents\Embarcadero\Studio\Projects\SmartSlidePanel.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Fara;SmartSlidePanel"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Fara:Clean;SmartSlidePanel:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Fara:Make;SmartSlidePanel:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

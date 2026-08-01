@@ -1,0 +1,29 @@
+# ignore all history files
+*.~*
+
+# ignore all ddp files
+*.ddp
+*.cbk
+
+# ignore all .Dcu files in the Dcus/ directory and any of its subdirectories
+Dcus/**/*.Dcu
+
+# ignore all files in any directory named Exe
+Exe/
+
+# ignore all files in any directory named __history
+__history/
+
+
+# ignore all files in any directory named __recovery
+__recovery/
+
+# ignore all files in any directory named bak
+bak/
+
+# ignore all files in any directory named 1
+1/
+
+RBackup/
+
+Test

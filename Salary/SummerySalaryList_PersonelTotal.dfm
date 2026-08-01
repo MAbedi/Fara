@@ -1,0 +1,1400 @@
+inherited SummerySalaryList_PersonelTotalF: TSummerySalaryList_PersonelTotalF
+  Left = 351
+  Top = 215
+  Caption = #1711#1586#1575#1585#1588' '#1587#1575#1604#1740#1575#1606#1607' '#1581#1602#1608#1602' '#1705#1604' '#1662#1585#1587#1606#1604
+  OldCreateOrder = True
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PnlUnderButton: TPanel
+    Top = 481
+    Height = 37
+    ExplicitTop = 481
+    ExplicitHeight = 37
+    inherited BtnReject: TBitBtn
+      Height = 23
+      ExplicitHeight = 23
+    end
+    object BitBtn1: TBitBtn
+      AlignWithMargins = True
+      Left = 630
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actPrint
+      Align = alRight
+      Caption = #1670#1575#1662' (F7)'
+      TabOrder = 1
+    end
+    object BitBtn7: TBitBtn
+      AlignWithMargins = True
+      Left = 711
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actFilter
+      Align = alRight
+      Caption = #1605#1581#1583#1608#1583#1607
+      TabOrder = 2
+    end
+    object BitBtn4: TBitBtn
+      AlignWithMargins = True
+      Left = 247
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Align = alLeft
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      TabOrder = 3
+      OnClick = actSendToExcelExecute
+    end
+    object BitBtn5: TBitBtn
+      AlignWithMargins = True
+      Left = 166
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actSearch_
+      Align = alLeft
+      Caption = #1580#1587#1578#1580#1608
+      TabOrder = 4
+    end
+    object BitBtn6: TBitBtn
+      AlignWithMargins = True
+      Left = 85
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actSort
+      Align = alLeft
+      Caption = #1578#1585#1578#1610#1576
+      TabOrder = 5
+    end
+    object DBNavigator2: TDBNavigator
+      AlignWithMargins = True
+      Left = 409
+      Top = 4
+      Width = 215
+      Height = 29
+      DataSource = srcComprasion
+      VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+      Align = alClient
+      Flat = True
+      TabOrder = 6
+    end
+    object BitBtn2: TBitBtn
+      AlignWithMargins = True
+      Left = 328
+      Top = 7
+      Width = 75
+      Height = 23
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actTreeChart
+      Align = alLeft
+      Caption = #1606#1605#1608#1583#1575#1585
+      TabOrder = 7
+    end
+  end
+  inherited Panel2: TPanel
+    inherited lblCaption: TLabel
+      Left = 546
+      Width = 198
+      Caption = #1711#1586#1575#1585#1588' '#1587#1575#1604#1740#1575#1606#1607' '#1581#1602#1608#1602' '#1705#1604' '#1662#1585#1587#1606#1604
+      ExplicitLeft = 546
+      ExplicitWidth = 198
+    end
+  end
+  inherited Panel3: TPanel
+    Height = 428
+    ExplicitHeight = 428
+    object DBGrid1: TCedarDbgrid
+      Left = 2
+      Top = 2
+      Width = 786
+      Height = 424
+      Align = alClient
+      Color = clCream
+      DataSource = srcComprasion
+      DynProps = <>
+      Flat = True
+      FooterParams.FillStyle = cfstSolidEh
+      FooterParams.Font.Charset = DEFAULT_CHARSET
+      FooterParams.Font.Color = clWindowText
+      FooterParams.Font.Height = -12
+      FooterParams.Font.Name = 'Tahoma'
+      FooterParams.Font.Style = [fsBold]
+      FooterParams.ParentFont = False
+      FooterParams.VertLines = False
+      GridLineParams.VertEmptySpaceStyle = dessNonEh
+      HorzScrollBar.ExtraPanel.NavigatorButtons = [nbFirstEh, nbPriorEh, nbNextEh, nbLastEh, nbRefreshEh]
+      HorzScrollBar.ExtraPanel.Visible = True
+      IndicatorTitle.ShowDropDownSign = True
+      IndicatorTitle.TitleButton = True
+      OddRowColor = clWhite
+      Options = [dgEditing, dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+      ReadOnly = True
+      RowHeight = 18
+      SearchPanel.Enabled = True
+      SortLocal = True
+      TabOrder = 0
+      ActiveSearchPanel = False
+      SelectFooterIndex = 0
+      object RowDetailData: TRowDetailPanelControlEh
+      end
+    end
+  end
+  inherited ActionList: TActionList
+    Left = 584
+    Top = 120
+    inherited actSearch_: TAction
+      OnExecute = actSearch_Execute
+    end
+    object actFilter: TAction
+      Caption = #1605#1581#1583#1608#1583#1607
+      OnExecute = actFilterExecute
+    end
+    object actPrint: TAction
+      Caption = #1670#1575#1662' (F7)'
+      OnExecute = actPrintExecute
+    end
+    object actSendToExcel: TAction
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      OnExecute = actSendToExcelExecute
+    end
+    object actSort: TAction
+      Caption = #1578#1585#1578#1610#1576
+      OnExecute = actSortExecute
+    end
+    object actTreeChart: TAction
+      Caption = #1606#1605#1608#1583#1575#1585
+      OnExecute = actTreeChartExecute
+    end
+    object actSMS: TAction
+      Caption = #1575#1585#1587#1575#1604' '#1662#1610#1575#1605#1603
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 288
+    Top = 81
+  end
+  object qryComprasion: TADOQuery
+    Connection = DmF.adcsalary
+    CursorType = ctStatic
+    LockType = ltReadOnly
+    Parameters = <>
+    Left = 360
+    Top = 149
+  end
+  object srcComprasion: TDataSource
+    DataSet = qryComprasion
+    Left = 464
+    Top = 125
+  end
+  object ppReport1: TppReport
+    AutoStop = False
+    DataPipeline = ppDBPipeline1
+    PrinterSetup.BinName = 'Default'
+    PrinterSetup.DocumentName = 'Report'
+    PrinterSetup.Duplex = dpNone
+    PrinterSetup.Orientation = poLandscape
+    PrinterSetup.PaperName = 'Letter'
+    PrinterSetup.PrinterName = 'Default'
+    PrinterSetup.SaveDeviceSettings = False
+    PrinterSetup.mmMarginBottom = 6350
+    PrinterSetup.mmMarginLeft = 6350
+    PrinterSetup.mmMarginRight = 6350
+    PrinterSetup.mmMarginTop = 6350
+    PrinterSetup.mmPaperHeight = 216000
+    PrinterSetup.mmPaperWidth = 279000
+    PrinterSetup.PaperSize = 1
+    Template.FileName = 
+      'D:\Projects\Fara2010\Salary\Exe\Report\SummerySalaryList_Persone' +
+      'lTotalF.rtm'
+    Units = utMillimeters
+    ArchiveFileName = '($MyDocuments)\ReportArchive.raf'
+    DeviceType = 'Screen'
+    DefaultFileDeviceType = 'PDF'
+    EmailSettings.ReportFormat = 'PDF'
+    EmailSettings.Enabled = True
+    LanguageID = 'Default'
+    OpenFile = False
+    OutlineSettings.CreateNode = False
+    OutlineSettings.CreatePageNodes = False
+    OutlineSettings.Enabled = False
+    OutlineSettings.Visible = False
+    ThumbnailSettings.Enabled = True
+    ThumbnailSettings.Visible = True
+    ThumbnailSettings.DeadSpace = 30
+    ThumbnailSettings.PageHighlight.Width = 3
+    PDFSettings.EmbedFontOptions = [efUseSubset]
+    PDFSettings.EncryptSettings.AllowCopy = True
+    PDFSettings.EncryptSettings.AllowInteract = True
+    PDFSettings.EncryptSettings.AllowModify = True
+    PDFSettings.EncryptSettings.AllowPrint = True
+    PDFSettings.EncryptSettings.AllowExtract = True
+    PDFSettings.EncryptSettings.AllowAssemble = True
+    PDFSettings.EncryptSettings.AllowQualityPrint = True
+    PDFSettings.EncryptSettings.Enabled = False
+    PDFSettings.EncryptSettings.KeyLength = kl40Bit
+    PDFSettings.EncryptSettings.EncryptionType = etRC4
+    PDFSettings.FontEncoding = feAnsi
+    PDFSettings.ImageCompressionLevel = 25
+    PDFSettings.PDFAFormat = pafNone
+    PreviewFormSettings.PageBorder.mmPadding = 0
+    PreviewFormSettings.WindowState = wsMaximized
+    RTFSettings.DefaultFont.Charset = DEFAULT_CHARSET
+    RTFSettings.DefaultFont.Color = clWindowText
+    RTFSettings.DefaultFont.Height = -13
+    RTFSettings.DefaultFont.Name = 'Arial'
+    RTFSettings.DefaultFont.Style = []
+    TextFileName = '($MyDocuments)\Report.pdf'
+    TextSearchSettings.DefaultString = '<FindText>'
+    TextSearchSettings.Enabled = False
+    XLSSettings.AppName = 'ReportBuilder'
+    XLSSettings.Author = 'ReportBuilder'
+    XLSSettings.Subject = 'Report'
+    XLSSettings.Title = 'Report'
+    XLSSettings.WorksheetName = 'Report'
+    Left = 280
+    Top = 309
+    Version = '19.04'
+    mmColumnWidth = 266300
+    DataPipelineName = 'ppDBPipeline1'
+    object ppHeaderBand1: TppHeaderBand
+      Background.Brush.Style = bsClear
+      Border.mmPadding = 0
+      PrintHeight = phDynamic
+      mmBottomOffset = 0
+      mmHeight = 28046
+      mmPrintPosition = 0
+      object ppShape3: TppShape
+        DesignLayer = ppDesignLayer1
+        UserName = 'Shape3'
+        Pen.Width = 2
+        mmHeight = 7144
+        mmLeft = 0
+        mmTop = 20638
+        mmWidth = 266436
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel2: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label2'
+        OnGetText = ppLabel2GetText
+        Border.mmPadding = 0
+        Caption = #1588#1585#1603#1578' '#1591#1585#1581' '#1608#1662#1585#1583#1575#1586#1588' '#1601#1585#1575' '#1585#1575#1610#1575#1606#1607
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Jadid'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 6350
+        mmLeft = 103717
+        mmTop = 0
+        mmWidth = 51065
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel3: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'LblCaption'
+        OnGetText = ppLabel3GetText
+        Border.mmPadding = 0
+        Caption = #1582#1604#1575#1589#1607' '#1608#1590#1593#1610#1578' '#1581#1602#1608#1602' '#1576#1607' '#1578#1601#1603#1610#1603' '#1662#1585#1587#1606#1604' '#1587#1575#1604' '
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 12
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 7197
+        mmLeft = 96933
+        mmTop = 6350
+        mmWidth = 67818
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel7: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'lbprintdate'
+        OnGetText = ppLabel7GetText
+        Border.mmPadding = 0
+        Caption = #1578#1575#1585#1610#1582' '#1711#1586#1575#1585#1588
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Zar'
+        Font.Size = 10
+        Font.Style = []
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        Transparent = True
+        mmHeight = 4763
+        mmLeft = 2381
+        mmTop = 6350
+        mmWidth = 12171
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppSystemVariable2: TppSystemVariable
+        DesignLayer = ppDesignLayer1
+        UserName = 'SysVarPageNo1'
+        OnGetText = ppSystemVariable2GetText
+        Border.mmPadding = 0
+        VarType = vtPageSet
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Zar'
+        Font.Size = 9
+        Font.Style = []
+        Transparent = True
+        mmHeight = 5292
+        mmLeft = 2117
+        mmTop = 11642
+        mmWidth = 12171
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel17: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label17'
+        Border.mmPadding = 0
+        Caption = #1593#1606#1575#1608#1610#1606
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 242772
+        mmTop = 21696
+        mmWidth = 8170
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel21: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label21'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '1'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 218339
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine5: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line1'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 224367
+        mmTop = 20902
+        mmWidth = 3704
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine6: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line6'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 207698
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine2: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line2'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 190236
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel1: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label1'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '2'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 200877
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel4: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label4'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '3'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 183414
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine4: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line4'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 155311
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel6: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label6'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '4'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 165952
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine7: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line7'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 172773
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine8: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line8'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 137848
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel8: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label8'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '5'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 148489
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine11: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line11'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 120386
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel9: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label9'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '6'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 131027
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel11: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label11'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '8'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 96102
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine13: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line13'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 85461
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel12: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label12'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '7'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 113564
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine14: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line14'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 102923
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel13: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label13'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '9'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 78639
+        mmTop = 21696
+        mmWidth = 1736
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine18: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line18'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 67998
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel14: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label14'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '10'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 60441
+        mmTop = 21696
+        mmWidth = 3471
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine19: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line19'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 50800
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel15: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label15'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '11'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 43112
+        mmTop = 21696
+        mmWidth = 3471
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine20: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line20'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 33338
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine21: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line21'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 15875
+        mmTop = 20902
+        mmWidth = 2910
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel16: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label16'
+        OnGetText = AllW_GetText
+        Border.mmPadding = 0
+        Caption = '12'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 25649
+        mmTop = 21696
+        mmWidth = 3471
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLabel18: TppLabel
+        DesignLayer = ppDesignLayer1
+        UserName = 'Label18'
+        Border.mmPadding = 0
+        Caption = #1580#1605#1593
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Yagut'
+        Font.Size = 9
+        Font.Style = [fsBold]
+        FormFieldSettings.FormSubmitInfo.SubmitMethod = fstPost
+        FormFieldSettings.FormFieldType = fftNone
+        TextAlignment = taCentered
+        Transparent = True
+        mmHeight = 5376
+        mmLeft = 7049
+        mmTop = 21696
+        mmWidth = 4953
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine10: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line10'
+        Border.mmPadding = 0
+        Weight = 0.750000000000000000
+        mmHeight = 1323
+        mmLeft = 0
+        mmTop = 19844
+        mmWidth = 266171
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine31: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line31'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 265
+        mmTop = 20902
+        mmWidth = 265
+        BandType = 0
+        LayerName = Foreground
+      end
+      object ppLine32: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line32'
+        Border.mmPadding = 0
+        Position = lpRight
+        Weight = 0.750000000000000000
+        mmHeight = 8202
+        mmLeft = 262467
+        mmTop = 20902
+        mmWidth = 3704
+        BandType = 0
+        LayerName = Foreground
+      end
+    end
+    object ppDetailBand1: TppDetailBand
+      Background1.Brush.Style = bsClear
+      Background2.Brush.Style = bsClear
+      Border.mmPadding = 0
+      PrintHeight = phDynamic
+      mmBottomOffset = 0
+      mmHeight = 6615
+      mmPrintPosition = 0
+      object ppDBText3: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText3'
+        Border.mmPadding = 0
+        DataField = 'N9'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 71702
+        mmTop = 0
+        mmWidth = 16404
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText4: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText4'
+        Border.mmPadding = 0
+        DataField = 'N8'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 88900
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText5: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText5'
+        Border.mmPadding = 0
+        DataField = 'N7'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 88636
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText6: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText7'
+        Border.mmPadding = 0
+        DataField = 'N6'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 123825
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText7: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText8'
+        Border.mmPadding = 0
+        DataField = 'N5'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 141288
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText8: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText9'
+        Border.mmPadding = 0
+        DataField = 'N4'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 158750
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText10: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText10'
+        Border.mmPadding = 0
+        DataField = 'N3'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 176213
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText11: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText11'
+        Border.mmPadding = 0
+        DataField = 'N2'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5800
+        mmLeft = 193675
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText12: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText12'
+        Border.mmPadding = 0
+        DataField = 'N10'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5821
+        mmLeft = 54240
+        mmTop = 0
+        mmWidth = 16669
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText13: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText13'
+        Border.mmPadding = 0
+        DataField = 'N1'
+        DataPipeline = ppDBPipeline1
+        DisplayFormat = '#,0'
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Badr'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5821
+        mmLeft = 211138
+        mmTop = 0
+        mmWidth = 16404
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppDBText14: TppDBText
+        DesignLayer = ppDesignLayer1
+        UserName = 'DBText14'
+        Border.mmPadding = 0
+        DataField = 'InfoName_L1'
+        DataPipeline = ppDBPipeline1
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clBlack
+        Font.Name = 'Zar'
+        Font.Size = 9
+        Font.Style = []
+        ParentDataPipeline = False
+        TextAlignment = taRightJustified
+        Transparent = True
+        DataPipelineName = 'ppDBPipeline1'
+        mmHeight = 5292
+        mmLeft = 227807
+        mmTop = 0
+        mmWidth = 37835
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine1: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line3'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 227807
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine3: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line5'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 157957
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine9: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line9'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 175419
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine12: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line12'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 192882
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine15: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line15'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 210344
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine17: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line17'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 70644
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine22: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line22'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 105834
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine23: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line23'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 105569
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine24: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line24'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 123031
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+      object ppLine25: TppLine
+        DesignLayer = ppDesignLayer1
+        UserName = 'Line25'
+        Border.mmPadding = 0
+        Position = lpLeft
+        Weight = 0.750000000000000000
+        mmHeight = 6350
+        mmLeft = 140494
+        mmTop = 0
+        mmWidth = 3175
+        BandType = 4
+        LayerName = Foreground
+      end
+    end
+    object ppDesignLayers1: TppDesignLayers
+      object ppDesignLayer1: TppDesignLayer
+        UserName = 'Foreground'
+        LayerType = ltBanded
+        Index = 0
+      end
+    end
+    object ppParameterList1: TppParameterList
+    end
+  end
+  object ppDBPipeline1: TppDBPipeline
+    DataSource = srcComprasion
+    OpenDataSource = False
+    UserName = 'DBPipeline1'
+    Left = 432
+    Top = 237
+  end
+  object srcPersonel: TDataSource
+    DataSet = qryPersonel
+    Left = 256
+    Top = 216
+  end
+  object qryPersonel: TADOQuery
+    Connection = DmF.adcsalary
+    CursorType = ctStatic
+    LockType = ltReadOnly
+    Parameters = <
+      item
+        Name = 'PersonelState'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 14
+        Value = Null
+      end
+      item
+        Name = 'FromPersonelNO'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'ToPersonelNO'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'FromOfficeCode'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'ToOfficeCode'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'SELECT        PersonelInfo.PersonelNo, PersonelInfo.name_L1 + '#39' ' +
+        ' '#39' + PersonelInfo.lastName_L1 AS Name_L1, '
+      
+        '                         PersonelInfo.name_L2 + '#39'  '#39' + PersonelI' +
+        'nfo.lastName_L2 AS Name_L2'
+      'FROM Pay.PersonelInfo INNER JOIN'
+      
+        '                         Pay.Interdicts ON PersonelInfo.Personel' +
+        'No = Interdicts.PersonelNo INNER JOIN'
+      
+        '                         Pay.FixedCalculated ON PersonelInfo.Per' +
+        'sonelNo = FixedCalculated.PersonelNO LEFT OUTER JOIN'
+      
+        '                         Pay.FormsInfo ON Pay.Interdicts.OfficeC' +
+        'ode = FormsInfo.FormInfoID'
+      ''
+      
+        'WHERE        ('#39','#39' + :PersonelState + '#39','#39' LIKE '#39'%,'#39' + LTRIM(STR(P' +
+        'ersonelInfo.PersonelState)) + '#39',%'#39') AND '
+      
+        ' (PersonelInfo.PersonelNO BETWEEN :FromPersonelNO AND :ToPersone' +
+        'lNO) AND'
+      ''
+      ''
+      
+        '       (FormsInfo.InfoID BETWEEN :FromOfficeCode  AND  :ToOffice' +
+        'Code) AND'
+      '       (Interdicts.State < 50)'
+      '  '
+      ''
+      
+        'GROUP BY PersonelInfo.PersonelNo, PersonelInfo.name_L1 + '#39'  '#39' + ' +
+        'PersonelInfo.lastName_L1, PersonelInfo.name_L2 + '#39'  '#39' + Personel' +
+        'Info.lastName_L2, FormsInfo.InfoID, '
+      '                         Interdicts.State')
+    Left = 176
+    Top = 128
+    object qryPersonelPersonelNO: TIntegerField
+      FieldName = 'PersonelNO'
+    end
+    object qryPersonelName_L1: TStringField
+      FieldName = 'Name_L1'
+      ReadOnly = True
+      Size = 57
+    end
+    object qryPersonelName_L2: TStringField
+      FieldName = 'Name_L2'
+      ReadOnly = True
+      Size = 57
+    end
+  end
+end

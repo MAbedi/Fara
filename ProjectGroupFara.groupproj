@@ -1,0 +1,72 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{9E70C6D1-F279-4F6A-9AAB-5E589B96CB65}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="Fara.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="FaraWeb\FaraWeb.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\ToolsXE8\CedarPackag\CedarPackag.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\ToolsXE8\Cedar\CedarComponent.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="Fara">
+        <MSBuild Projects="Fara.dproj"/>
+    </Target>
+    <Target Name="Fara:Clean">
+        <MSBuild Projects="Fara.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="Fara:Make">
+        <MSBuild Projects="Fara.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="FaraWeb">
+        <MSBuild Projects="FaraWeb\FaraWeb.dproj"/>
+    </Target>
+    <Target Name="FaraWeb:Clean">
+        <MSBuild Projects="FaraWeb\FaraWeb.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="FaraWeb:Make">
+        <MSBuild Projects="FaraWeb\FaraWeb.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CedarPackag">
+        <MSBuild Projects="..\..\ToolsXE8\CedarPackag\CedarPackag.dproj"/>
+    </Target>
+    <Target Name="CedarPackag:Clean">
+        <MSBuild Projects="..\..\ToolsXE8\CedarPackag\CedarPackag.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CedarPackag:Make">
+        <MSBuild Projects="..\..\ToolsXE8\CedarPackag\CedarPackag.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="CedarComponent">
+        <MSBuild Projects="..\..\ToolsXE8\Cedar\CedarComponent.dproj"/>
+    </Target>
+    <Target Name="CedarComponent:Clean">
+        <MSBuild Projects="..\..\ToolsXE8\Cedar\CedarComponent.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="CedarComponent:Make">
+        <MSBuild Projects="..\..\ToolsXE8\Cedar\CedarComponent.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="Fara;FaraWeb;CedarPackag;CedarComponent"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="Fara:Clean;FaraWeb:Clean;CedarPackag:Clean;CedarComponent:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="Fara:Make;FaraWeb:Make;CedarPackag:Make;CedarComponent:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

@@ -1,0 +1,296 @@
+inherited FeedbackF: TFeedbackF
+  Caption = #1576#1575#1586#1582#1608#1585#1583
+  ClientHeight = 438
+  ClientWidth = 723
+  ExplicitWidth = 729
+  ExplicitHeight = 467
+  DesignSize = (
+    723
+    438)
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited Bevel1: TBevel
+    Top = 381
+    Width = 715
+    ExplicitTop = 291
+    ExplicitWidth = 723
+  end
+  object lblProject: TLabel [1]
+    Left = 666
+    Top = 129
+    Width = 22
+    Height = 13
+    Caption = #1662#1585#1608#1688#1607
+  end
+  object lblPriority: TLabel [2]
+    Left = 666
+    Top = 97
+    Width = 29
+    Height = 13
+    Caption = #1575#1608#1604#1608#1740#1578
+  end
+  object lblType: TLabel [3]
+    Left = 304
+    Top = 97
+    Width = 15
+    Height = 13
+    Caption = #1606#1608#1593
+  end
+  object lblProduct: TLabel [4]
+    Left = 304
+    Top = 129
+    Width = 34
+    Height = 13
+    Caption = #1605#1581#1589#1608#1604
+  end
+  object lblSUBJECT: TLabel [5]
+    Left = 666
+    Top = 207
+    Width = 26
+    Height = 13
+    Caption = #1593#1606#1608#1575#1606
+  end
+  object lblCOMMENTS: TLabel [6]
+    AlignWithMargins = True
+    Left = 3
+    Top = 254
+    Width = 700
+    Height = 13
+    Margins.Right = 20
+    Align = alBottom
+    Caption = #1578#1608#1590#1740#1581#1575#1578
+    ExplicitLeft = 663
+    ExplicitWidth = 40
+  end
+  object Label1: TLabel [7]
+    Left = 666
+    Top = 181
+    Width = 52
+    Height = 13
+    Caption = #1578#1604#1601#1606' '#1607#1605#1585#1575#1607
+  end
+  object Label2: TLabel [8]
+    AlignWithMargins = True
+    Left = 3
+    Top = 352
+    Width = 690
+    Height = 39
+    Margins.Right = 30
+    Margins.Bottom = 10
+    Align = alBottom
+    Caption = 
+      #1604#1591#1601#1575#1611' '#1578#1608#1580#1607' '#1601#1585#1605#1575#1740#1740#1583' '#1705#1607' '#1580#1607#1578' '#1662#1740#1711#1740#1585#1740' '#1605#1572#1579#1585' '#1608' '#1587#1585#1740#1593' '#1583#1585#1582#1608#1575#1587#1578' '#1588#1605#1575#1548' '#1579#1576#1578' '#1578#1608 +
+      #1590#1740#1581#1575#1578' '#1705#1575#1605#1604' '#1608' '#1583#1602#1740#1602' ('#1605#1579#1604' '#1586#1605#1575#1606' '#1576#1585#1608#1586' '#1582#1591#1575#1548' '#1606#1608#1593' '#1605#1588#1705#1604#1548' '#1662#1740#1575#1605#8204#1607#1575#1740' '#1606#1605#1575#1740#1588#8204#1583 +
+      #1575#1583#1607#8204#1588#1583#1607') '#1583#1585' '#1578#1740#1705#1578' '#1575#1604#1586#1575#1605#1740' '#1575#1587#1578'. '#1583#1585' '#1589#1608#1585#1578' '#1606#1575#1602#1589' '#1576#1608#1583#1606' '#1575#1591#1604#1575#1593#1575#1578#1548' '#1605#1605#1705#1606' '#1575#1587#1578 +
+      ' '#1601#1585#1570#1740#1606#1583' '#1576#1585#1585#1587#1740' '#1576#1575' '#1578#1571#1582#1740#1585' '#1607#1605#1585#1575#1607' '#1711#1585#1583#1583#13#10#1576#1607#1578#1585' '#1575#1587#1578' '#1586#1605#1575#1606#1740' '#1705#1607' '#1601#1585#1605' '#1605#1588#1705#1604' '#1583#1575 +
+      #1585' '#1576#1575#1586' '#1575#1587#1578' '#1575#1586' '#1605#1606#1608' '#1587#1740#1587#1578#1605' '#1576#1575#1586#1582#1608#1585#1583' '#1585#1575' '#1579#1576#1578' '#1705#1606#1740#1583' '#1705#1607' '#1575#1591#1604#1575#1593#1575#1578' '#1705#1575#1605#1604' '#1578#1585#1740' '#1575 +
+      #1585#1587#1575#1604' '#1588#1608#1583
+    Color = clInactiveCaption
+    Font.Charset = ARABIC_CHARSET
+    Font.Color = clMaroon
+    Font.Height = -11
+    Font.Name = 'Tahoma'
+    Font.Style = []
+    ParentColor = False
+    ParentFont = False
+    WordWrap = True
+    ExplicitLeft = 14
+    ExplicitWidth = 679
+  end
+  inherited Panel1: TPanel
+    Width = 723
+    ExplicitWidth = 723
+    DesignSize = (
+      723
+      73)
+    inherited Image1: TImage
+      Left = 661
+      ExplicitLeft = 669
+    end
+    inherited lblTopic0: TLabel
+      Left = 603
+      Width = 38
+      Caption = #1576#1575#1586#1582#1608#1585#1583
+      ExplicitLeft = 611
+      ExplicitWidth = 38
+    end
+    inherited lblTopic1: TLabel
+      AlignWithMargins = True
+      Left = 4
+      Top = 49
+      Width = 688
+      Margins.Right = 30
+      Margins.Bottom = 10
+      Align = alBottom
+      Caption = #1604#1591#1601#1575' '#1583#1585' '#1575#1606#1578#1582#1575#1576' '#1575#1608#1604#1608#1740#1578' '#1583#1602#1578' '#1604#1575#1586#1605' '#1583#1575#1588#1578#1607' '#1576#1575#1588#1740#1583'  '
+      ExplicitLeft = 484
+      ExplicitTop = 49
+      ExplicitWidth = 208
+    end
+  end
+  inherited pnlDown: TPanel
+    Top = 401
+    Width = 723
+    ExplicitTop = 401
+    ExplicitWidth = 723
+    inherited btnClose: TBitBtn
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 85
+      Height = 29
+      Align = alLeft
+      Caption = #1575#1606#1589#1585#1575#1601
+      Glyph.Data = {
+        36050000424D3605000000000000360400002800000010000000100000000100
+        08000000000000010000220B0000220B00000001000000000000003100000042
+        0000004A000000520000006B0000004A080000630800006B0800007B0800008C
+        080000940800009C080000A50800006B10000873100000A51000089C180000A5
+        180008A5180008AD180008842100109C210008A5210010AD2100108C290008A5
+        290008AD290008B5290010A5310018A5310021A5310008AD310010AD3100189C
+        390010AD390010A5420010B5420029A54A0010AD4A0018B54A0021BD4A0042BD
+        4A0018B5520021B5520039B5520029BD520042BD52004AC6520029BD5A0039BD
+        5A0042BD5A0042C65A0031BD630039BD630042BD63004ABD630039BD6B004ABD
+        6B0042C673004AC6730052C673004AC67B0052C67B0073D67B0063CE8C006BCE
+        8C006BD68C0084D68C0073D694007BDE9C0084DEA5008CDEAD0094DEB50094E7
+        B5009CE7B500ADE7B500B5E7B500A5E7BD00B5E7BD00A5E7C600ADE7C600B5EF
+        C600BDEFCE00BDEFD600C6F7DE00D6F7DE00D6F7E700E7F7EF00EFFFEF00F7FF
+        F700FF00FF00F7FFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+        FF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF005A5A5A5A5A00
+        01030301005A5A5A5A5A5A5A5A0101080B0B0B0B0802025A5A5A5A5A05060F0C
+        0B0B0B0B0C0C07005A5A5A050D16120B0B0B0B0B0B0B0C07025A5A05201A120F
+        2F5755170B0B0B0C025A0314241C1029595C430F0B0B0B0C0801032327202959
+        5C3F0B0B0B0B0B0C0A010D2B2B44585C59514E4B4B4B4B0B0B020E3830525C5C
+        5C5C5C5C5C5C5C0B0B030E3E3A304D5C59463232323232120B010E39462B2B48
+        5C573C202020191209015A1E50412627475C592D1C191613075A5A1E3C53402B
+        2A48502B22202015075A5A5A1541564A3E35303434281C065A5A5A5A5A373748
+        534F47453D21215A5A5A5A5A5A5A5A1E2C363625185A5A5A5A5A}
+      ModalResult = 2
+      ExplicitLeft = 4
+      ExplicitTop = 4
+      ExplicitWidth = 85
+      ExplicitHeight = 29
+    end
+    object BitBtn2: TBitBtn
+      AlignWithMargins = True
+      Left = 563
+      Top = 4
+      Width = 75
+      Height = 29
+      Align = alRight
+      Caption = #1578#1575#1740#1740#1583
+      Kind = bkOK
+      NumGlyphs = 2
+      TabOrder = 1
+      Visible = False
+    end
+    object BitBtn3: TBitBtn
+      AlignWithMargins = True
+      Left = 644
+      Top = 4
+      Width = 75
+      Height = 29
+      Align = alRight
+      Caption = #1575#1585#1587#1575#1604
+      TabOrder = 2
+      OnClick = BitBtn3Click
+    end
+  end
+  object cmbProject: TComboBox [11]
+    Left = 368
+    Top = 125
+    Width = 292
+    Height = 21
+    TabOrder = 3
+    Text = 'cmbProject'
+    OnChange = cmbProjectChange
+  end
+  object cmbPriority: TComboBox [12]
+    Left = 368
+    Top = 93
+    Width = 292
+    Height = 21
+    TabOrder = 2
+    Text = 'cmbPriority'
+  end
+  object cmbType: TComboBox [13]
+    Left = 8
+    Top = 93
+    Width = 292
+    Height = 21
+    TabOrder = 4
+    Text = 'cmbType'
+  end
+  object cmbProduct: TComboBox [14]
+    Left = 8
+    Top = 125
+    Width = 292
+    Height = 21
+    TabOrder = 5
+    Text = #1575#1576#1578#1583#1575' '#1662#1585#1608#1688#1607' '#1575#1606#1578#1582#1575#1576' '#1588#1608#1583
+  end
+  object edtSUBJECT: TEdit [15]
+    Left = 8
+    Top = 204
+    Width = 652
+    Height = 21
+    TabOrder = 6
+    TextHint = #1581#1583#1575#1602#1604' 10 '#1705#1575#1585#1575#1705#1578#1585
+  end
+  object cmbTaskNoMax: TComboBox [16]
+    Left = 8
+    Top = 43
+    Width = 177
+    Height = 21
+    Color = clInactiveCaption
+    Enabled = False
+    TabOrder = 8
+    TabStop = False
+  end
+  object edtMobile: TEdit [17]
+    Left = 368
+    Top = 177
+    Width = 292
+    Height = 21
+    BiDiMode = bdLeftToRight
+    ParentBiDiMode = False
+    TabOrder = 9
+    OnChange = cmbProjectChange
+  end
+  object mmoCOMMENTS: TMemo [18]
+    Tag = 111
+    AlignWithMargins = True
+    Left = 3
+    Top = 273
+    Width = 657
+    Height = 73
+    Margins.Right = 63
+    Align = alBottom
+    Color = clCream
+    HideSelection = False
+    TabOrder = 7
+  end
+  inherited ActionList1: TActionList
+    Left = 456
+    Top = 8
+  end
+end

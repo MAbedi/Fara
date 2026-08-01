@@ -1,0 +1,19 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <VerInfo_Keys>CompanyName=Tarh Va Pardazesh Fara Rayaneh;FileDescription=خريدوفروش خزانه داري فرارايانه;FileVersion=1.0.3.235;InternalName=خريدوفروش خزانه داري فرارايانه;LegalCopyright=Program By: Mahmood Abedi 
+Design By: M.Hassan Rezayi;LegalTrademarks=Program By: Mahmood Abedi 
+Design By: M.Hassan Rezayi;OriginalFilename=BSell.exe;ProductName=Kharid Va Foroosh;ProductVersion=1.0.0.0;Comments=Program By: Mahmood Abedi Design By: M.Hassan Rezayi</VerInfo_Keys>
+        <VerInfo_Build>235</VerInfo_Build>
+        <DCC_Optimize>false</DCC_Optimize>
+        <DCC_GenerateStackFrames>true</DCC_GenerateStackFrames>
+        <DCC_Define>DEBUG;$(DCC_Define)</DCC_Define>
+    </PropertyGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Delphi.Personality.12</Borland.Personality>
+        <Borland.ProjectType>OptionSet</Borland.ProjectType>
+        <BorlandProject>
+            <Delphi.Personality/>
+        </BorlandProject>
+        <ProjectFileVersion>12</ProjectFileVersion>
+    </ProjectExtensions>
+</Project>

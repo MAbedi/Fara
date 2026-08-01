@@ -1,0 +1,2397 @@
+inherited Rpt_AccDetailOnTopicBookF: TRpt_AccDetailOnTopicBookF
+  Left = 287
+  Top = 251
+  Caption = #1583#1601#1578#1585' '#1581#1587#1575#1576' '#1578#1601#1589#1610#1604#1610
+  ClientWidth = 926
+  OnActivate = FormActivate
+  ExplicitWidth = 934
+  PixelsPerInch = 96
+  TextHeight = 13
+  inherited PnlUnderButton: TPanel
+    Top = 479
+    Width = 926
+    Height = 38
+    ExplicitTop = 479
+    ExplicitWidth = 926
+    ExplicitHeight = 38
+    DesignSize = (
+      926
+      38)
+    inherited BtnReject: TBitBtn
+      Height = 24
+      TabOrder = 7
+      ExplicitHeight = 24
+    end
+    object BitBtn5: TBitBtn
+      Left = 85
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actSort
+      Caption = ' '#1578#1585#1578#1610#1576
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000000000000000000000000000000000000FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FFFFFF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF006A00
+        00006A0000006A000000FF00FF006A0000006A0000006A000000FFFFFF00FF00
+        FF00FF00FF00FF00FF0000580300FF00FF00FF00FF00FF00FF00FFFFFF006A6A
+        6A006A000000FF00FF00FF00FF00FF00FF00980000006A6A6A00FF00FF00FF00
+        FF00FF00FF00005803006AFF6A0000580300FF00FF00FF00FF00FF00FF00FF00
+        FF006A6A6A006A0000006A0000006A0000006A000000FF00FF00FF00FF00FF00
+        FF00FF00FF006AFF6A006AB650000084000000580300FF00FF00FFFFFF00FF00
+        FF00FF00FF006A000000FF00FF00980000006A000000FF00FF00FFFFFF00FF00
+        FF00FF00FF006AFF6A006AB650000084000000580300FF00FF00FFFFFF00FF00
+        FF00FF00FF00980000006A0000006A000000FF00FF00FF00FF00FF00FF000058
+        0300005803000058030000580300005803000058030000580300FF00FF00FF00
+        FF00FF00FF006A6A6A006A0000006A6A6A00FF00FF00FF00FF00FFFFFF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF0098000000FF00FF00FF00FF00FF00FF00FFFFFF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FFFFFF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF000000
+        6A0000006A0000006A0000006A0000006A0000006A00FF00FF00FFFFFF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF000000
+        6A0000006A00FF00FF00FF00FF00FF00FF000000B600FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF006A6A6A0000006A00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF0000006A0000006A00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF006A6A6A0000006A00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF000000
+        6A0000006A00FF00FF00FF00FF0000006A0000006A00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00FF00FF001100
+        7B0011007B0011007B0011007B0011007B0011007B00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00}
+      TabOrder = 6
+    end
+    object btnactSearch: TBitBtn
+      Left = 162
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actSearch_
+      Caption = #1580#1587#1578#1580#1608
+      Glyph.Data = {
+        36040000424D3604000000000000360000002800000010000000100000000100
+        2000000000000004000000000000000000000000000000000000FF00FF00636B
+        7300C69C9400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FFFFFF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF006394B500218C
+        EF002173B500CE9C9400FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FFFFFF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF004AB5FF0042A5
+        FF00218CEF007B849400CE9C9400FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0052BD
+        FF005ABDFF00218CEF002173B500CE9C9400FF00FF00FF00FF00FF00FF00FF00
+        FF00FFFFFF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF0031A5
+        FF0052BDFF0042A5FF00218CEF0084849400CE9C9400FF00FF00FF00FF00FF00
+        FF00FFFFFF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FFFFFF0052BDFF005ABDFF003184D60052636B00FF00FF009C6B6B00CEA5
+        9C00D6B5A500CE9C9C00C6949400FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF0031A5FF0052BDFF00C6CEDE009C9C9C00AD8C8400E7D6BD00FFFF
+        D600FFFFDE00FFFFD600EFDEC600FF00FF00FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00C6ADAD00CEA59400FFE7BD00FFF7CE00FFFF
+        D600FFFFD600FFFFDE00FFFFE700FFFFFF00C6A5A500FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00BD8C8C00EFDEB500F7D6AD00FFF7CE00FFFF
+        D600FFFFDE00FFFFEF00FFFFF700FFFFFF00F7EFDE00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00E7CEAD00FFEFBD00F7CE9C00FFEFC600FFFF
+        D600FFFFDE00FFFFF700FFFFF700FFFFDE00FFFFDE00C6949400FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00EFD6B500FFE7B500F7C68C00F7DEB500FFFF
+        D600FFFFDE00FFFFEF00FFFFEF00FFFFDE00FFFFDE00BD9C8C00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00E7CEAD00FFEFBD00EFBD8400F7C69400FFEF
+        C600FFFFD600FFFFD600FFFFD600FFFFD600FFFFDE00C6949400FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00D6ADA500FFEFBD00F7DEAD00F7CE9C00F7D6
+        A500F7E7BD00FFFFD600FFFFD600FFFFD600FFFFD600FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00C69C8C00FFFFFF00FFFFFF00F7C6
+        9400EFBD8400F7C69400F7D6AD00FFEFC600BD9C8C00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00EFEFE700FFFFEF00FFE7
+        B500F7DEAD00FFE7B500FFEFBD00C69C9400FF00FF00FF00FF00FF00FF00FF00
+        FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C69C
+        8C00CEA59C00C69C9400FF00FF00FF00FF00FF00FF00FF00FF00}
+      TabOrder = 5
+    end
+    object BitBtn4: TBitBtn
+      Left = 239
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actSendExcel
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      TabOrder = 4
+    end
+    object BitBtn7: TBitBtn
+      Left = 684
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actPrint
+      Anchors = [akTop, akRight]
+      Caption = #1670#1575#1662' (F7)'
+      TabOrder = 2
+    end
+    object BitBtn2: TBitBtn
+      Left = 762
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actShowForm
+      Anchors = [akTop, akRight]
+      Caption = #1606#1605#1575#1610#1588' '#1587#1606#1583' '
+      TabOrder = 1
+    end
+    object BitBtn8: TBitBtn
+      Left = 839
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actFilter
+      Anchors = [akTop, akRight]
+      Caption = #1605#1581#1583#1608#1583#1607
+      TabOrder = 0
+    end
+    object BitBtn9: TBitBtn
+      Left = 316
+      Top = 7
+      Width = 75
+      Height = 25
+      Action = actOther
+      Caption = #1587#1575#1610#1585' '#1575#1605#1603#1575#1606#1575#1578
+      TabOrder = 3
+    end
+    object BitBtn6: TBitBtn
+      Left = 394
+      Top = 7
+      Width = 87
+      Height = 25
+      Action = actShowAnalyze
+      Caption = #1570#1606#1575#1604#1610#1586' '#1581#1587#1575#1576
+      TabOrder = 8
+    end
+    object chkFilter: TCheckBox
+      Left = 548
+      Top = 11
+      Width = 130
+      Height = 17
+      Anchors = [akTop, akRight]
+      Caption = #1601#1740#1604#1578#1585' '#1585#1705#1608#1585#1583#1607#1575#1740' '#1575#1606#1578#1582#1575#1576#1740
+      TabOrder = 9
+      Visible = False
+      OnClick = chkFilterClick
+    end
+  end
+  inherited Panel2: TPanel
+    Width = 926
+    Height = 71
+    ExplicitWidth = 926
+    ExplicitHeight = 71
+    DesignSize = (
+      926
+      71)
+    inherited ImgTemplate: TImage
+      Left = 854
+      ExplicitLeft = 750
+    end
+    inherited lblCaption: TLabel
+      Left = 818
+      Height = 51
+      ExplicitLeft = 818
+    end
+    inherited lblBaseDate: TLabel
+      Left = 340
+      ExplicitLeft = 343
+    end
+    object GroupBox1: TGroupBox
+      Left = 1
+      Top = 1
+      Width = 321
+      Height = 69
+      Align = alLeft
+      Caption = #1603#1583' '#1608' '#1606#1575#1605' '#1581#1587#1575#1576
+      TabOrder = 1
+      object DBEdit6: TDBEdit
+        Left = 5
+        Top = 39
+        Width = 310
+        Height = 21
+        TabStop = False
+        Color = clBtnFace
+        Ctl3D = True
+        DataField = 'AccName_L1'
+        DataSource = src_AccCode
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = -1
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 3
+      end
+      object DBNavigator1: TDBNavigator
+        Left = 3
+        Top = 18
+        Width = 92
+        Height = 19
+        DataSource = src_AccCode
+        VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+        Flat = True
+        TabOrder = 2
+      end
+      object DBEdit5: TDBEdit
+        Left = 210
+        Top = 16
+        Width = 105
+        Height = 21
+        TabStop = False
+        BiDiMode = bdRightToLeft
+        Color = clInactiveBorder
+        Ctl3D = True
+        DataField = 'AccCode'
+        DataSource = src_AccCode
+        ParentBiDiMode = False
+        ParentCtl3D = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object BitBtn3: TBitBtn
+        Left = 187
+        Top = 16
+        Width = 22
+        Height = 20
+        Caption = '...'
+        TabOrder = 0
+        OnClick = BitBtn3Click
+      end
+      object edtNationalID: TDBEdit
+        Left = 100
+        Top = 16
+        Width = 84
+        Height = 21
+        TabStop = False
+        Color = clBtnFace
+        Ctl3D = True
+        DataField = 'NationalID'
+        DataSource = src_AccCode
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = -1
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentCtl3D = False
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 4
+      end
+    end
+    object grpCompany: TGroupBox
+      Left = 322
+      Top = 1
+      Width = 231
+      Height = 69
+      Align = alLeft
+      Caption = #1603#1583'  '#1608' '#1606#1575#1605' '#1588#1585#1603#1578' '
+      TabOrder = 0
+      object DBEdit2: TDBEdit
+        Left = 2
+        Top = 39
+        Width = 213
+        Height = 21
+        Color = clBtnFace
+        DataField = 'CompanyName_L1'
+        DataSource = src_Companies
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = -1
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 3
+      end
+      object BitBtn1: TBitBtn
+        Left = 112
+        Top = 16
+        Width = 21
+        Height = 20
+        Caption = '...'
+        TabOrder = 0
+        OnClick = BitBtn1Click
+      end
+      object edtCompanyCode: TDBEdit
+        Left = 138
+        Top = 18
+        Width = 77
+        Height = 19
+        TabStop = False
+        Ctl3D = False
+        DataField = 'CompanyCode'
+        DataSource = src_Companies
+        ParentCtl3D = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+      object DBNavigator2: TDBNavigator
+        Left = 3
+        Top = 18
+        Width = 104
+        Height = 18
+        DataSource = src_Companies
+        VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
+        Flat = True
+        TabOrder = 2
+      end
+    end
+  end
+  inherited Panel3: TPanel
+    Top = 71
+    Width = 926
+    Height = 379
+    ExplicitTop = 71
+    ExplicitWidth = 926
+    ExplicitHeight = 379
+    object pnlRelated: TPanel
+      Left = 2
+      Top = 2
+      Width = 922
+      Height = 39
+      Align = alTop
+      ParentBackground = False
+      TabOrder = 1
+      Visible = False
+      object SpeedButton1: TSpeedButton
+        Left = 243
+        Top = 6
+        Width = 75
+        Height = 25
+        AllowAllUp = True
+        BiDiMode = bdRightToLeft
+        GroupIndex = 1
+        Caption = #1575#1602#1604#1575#1605' '#1605#1585#1578#1576#1591
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ParentBiDiMode = False
+        ShowHint = False
+        Transparent = False
+        OnClick = SpeedButton1Click
+      end
+      object btn1: TSpeedButton
+        Left = 323
+        Top = 6
+        Width = 75
+        Height = 25
+        AllowAllUp = True
+        BiDiMode = bdRightToLeft
+        GroupIndex = 1
+        Caption = #1575#1585#1578#1576#1575#1591' '#1575#1578#1608#1605#1575#1578#1740#1705
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        ParentFont = False
+        ParentShowHint = False
+        ParentBiDiMode = False
+        ShowHint = False
+        Transparent = False
+        OnClick = btn1Click
+      end
+      object BitBtn10: TBitBtn
+        Left = 86
+        Top = 6
+        Width = 75
+        Height = 25
+        Action = actRelated
+        Caption = #1575#1585#1578#1576#1575#1591
+        TabOrder = 0
+      end
+      object BitBtn11: TBitBtn
+        Left = 8
+        Top = 6
+        Width = 75
+        Height = 25
+        Action = actdisRelated
+        Caption = #1581#1584#1601' '#1575#1585#1578#1576#1575#1591
+        TabOrder = 1
+      end
+      object BitBtn12: TBitBtn
+        Left = 164
+        Top = 6
+        Width = 75
+        Height = 25
+        Action = actAnalyz
+        Caption = #1570#1606#1575#1604#1610#1586' '#1605#1576#1604#1594
+        TabOrder = 2
+      end
+      object RadioGroup1: TRadioGroup
+        Left = 701
+        Top = 1
+        Width = 220
+        Height = 37
+        Align = alRight
+        Caption = #1578#1591#1576#1610#1602' '#1581#1587#1575#1576
+        Columns = 3
+        ItemIndex = 2
+        Items.Strings = (
+          #1662#1575#1587' '#1588#1583#1607
+          #1662#1575#1587' '#1606#1588#1583#1607
+          #1607#1605#1607)
+        TabOrder = 3
+        OnClick = RadioGroup1Click
+      end
+    end
+    object pnlRatesCalculation: TPanel
+      Left = 2
+      Top = 41
+      Width = 922
+      Height = 26
+      Align = alTop
+      TabOrder = 2
+      DesignSize = (
+        922
+        26)
+      object edtRatesCalculation: TLabeledEdit
+        Left = 618
+        Top = 2
+        Width = 73
+        Height = 21
+        TabStop = False
+        Anchors = [akTop, akRight]
+        Color = clBtnFace
+        EditLabel.Width = 27
+        EditLabel.Height = 13
+        EditLabel.BiDiMode = bdRightToLeft
+        EditLabel.Caption = #1576#1575' '#1606#1585#1582' '
+        EditLabel.ParentBiDiMode = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        LabelPosition = lpRight
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 0
+      end
+      object edtCalDate: TLabeledEdit
+        Left = 731
+        Top = 3
+        Width = 91
+        Height = 21
+        TabStop = False
+        Anchors = [akTop, akRight]
+        Color = clBtnFace
+        EditLabel.Width = 68
+        EditLabel.Height = 13
+        EditLabel.BiDiMode = bdRightToLeft
+        EditLabel.Caption = #1605#1581#1575#1587#1576#1607' '#1576#1578#1575#1585#1610#1582' '
+        EditLabel.ParentBiDiMode = False
+        Font.Charset = DEFAULT_CHARSET
+        Font.Color = clRed
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = [fsBold]
+        LabelPosition = lpRight
+        ParentFont = False
+        ReadOnly = True
+        TabOrder = 1
+      end
+    end
+    object DBGrid1: TCedarDbgrid
+      Tag = 111
+      Left = 2
+      Top = 67
+      Width = 922
+      Height = 310
+      Align = alClient
+      Color = clCream
+      DataSource = src_Doc
+      DynProps = <>
+      Flat = True
+      FooterParams.FillStyle = cfstSolidEh
+      FooterParams.Font.Charset = DEFAULT_CHARSET
+      FooterParams.Font.Color = clWindowText
+      FooterParams.Font.Height = -12
+      FooterParams.Font.Name = 'Tahoma'
+      FooterParams.Font.Style = [fsBold]
+      FooterParams.ParentFont = False
+      FooterParams.VertLines = False
+      GridLineParams.VertEmptySpaceStyle = dessNonEh
+      HorzScrollBar.ExtraPanel.Visible = True
+      IndicatorTitle.ShowDropDownSign = True
+      IndicatorTitle.TitleButton = True
+      OddRowColor = clGradientInactiveCaption
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit, dgMultiSelect]
+      RowHeight = 18
+      SearchPanel.Enabled = True
+      SearchPanel.FilterOnTyping = True
+      SortLocal = True
+      TabOrder = 0
+      OnDblClick = DBGrid1DblClick
+      OnKeyPress = DBGrid1KeyPress
+      OnSelectedRowsItemChanged = DBGrid1SelectedRowsItemChanged
+      ActiveSearchPanel = False
+      SelectedSum = True
+      SelectFooterIndex = 0
+      Columns = <
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'SecondaryDocNo'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'PrimaryDocNo'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 13431799
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'DocDate'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'Comment_L1'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'Comment_L2'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'AidDocNo'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Visible = False
+        end
+        item
+          ButtonStyle = cbsDropDown
+          CellButtons = <>
+          Color = 13236955
+          DynProps = <>
+          EditButton.Visible = True
+          EditButtons = <>
+          FieldName = 'AidAmount'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'AidDocdate'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Visible = False
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'BudgetTopicID'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'ProjectID'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          ButtonStyle = cbsDropDown
+          CellButtons = <>
+          Color = 14024703
+          DynProps = <>
+          EditButton.Visible = True
+          EditButtons = <>
+          FieldName = 'Debt'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          ButtonStyle = cbsDropDown
+          CellButtons = <>
+          Color = 14155735
+          DynProps = <>
+          EditButton.Visible = True
+          EditButtons = <>
+          FieldName = 'Credit'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          ButtonStyle = cbsDropDown
+          CellButtons = <>
+          Color = 13236955
+          DynProps = <>
+          EditButton.Visible = True
+          EditButtons = <>
+          FieldName = 'RunningBalance'
+          Footers = <>
+          Title.Alignment = taCenter
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'AnalizeType'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'RelatedID'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 57
+        end
+        item
+          ButtonStyle = cbsDropDown
+          CellButtons = <>
+          Color = 13236955
+          DynProps = <>
+          EditButton.Visible = True
+          EditButtons = <>
+          FieldName = 'calcuRate'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'CurrencyType'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'CurrenciesName'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'CurrencyDebit'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'CurrencyCredit'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end
+        item
+          CellButtons = <>
+          Color = 15461355
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'RunningCurrencyBalance'
+          Footers = <>
+          Title.TitleButton = True
+          Width = 44
+        end>
+      object RowDetailData: TRowDetailPanelControlEh
+      end
+    end
+  end
+  object Panel6: TPanel [3]
+    Left = 0
+    Top = 450
+    Width = 926
+    Height = 29
+    Align = alBottom
+    TabOrder = 3
+    object lblBes: TLabel
+      AlignWithMargins = True
+      Left = 478
+      Top = 4
+      Width = 27
+      Height = 21
+      Align = alLeft
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = #1605#1575#1606#1583#1607
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+      ExplicitHeight = 13
+    end
+    object lblCurrencyCredit: TLabel
+      AlignWithMargins = True
+      Left = 216
+      Top = 4
+      Width = 44
+      Height = 21
+      Align = alLeft
+      Alignment = taRightJustify
+      BiDiMode = bdLeftToRight
+      Caption = #1605#1575#1606#1583#1607' '#1575#1585#1586
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clWindowText
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = [fsBold]
+      ParentBiDiMode = False
+      ParentFont = False
+      ExplicitHeight = 13
+    end
+    object edtBes: TEdit
+      AlignWithMargins = True
+      Left = 266
+      Top = 4
+      Width = 206
+      Height = 21
+      TabStop = False
+      Align = alLeft
+      BevelOuter = bvRaised
+      Color = 14155735
+      Ctl3D = False
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 0
+      Text = '0'
+      ExplicitHeight = 19
+    end
+    object edtCurrencyCredit: TEdit
+      AlignWithMargins = True
+      Left = 4
+      Top = 4
+      Width = 206
+      Height = 21
+      TabStop = False
+      Align = alLeft
+      BevelOuter = bvRaised
+      Color = 15461355
+      Ctl3D = False
+      ParentCtl3D = False
+      ReadOnly = True
+      TabOrder = 1
+      Text = '0'
+      ExplicitHeight = 19
+    end
+  end
+  inherited ActionList: TActionList
+    Left = 584
+    Top = 24
+    object actFilterForm: TAction [0]
+      Tag = 1
+      Caption = #1605#1581#1583#1608#1583#1607' '#1576#1575' '#1587#1575#1604' '#1605#1575#1604#1610
+      OnExecute = actFilterExecute
+    end
+    object actShowAnalyze: TAction [1]
+      Caption = #1570#1606#1575#1604#1610#1586' '#1605#1575#1606#1583#1607' '#1581#1587#1575#1576
+      ImageIndex = 5
+      OnExecute = actShowAnalyzeExecute
+    end
+    object actShowForm: TAction [3]
+      Caption = #1606#1605#1575#1610#1588' '#1587#1606#1583' '
+      OnExecute = actShowFormExecute
+    end
+    inherited DataSetPost1: TDataSetPost [5]
+    end
+    inherited DataSetCancel1: TDataSetCancel [6]
+    end
+    inherited DataSetDelete1_: TDataSetDelete [7]
+    end
+    object actPrint: TAction [8]
+      Caption = #1670#1575#1662' (F7)'
+      ShortCut = 118
+      OnExecute = actPrintExecute
+    end
+    object actSendExcel: TAction [9]
+      Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      OnExecute = actSendExcelExecute
+    end
+    object actSort: TAction [10]
+      Caption = ' '#1578#1585#1578#1610#1576
+      OnExecute = actSortExecute
+    end
+    inherited DataSetEdit1: TDataSetEdit [11]
+    end
+    inherited actshowChart: TAction [12]
+    end
+    inherited actSearch_: TAction [13]
+      OnExecute = actSearch_Execute
+    end
+    object actFilter: TAction
+      Caption = #1605#1581#1583#1608#1583#1607
+      OnExecute = actFilterExecute
+    end
+    object actOther: TAction
+      Caption = #1587#1575#1610#1585' '#1575#1605#1603#1575#1606#1575#1578
+      OnExecute = actOtherExecute
+    end
+    object actRelated: TAction
+      Caption = #1575#1585#1578#1576#1575#1591
+      OnExecute = actRelatedExecute
+    end
+    object actdisRelated: TAction
+      Caption = #1581#1584#1601' '#1575#1585#1578#1576#1575#1591
+      OnExecute = actdisRelatedExecute
+    end
+    object actAnalyz: TAction
+      Caption = #1570#1606#1575#1604#1610#1586' '#1605#1576#1604#1594
+      OnExecute = actAnalyzExecute
+    end
+  end
+  inherited ImageList1: TImageList
+    Left = 648
+    Top = 17
+    Bitmap = {
+      494C010106000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
+      0000000000003600000028000000400000002000000001002000000000000020
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000006BAD840021842900218429006BAD8400000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000008080800090807000800000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000808000F0F0F100848000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000808284000080A10024908C0080080000008080000080F00000A0F0000080
+      F000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000008080
+      8000008081000080A10080800800008040000088C1000080F0002AABF5000A80
+      F100000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000080
+      800040C0E0000080000090884000008080000280F2000480F0000080C0000280
+      F000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000006BAD8400218429002184
+      290021842900218429002184290094DE8C0039B5520021842900218429002184
+      290021842900218429006BAD84000000000000000000808080009090800004C0
+      E0008084000090884000DCAA590000C0000002C0F8000280F0000480C0000280
+      F0000280F1000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000063A5630039B5520039B5
+      520039B5520039B5520039B5520039B5520039B5520039B5520039B5520039B5
+      520039B5520039B5520021842900000000000000000080808000B8B0A100A090
+      810081086000C8804800C9C0040000C0C00002C8F90002C0F00002C8F900128A
+      F3000280C0000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000063A5630094DE8C0094DE
+      8C0094DE8C0094DE8C0094DE8C0094DE8C0039B5520094DE8C0094DE8C0094DE
+      8C0094DE8C0094DE8C0021842900000000000000000000000000000000009081
+      800090802000E0C00E00E0C0040040C0800020C0A00002C0F00002C0F80002C0
+      F00081C0A4000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000006BAD840063A5630063A5
+      630063A5630063A5630063A5630094DE8C0039B5520021842900218429002184
+      290021842900218429006BAD8400000000000000000000000000000000008080
+      800080800000E0C00000F9E18100F0C0800051C0800000C0820000C0C00000C0
+      C000A1C0A0000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000F8E0C000FCF9F500FFFFFF00F9E5C900F1C08000F1C2A400F8E8CA00F8E0
+      C000F1C088000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000F8E5C800FFFFFF00FFFFFF00FCF8E400F9E38100F9E18100F0C0
+      8000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000F8E1C000F8E19000F0C08800F0C28000F0C080000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000063A5630094DE8C0039B5520021842900000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000006BAD840063A5630063A563006BAD8400000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000031000000420000005200000052000000420000003100000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000052A54A00009408006BB563000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000042
+      000000420000007B0800009C0800009C0800009C0800009C0800007B0800004A
+      0000004A00000000000000000000000000000000000000000000000000000000
+      00000000000018B5290000BD2100009400008CBD7B0000000000000000000000
+      0000000000000000000000000000000000000000000029ADD60031B5DE0021AD
+      D600000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000004A08000063
+      080000A5100000A50800009C0800009C0800009C0800009C080000A5080000A5
+      0800006B08000031000000000000000000000000000000000000000000000000
+      00006BB5630000BD210000C6290000A50000319C310000000000000000000000
+      0000000000000000000000000000000000000000000029ADD6009CDEEF0084EF
+      FF004AC6E70021ADD60018A5C60018A5C60018A5C60000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000004A0800006B100008A5
+      210008A51800009C0800009C0800009C0800009C0800009C0800009C0800009C
+      080000A50800006B0800004A0000000000000000000000000000000000000000
+      0000009C100000CE310000C6290000AD100000940000A5C69400000000000000
+      0000000000000000000000000000000000000000000029ADD60052BDE7009CFF
+      FF0094FFFF0073DEF70073DEF70073DEF70073DEF7004AC6E70021ADD60018A5
+      C600000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000000000000000000000000000000000000004A080010AD310008AD
+      290008A5180000A510004AC65200E7F7EF00D6F7DE0010AD2100009C0800009C
+      0800009C080000A50800004A00000000000000000000000000000000000052A5
+      4A0000CE310000C6290000FF630000CE3100009C0000008C0000000000000000
+      0000000000000000000000000000000000000000000029ADD60052BDE700ADFF
+      FF008CF7FF008CEFFF008CEFFF008CEFFF0073DEF70073DEF70073DEF7004AC6
+      EF0021ADD6000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000005200000884210010B5420010A5
+      3100089C180042BD4A00F7FFF700FFFFFF0084D68C0000A51000009C0800009C
+      0800009C080000A50800007B08000042000000000000000000000000000018B5
+      290029CE5A0000FF630000FF630000BD210000C62900009400008CBD7B000000
+      0000000000000000000000000000000000000000000029ADD60029ADD600ADDE
+      EF0094F7FF0094F7FF008CEFFF008CEFFF008CEFFF008CEFFF0073DEF70073DE
+      F7004AC6EF00000000000000000000000000000000006B84C6000021A5000021
+      A5000021A5000021A5000021A5000021A5000021A5000021A5000021A5000021
+      A5000021A5000021A5006B84C600000000000052000010A5420018B54A0010AD
+      310042BD4A00F7FFF700FFFFFF0073D67B00009C0800009C0800009C0800009C
+      0800009C080000A50800009408000042000000000000000000000000000018C6
+      420000FF630000FF630052A54A0052A54A0000C6290000A50000319C31000000
+      0000000000000000000000000000000000000000000029ADD60073DEF70029AD
+      D6009CFFFF008CF7FF008CF7FF008CF7FF008CEFFF008CEFFF008CEFFF0073DE
+      F70073DEF70018A5C6000000000000000000000000000021A5009494F7000029
+      E7000029E7000029E7000029E7000029E7000029E7000029E7000029E7000029
+      E7000029E7000029E7000021A50000000000006B100021B5520021B5520073D6
+      9400EFFFEF00FFFFFF00F7FFF700B5EFC600B5E7BD00ADE7B500ADE7B500ADE7
+      B500ADE7B500009C0800009C0800004A00000000000000000000000000000000
+      000000AD210000AD2100000000000000000000AD180000C6290000940000A5C6
+      9400000000000000000000000000000000000000000029ADD60094F7FF0029AD
+      D600ADDEEF00A5EFF700A5EFF700A5F7FF008CEFFF008CEFFF008CEFFF0073DE
+      F7000073080018A5C6000000000000000000000000000021A500B5C6FF009CBD
+      FF009CBDFF009CB5FF009CB5FF009CB5FF00638CF700638CF700638CF700638C
+      F700526BF700526BF7000021A500000000000873100039BD6B0029BD5A00BDEF
+      CE00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFFFF00FFFF
+      FF00FFFFFF00009C0800009C0800005200000000000000000000000000000000
+      00000000000000000000000000000000000031B5420000C62900009C0000008C
+      0000000000000000000000000000000000000000000029ADD6009CFFFF0073DE
+      F70029ADD60018A5C60018A5C60018A5C600ADDEEF008CF7FF0084EFFF000073
+      08005AE78C000073080018A5C60000000000000000006B84C6000021A5000021
+      A5000021A5000021A5000021A5000021A5000021A5000021A5000021A5000021
+      A5000021A5000021A5006B84C600000000000873100052C67B0042C6730029BD
+      5A00A5E7BD00FFFFFF00F7FFF70084DEA50042BD5A0042BD5A0042BD5A0042BD
+      5A0042BD5A0008A51800009C0800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000000B5210000C629000094
+      00008CBD7B000000000000000000000000000000000029ADD6009CFFFF0094F7
+      FF0073DEF70073DEF70073DEF7006BDEF70029ADD600ADDEEF000073080052D6
+      7B0042D66B0031C64A0000730800000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000087310004ABD6B0084DEA50021B5
+      520021B5520094DEB500FFFFFF00E7F7EF0052C6730010AD310010AD310010AD
+      310008A5290008A51800008C0800004200000000000000000000000000000000
+      0000000000000000000000000000000000000000000052A54A0000C6290029AD
+      390031B542000000000000000000000000000000000029ADD6009CFFFF0094F7
+      FF0094F7FF0094F7FF0094F7FF0073DEF70073DEF70029ADD60018A5C600108C
+      210031C64A00109C210018A5C600000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000021A53100ADE7C6006BCE
+      8C0010AD4A0018B54A008CDEAD00FFFFFF00F7FFF70029BD520010A5310008A5
+      290008A5210008AD1800006B0800000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000029AD4A005AE7
+      A50029AD39008CBD7B0000000000000000000000000029ADD600C6FFFF0094FF
+      FF009CFFFF00D6FFFF00D6FFFF008CEFFF0094EFFF0073DEF70073DEF7000884
+      100018AD29000884100000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000021A5310052C67300BDEF
+      D60063CE8C0021B5520018B5520094DEB500ADE7C60021B5520010AD390010AD
+      310010AD3100109C2100006B0800000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000031B5420000D6
+      42008CBD7B000000000000000000000000000000000021ADD6009CDEEF00C6FF
+      FF00C6FFFF009CDEEF0018ADD60018A5C60018A5C60018A5C60018A5C600088C
+      100008A518000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000109C21006BCE
+      8C00D6F7E7009CE7B50052C67B0039BD630029BD5A0031BD630031BD630021BD
+      4A0010A531000063080000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000000000000000000000000000A5C6
+      940000000000000000000000000000000000000000000000000031B5DE0029AD
+      D60018A5C60018A5C60000000000000000000000000000000000088C100008A5
+      1800088410000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000004ABD
+      63004ABD630094DEB500BDEFD600A5E7C6008CDEAD007BDE9C004AC67B00189C
+      3900189C39000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000730800087B0800088C1000088C1000087B
+      0800000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      00000000000021A5310039B5520042BD630042BD630029A54A00108C29000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      0000000000000000000000000000000000000000000000000000000000000000
+      000000000000000000000000000000000000424D3E000000000000003E000000
+      2800000040000000200000000100010000000000000100000000000000000000
+      000000000000000000000000FFFFFF00FFFF000000000000FC3F000000000000
+      FC3F000000000000FC3F000000000000FC3F000000000000FC3F000000000000
+      8001000000000000800100000000000080010000000000008001000000000000
+      FC3F000000000000FC3F000000000000FC3F000000000000FC3F000000000000
+      FC3F000000000000FFFF000000000000FFFFF81FF8FFFFFFFFFFE007F87F8FFF
+      FFFFC003F07F807FFFFF8001F03F800FFFFF8001E03F8007FFFF0000E01F8007
+      80010000E01F800380010000F30F800380010000FF0F800180010000FF878001
+      FFFF0000FF878001FFFF8001FFC38003FFFF8001FFC78007FFFFC003FFEFC3C7
+      FFFFE007FFFFFE0FFFFFF81FFFFFFFFF00000000000000000000000000000000
+      000000000000}
+  end
+  object qry_Doc: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    LockType = ltBatchOptimistic
+    BeforeOpen = qry_DocBeforeOpen
+    AfterOpen = qry_DocAfterOpen
+    AfterScroll = qry_DocAfterScroll
+    OnFilterRecord = qry_DocFilterRecord
+    CommandTimeout = 0
+    Parameters = <
+      item
+        Name = 'Rate'
+        DataType = ftBCD
+        Size = 3
+        Value = 10000c
+      end
+      item
+        Name = 'DocDate_CalDate'
+        DataType = ftWideString
+        Size = 1
+        Value = '1'
+      end
+      item
+        Name = 'CompanyCodeFrom'
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
+      end
+      item
+        Name = 'CompanyCodeTO'
+        DataType = ftWideString
+        Size = 5
+        Value = '99999'
+      end
+      item
+        Name = 'TopicCode'
+        Attributes = [paSigned]
+        DataType = ftLargeint
+        Precision = 19
+        Size = 10
+        Value = '3602'
+      end
+      item
+        Name = 'DetailCode'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 10019
+      end
+      item
+        Name = 'SecondaryDocNoFrom'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 0
+      end
+      item
+        Name = 'SecondaryDocNoTo'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end
+      item
+        Name = 'PrimaryDocNoFrom'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 0
+      end
+      item
+        Name = 'PrimaryDocNoTo'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end
+      item
+        Name = 'DocDateFrom'
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 10
+        Value = '0'
+      end
+      item
+        Name = 'DocDateTo'
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 10
+        Value = '2147483647'
+      end
+      item
+        Name = 'Status1'
+        DataType = ftString
+        Size = 2
+        Value = '0'
+      end
+      item
+        Name = 'Status2'
+        DataType = ftString
+        Size = 2
+        Value = '0'
+      end
+      item
+        Name = 'FromYearID'
+        DataType = ftString
+        Size = 1
+        Value = '0'
+      end
+      item
+        Name = 'ToYearID'
+        DataType = ftString
+        Size = 1
+        Value = '0'
+      end
+      item
+        Name = 'DocTypeCodeFrom'
+        DataType = ftString
+        Size = 2
+        Value = '0'
+      end
+      item
+        Name = 'DocTypeCodeTo'
+        DataType = ftString
+        Size = 10
+        Value = '2147483647'
+      end
+      item
+        Name = 'CurrencyTypeFrom'
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
+      end
+      item
+        Name = 'CurrencyTypeTo'
+        DataType = ftWideString
+        Size = 5
+        Value = '99999'
+      end
+      item
+        Name = 'CurrencyKind'
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
+      end>
+    SQL.Strings = (
+      'SELECT'
+      #9#9':Rate  AS calcuRate ,'
+      
+        '    :DocDate_CalDate as CalDate ,  DetailsOnTopicBook.*  ,  Debt' +
+        ' + Credit  as  Sort , Debt - Credit  as Difference1'
+      ',0 as AnalizeType'
+      ''
+      
+        'FROM   Acc.DetailsOnTopicBook (:CompanyCodeFrom,:CompanyCodeTO ,' +
+        ' :TopicCode , :DetailCode ,'
+      
+        '         :SecondaryDocNoFrom ,:SecondaryDocNoTo , :PrimaryDocNoF' +
+        'rom , :PrimaryDocNoTo ,'
+      
+        '         :DocDateFrom , :DocDateTo ,:Status1,:Status2,:FromYearI' +
+        'D,:ToYearID,:DocTypeCodeFrom,:DocTypeCodeTo , 1 ,'
+      
+        ':CurrencyTypeFrom , :CurrencyTypeTo, :CurrencyKind   ) DetailsOn' +
+        'TopicBook'
+      
+        'ORDER BY TopicCode,DetailCode,YearID ,DocDate,SORtID,PrimaryDocN' +
+        'o,SecondaryDocNo,bedbes,CompanyCode,serial,id'
+      '')
+    Left = 543
+    Top = 274
+    object qry_DocID: TAutoIncField
+      DisplayLabel = #1588#1605#1575#1585#1606#1583#1607' '
+      FieldName = 'ID'
+      ReadOnly = True
+    end
+    object qry_DocCompanyCode: TIntegerField
+      DisplayLabel = #1603#1583' '#1588#1585#1603#1578' '
+      FieldName = 'CompanyCode'
+    end
+    object qry_DocTopicCode: TLargeintField
+      DisplayLabel = #1603#1583' '#1605#1593#1740#1606
+      FieldName = 'TopicCode'
+    end
+    object qry_DocDetailCode: TIntegerField
+      DisplayLabel = #1603#1583' '#1578#1601#1589#1610#1604#1610
+      FieldName = 'DetailCode'
+    end
+    object qry_DocSecondaryDocNo: TIntegerField
+      Tag = 3
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1605#1608#1602#1578
+      FieldName = 'SecondaryDocNo'
+    end
+    object qry_DocPrimaryDocNo: TIntegerField
+      Tag = 3
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1587#1606#1583
+      FieldName = 'PrimaryDocNo'
+    end
+    object qry_DocDocDate: TStringField
+      Tag = 3
+      DisplayLabel = #1578#1575#1585#1610#1582' '#1587#1606#1583
+      FieldName = 'DocDate'
+      FixedChar = True
+      Size = 10
+    end
+    object qry_DocAidDocNo: TFMTBCDField
+      Tag = 3
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1705#1605#1705#1740
+      FieldName = 'AidDocNo'
+      Precision = 20
+      Size = 4
+    end
+    object qry_DocComment: TStringField
+      Tag = 3
+      DisplayLabel = #1588#1585#1581' '#1587#1606#1583' '#1581#1587#1575#1576#1583#1575#1585#1610
+      FieldName = 'Comment_L1'
+      Size = 700
+    end
+    object qry_DocAidDocdate: TStringField
+      Tag = 3
+      DisplayLabel = #1578#1575#1585#1610#1582' '#1603#1605#1603#1610
+      FieldName = 'AidDocdate'
+      FixedChar = True
+      Size = 10
+    end
+    object qry_DocAidAmount: TFloatField
+      Tag = 3
+      DisplayLabel = #1605#1602#1583#1575#1585' '#1603#1605#1603#1610
+      FieldName = 'AidAmount'
+    end
+    object qry_DocDebt: TFMTBCDField
+      Tag = 3
+      DisplayLabel = #1576#1583#1607#1603#1575#1585
+      FieldName = 'Debt'
+      currency = True
+      Precision = 38
+    end
+    object qry_DocCredit: TFMTBCDField
+      Tag = 3
+      DisplayLabel = #1576#1587#1578#1575#1606#1603#1575#1585
+      FieldName = 'Credit'
+      currency = True
+      Precision = 38
+    end
+    object qry_DocRunningBalance: TBCDField
+      DisplayLabel = #1605#1575#1606#1583#1607
+      FieldName = 'RunningBalance'
+      ReadOnly = True
+      currency = True
+      Precision = 32
+    end
+    object qry_Docserial: TIntegerField
+      FieldName = 'serial'
+    end
+    object qry_DocBudgetTopicID: TIntegerField
+      Tag = 3
+      DisplayLabel = #1603#1583' '#1576#1608#1583#1580#1607
+      FieldName = 'BudgetTopicID'
+    end
+    object qry_DocProjectID: TIntegerField
+      Tag = 3
+      DisplayLabel = #1603#1583' '#1662#1585#1608#1688#1607
+      FieldName = 'ProjectID'
+    end
+    object qry_DocBedBes: TStringField
+      FieldName = 'BedBes'
+      Size = 1
+    end
+    object qry_DocStatus: TIntegerField
+      FieldName = 'Status'
+    end
+    object qry_DocYearId: TIntegerField
+      FieldName = 'YearId'
+    end
+    object qry_DocSortID: TIntegerField
+      FieldName = 'SortID'
+    end
+    object qry_DocAnalizeType: TIntegerField
+      DisplayLabel = #1606#1608#1593' '
+      FieldName = 'AnalizeType'
+      ReadOnly = True
+      OnGetText = qry_DocAnalizeTypeGetText
+    end
+    object qry_DocRelatedID: TIntegerField
+      DisplayLabel = #1593#1591#1601' '#1575#1585#1578#1576#1575#1591
+      FieldName = 'RelatedID'
+      ReadOnly = True
+    end
+    object qry_DocItemID: TIntegerField
+      FieldName = 'ItemID'
+      ReadOnly = True
+    end
+    object qry_DocCalDate: TStringField
+      DisplayLabel = #1578#1575#1585#1610#1582' '#1605#1581#1575#1587#1576#1607
+      FieldName = 'CalDate'
+      FixedChar = True
+      Size = 10
+    end
+    object qry_DocComment_L2: TStringField
+      Tag = 3
+      FieldName = 'Comment_L2'
+      ReadOnly = True
+      Size = 300
+    end
+    object qry_DocSort: TBCDField
+      Tag = 3
+      DisplayLabel = #1578#1585#1578#1740#1576' '#1576#1583' '#1608' '#1576#1587
+      FieldName = 'Sort'
+      ReadOnly = True
+      Precision = 19
+    end
+    object qry_DoccalcuRate: TBCDField
+      DisplayLabel = #1575#1605#1578#1740#1575#1586
+      FieldName = 'calcuRate'
+      currency = True
+      Precision = 19
+    end
+    object qry_DocDifference1: TBCDField
+      DisplayLabel = #1575#1582#1578#1604#1575#1601
+      FieldName = 'Difference1'
+      ReadOnly = True
+      currency = True
+      Precision = 19
+    end
+    object qry_DocCurrencyType: TIntegerField
+      DisplayLabel = #1705#1583' '#1575#1585#1586
+      FieldName = 'CurrencyType'
+    end
+    object qry_DocCurrenciesName: TStringField
+      DisplayLabel = #1608#1575#1581#1583' '#1662#1608#1604#1740
+      FieldName = 'CurrenciesName'
+      Size = 250
+    end
+    object qry_DocCurrencyDebit: TFMTBCDField
+      DisplayLabel = #1711#1585#1583#1588' '#1576#1583#1607#1705#1575#1585' '#1575#1585#1586#1740
+      FieldName = 'CurrencyDebit'
+      ReadOnly = True
+      currency = True
+      Precision = 38
+      Size = 3
+    end
+    object qry_DocCurrencyCredit: TFMTBCDField
+      DisplayLabel = #1711#1585#1583#1588' '#1576#1587#1578#1575#1606#1705#1575#1585' '#1575#1585#1586#1740
+      FieldName = 'CurrencyCredit'
+      ReadOnly = True
+      currency = True
+      Precision = 38
+      Size = 3
+    end
+    object qry_DocCurrencyRunningBalance: TFMTBCDField
+      DisplayLabel = #1605#1575#1606#1583#1607' '#1575#1585#1586#1740
+      FieldName = 'RunningCurrencyBalance'
+      ReadOnly = True
+      currency = True
+      Precision = 38
+      Size = 3
+    end
+    object qry_Doc_row: TLargeintField
+      FieldName = '_row'
+      ReadOnly = True
+    end
+  end
+  object qry_Companies: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    LockType = ltReadOnly
+    AfterScroll = qry_CompaniesAfterScroll
+    Parameters = <
+      item
+        Name = 'CompanyCodeFrom'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 0
+      end
+      item
+        Name = 'CompanyCodeTo'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end>
+    SQL.Strings = (
+      
+        'SELECT DISTINCT Acc.Companies.CompanyCode, Acc.Companies.Company' +
+        'Name_L1, Acc.Companies.CompanyName_L2'
+      'FROM         Acc.Companies INNER JOIN'
+      
+        '                      Acc.DocGroups ON Acc.Companies.CompanyCode' +
+        ' = Acc.DocGroups.CompanyCode'
+      
+        'WHERE    Acc.Companies.CompanyCode  between :CompanyCodeFrom and' +
+        ' :CompanyCodeTo'
+      'order by Acc.Companies.CompanyCode')
+    Left = 716
+    Top = 16
+    object qry_CompaniesCompanyName: TStringField
+      DisplayLabel = #1606#1575#1605' '#1588#1585#1603#1578' '
+      FieldName = 'CompanyName_L1'
+      Size = 150
+    end
+    object qry_CompaniesCompanyName_L2: TStringField
+      FieldName = 'CompanyName_L2'
+      Size = 150
+    end
+    object qry_CompaniesCompanyCode: TIntegerField
+      DisplayLabel = #1603#1583' '#1588#1585#1603#1578
+      FieldName = 'CompanyCode'
+    end
+  end
+  object qry_AccCode: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    LockType = ltReadOnly
+    BeforeOpen = qry_AccCodeBeforeOpen
+    AfterOpen = qry_AccCodeAfterOpen
+    AfterScroll = qry_AccCodeAfterScroll
+    Parameters = <
+      item
+        Name = 'SecondaryDocNoTo'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end
+      item
+        Name = 'PrimaryDocNoTo'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end
+      item
+        Name = 'DocDateTo'
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 10
+        Value = '9999/99/99'
+      end
+      item
+        Name = 'CompanyCodeFrom'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 1
+      end
+      item
+        Name = 'CompanyCodeTO'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 99
+      end
+      item
+        Name = 'TopicCodeFrom'
+        Attributes = [paSigned]
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
+        Value = '0'
+      end
+      item
+        Name = 'TopicCodeTo'
+        Attributes = [paSigned]
+        DataType = ftLargeint
+        Precision = 19
+        Size = 8
+        Value = '2147483647'
+      end
+      item
+        Name = 'DetailCodeFrom'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 324
+      end
+      item
+        Name = 'DetailCodeTo'
+        Attributes = [paSigned, paNullable]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 2147483647
+      end
+      item
+        Name = 'UserAdmin'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'UserID'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end
+      item
+        Name = 'UserID2'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = Null
+      end>
+    SQL.Strings = (
+      
+        'SELECT  Acc.DocGroups.CompanyCode, Acc.Documents.TopicCode, Acc.' +
+        'Documents.DetailCode,'
+      
+        '         LTRIM(RTRIM(STR(Acc.Documents.DetailCode))) + '#39' - '#39' +RT' +
+        'RIM(LTRIM(STR(Acc.Documents.TopicCode)))  AS accCode,'
+      
+        '         Acc.Categories.MoeenName_L1 + '#39' - '#39' + Acc.Details.Detai' +
+        'lName_L1 AS AccName_L1,'
+      
+        '         Acc.Categories.MoeenName_L2 + '#39' - '#39' + Acc.Details.Detai' +
+        'lName_L2 AS AccName_L2,'
+      
+        '         Acc.Categories.AidInfoType,KindInsertBudgetCode, Acc.De' +
+        'tails.NationalID,  Acc.Categories.MoeenName_L1, Acc.Details.Deta' +
+        'ilName_L1'
+      'FROM      Acc.Documents INNER JOIN'
+      
+        '                      Acc.DocGroups ON Acc.Documents.Serial = Ac' +
+        'c.DocGroups.Serial AND Acc.Documents.YearID = Acc.DocGroups.Year' +
+        'ID AND     '
+      
+        '                      Acc.Documents.CompanyCode = Acc.DocGroups.' +
+        'CompanyCode INNER JOIN'
+      
+        '          Acc.Details ON Acc.Documents.DetailCode = Acc. Details' +
+        '.DetailCode  INNER JOIN'
+      
+        '          Acc.Categories ON Acc.Documents.TopicCode =  Acc.Categ' +
+        'ories.TopicCode'
+      ' CROSS JOIN acc.Config   '
+      'WHERE   (Acc.DocGroups.SecondaryDocNo <= :SecondaryDocNoTo ) AND'
+      '        (Acc.DocGroups.PrimaryDocNo <= :PrimaryDocNoTo) AND'
+      '        (Acc.DocGroups.DocDate <= :DocDateTo )and'
+      
+        '        (Acc.DocGroups.CompanyCode Between :CompanyCodeFrom and ' +
+        ' :CompanyCodeTO )'
+      
+        'AND  (Acc.Documents.TopicCode  BETWEEN :TopicCodeFrom  AND :Topi' +
+        'cCodeTo )AND'
+      
+        '        (Acc.Documents.DetailCode  BETWEEN :DetailCodeFrom AND :' +
+        'DetailCodeTo )'
+      ''
+      
+        #9#9'AND (( :UserAdmin = 1 ) OR ( UserIDFilter=0) OR( LevelID<>3) O' +
+        'R (((CHARINDEX('#39','#39'+ltrim(:UserID)+'#39','#39', '#39','#39' + Acc.Categories.User' +
+        'Related + '#39','#39') <> 0) ) )'
+      
+        #9#9'AND (((CHARINDEX('#39','#39'+ltrim(:UserID2)+'#39','#39', '#39','#39' + Acc.Details.Op' +
+        'eratorID + '#39','#39') <> 0) ) )'#9#9')'
+      ''
+      
+        'GROUP BY    Acc.DocGroups.CompanyCode,Acc.Documents.TopicCode, A' +
+        'cc.Documents.DetailCode,'
+      
+        '         Acc.Categories.MoeenName_L1, Acc.Details.DetailName_L1,' +
+        'Acc.Categories.AidInfoType ,'
+      
+        '         Acc.Categories.MoeenName_L2, Acc.Details.DetailName_L2,' +
+        'KindInsertBudgetCode,Acc.Details.NationalID'
+      '')
+    Left = 36
+    Top = 32
+    object qry_AccCodeCompanyCode: TIntegerField
+      FieldName = 'CompanyCode'
+    end
+    object qry_AccCodeTopicCode: TLargeintField
+      FieldName = 'TopicCode'
+    end
+    object qry_AccCodeDetailCode: TIntegerField
+      FieldName = 'DetailCode'
+    end
+    object qry_AccCodeaccCode: TStringField
+      FieldName = 'accCode'
+      ReadOnly = True
+      OnGetText = qry_AccCodeaccCodeGetText
+      Size = 23
+    end
+    object qry_AccCodeAccName: TStringField
+      FieldName = 'AccName_L1'
+      ReadOnly = True
+      Size = 253
+    end
+    object qry_AccCodeAidInfoType: TWordField
+      FieldName = 'AidInfoType'
+    end
+    object qry_AccCodeAccName_L2: TStringField
+      FieldName = 'AccName_L2'
+      ReadOnly = True
+      Size = 253
+    end
+    object qry_AccCodeKindInsertBudgetCode: TIntegerField
+      FieldName = 'KindInsertBudgetCode'
+    end
+    object qry_AccCodeNationalID: TStringField
+      FieldName = 'NationalID'
+      Size = 12
+    end
+    object qry_AccCodeMoeenName_L1: TStringField
+      FieldName = 'MoeenName_L1'
+      Size = 100
+    end
+    object qry_AccCodeDetailName_L1: TStringField
+      FieldName = 'DetailName_L1'
+      Size = 150
+    end
+    object qry_AccCode_CompanyName: TStringField
+      FieldKind = fkLookup
+      FieldName = '_CompanyName'
+      LookupDataSet = qry_Companies
+      LookupKeyFields = 'CompanyCode'
+      LookupResultField = 'CompanyName_L1'
+      KeyFields = 'CompanyCode'
+      Size = 70
+      Lookup = True
+    end
+  end
+  object src_Companies: TDataSource
+    DataSet = qry_Companies
+    Left = 176
+    Top = 219
+  end
+  object src_Doc: TDataSource
+    DataSet = qry_Doc
+    Left = 480
+    Top = 208
+  end
+  object src_AccCode: TDataSource
+    DataSet = qry_AccCode
+    Left = 103
+    Top = 29
+  end
+  object ppDBPipeline1: TppDBPipeline
+    DataSource = src_Doc
+    OpenDataSource = False
+    UserName = 'DBPipeline1'
+    Left = 128
+    Top = 289
+    MasterDataPipelineName = 'ppDBPipeline2'
+  end
+  object ppDBPipeline2: TppDBPipeline
+    DataSource = src_AccCode
+    OpenDataSource = False
+    UserName = 'DBPipeline2'
+    Left = 128
+    Top = 352
+    object ppDBPipeline2ppField1: TppField
+      FieldAlias = 'CompanyCode'
+      FieldName = 'CompanyCode'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 0
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField2: TppField
+      FieldAlias = 'TopicCode'
+      FieldName = 'TopicCode'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 1
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField3: TppField
+      FieldAlias = 'DetailCode'
+      FieldName = 'DetailCode'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 2
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField4: TppField
+      FieldAlias = 'accCode'
+      FieldName = 'accCode'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 3
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField5: TppField
+      FieldAlias = 'AccName_L1'
+      FieldName = 'AccName_L1'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 4
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField6: TppField
+      FieldAlias = 'AidInfoType'
+      FieldName = 'AidInfoType'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 5
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField7: TppField
+      FieldAlias = 'AccName_L2'
+      FieldName = 'AccName_L2'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 6
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField8: TppField
+      FieldAlias = 'KindInsertBudgetCode'
+      FieldName = 'KindInsertBudgetCode'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 7
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField9: TppField
+      FieldAlias = 'NationalID'
+      FieldName = 'NationalID'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 8
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField10: TppField
+      FieldAlias = 'DetailCompany'
+      FieldName = 'DetailCompany'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 9
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField11: TppField
+      FieldAlias = 'MoeenName_L1'
+      FieldName = 'MoeenName_L1'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 10
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField12: TppField
+      FieldAlias = 'DetailName_L1'
+      FieldName = 'DetailName_L1'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 11
+      Searchable = False
+      Sortable = False
+    end
+    object ppDBPipeline2ppField13: TppField
+      FieldAlias = '_CompanyName'
+      FieldName = '_CompanyName'
+      FieldLength = 0
+      DataType = dtNotKnown
+      DisplayWidth = 0
+      Position = 12
+      Searchable = False
+      Sortable = False
+    end
+  end
+  object pop4Print: TPopupMenu
+    Left = 512
+    Top = 349
+    object N3: TMenuItem
+      Tag = 1
+      Caption = #1670#1575#1662' '#1585#1705#1608#1585#1583' '#1580#1575#1585#1610
+      Hint = 'Rpt_AccDetail'
+      OnClick = N3Click
+    end
+    object N1: TMenuItem
+      Caption = #1670#1575#1662' '#1593#1575#1583#1610
+      Hint = 'Rpt_AccDetail'
+      OnClick = N3Click
+    end
+    object N2: TMenuItem
+      Caption = '(landscape)'#1670#1575#1662' '
+      Hint = 'Rpt_AccDetailland'
+      OnClick = N3Click
+    end
+    object pop_1: TMenuItem
+      Caption = #1670#1575#1662' '#1576#1583#1608#1606' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1603#1583#1610#1606#1711' '#1576#1608#1583#1580#1607' '#1575#1610
+      Hint = 'Rpt_AccDetail_budject'
+      OnClick = N3Click
+    end
+    object Pop_2: TMenuItem
+      Caption = #1670#1575#1662' '#1576#1583#1608#1606' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1575#1591#1604#1575#1593#1575#1578' '#1603#1605#1603#1610
+      Hint = 'Rpt_AccDetail_Aid'
+      OnClick = N3Click
+    end
+    object pop_3: TMenuItem
+      Caption = #1670#1575#1662' '#1576#1575' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1603#1583#1610#1606#1711' '#1576#1608#1583#1580#1607' '#1575#1610
+      Hint = 'Rpt_AccDetail_secondery_budject'
+      OnClick = N3Click
+    end
+    object Pop_4: TMenuItem
+      Caption = #1670#1575#1662' '#1576#1575' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1575#1591#1604#1575#1593#1575#1578' '#1603#1605#1603#1610
+      Hint = 'Rpt_AccDetail_secondery_Aid'
+      OnClick = N3Click
+    end
+    object pop_5: TMenuItem
+      Caption = '(landscape)'#1670#1575#1662' '#1576#1583#1608#1606' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1603#1583#1610#1606#1711' '#1576#1608#1583#1580#1607' '#1575#1610
+      Hint = 'Rpt_AccDetail_lan_budject'
+      OnClick = N3Click
+    end
+    object pop_6: TMenuItem
+      Caption = '(landscape)'#1670#1575#1662' '#1576#1583#1608#1606' '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1575#1591#1604#1575#1593#1575#1578' '#1603#1605#1603#1610
+      Hint = 'Rpt_AccDetail_lan_Aid'
+      OnClick = N3Click
+    end
+    object pop_7: TMenuItem
+      Caption = '(landscape)'#1670#1575#1662'  '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1603#1583#1610#1606#1711' '#1576#1608#1583#1580#1607' '#1575#1610
+      Hint = 'Rpt_AccDetail_secondery_budject'
+      OnClick = N3Click
+    end
+    object pop_8: TMenuItem
+      Caption = '(landscape)'#1670#1575#1662'  '#1588#1605#1575#1585#1607' '#1605#1608#1602#1578' '#1576#1575' '#1575#1591#1604#1575#1593#1575#1578' '#1603#1605#1603#1610
+      Hint = 'Rpt_AccDetail_secondery_lan_Aid'
+      OnClick = N3Click
+    end
+    object N10: TMenuItem
+      Caption = '-'
+    end
+    object N8: TMenuItem
+      Caption = #1670#1575#1662' '#1575#1585#1586#1740'/'#1585#1740#1575#1604#1740
+      Hint = 'Rpt_AccDetail_AllCurrency'
+      OnClick = N3Click
+    end
+    object N9: TMenuItem
+      Caption = #1670#1575#1662' '#1575#1585#1586#1740
+      Hint = 'Rpt_AccDetail_Currency'
+      OnClick = N3Click
+    end
+  end
+  object popOther: TPopupMenu
+    Left = 224
+    Top = 333
+    object MenuItem3: TMenuItem
+      Caption = #1670#1575#1662' '#1608#1610#1688#1607
+      OnClick = MenuItem3Click
+    end
+    object MenuItem5: TMenuItem
+      Caption = #1576#1585#1608#1586' '#1585#1587#1575#1606#1610
+      OnClick = MenuItem5Click
+    end
+    object N4: TMenuItem
+      Caption = #1605#1588#1575#1607#1583#1607' '#1575#1587#1603#1606' '#1587#1606#1583
+      OnClick = N4Click
+    end
+    object N5: TMenuItem
+      Caption = #1605#1588#1575#1607#1583#1607' '#1575#1587#1603#1606' '#1579#1576#1578
+      OnClick = N5Click
+    end
+    object N6: TMenuItem
+      Action = actFilterForm
+    end
+    object N7: TMenuItem
+      Caption = #1578#1608#1590#1740#1581#1575#1578
+      OnClick = N7Click
+    end
+  end
+  object ADOQuery1: TADOQuery
+    Connection = DmF.adcAccounting
+    CursorType = ctStatic
+    LockType = ltReadOnly
+    AfterScroll = qry_AccCodeAfterScroll
+    Parameters = <
+      item
+        Name = 'SecondaryDocNoTo'
+        DataType = ftString
+        Size = 10
+        Value = '2147483647'
+      end
+      item
+        Name = 'PrimaryDocNoTo'
+        DataType = ftString
+        Size = 10
+        Value = '2147483647'
+      end
+      item
+        Name = 'DocDateTo'
+        DataType = ftString
+        Size = 10
+        Value = '9999/99/99'
+      end
+      item
+        Name = 'Status1'
+        DataType = ftInteger
+        Size = 2
+        Value = 0
+      end
+      item
+        Name = 'Status2'
+        DataType = ftInteger
+        Size = 2
+        Value = 0
+      end
+      item
+        Name = 'CompanyCodeFrom'
+        DataType = ftInteger
+        Size = 1
+        Value = 1
+      end
+      item
+        Name = 'CompanyCodeTO'
+        DataType = ftInteger
+        Size = 3
+        Value = 99
+      end
+      item
+        Name = 'TopicCodeFrom'
+        DataType = ftString
+        Size = 1
+        Value = '0'
+      end
+      item
+        Name = 'TopicCodeTo'
+        DataType = ftString
+        Size = 10
+        Value = '2147483647'
+      end
+      item
+        Name = 'DetailCodeFrom'
+        DataType = ftString
+        Size = 3
+        Value = '324'
+      end
+      item
+        Name = 'DetailCodeTo'
+        DataType = ftString
+        Size = 10
+        Value = '2147483647'
+      end>
+    SQL.Strings = (
+      
+        'SELECT   Acc.DocGroups.CompanyCode, Acc.Documents.TopicCode, Acc' +
+        '.Documents.DetailCode,'
+      
+        '         LTRIM(RTRIM(STR(Acc.Documents.DetailCode))) + '#39' - '#39' +RT' +
+        'RIM(LTRIM(STR(Acc.Documents.TopicCode)))  AS accCode,'
+      
+        '         Acc.Categories.MoeenName_L1 + '#39' - '#39' + Acc.Details.Detai' +
+        'lName_L1 AS AccName_L1,'
+      
+        '         Acc.Categories.MoeenName_L2 + '#39' - '#39' + Acc.Details.Detai' +
+        'lName_L2 AS AccName_L2,'
+      
+        '         Acc.Categories.AidInfoType,KindInsertBudgetCode, Acc.De' +
+        'tails.NationalID'
+      'FROM      Acc.Documents INNER JOIN'
+      
+        '                      Acc.DocGroups ON Acc.Documents.Serial = Ac' +
+        'c.DocGroups.Serial AND Acc.Documents.YearID = Acc.DocGroups.Year' +
+        'ID AND     '
+      
+        '                      Acc.Documents.CompanyCode = Acc.DocGroups.' +
+        'CompanyCode INNER JOIN'
+      
+        '          Acc.Details ON Acc.Documents.DetailCode = Acc. Details' +
+        '.DetailCode INNER JOIN'
+      
+        '          Acc.Categories ON Acc.Documents.TopicCode =  Acc.Categ' +
+        'ories.TopicCode'
+      'WHERE   (Acc.DocGroups.SecondaryDocNo <= :SecondaryDocNoTo ) AND'
+      '        (Acc.DocGroups.PrimaryDocNo <= :PrimaryDocNoTo) AND'
+      '        (Acc.DocGroups.DocDate <= :DocDateTo )and'
+      
+        '        (Acc.DocGroups.Status<>:Status1)  AND (Acc.DocGroups.Sta' +
+        'tus<>:Status2) AND'
+      
+        '        (Acc.DocGroups.CompanyCode Between :CompanyCodeFrom and ' +
+        ' :CompanyCodeTO )'
+      
+        'GROUP BY    Acc.DocGroups.CompanyCode,Acc.Documents.TopicCode, A' +
+        'cc.Documents.DetailCode,'
+      
+        '         Acc.Categories.MoeenName_L1, Acc.Details.DetailName_L1,' +
+        'Acc.Categories.AidInfoType ,'
+      
+        '         Acc.Categories.MoeenName_L2, Acc.Details.DetailName_L2,' +
+        'KindInsertBudgetCode,Acc.Details.NationalID'
+      
+        'HAVING  (Acc.Documents.TopicCode  BETWEEN :TopicCodeFrom  AND :T' +
+        'opicCodeTo )AND'
+      
+        '        (Acc.Documents.DetailCode  BETWEEN :DetailCodeFrom AND :' +
+        'DetailCodeTo )'
+      '')
+    Left = 116
+    Top = 192
+    object IntegerField1: TIntegerField
+      FieldName = 'CompanyCode'
+    end
+    object LargeintField1: TLargeintField
+      FieldName = 'TopicCode'
+    end
+    object IntegerField2: TIntegerField
+      FieldName = 'DetailCode'
+    end
+    object StringField1: TStringField
+      FieldName = 'accCode'
+      ReadOnly = True
+      OnGetText = qry_AccCodeaccCodeGetText
+      Size = 23
+    end
+    object StringField2: TStringField
+      FieldName = 'AccName_L1'
+      ReadOnly = True
+      Size = 253
+    end
+    object WordField1: TWordField
+      FieldName = 'AidInfoType'
+    end
+    object StringField3: TStringField
+      FieldName = 'AccName_L2'
+      ReadOnly = True
+      Size = 253
+    end
+    object IntegerField3: TIntegerField
+      FieldName = 'KindInsertBudgetCode'
+    end
+    object StringField4: TStringField
+      FieldName = 'NationalID'
+      Size = 12
+    end
+    object IntegerField4: TIntegerField
+      FieldName = 'DetailCompany'
+    end
+  end
+  object pmPopRelation: TPopupMenu
+    Left = 312
+    Top = 205
+    object mnu1: TMenuItem
+      Caption = #1575#1585#1578#1576#1575#1591' '#1576#1585' '#1575#1587#1575#1587' '#1588#1605#1575#1585#1607' '#1705#1605#1705#1740
+      OnClick = mnu1Click
+    end
+    object mnuN7: TMenuItem
+      Caption = #1575#1585#1578#1576#1575#1591' '#1576#1585' '#1575#1587#1575#1587' '#1605#1576#1575#1604#1594' '#1576#1583#1607#1705#1575#1585' '#1576#1587#1578#1575#1606#1705#1575#1585
+      OnClick = mnuN7Click
+    end
+  end
+  object ppReport1: TppReport
+    AutoStop = False
+    DataPipeline = ppDBPipeline2
+    PrinterSetup.BinName = 'Default'
+    PrinterSetup.DocumentName = 'Report'
+    PrinterSetup.PaperName = 'A4'
+    PrinterSetup.PrinterName = 'Default'
+    PrinterSetup.SaveDeviceSettings = False
+    PrinterSetup.mmMarginBottom = 6350
+    PrinterSetup.mmMarginLeft = 6350
+    PrinterSetup.mmMarginRight = 6350
+    PrinterSetup.mmMarginTop = 6350
+    PrinterSetup.mmPaperHeight = 297000
+    PrinterSetup.mmPaperWidth = 210000
+    PrinterSetup.PaperSize = 9
+    ArchiveFileName = '($MyDocuments)\ReportArchive.raf'
+    DeviceType = 'Screen'
+    DefaultFileDeviceType = 'PDF'
+    EmailSettings.ReportFormat = 'PDF'
+    EmailSettings.ConnectionSettings.MailService = 'SMTP'
+    EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
+    EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RedirectURI = 'http://localhost'
+    EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RedirectPort = 0
+    EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RefreshTokenLifeSpan = 365
+    EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
+    EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RedirectURI = 'http://localhost'
+    EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RedirectPort = 0
+    EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RefreshTokenLifeSpan = 365
+    EmailSettings.ConnectionSettings.EnableMultiPlugin = False
+    EmailSettings.ConnectionSettings.ConnectionStatusInfo = [csiStatusBar]
+    LanguageID = 'Default'
+    OpenFile = False
+    OutlineSettings.CreateNode = True
+    OutlineSettings.CreatePageNodes = True
+    OutlineSettings.Enabled = True
+    OutlineSettings.Visible = True
+    ThumbnailSettings.Enabled = True
+    ThumbnailSettings.Visible = True
+    ThumbnailSettings.DeadSpace = 30
+    ThumbnailSettings.PageHighlight.Width = 3
+    ThumbnailSettings.ThumbnailSize = tsSmall
+    PDFSettings.EmbedFontOptions = [efUseSubset]
+    PDFSettings.EncryptSettings.AllowCopy = True
+    PDFSettings.EncryptSettings.AllowInteract = True
+    PDFSettings.EncryptSettings.AllowModify = True
+    PDFSettings.EncryptSettings.AllowPrint = True
+    PDFSettings.EncryptSettings.AllowExtract = True
+    PDFSettings.EncryptSettings.AllowAssemble = True
+    PDFSettings.EncryptSettings.AllowQualityPrint = True
+    PDFSettings.EncryptSettings.Enabled = False
+    PDFSettings.EncryptSettings.KeyLength = kl40Bit
+    PDFSettings.EncryptSettings.EncryptionType = etRC4
+    PDFSettings.DigitalSignatureSettings.SignPDF = False
+    PDFSettings.FontEncoding = feAnsi
+    PDFSettings.ImageCompressionLevel = 25
+    PDFSettings.PDFAFormat = pafNone
+    PDFSettings.Layers = True
+    PDFSettings.Outline = True
+    PreviewFormSettings.PageBorder.mmPadding = 0
+    PreviewFormSettings.WindowState = wsMaximized
+    PreviewFormSettings.ZoomSetting = zs100Percent
+    RTFSettings.AppName = 'ReportBuilder'
+    RTFSettings.Author = 'ReportBuilder'
+    RTFSettings.DefaultFont.Charset = DEFAULT_CHARSET
+    RTFSettings.DefaultFont.Color = clWindowText
+    RTFSettings.DefaultFont.Height = -13
+    RTFSettings.DefaultFont.Name = 'Arial'
+    RTFSettings.DefaultFont.Style = []
+    RTFSettings.Title = 'Report'
+    TextFileName = '($MyDocuments)\Report.pdf'
+    TextSearchSettings.DefaultString = '<FindText>'
+    TextSearchSettings.Enabled = True
+    XLSSettings.AppName = 'ReportBuilder'
+    XLSSettings.Author = 'ReportBuilder'
+    XLSSettings.Subject = 'Report'
+    XLSSettings.Title = 'Report'
+    XLSSettings.WorksheetName = 'Report'
+    CloudDriveSettings.DropBoxSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
+    CloudDriveSettings.DropBoxSettings.OAuth2.RedirectURI = 'http://localhost'
+    CloudDriveSettings.DropBoxSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.DropBoxSettings.OAuth2.RefreshTokenLifeSpan = 365
+    CloudDriveSettings.DropBoxSettings.DirectorySupport = True
+    CloudDriveSettings.DropBoxSettings.SharedResources = True
+    CloudDriveSettings.GoogleDriveSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
+    CloudDriveSettings.GoogleDriveSettings.OAuth2.RedirectURI = 'http://localhost'
+    CloudDriveSettings.GoogleDriveSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.GoogleDriveSettings.OAuth2.RefreshTokenLifeSpan = 365
+    CloudDriveSettings.GoogleDriveSettings.DirectorySupport = False
+    CloudDriveSettings.GoogleDriveSettings.SharedResources = False
+    CloudDriveSettings.OneDriveSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
+    CloudDriveSettings.OneDriveSettings.OAuth2.RedirectURI = 'http://localhost'
+    CloudDriveSettings.OneDriveSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.OneDriveSettings.OAuth2.RefreshTokenLifeSpan = 365
+    CloudDriveSettings.OneDriveSettings.DirectorySupport = True
+    CloudDriveSettings.OneDriveSettings.SharedResources = True
+    Left = 288
+    Top = 287
+    Version = '23.0'
+    mmColumnWidth = 0
+    DataPipelineName = 'ppDBPipeline2'
+    object ppHeaderBand1: TppHeaderBand
+      Border.mmPadding = 0
+      mmBottomOffset = 0
+      mmHeight = 13229
+      mmPrintPosition = 0
+    end
+    object ppDetailBand1: TppDetailBand
+      Border.mmPadding = 0
+      mmBottomOffset = 0
+      mmHeight = 13229
+      mmPrintPosition = 0
+    end
+    object ppFooterBand1: TppFooterBand
+      Border.mmPadding = 0
+      mmBottomOffset = 0
+      mmHeight = 13229
+      mmPrintPosition = 0
+    end
+    object ppDesignLayers3: TppDesignLayers
+      object ppDesignLayer3: TppDesignLayer
+        UserName = 'Foreground2'
+        LayerType = ltBanded
+        Index = 0
+      end
+    end
+    object ppParameterList2: TppParameterList
+    end
+  end
+end

@@ -1,0 +1,6 @@
+Tiket BITMAP "tiket.bmp"
+TiketNot BITMAP "tiketNot.bmp"
+Attachments BITMAP "down.bmp"
+LockIsSet BITMAP "LockIsSet.bmp"
+NetOn BITMAP "recall.bmp"
+flasher BITMAP "recall - Copy.bmp"

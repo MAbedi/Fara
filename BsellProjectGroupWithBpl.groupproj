@@ -1,0 +1,48 @@
+﻿<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <PropertyGroup>
+        <ProjectGuid>{4A9EBD1D-9805-4647-A977-FAB5CAB41F3F}</ProjectGuid>
+    </PropertyGroup>
+    <ItemGroup>
+        <Projects Include="BSell.dproj">
+            <Dependencies/>
+        </Projects>
+        <Projects Include="..\..\ToolsXE8\SumGrid\SumGrid.dproj">
+            <Dependencies/>
+        </Projects>
+    </ItemGroup>
+    <ProjectExtensions>
+        <Borland.Personality>Default.Personality.12</Borland.Personality>
+        <Borland.ProjectType/>
+        <BorlandProject>
+            <Default.Personality/>
+        </BorlandProject>
+    </ProjectExtensions>
+    <Target Name="BSell">
+        <MSBuild Projects="BSell.dproj"/>
+    </Target>
+    <Target Name="BSell:Clean">
+        <MSBuild Projects="BSell.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="BSell:Make">
+        <MSBuild Projects="BSell.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="SumGrid">
+        <MSBuild Projects="..\..\ToolsXE8\SumGrid\SumGrid.dproj"/>
+    </Target>
+    <Target Name="SumGrid:Clean">
+        <MSBuild Projects="..\..\ToolsXE8\SumGrid\SumGrid.dproj" Targets="Clean"/>
+    </Target>
+    <Target Name="SumGrid:Make">
+        <MSBuild Projects="..\..\ToolsXE8\SumGrid\SumGrid.dproj" Targets="Make"/>
+    </Target>
+    <Target Name="Build">
+        <CallTarget Targets="BSell;SumGrid"/>
+    </Target>
+    <Target Name="Clean">
+        <CallTarget Targets="BSell:Clean;SumGrid:Clean"/>
+    </Target>
+    <Target Name="Make">
+        <CallTarget Targets="BSell:Make;SumGrid:Make"/>
+    </Target>
+    <Import Project="$(BDS)\Bin\CodeGear.Group.Targets" Condition="Exists('$(BDS)\Bin\CodeGear.Group.Targets')"/>
+</Project>

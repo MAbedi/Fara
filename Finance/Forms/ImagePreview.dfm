@@ -1,0 +1,33 @@
+object ImagePreviewF: TImagePreviewF
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  BorderStyle = bsSingle
+  Caption = 'ImagePreview'
+  ClientHeight = 473
+  ClientWidth = 570
+  Color = clBtnFace
+  DefaultMonitor = dmDesktop
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -11
+  Font.Name = 'Tahoma'
+  Font.Style = []
+  OldCreateOrder = False
+  Position = poDesktopCenter
+  WindowState = wsMaximized
+  PixelsPerInch = 96
+  TextHeight = 13
+  object Image2: TImage
+    Left = 0
+    Top = 0
+    Width = 570
+    Height = 473
+    Align = alClient
+    AutoSize = True
+    Center = True
+    ExplicitTop = 81
+    ExplicitWidth = 32
+    ExplicitHeight = 32
+  end
+end

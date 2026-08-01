@@ -1,0 +1,902 @@
+unit SalaryList4Office25;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
+  Dialogs, template2MDI, DB, ADODB, ImgList, DBActns, ActnList, StdCtrls,
+  ExtCtrls, Buttons, Grids, Vcl.DBGrids, ppModule, ppCtrls, ppBands,
+  Filter_ADO_Const, FaraConsts,
+  ppVar, ppPrnabl, ppClass, ppCache, ppDB, ppProd, ppReport, ppComm,
+  ppRelatv, ppDBPipe, DBCtrls, ComCtrls, ToolWin, Menus, ppStrtch,
+  ppRegion, SumDBGrid, ppParameter, ppDesignLayer, System.ImageList,
+  System.Actions, DBGridEhGrouping, ToolCtrlsEh, DBGridEhToolCtrls, DynVarsEh,
+  EhLibVCL, GridsEh, DBAxisGridsEh, DBGridEh, CedarDbGrid;
+
+type
+  TSalaryList4Office25F = class(Ttemplate2MDIF)
+    qrysalary: TADOQuery;
+    srcSalary: TDataSource;
+    Button1: TButton;
+    qrysalaryPersonelNO: TIntegerField;
+    qrysalaryOfficeName: TStringField;
+    qrysalaryPersonName: TStringField;
+    qrysalaryWage1: TBCDField;
+    qrysalaryWage2: TBCDField;
+    qrysalaryWage3: TBCDField;
+    qrysalaryWage4: TBCDField;
+    qrysalaryWage5: TBCDField;
+    qrysalaryWage6: TBCDField;
+    qrysalarySumWage: TBCDField;
+    qrysalaryContainInsourance: TBCDField;
+    qrysalaryContainTax: TBCDField;
+    qrysalaryTaxValue: TBCDField;
+    qryWage: TADOQuery;
+    qrysalaryWage7: TBCDField;
+    qrysalaryWage8: TBCDField;
+    qrysalaryWage9: TBCDField;
+    qrysalaryWage10: TBCDField;
+    qrysalaryWage11: TBCDField;
+    qrysalaryWage12: TBCDField;
+    qrysalaryWage13: TBCDField;
+    qrysalaryWage14: TBCDField;
+    qrysalaryDec1: TBCDField;
+    qrysalaryDec2: TBCDField;
+    qrysalaryDec3: TBCDField;
+    qrysalaryDec4: TBCDField;
+    qrysalaryDec5: TBCDField;
+    qrysalaryDec6: TBCDField;
+    qrysalaryDec7: TBCDField;
+    qrysalaryDec8: TBCDField;
+    qrysalaryDec9: TBCDField;
+    qrysalaryDec10: TBCDField;
+    qrysalarySumDec: TBCDField;
+    qrysalaryPayableSalary: TBCDField;
+    qryDec: TADOQuery;
+    ppDBPipeline1: TppDBPipeline;
+    ppReport1: TppReport;
+    actPrint: TAction;
+    actSendtoExcel: TAction;
+    actSort: TAction;
+    DBNavigator2: TDBNavigator;
+    BitBtn4: TBitBtn;
+    BitBtn5: TBitBtn;
+    BitBtn6: TBitBtn;
+    BitBtn7: TBitBtn;
+    actFilter: TAction;
+    ToolBar1: TToolBar;
+    ToolButton1: TToolButton;
+    ToolButton2: TToolButton;
+    ToolButton3: TToolButton;
+    ToolButton4: TToolButton;
+    ToolButton5: TToolButton;
+    ToolButton6: TToolButton;
+    ToolButton7: TToolButton;
+    ToolButton8: TToolButton;
+    ToolButton9: TToolButton;
+    ToolButton10: TToolButton;
+    ToolButton11: TToolButton;
+    ToolButton12: TToolButton;
+    PopList4Print: TPopupMenu;
+    SalaryList_office25: TMenuItem;
+    SalaryList25: TMenuItem;
+    qrysalaryInfoID: TIntegerField;
+    ppDBPipeline2: TppDBPipeline;
+    Button2: TButton;
+    Button3: TButton;
+    actFunctionShow: TAction;
+    actFish: TAction;
+    qrysalarysum23Dec: TBCDField;
+    actPrintVijeh: TAction;
+    BitBtn1: TBitBtn;
+    CmbArchiveID: TComboBox;
+    qrysalaryFunctionTime: TFloatField;
+    AllClick: TMenuItem;
+    SalaryList4OfficeF25_1Row: TMenuItem;
+    ppHeaderBand1: TppHeaderBand;
+    ppShape2: TppShape;
+    ppLabel21: TppLabel;
+    ppLabel22: TppLabel;
+    pplblNighty: TppLabel;
+    w1: TppLabel;
+    w2: TppLabel;
+    w4: TppLabel;
+    w3: TppLabel;
+    w11: TppLabel;
+    w10: TppLabel;
+    w9: TppLabel;
+    w8: TppLabel;
+    ppLabel43: TppLabel;
+    ppLine14: TppLine;
+    ppLine15: TppLine;
+    ppLine16: TppLine;
+    ppLine18: TppLine;
+    ppLine19: TppLine;
+    ppLine20: TppLine;
+    ppLine21: TppLine;
+    ppLine22: TppLine;
+    ppLine23: TppLine;
+    ppSystemVariable1: TppSystemVariable;
+    ppLabel45: TppLabel;
+    ppLabel46: TppLabel;
+    w5: TppLabel;
+    w12: TppLabel;
+    w6: TppLabel;
+    w7: TppLabel;
+    w13: TppLabel;
+    ppLine34: TppLine;
+    ppLine35: TppLine;
+    ppLine36: TppLine;
+    ppLine37: TppLine;
+    ppLine33: TppLine;
+    ppLine38: TppLine;
+    ppLabel29: TppLabel;
+    ppLabel30: TppLabel;
+    ppLabel34: TppLabel;
+    ppLabel33: TppLabel;
+    ppLabel35: TppLabel;
+    d1: TppLabel;
+    d6: TppLabel;
+    d2: TppLabel;
+    d7: TppLabel;
+    d8: TppLabel;
+    d3: TppLabel;
+    d4: TppLabel;
+    d9: TppLabel;
+    d5: TppLabel;
+    d10: TppLabel;
+    ppLine1: TppLine;
+    ppLine2: TppLine;
+    ppLabel1: TppLabel;
+    ppLine3: TppLine;
+    ppLabel2: TppLabel;
+    ppLabel3: TppLabel;
+    ppLabel4: TppLabel;
+    ppLine39: TppLine;
+    ppLabel8: TppLabel;
+    ppDetailBand2: TppDetailBand;
+    ppLine45: TppLine;
+    dw1: TppDBText;
+    dw2: TppDBText;
+    dw4: TppDBText;
+    dw3: TppDBText;
+    dw7: TppDBText;
+    dw6: TppDBText;
+    dw5: TppDBText;
+    dw8: TppDBText;
+    dw9: TppDBText;
+    dw11: TppDBText;
+    dw10: TppDBText;
+    dw14: TppDBText;
+    dw13: TppDBText;
+    dw12: TppDBText;
+    ppLine4: TppLine;
+    ppLine5: TppLine;
+    ppLine6: TppLine;
+    ppLine7: TppLine;
+    ppLine8: TppLine;
+    ppLine9: TppLine;
+    ppLine10: TppLine;
+    ppLine11: TppLine;
+    ppLine12: TppLine;
+    ppLine13: TppLine;
+    ppDBText1: TppDBText;
+    ppDBText2: TppDBText;
+    ppLine17: TppLine;
+    ppLine24: TppLine;
+    ppDBText4: TppDBText;
+    ppDBText5: TppDBText;
+    ppDBText7: TppDBText;
+    ppDBText8: TppDBText;
+    ppLine25: TppLine;
+    dd1: TppDBText;
+    dd6: TppDBText;
+    ppLine26: TppLine;
+    dd2: TppDBText;
+    dd4: TppDBText;
+    dd3: TppDBText;
+    dd7: TppDBText;
+    dd10: TppDBText;
+    dd9: TppDBText;
+    dd8: TppDBText;
+    ppLine27: TppLine;
+    ppLine28: TppLine;
+    ppLine29: TppLine;
+    ppLine30: TppLine;
+    dd5: TppDBText;
+    ppLine31: TppLine;
+    ppLine32: TppLine;
+    ppDBText9: TppDBText;
+    ppDBText3: TppDBText;
+    ppDBText6: TppDBText;
+    ppDBText10: TppDBText;
+    ppDBText11: TppDBText;
+    ppFooterBand1: TppFooterBand;
+    ppShape3: TppShape;
+    ppLabel6: TppLabel;
+    ppLine40: TppLine;
+    ppLine41: TppLine;
+    ppLine63: TppLine;
+    ppLine64: TppLine;
+    ppLine65: TppLine;
+    ppLine66: TppLine;
+    ppLine67: TppLine;
+    ppLine68: TppLine;
+    ppLine69: TppLine;
+    ppLine70: TppLine;
+    ppLine71: TppLine;
+    ppLine72: TppLine;
+    ppLine73: TppLine;
+    ppLine74: TppLine;
+    ppDBCalc7: TppDBCalc;
+    ppDBCalc8: TppDBCalc;
+    ppDBCalc9: TppDBCalc;
+    ppDBCalc10: TppDBCalc;
+    ppDBCalc11: TppDBCalc;
+    ppDBCalc12: TppDBCalc;
+    ppDBCalc13: TppDBCalc;
+    ppDBCalc14: TppDBCalc;
+    ppDBCalc15: TppDBCalc;
+    ppDBCalc16: TppDBCalc;
+    ppDBCalc17: TppDBCalc;
+    ppDBCalc18: TppDBCalc;
+    ppDBCalc19: TppDBCalc;
+    ppDBCalc20: TppDBCalc;
+    ppDBCalc21: TppDBCalc;
+    ppDBCalc22: TppDBCalc;
+    ppDBCalc23: TppDBCalc;
+    ppDBCalc24: TppDBCalc;
+    ppDBCalc25: TppDBCalc;
+    ppDBCalc26: TppDBCalc;
+    ppDBCalc27: TppDBCalc;
+    ppDBCalc28: TppDBCalc;
+    ppDBCalc29: TppDBCalc;
+    ppDBCalc30: TppDBCalc;
+    ppDBCalc31: TppDBCalc;
+    ppDBCalc32: TppDBCalc;
+    ppDBCalc33: TppDBCalc;
+    ppLabel7: TppLabel;
+    ppDBCalc34: TppDBCalc;
+    ppDBCalc35: TppDBCalc;
+    ppDBCalc36: TppDBCalc;
+    ppLine75: TppLine;
+    ppDBCalc37: TppDBCalc;
+    ppDBCalc38: TppDBCalc;
+    ppLine76: TppLine;
+    ppLine77: TppLine;
+    ppRegion1: TppRegion;
+    ppRecFooterLine: TppLine;
+    ppSummaryBand1: TppSummaryBand;
+    ppShape1: TppShape;
+    ppLabel49: TppLabel;
+    ppLine42: TppLine;
+    ppLine43: TppLine;
+    ppLine44: TppLine;
+    ppLine46: TppLine;
+    ppLine47: TppLine;
+    ppLine48: TppLine;
+    ppLine49: TppLine;
+    ppLine53: TppLine;
+    ppLine54: TppLine;
+    ppLine55: TppLine;
+    ppLine56: TppLine;
+    ppLine57: TppLine;
+    ppLine58: TppLine;
+    ppLine59: TppLine;
+    ppLine60: TppLine;
+    ppLine61: TppLine;
+    ppLine62: TppLine;
+    ppDBCalc1: TppDBCalc;
+    ppDBCalc2: TppDBCalc;
+    sw_col1: TppDBCalc;
+    sw_col2: TppDBCalc;
+    sw_col9: TppDBCalc;
+    sw_col8: TppDBCalc;
+    sw_col12: TppDBCalc;
+    sw_col11: TppDBCalc;
+    sw_col10: TppDBCalc;
+    sw_col5: TppDBCalc;
+    sw_col4: TppDBCalc;
+    sw_col3: TppDBCalc;
+    sd_col2: TppDBCalc;
+    sd_col1: TppDBCalc;
+    sd_col7: TppDBCalc;
+    sd_col6: TppDBCalc;
+    _TaxInvolved: TppDBCalc;
+    sw_col7: TppDBCalc;
+    sw_col6: TppDBCalc;
+    _InsInvolved: TppDBCalc;
+    sw_col14: TppDBCalc;
+    sw_col13: TppDBCalc;
+    sd_col4: TppDBCalc;
+    sd_col9: TppDBCalc;
+    sd_col3: TppDBCalc;
+    sd_col8: TppDBCalc;
+    sd_col5: TppDBCalc;
+    sd_col10: TppDBCalc;
+    ppDBCalc5: TppDBCalc;
+    ppDBCalc4: TppDBCalc;
+    ppDBCalc6: TppDBCalc;
+    ppDBCalc3: TppDBCalc;
+    ppLabel5: TppLabel;
+    ppRegion2: TppRegion;
+    ppRecFooterLine2: TppLine;
+    ppDBCalc39: TppDBCalc;
+    qrysalaryfatherName_L1: TStringField;
+    qrysalaryWage15: TBCDField;
+    qrysalaryWage16: TBCDField;
+    qrysalaryWage17: TBCDField;
+    qrysalaryWage18: TBCDField;
+    qrysalaryWage19: TBCDField;
+    qrysalaryWage20: TBCDField;
+    qrysalaryWage21: TBCDField;
+    qrysalaryWage22: TBCDField;
+    qrysalaryWage23: TBCDField;
+    qrysalaryWage24: TBCDField;
+    qrysalaryWage25: TBCDField;
+    qrysalaryDec12: TBCDField;
+    qrysalaryDec13: TBCDField;
+    qrysalaryDec14: TBCDField;
+    qrysalaryDec15: TBCDField;
+    qrysalaryDec16: TBCDField;
+    qrysalaryDec17: TBCDField;
+    qrysalaryDec18: TBCDField;
+    qrysalaryDec19: TBCDField;
+    qrysalaryDec20: TBCDField;
+    qrysalaryDec11: TBCDField;
+    qrysalaryStateName: TStringField;
+    qrysalaryDec21: TBCDField;
+    qrysalaryDec22: TBCDField;
+    qrysalaryDec23: TBCDField;
+    qrysalaryDec24: TBCDField;
+    qrysalary_Row: TIntegerField;
+    qrysalaryFunctionDay: TFloatField;
+    actSMS: TAction;
+    qrysalaryMobile: TStringField;
+    qrysalaryName: TStringField;
+    qrysalaryLastName: TStringField;
+    SalaryList_office25_2A4: TMenuItem;
+    qrysalarysum7Dec: TBCDField;
+    qrysalaryWageDay: TBCDField;
+    DBGrid1: TCedarDbgrid;
+    procedure FormCreate(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure ppLabel45GetText(Sender: TObject; var Text: String);
+    procedure actSortExecute(Sender: TObject);
+    procedure actSendtoExcelExecute(Sender: TObject);
+    procedure actPrintExecute(Sender: TObject);
+    procedure actSearch_Execute(Sender: TObject);
+    procedure ppLabel46GetText(Sender: TObject; var Text: String);
+    procedure ppSystemVariable1GetText(Sender: TObject; var Text: String);
+    procedure actFilterExecute(Sender: TObject);
+    procedure ToolButton1Click(Sender: TObject);
+    procedure ppLabel34GetText(Sender: TObject; var Text: String);
+    procedure actFunctionShowExecute(Sender: TObject);
+    procedure actFishExecute(Sender: TObject);
+    procedure actPrintVijehExecute(Sender: TObject);
+    procedure CmbArchiveIDChange(Sender: TObject);
+    procedure AllClickClick(Sender: TObject);
+    procedure AllW_GetText(Sender: TObject; var Text: String);
+    procedure AllD_GetText(Sender: TObject; var Text: String);
+    procedure qrysalaryCalcFields(DataSet: TDataSet);
+    procedure actSMSExecute(Sender: TObject);
+  private
+    FunItems, FunItems4Sum: string;
+    MonthNo: Byte;
+    // capDec:array [0..19]of string;
+    // capWage:array [0..24]of string;
+    qryWageSQL, qryDecSQL: String;
+    procedure MakeSql;
+    procedure Updatefilter;
+    procedure InitReportFile(GeneralFileName: string);
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  SalaryList4Office25F: TSalaryList4Office25F;
+
+implementation
+
+uses DM, GlobalPro, sort2, search2, filter_ADO, FilterClass_ADO, StrUtils,
+  mdimain, FunctionItems, ListSalary, DBGrid2Print, SalaryFunctions, infoSMS;
+
+{$R *.dfm}
+
+procedure TSalaryList4Office25F.MakeSql;
+var
+  W: Integer;
+  sqltxt, bozorgtar: string;
+begin
+  inherited;
+  // ----make qrysalary sql-----------------------------------
+  with qryWage do
+  begin
+    Active := False;
+    SQL.Text := StringReplace(qryWageSQL, ':OfficeCodeFromTo',
+      'AND (FormsInfoOffice.InfoID in(' +
+      GetcFrom(myParams.ParamValues['InfoID'], ftString) + '))',
+      [rfReplaceAll]);
+    Parameters.ParamByName('Mounth').Value := MonthNo;
+    Parameters.ParamByName('YearID').Value := APPBank.Year;
+    Parameters.ParamByName('ArchiveID').Value :=
+      Integer(CmbArchiveID.Items.Objects[CmbArchiveID.ItemIndex]);
+
+    Parameters.ParamByName('LabelIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['LabelID'], ftInteger);
+    Parameters.ParamByName('LabelIDTo').Value :=
+      GetcTo(myParams.ParamValues['LabelID'], ftInteger);
+
+    Parameters.ParamByName('PersonelStateFrom').Value :=
+      GetcFrom(myParams.ParamValues['PersonelState'], ftInteger);
+    Parameters.ParamByName('PersonelStateTo').Value :=
+      GetcTo(myParams.ParamValues['PersonelState'], ftInteger);
+    Parameters.ParamByName('EmployTypeIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('EmployTypeIDTo').Value :=
+      GetcTo(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('FromPersonelNo').Value :=
+      GetcFrom(myParams.ParamValues['PersonelNo'], ftInteger);
+    Parameters.ParamByName('ToPersonelNo').Value :=
+      GetcTo(myParams.ParamValues['PersonelNo'], ftInteger);
+    Active := True;
+    W := 1;
+    sqltxt := 'SELECT FormsInfoOffice.InfoID,FormsInfoOffice.InfoName_L1 AS OfficeName,'
+      + 'FormsInfoPersonelState.InfoName_L1 AS StateName,FixedCalculated.PersonelNO,PersonelInfo.Mobile,'
+      + 'PersonelInfo.name_L1 + '' '' + PersonelInfo.lastName_L1 AS PersonName ,PersonelInfo.name_L1 as Name ,PersonelInfo.lastName_L1 as LastName , '
+      + 'PersonelInfo.fatherName_L1 ' +
+      ',min(Functions_Sum.FunctionDay) as FunctionDay , min(Functions_Sum.FunctionTime) as FunctionTime ';
+    while W < 25 do
+    begin // W <15
+      if not Eof then
+      begin
+        sqltxt := sqltxt + // <=
+          Format(', sum( case when (salaryid = %d AND IsNull(MounthRetard,0)= %d )'
+          + 'AND(ShowlistKind = 1)  then price else 0 end ) as Wage%d',
+          [Fieldbyname('FormInfoID').AsInteger, Fieldbyname('MounthRetard')
+          .AsInteger, W]);
+        Next;
+      end
+      else
+        sqltxt := sqltxt +
+          ',sum(case salaryid when -1  then price else 0 end ) as Wage' +
+          IntToStr(W);
+      W := W + 1;
+    end; // while
+    bozorgtar := '>=';
+    if qryWage.RecordCount < 25 then
+      bozorgtar := '>';
+    sqltxt := sqltxt + ',sum( case  when salaryid ' +
+      IfThen(Fieldbyname('FormInfoID').AsInteger > 1,
+      bozorgtar + Fieldbyname('FormInfoID').AsString, '<-1 ') +
+      ' then case ShowlistKind when 1 then price else 0 end  else 0 end ) as Wage25 , '
+      +
+
+      ' Sum(case ShowlistKind when 1 then price else 0 end ) as SumWage , ' +
+
+      ' sum(case when(ShowlistKind in(2,4,15,14) and bedbes=1 ) then price else 0 end ) as sum23Dec, '
+      + 'sum(case when ((CalCulateKind=10) and (ShowlistKind =2)) then price else 0 end ) as sum7Dec, '
+      +
+    // ' sum(case ShowlistKind when 3  then price else 0 end ) as ContainInsourance , '
+      ' CASE WHEN sum(case when ((CalCulateKind=10) and (ShowlistKind =2)) then price else 0 end )<>0 '
+      + ' THEN sum( case ShowlistKind when 3  then price else 0 end ) ELSE 0 END as ContainInsourance , '
+
+      + ' sum(case when (ShowlistKind=11 and bedbes=0 AND CalCulateKind = 12 ) then price else 0 end ) as ContainTax, '
+      + ' sum(case when (ShowlistKind=11 and bedbes=2 ) then price else 0 end ) as TaxValue ';
+  end; // with
+  with qryDec do
+  begin
+    Active := False;
+    SQL.Text := StringReplace(qryDecSQL, ':OfficeCodeFromTo',
+      'AND (FormsInfoOffice.InfoID in(' +
+      GetcFrom(myParams.ParamValues['InfoID'], ftString) + '))',
+      [rfReplaceAll]);
+    Parameters.ParamByName('Mounth').Value := MonthNo;
+    Parameters.ParamByName('YearID').Value := APPBank.Year;
+    Parameters.ParamByName('ArchiveID').Value :=
+      Integer(CmbArchiveID.Items.Objects[CmbArchiveID.ItemIndex]);
+
+    Parameters.ParamByName('LabelIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['LabelID'], ftInteger);
+    Parameters.ParamByName('LabelIDTo').Value :=
+      GetcTo(myParams.ParamValues['LabelID'], ftInteger);
+
+    Parameters.ParamByName('PersonelStateFrom').Value :=
+      GetcFrom(myParams.ParamValues['PersonelState']);
+    Parameters.ParamByName('PersonelStateTo').Value :=
+      GetcTo(myParams.ParamValues['PersonelState']);
+    Parameters.ParamByName('EmployTypeIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('EmployTypeIDTo').Value :=
+      GetcTo(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('FromPersonelNo').Value :=
+      GetcFrom(myParams.ParamValues['PersonelNo'], ftInteger);
+    Parameters.ParamByName('ToPersonelNo').Value :=
+      GetcTo(myParams.ParamValues['PersonelNo'], ftInteger);
+    Active := True;
+    W := 1;
+    while W < 24 do
+    begin
+      if not Eof then
+      begin
+        sqltxt := sqltxt + ',sum(case when salaryid=' +
+          IfThen(Fieldbyname('FormInfoID').IsNull, '-1',
+          Fieldbyname('FormInfoID').AsString) +
+          ' and ShowlistKind=2 then price else 0 end )as dec' + IntToStr(W);
+        Next;
+      end
+      else
+        sqltxt := sqltxt +
+          ',sum(case salaryid when -1 then price else 0 end)as dec' +
+          IntToStr(W);
+      W := W + 1;
+    end; // while
+    sqltxt := sqltxt + ',sum( case  when salaryid ' +
+      IfThen(Fieldbyname('FormInfoID').AsInteger > 1,
+      '>' + Fieldbyname('FormInfoID').AsString, '<-1 ') +
+      ' then case ShowlistKind when 2 then price else 0 end	 else 0 end ) as Dec24 ,'
+      + ' sum( case ShowlistKind when 2  then price else 0 end ) +' +
+      ' Sum( case  when ShowlistKind=11 and bedbes = 2 then price else 0 end ) as SumDec ,'
+      + ' Sum(case ShowlistKind when 1 then price else 0 end )-(sum( case ShowlistKind when 2  then price else 0 end ) +Sum( case  when ShowlistKind=11 and bedbes = 2 then price else 0 end ))  as PayableSalary';
+  end; // with
+
+  with qrysalary do
+  begin
+    Active := False;
+    SQL.Text := sqltxt + FunItems;
+    SQL.Add(', v_InterdictItemSumSalary.AmountIN30 AS WageDay ');
+    SQL.Add('FROM Pay.FixedCalculated LEFT OUTER JOIN Pay.Interdicts ');
+    SQL.Add('LEFT OUTER JOIN Pay.FormsInfo AS FormsInfoEmployTypeID ON Pay.Interdicts.EmployTypeID = FormsInfoEmployTypeID.FormInfoID ON');
+    SQL.Add('FixedCalculated.PersonelNO = Interdicts.PersonelNo LEFT OUTER JOIN Pay.Functions_Sum INNER JOIN');
+    SQL.Add('Pay.PersonelInfo ON Functions_Sum.PersonelNo = PersonelInfo.PersonelNo ');
+    SQL.Add('LEFT OUTER JOIN Pay.FormsInfo AS FormsInfoPersonelState ON PersonelInfo.PersonelState = FormsInfoPersonelState.FormInfoID ON');
+    SQL.Add('FixedCalculated.Mounth = Functions_Sum.Mounth AND FixedCalculated.PersonelNO = PersonelInfo.PersonelNo ');
+    SQL.Add('AND FixedCalculated.YearID = Functions_Sum.YearID ');
+    SQL.Add('LEFT OUTER JOIN Pay.FormsInfo AS FormsInfo_2 ON FixedCalculated.SalaryID = FormsInfo_2.FormInfoID');
+    SQL.Add('LEFT OUTER JOIN Pay.FormsInfo AS FormsInfoOffice ON Pay.Interdicts.OfficeCode = FormsInfoOffice.FormInfoID and Interdicts.PersonelNo = FixedCalculated.PersonelNO');
+    SQL.Add('LEFT OUTER JOIN Pay.FormsInfo AS FormsInfo_Project ON Pay.Interdicts.ProjectID = FormsInfo_Project.FormInfoID');
+
+    SQL.Add(' LEFT OUTER JOIN ');
+    SQL.Add('(SELECT PersonelNo,YearID %s From Pay.FunctionItemsList() ');
+    SQL.Add('WHERE (Mounth BETWEEN :Mounth1From AND :Mounth1To) ');
+    SQL.Add('AND(YearID = '+APPBank.Year.ToString+')');
+    SQL.Add('Group By PersonelNo,YearID)');
+    SQL.Add(' AS FunctionItemsList_1 ON FixedCalculated.PersonelNO = FunctionItemsList_1.PersonelNo ');
+    SQL.Add(' AND FixedCalculated.YearID = FunctionItemsList_1.YearID ');
+
+    SQL.Add('INNER JOIN Pay.v_InterdictItemSumSalary ON  v_InterdictItemSumSalary.InterdictID = Interdicts.InterdictID');
+
+    SQL.Add('WHERE  (FixedCalculated.ArchiveID = :ArchiveID) AND(FixedCalculated.Mounth = :mounth) ');
+    SQL.Add('AND(FixedCalculated.YearID = :YearID)');
+    Parameters.ParamByName('YearID').Value := APPBank.Year;
+
+    if (CompanyFilterinLogin) and (not User.PowerAdmin) then
+    begin
+      SQL.Add('AND(FixedCalculated.subcompanyCode BETWEEN :companyCodeFrom AND :companyCodeTo )');
+      Parameters.ParamByName('companyCodeFrom').Value := FcompanyCodeLogin;
+      Parameters.ParamByName('companyCodeTo').Value := FcompanyCodeLogin;
+    end;
+    SQL.Add(' AND (FixedCalculated.LabelID BETWEEN :LabelIDFrom ANd :LabelIDTo)');
+    SQL.Add('AND (FormsInfoPersonelState.InfoID BETWEEN :PersonelStateFrom AND :PersonelStateTo )');
+    SQL.Add('AND (FormsInfoEmployTypeID.InfoID  BETWEEN :EmployTypeIDFrom AND :EmployTypeIDTo )');
+    SQL.Add('AND (InterdicType = 0 ) ');
+    GetYearMounth(MonthNo);
+    SQL.Add('AND (LEFT(Interdicts.InterdicStartDate, 7) <=''' + optP.YearMounth
+      + ''' )AND (LEFT(Interdicts.InterdicEndDate, 7) >=''' +
+      optP.YearMounth + ''')');
+    SQL.Add('AND (FormsInfoOffice.InfoID in(' +
+      GetcFrom(myParams.ParamValues['InfoID'], ftString) + '))');
+    SQL.Add('AND (FixedCalculated.PersonelNO BETWEEN :FromPersonelNo AND :ToPersonelNo) ');
+    SQL.Add('AND (Functions_Sum.Mounth = :Mounth4Fun) ');
+    SQL.Add('AND (Functions_Sum.YearID = ' + APPBank.Year.ToString + ')');
+
+    SQL.Add('AND (FormsInfo_Project.InfoID  BETWEEN :ProjectIDFrom  AND :ProjectIDTo )');
+
+    SQL.Add(' GROUP BY FormsInfoOffice.InfoID, FixedCalculated.PersonelNO,PersonelInfo.Mobile, FormsInfoOffice.InfoName_L1,PersonelInfo.name_L1 + '' '' + PersonelInfo.lastName_L1,PersonelInfo.fatherName_L1 ');
+    SQL.Add(',Functions_Sum.Mounth,FormsInfoPersonelState.InfoName_L1,PersonelInfo.name_L1 ,PersonelInfo.lastName_L1   ');
+
+    SQL.Add(FunItems);
+    SQL.Add(', v_InterdictItemSumSalary.AmountIN30 ');
+
+    SQL.Text := Format(SQL.Text, [FunItems4Sum]);
+  end; // with
+end;
+
+procedure TSalaryList4Office25F.FormCreate(Sender: TObject);
+begin
+  inherited;
+  MonthNo := var_glb_CurrentMonth;
+  if MonthNo < 1 then
+    MonthNo := 1;
+  InitCmbArchiveID(CmbArchiveID, MonthNo);
+  qryWageSQL := qryWage.SQL.Text;
+  qryDecSQL := qryDec.SQL.Text;
+  GetFunctionsItems(FunItems, FunItems4Sum, qrysalary, DBGrid1);
+
+end;
+
+procedure TSalaryList4Office25F.FormShow(Sender: TObject);
+var
+  i: Integer;
+begin
+  inherited;
+  ToolBar1.Buttons[MonthNo - 1].Down := True;
+  myParams.Clear;
+  if actFilter.Execute then
+    if myParams.FindParam('PersonelNo') = nil then
+      Close;
+  for i := 0 to DBGrid1.Columns.Count - 1 do
+  begin
+    DBGrid1.Columns[i].Visible :=
+      not((Pos('wage', LowerCase(DBGrid1.Columns[i].Title.Caption)) <> 0) or
+      (Pos('dec', LowerCase(DBGrid1.Columns[i].Title.Caption)) <> 0));
+  end;
+end;
+
+procedure TSalaryList4Office25F.ppLabel45GetText(Sender: TObject;
+  var Text: String);
+begin
+  inherited;
+  Text := APPBank.CompanyName
+end;
+
+procedure TSalaryList4Office25F.actSortExecute(Sender: TObject);
+begin
+  inherited;
+  sort2F.ShowSort(qrysalary);
+end;
+
+procedure TSalaryList4Office25F.actSendtoExcelExecute(Sender: TObject);
+begin
+  inherited;
+  SendToExcel(DBGrid1);
+end;
+
+procedure TSalaryList4Office25F.actSMSExecute(Sender: TObject);
+begin
+  inherited;
+  InfoSMSF.ShowSMS(qrysalary, 'Mobile')
+end;
+
+procedure TSalaryList4Office25F.actPrintExecute(Sender: TObject);
+begin
+  inherited;
+  try
+    qrysalary.DisableControls;
+    PopList4Print.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+  finally
+    qrysalary.EnableControls;
+  end;
+end;
+
+procedure TSalaryList4Office25F.actSearch_Execute(Sender: TObject);
+begin
+  inherited;
+  search2F.ShowSearch(qrysalary);
+end;
+
+procedure TSalaryList4Office25F.ppLabel46GetText(Sender: TObject;
+  var Text: String);
+begin
+  inherited;
+  Text := GetPrintDate;
+end;
+
+procedure TSalaryList4Office25F.ppSystemVariable1GetText(Sender: TObject;
+  var Text: String);
+begin
+  inherited;
+  Text := GetPageNumberString(Text)
+end;
+
+procedure TSalaryList4Office25F.actFilterExecute(Sender: TObject);
+begin
+  inherited;
+  with TfilterF.Create2(Self, myParams) do
+  begin
+    try
+      AddItemFilter(GetFilter, TLabelID);
+      AddItemFilter(GetFilter, TFilterProjectID);
+      // AddItem(DMf.adcSalary, 'ProjectID', ' ⁄‰Ê«‰ Å—ÊéÂ', 'ﬂœ', ftInteger,
+      // dvMinMax, '', '', ciLookup,
+      // 'SELECT    FormsInfo.InfoID, FormsInfo.InfoName_L1 FROM Pay.FixedCalculated INNER JOIN  '
+      // + ' Pay.FormsInfo ON FixedCalculated.ProjectID = FormsInfo.FormInfoID WHERE  formtype=40   '
+      // + ' GROUP BY  FormsInfo.InfoID,FormsInfo.InfoName_L1 ',
+      // 'SELECT  0 , MAX(InfoID) FROM Pay.FormsInfo INNER JOIN Pay.FixedCalculated on FixedCalculated.ProjectID = FormsInfo.FormInfoID where formtype=40  ');
+
+      AddItem(DMf.adcSalary, 'InfoID', '⁄‰Ê«‰ ”«“„«‰', '', ftInteger,
+        dvDefaults, 'true', '', ciCheck,
+        'SELECT  InfoID,InfoName_L1,InfoName_L2 FROM   Pay.FormsInfo  ' +
+        'WHERE  FormType = 12 ', '');
+      // 'SELECT    FormsInfo.InfoID,ltrim(rtrim( str(FormsInfo.InfoID) ))+ FormsInfo.InfoName_L1 FROM Pay.FixedCalculated INNER JOIN  '
+      // + ' Pay.FormsInfo ON FixedCalculated.OfficeCode = FormsInfo.FormInfoID WHERE  formtype=12   '
+      // + ' GROUP BY  FormsInfo.InfoID,FormsInfo.InfoName_L1 ', '');
+      AddItem(DMf.adcSalary, 'EmployTypeID', '‰Ê⁄ Õﬂ„ ', '‰Ê⁄', ftInteger,
+        dvMinMax, '', '', ciLookup,
+        'SELECT InfoID,InfoName_L1 FROM Pay.FormsInfo WHERE  (FormType = 14)',
+        'SELECT MIN(InfoID), MAX(InfoID) FROM Pay.FormsInfo WHERE  (FormType = 14)');
+      AddItem(DMf.adcSalary, 'PersonelState', 'Ê÷⁄Ì  Å—”‰· ', 'ﬂœ', ftInteger,
+        dvMinMax, '', '', ciLookup,
+        'SELECT InfoID, InfoName_L1 FROM Pay.FormsInfo WHERE     (FormType = 3)',
+        'SELECT Min(InfoID),Max(InfoID) FROM Pay.FormsInfo WHERE     (FormType = 3)');
+
+      AddItemFilter(GetFilter, TPersonelNo);
+
+      if ShowModal = mrOk then
+      begin
+        GetFilterString;
+        Updatefilter;
+      end; // if
+    finally
+      Free;
+    end; // try
+  end; // with
+end;
+
+procedure TSalaryList4Office25F.Updatefilter;
+begin
+  MakeSql;
+  with qrysalary do
+  begin
+    Active := False;
+    Parameters.ParamByName('Mounth').Value := MonthNo;
+    Parameters.ParamByName('YearID').Value := APPBank.Year;
+    Parameters.ParamByName('Mounth4Fun').Value := MonthNo;
+
+    Parameters.ParamByName('Mounth1From').Value := MonthNo;
+    Parameters.ParamByName('Mounth1To').Value := MonthNo;
+
+    Parameters.ParamByName('FromPersonelNo').Value :=
+      GetcFrom(myParams.ParamValues['PersonelNo'], ftInteger);
+    Parameters.ParamByName('ToPersonelNo').Value :=
+      GetcTo(myParams.ParamValues['PersonelNo'], ftInteger);
+    Parameters.ParamByName('ArchiveID').Value :=
+      Integer(CmbArchiveID.Items.Objects[CmbArchiveID.ItemIndex]);
+
+    Parameters.ParamByName('LabelIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['LabelID'], ftInteger);
+    Parameters.ParamByName('LabelIDTo').Value :=
+      GetcTo(myParams.ParamValues['LabelID'], ftInteger);
+
+    Parameters.ParamByName('PersonelStateFrom').Value :=
+      GetcFrom(myParams.ParamValues['PersonelState']);
+    Parameters.ParamByName('PersonelStateTo').Value :=
+      GetcTo(myParams.ParamValues['PersonelState']);
+    Parameters.ParamByName('EmployTypeIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('EmployTypeIDTo').Value :=
+      GetcTo(myParams.ParamValues['EmployTypeID'], ftInteger);
+    Parameters.ParamByName('ProjectIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['ProjectID'], ftInteger);
+    Parameters.ParamByName('ProjectIDTo').Value :=
+      GetcTo(myParams.ParamValues['ProjectID'], ftInteger);
+    Active := True;
+  end; // with
+  qryWage.First;
+  with qryWage do
+    while not Eof and (RecNo < 25) do
+    begin
+      qrysalary.Fieldbyname('Wage' + IntToStr(RecNo)).DisplayLabel :=
+        Fieldbyname('InfoName_L1').AsString;
+      Next;
+    end;
+  qryDec.First;
+  with qryDec do
+    while not Eof and (RecNo < 24) do
+    begin
+      qrysalary.Fieldbyname('Dec' + IntToStr(RecNo)).DisplayLabel :=
+        Fieldbyname('InfoName_L1').AsString;
+      Next;
+    end;
+  DBGrid1.DoLoad('');
+
+end;
+
+procedure TSalaryList4Office25F.ToolButton1Click(Sender: TObject);
+begin
+  inherited;
+  MonthNo := (Sender as TToolButton).tag;    GetYearMounth(MonthNo);
+  InitCmbArchiveID(CmbArchiveID, MonthNo);
+  Updatefilter;
+end;
+
+procedure TSalaryList4Office25F.InitReportFile(GeneralFileName: string);
+var
+  ReportFooter: String;
+begin
+  ReportFooter := FooterFormType(48);
+  with ppReport1 do
+  begin
+    Template.FileName := GetReportFileWithPath(GeneralFileName);
+    try
+      if FileExists(Template.FileName) then
+        Template.LoadFromFile
+      else
+        Warn('›«Ì· ç«ÅÌ ' + GeneralFileName + ' Ì«›  ‰‘œ.!˛');
+      // MakeReport;
+      InitReport(ppReport1, DetailBand, ppRegion1, ppRecFooterLine,
+        ReportFooter);
+      InitReport(ppReport1, DetailBand, ppRegion2, ppRecFooterLine2,
+        ReportFooter);
+      SetSendToBackShapeOnPrint(Self);
+      Print;
+    finally
+    end; // try
+  end; // with
+end;
+
+procedure TSalaryList4Office25F.ppLabel34GetText(Sender: TObject;
+  var Text: String);
+begin
+  inherited;
+  Text := GetMounthName(MonthNo, Text);
+end;
+
+procedure TSalaryList4Office25F.actFunctionShowExecute(Sender: TObject);
+begin
+  inherited;
+  if (mdimainF.ActFunctionsF.Enabled) and (mdimainF.ActFunctionsF.Visible) then
+  begin
+    CreateMDIForm2(TFunctionItemsF, FunctionItemsF, Self, 28);
+    FunctionItemsF.ToolBar1.Buttons[MonthNo - 1].Down := True;
+    FunctionItemsF.ToolBar1.Buttons[MonthNo - 1].Click;
+    FunctionItemsF.qryPersonel.Locate('PersonelNo',
+      qrysalary.Fieldbyname('PersonelNo').AsVariant, [])
+  end; // Execute
+
+end;
+
+procedure TSalaryList4Office25F.actFishExecute(Sender: TObject);
+var
+  Month_No: Byte;
+begin
+  inherited;
+  Month_No := MonthNo - 1;
+  if (mdimainF.actListSalary.Enabled) and (mdimainF.actListSalary.Visible) then
+  begin
+    CreateMDIForm2(TListSalaryF, ListSalaryF, Self);
+    ListSalaryF.ToolBar1.Buttons[Month_No].Down := True;
+    ListSalaryF.ToolBar1.Buttons[Month_No].Click;
+    ListSalaryF.qryPersonels.Locate('PersonelNo',
+      qrysalary.Fieldbyname('PersonelNo').AsVariant, [])
+  end; // Execute
+end;
+
+procedure TSalaryList4Office25F.actPrintVijehExecute(Sender: TObject);
+begin
+  inherited;
+  DBGrid2PrintF.showGrid2Print(DBGrid1, 0);
+end;
+
+procedure TSalaryList4Office25F.CmbArchiveIDChange(Sender: TObject);
+begin
+  inherited;
+  Updatefilter
+end;
+
+procedure TSalaryList4Office25F.AllClickClick(Sender: TObject);
+begin
+  inherited;
+  InitReportFile((Sender as TMenuItem).Name + '.rtm');
+end;
+
+procedure TSalaryList4Office25F.AllW_GetText(Sender: TObject; var Text: String);
+begin
+  inherited;
+  Text := qrysalary.Fieldbyname('Wage' + Trim(Text)).DisplayLabel
+end;
+
+procedure TSalaryList4Office25F.AllD_GetText(Sender: TObject; var Text: String);
+begin
+  inherited;
+  Text := qrysalary.Fieldbyname('Dec' + Trim(Text)).DisplayLabel
+end;
+
+procedure TSalaryList4Office25F.qrysalaryCalcFields(DataSet: TDataSet);
+begin
+  inherited;
+  DataSet.Fieldbyname('_row').AsInteger := abs(DataSet.RecNo)
+end;
+
+End.
