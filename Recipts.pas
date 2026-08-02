@@ -658,6 +658,11 @@ type
     N11: TMenuItem;
     mnuEntity: TMenuItem;
     mnuWeight: TMenuItem;
+    qryItemsPortage: TBCDField;
+    PnlAidInfoItems_Portage: TPanel;
+    pnlPortage: TPanel;
+    edtPortage: TDBEdit;
+    Label36: TLabel;
     procedure SBtnPersonID1Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
     procedure SBtnStoreIDClick(Sender: TObject);
@@ -1412,6 +1417,11 @@ begin
     LblAidInfoNo2.Caption := LblAidInfoNo.Caption;
     LblAidInfoDate2.Caption := LblAidInfoDate.Caption;
 
+    pnlPortage.Visible := FieldByName('PawsFieldsActive').AsInteger in [1, 3];
+
+    PnlAidInfoItems_Portage.Visible := PnlAidInfoItems.Visible or
+      pnlPortage.Visible;
+
     actPrint.Hint := FieldByName('PerformFileName').AsString + #13#10 +
       FieldByName('ReportFileName').AsString + #13#10;
 
@@ -1700,10 +1710,10 @@ end;
 procedure TReciptsF.EdtIOEntityEnter(Sender: TObject);
 begin
   inherited;
-  if EntityEdit=0 then
-      EntityEdit := qryItems.FieldByName(EdtIOEntity.DataField).AsFloat;
-  if WeightEdit=0 then
-      WeightEdit := qryItems.FieldByName(EdtIOWeight.DataField).AsFloat;
+  if EntityEdit = 0 then
+    EntityEdit := qryItems.FieldByName(EdtIOEntity.DataField).AsFloat;
+  if WeightEdit = 0 then
+    WeightEdit := qryItems.FieldByName(EdtIOWeight.DataField).AsFloat;
 
 end;
 
@@ -3027,7 +3037,6 @@ procedure TReciptsF.qryItemsInputEntityChange(Sender: TField);
 begin
   inherited;
 
-
   if (not qryItems.FieldByName('InputWeight').IsNull) and (EntityEdit <> 0) then
     qryItems.FieldByName('InputWeight').AsFloat :=
       roundto((WeightEdit * qryItems.FieldByName('InputEntity').AsFloat) /
@@ -3047,7 +3056,6 @@ end;
 procedure TReciptsF.qryItemsOutputEntityChange(Sender: TField);
 begin
   inherited;
-
 
   if (not qryItems.FieldByName('OutputWeight').IsNull) and (EntityEdit <> 0)
   then
@@ -4475,7 +4483,8 @@ end;
 
 procedure TReciptsF.EndOfPrice;
 begin
-  if qryinit.FieldByName('VATActive').AsInteger = 1 then
+  if (qryinit.FieldByName('VATActive').AsInteger = 1) or
+    (qryinit.FieldByName('PawsFieldsActive').AsInteger > 0) then
     EndOfPriceTax(Field_Name)
   else
   begin
@@ -4873,7 +4882,7 @@ procedure TReciptsF.btnTaxClick(Sender: TObject);
 begin
   inherited;
   if not(mnuEntity.Checked or mnuWeight.Checked) then
-   Warn('لطفا نوع ارسال  مقدار یا وزن را مشخص کنید');
+    Warn('لطفا نوع ارسال  مقدار یا وزن را مشخص کنید');
   // if grdTax <> nil then    grdTax.Visible := True;
   popMoaadiyan.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y)
 end;

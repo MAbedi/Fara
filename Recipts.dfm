@@ -8,6 +8,7 @@ inherited ReciptsF: TReciptsF
   Position = poDesigned
   ShowHint = True
   OnResize = FormResize
+  ExplicitTop = -221
   ExplicitWidth = 1073
   ExplicitHeight = 874
   PixelsPerInch = 96
@@ -1040,15 +1041,17 @@ inherited ReciptsF: TReciptsF
         BevelOuter = bvNone
         TabOrder = 9
         object Label10: TLabel
-          Left = 135
+          Left = 0
           Top = 0
-          Width = 60
+          Width = 195
           Height = 13
           Align = alTop
           Caption = #1578#1608#1590#1610#1581#1575#1578' '#1601#1585#1605
           Color = clBtnFace
           ParentColor = False
           Transparent = True
+          ExplicitLeft = 135
+          ExplicitWidth = 60
         end
         object DBMemo1: TDBMemo
           Left = 0
@@ -1402,24 +1405,26 @@ inherited ReciptsF: TReciptsF
           Left = 140
           Top = 6
           Width = 52
-          Height = 13
+          Height = 21
           Margins.Top = 6
           Align = alRight
           BiDiMode = bdLeftToRight
           Caption = #1578#1575#1585#1610#1582' '#1580#1575#1606#1576#1610
           ParentBiDiMode = False
+          ExplicitHeight = 13
         end
         object Label34: TLabel
           AlignWithMargins = True
           Left = 41
           Top = 6
           Width = 21
-          Height = 13
+          Height = 21
           Margins.Top = 6
           Align = alRight
           BiDiMode = bdLeftToRight
           Caption = #1605#1583#1578
           ParentBiDiMode = False
+          ExplicitHeight = 13
         end
         object dbedtDefaultDate: TDBEdit
           Tag = 14
@@ -1463,7 +1468,7 @@ inherited ReciptsF: TReciptsF
           Left = 178
           Top = 6
           Width = 14
-          Height = 13
+          Height = 16
           Margins.Top = 6
           Align = alRight
           Alignment = taRightJustify
@@ -1475,6 +1480,7 @@ inherited ReciptsF: TReciptsF
           Font.Name = 'Tahoma'
           Font.Style = []
           ParentFont = False
+          ExplicitHeight = 13
         end
         object edtPO: TDBEdit
           Tag = 20
@@ -2260,7 +2266,7 @@ inherited ReciptsF: TReciptsF
           Height = 29
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 5
+          TabOrder = 4
           DesignSize = (
             868
             29)
@@ -2404,7 +2410,7 @@ inherited ReciptsF: TReciptsF
           Height = 57
           Align = alBottom
           Caption = #1575#1585#1578#1576#1575#1591' '#1576#1575' '#1581#1587#1575#1576#1583#1575#1585#1610' '
-          TabOrder = 10
+          TabOrder = 9
           OnEnter = GrpBoxAccountEnter
           DesignSize = (
             868
@@ -2646,66 +2652,6 @@ inherited ReciptsF: TReciptsF
             end
           end
         end
-        object PnlAidInfoItems: TPanel
-          Left = 1
-          Top = 368
-          Width = 868
-          Height = 26
-          Align = alBottom
-          BevelOuter = bvNone
-          TabOrder = 4
-          DesignSize = (
-            868
-            26)
-          object LblAidInfoNo2: TLabel
-            Left = 768
-            Top = 6
-            Width = 30
-            Height = 13
-            Alignment = taRightJustify
-            Anchors = [akTop, akRight]
-            Caption = #1588#1605#1575#1585#1607
-            FocusControl = DBEdit10
-            Font.Charset = DEFAULT_CHARSET
-            Font.Color = clWindowText
-            Font.Height = -11
-            Font.Name = 'Tahoma'
-            Font.Style = []
-            ParentFont = False
-            ExplicitLeft = 721
-          end
-          object LblAidInfoDate2: TLabel
-            Left = 609
-            Top = 6
-            Width = 21
-            Height = 13
-            Alignment = taRightJustify
-            Anchors = [akTop, akRight]
-            Caption = #1578#1575#1585#1610#1582
-            FocusControl = DBEdit11
-            ExplicitLeft = 556
-          end
-          object DBEdit10: TDBEdit
-            Left = 685
-            Top = 2
-            Width = 80
-            Height = 21
-            Anchors = [akTop, akRight]
-            DataField = 'AidNumber'
-            DataSource = srcItems
-            TabOrder = 0
-          end
-          object DBEdit11: TDBEdit
-            Left = 527
-            Top = 2
-            Width = 78
-            Height = 21
-            Anchors = [akTop, akRight]
-            DataField = 'AidDate'
-            DataSource = srcItems
-            TabOrder = 1
-          end
-        end
         object PnlItemNote: TPanel
           Left = 1
           Top = 501
@@ -2713,7 +2659,7 @@ inherited ReciptsF: TReciptsF
           Height = 29
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 8
+          TabOrder = 7
           DesignSize = (
             868
             29)
@@ -2754,7 +2700,7 @@ inherited ReciptsF: TReciptsF
           Height = 44
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 9
+          TabOrder = 8
           object PnlProduct: TPanel
             Left = 0
             Top = 0
@@ -2921,7 +2867,7 @@ inherited ReciptsF: TReciptsF
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 7
+          TabOrder = 6
           DesignSize = (
             868
             26)
@@ -3013,7 +2959,7 @@ inherited ReciptsF: TReciptsF
           Height = 28
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 11
+          TabOrder = 10
           DesignSize = (
             868
             28)
@@ -3115,7 +3061,7 @@ inherited ReciptsF: TReciptsF
           Height = 28
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 12
+          TabOrder = 11
           object PnlSecondTypeItem: TPanel
             Left = 567
             Top = 0
@@ -3202,7 +3148,7 @@ inherited ReciptsF: TReciptsF
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 13
+          TabOrder = 12
           object PnlSection2Visible: TPanel
             Left = 458
             Top = 0
@@ -3328,7 +3274,7 @@ inherited ReciptsF: TReciptsF
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
-          TabOrder = 6
+          TabOrder = 5
           DesignSize = (
             868
             26)
@@ -3396,6 +3342,108 @@ inherited ReciptsF: TReciptsF
             DataField = 'TotallSellPrice'
             DataSource = srcItems
             TabOrder = 2
+          end
+        end
+        object PnlAidInfoItems_Portage: TPanel
+          Left = 1
+          Top = 368
+          Width = 868
+          Height = 26
+          Align = alBottom
+          BevelOuter = bvNone
+          TabOrder = 13
+          ExplicitLeft = -4
+          object pnlPortage: TPanel
+            Left = 0
+            Top = 0
+            Width = 297
+            Height = 26
+            Align = alLeft
+            BevelOuter = bvNone
+            TabOrder = 1
+            object Label36: TLabel
+              Left = 141
+              Top = 9
+              Width = 47
+              Height = 13
+              Alignment = taRightJustify
+              Caption = #1705#1585#1575#1740#1607' '#1581#1605#1604
+              FocusControl = edtPortage
+            end
+            object edtPortage: TDBEdit
+              Left = 12
+              Top = 5
+              Width = 127
+              Height = 21
+              DataField = 'Portage'
+              DataSource = srcItems
+              TabOrder = 0
+            end
+          end
+          object PnlAidInfoItems: TPanel
+            Left = 297
+            Top = 0
+            Width = 571
+            Height = 26
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 0
+            ExplicitLeft = 1
+            ExplicitTop = 368
+            ExplicitWidth = 868
+            DesignSize = (
+              571
+              26)
+            object LblAidInfoNo2: TLabel
+              Left = 471
+              Top = 6
+              Width = 30
+              Height = 13
+              Alignment = taRightJustify
+              Anchors = [akTop, akRight]
+              Caption = #1588#1605#1575#1585#1607
+              FocusControl = DBEdit10
+              Font.Charset = DEFAULT_CHARSET
+              Font.Color = clWindowText
+              Font.Height = -11
+              Font.Name = 'Tahoma'
+              Font.Style = []
+              ParentFont = False
+              ExplicitLeft = 721
+            end
+            object LblAidInfoDate2: TLabel
+              Left = 312
+              Top = 6
+              Width = 21
+              Height = 13
+              Alignment = taRightJustify
+              Anchors = [akTop, akRight]
+              Caption = #1578#1575#1585#1610#1582
+              FocusControl = DBEdit11
+              ExplicitLeft = 556
+            end
+            object DBEdit10: TDBEdit
+              Left = 388
+              Top = 2
+              Width = 80
+              Height = 21
+              Anchors = [akTop, akRight]
+              DataField = 'AidNumber'
+              DataSource = srcItems
+              TabOrder = 0
+              ExplicitLeft = 685
+            end
+            object DBEdit11: TDBEdit
+              Left = 230
+              Top = 2
+              Width = 78
+              Height = 21
+              Anchors = [akTop, akRight]
+              DataField = 'AidDate'
+              DataSource = srcItems
+              TabOrder = 1
+              ExplicitLeft = 527
+            end
           end
         end
       end
@@ -3694,8 +3742,8 @@ inherited ReciptsF: TReciptsF
   object grd1: TCedarDbgrid [4]
     Tag = 1
     AlignWithMargins = True
-    Left = 7327
-    Top = 7288
+    Left = 7396
+    Top = 7357
     Width = 366
     Height = 158
     Align = alCustom
@@ -6130,6 +6178,14 @@ inherited ReciptsF: TReciptsF
       KeyFields = 'StuffCode'
       Size = 25
       Lookup = True
+    end
+    object qryItemsPortage: TBCDField
+      Tag = 3
+      DisplayLabel = #1705#1585#1575#1740#1607' '#1581#1605#1604
+      FieldName = 'Portage'
+      OnChange = qryItemsWaterCoChange
+      currency = True
+      Precision = 19
     end
     object qryItems_Tax_mu: TStringField
       FieldKind = fkLookup
