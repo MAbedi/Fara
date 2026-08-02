@@ -6225,7 +6225,7 @@ begin
       NewItem.Action := mdiMainF.actContNow;
       mnuInfo.ADD(NewItem);
     finally
-
+      Free;
     end;
 
   with mainF do
