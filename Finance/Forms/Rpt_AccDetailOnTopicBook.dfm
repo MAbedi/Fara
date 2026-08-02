@@ -1828,8 +1828,8 @@ inherited Rpt_AccDetailOnTopicBookF: TRpt_AccDetailOnTopicBookF
   end
   object src_Companies: TDataSource
     DataSet = qry_Companies
-    Left = 176
-    Top = 219
+    Left = 184
+    Top = 227
   end
   object src_Doc: TDataSource
     DataSet = qry_Doc
@@ -2213,8 +2213,8 @@ inherited Rpt_AccDetailOnTopicBookF: TRpt_AccDetailOnTopicBookF
         '        (Acc.Documents.DetailCode  BETWEEN :DetailCodeFrom AND :' +
         'DetailCodeTo )'
       '')
-    Left = 116
-    Top = 192
+    Left = 108
+    Top = 200
     object IntegerField1: TIntegerField
       FieldName = 'CompanyCode'
     end
