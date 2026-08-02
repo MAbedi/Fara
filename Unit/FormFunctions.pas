@@ -11,7 +11,7 @@ uses
   Variants, filter_ADO, ComCtrls, shamsiDate, main, Loan, RecallRecipts,
   Controls, Types, Filter_ADO_Const, addRemoveRpt, ViewFileOnServer,
   GetOtherMoney, GetOtherMoney2, GetCheck, PaymentCash, PaymentExpence,
-  Proforma, DMTax, JvDesktopAlert, Amval,
+  Proforma, DMTax, Amval,
   CustomersInterView, CustomersTax, DesignForms, Customers2, DBGridEh,
   CedarDbgrid, Vcl.Graphics, IdStack, FireDAC.Comp.Client, SalaryFunctions,
   AidAssets, AlterAssets, SpecialInsourance, BerakAmval, Decrease,

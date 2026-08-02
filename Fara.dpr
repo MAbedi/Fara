@@ -5,6 +5,7 @@
 {$R *.dres}
 
 uses
+//  FastMM4,
   Forms,
   SysUtils,
   main in 'main.pas' {mainF},
@@ -886,7 +887,6 @@ uses
 begin
 
   // if not ALLOWRUN then exit;
-   if IsDelphiRunning then
   ReportMemoryLeaksOnShutdown := DebugHook <> 0;
 
   // Application.MainFormOnTaskbar:=False;
