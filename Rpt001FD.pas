@@ -316,8 +316,8 @@ type
     qryReciptsSellsEmporiumName: TWideStringField;
     qryReciptsReciptNote: TStringField;
     qryReciptsReciptState: TWordField;
-    qryReciptsEntity: TFloatField;
-    qryReciptsWeight: TFloatField;
+    qryReciptsEntity: TFMTBCDField;
+    qryReciptsWeight: TFMTBCDField;
     qryRecipts_StoresName: TStringField;
     qryRecipts_PersonAddress: TStringField;
     qryRecipts_Tel: TStringField;
@@ -406,6 +406,10 @@ type
     N18: TMenuItem;
     mnuEntity: TMenuItem;
     mnuWeight: TMenuItem;
+    qryReciptsInsr: TBooleanField;
+    qryReciptsIndati2m: TDateTimeField;
+    qryReciptsNti1: TStringField;
+    qryReciptsNti2: TStringField;
     procedure actFilterExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);

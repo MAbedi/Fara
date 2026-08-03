@@ -405,6 +405,10 @@ type
     mnuEntity: TMenuItem;
     mnuWeight: TMenuItem;
     qryReciptsAidNumber: TStringField;
+    qryReciptsInsr: TBooleanField;
+    qryReciptsIndati2m: TDateTimeField;
+    qryReciptsNti1: TStringField;
+    qryReciptsNti2: TStringField;
     procedure actFilterExecute(Sender: TObject);
     procedure FormCreate(Sender: TObject);
     procedure FormShow(Sender: TObject);

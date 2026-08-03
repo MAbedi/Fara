@@ -5,7 +5,7 @@
 {$R *.dres}
 
 uses
-//  FastMM4,
+  FastMM4,
   Forms,
   SysUtils,
   main in 'main.pas' {mainF},

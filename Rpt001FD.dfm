@@ -5,6 +5,7 @@ inherited Rpt001FDF: TRpt001FDF
   ClientHeight = 568
   ClientWidth = 1018
   OnResize = FormResize
+  ExplicitTop = -61
   ExplicitWidth = 1026
   ExplicitHeight = 599
   PixelsPerInch = 96
@@ -243,10 +244,11 @@ inherited Rpt001FDF: TRpt001FDF
         Left = 951
         Top = 3
         Width = 60
-        Height = 13
+        Height = 32
         Align = alRight
         Caption = #1578#1608#1590#1610#1581#1575#1578' '#1601#1585#1605
         FocusControl = dbmmoReciptNote
+        ExplicitHeight = 13
       end
       object dbmmoReciptNote: TDBMemo
         AlignWithMargins = True
@@ -360,7 +362,7 @@ inherited Rpt001FDF: TRpt001FDF
         Left = 1
         Top = 1
         Width = 94
-        Height = 13
+        Height = 15
         Align = alLeft
         BiDiMode = bdLeftToRight
         Caption = 'LblShow LimitPlace2'
@@ -372,12 +374,13 @@ inherited Rpt001FDF: TRpt001FDF
         ParentBiDiMode = False
         ParentFont = False
         Transparent = True
+        ExplicitHeight = 13
       end
       object LblShowLimitPlace1: TLabel
         Left = 919
         Top = 1
         Width = 94
-        Height = 13
+        Height = 15
         Align = alRight
         Caption = 'LblShow LimitPlace1'
         Font.Charset = DEFAULT_CHARSET
@@ -387,6 +390,7 @@ inherited Rpt001FDF: TRpt001FDF
         Font.Style = []
         ParentFont = False
         Transparent = True
+        ExplicitHeight = 13
       end
     end
     object DBGrid1: TCedarDbgrid
@@ -1618,11 +1622,12 @@ inherited Rpt001FDF: TRpt001FDF
       Left = 1
       Top = 1
       Width = 412
-      Height = 13
+      Height = 16
       Align = alLeft
       Caption = 
         '  '#1605#1576#1604#1594' '#1583#1575#1585#1583' '#39'$'#39'            '#1587#1606#1583' '#1583#1575#1585#1583' '#39#174#39'             '#1602#1591#1593#1740' '#1740#1575' '#1583#1575#1574#1605 +
         ' '#39' '#248#39'                  '#1601#1585#1605' '#1605#1585#1578#1576#1591' '#1583#1575#1585#1583#39' '#169' '#39' '
+      ExplicitHeight = 13
     end
     object pb1: TProgressBar
       Left = 413
@@ -2988,62 +2993,7 @@ inherited Rpt001FDF: TRpt001FDF
     UpdateOptions.CheckReadOnly = False
     UpdateOptions.CheckUpdatable = False
     SQL.Strings = (
-      
-        'SELECT       R1.ReciptID, R1.ServerID, R1.YearID, R1.ID, R1.Reci' +
-        'ptNumber, R1.ReciptNumberFormer'
-      
-        ', R1.ReciptDate, R1.PersonID1, R1._PersonName1, R1.CustomerGrpNa' +
-        'me1, R1.price, R1.priceWithDef'
-      
-        ', R1.priceWithDef2, R1.DeficitAddDec, R1.StoreID, R1.c_StoreName' +
-        ', R1.ReciptType, R1.RelatedReciptType'
-      
-        ', R1.PersonID2, R1.ReciptCaption, R1.CustName2, R1.SellsMethod, ' +
-        'R1.SellsMethodName, R1.SellsEmporium'
-      
-        ', R1.SellsEmporiumName, R1.ReciptNote, R1.ReciptState, R1.Entity' +
-        ', R1.Weight, R1._StoresName'
-      
-        ', R1._PersonAddress, R1._Tel, R1._EconomicNumber, R1._PostalCode' +
-        ', R1.AidNumber, R1.AidDate'
-      
-        ', R1.DocNo, R1.DocDate, R1.FactorNumber, R1.FirstUser, R1.LastUs' +
-        'er, R1.ParentReciptID'
-      
-        ', R1.SecondTypeName, R1.DeficitValue, R1.TotallSellPrice, R1.Pay' +
-        'ebelPrice, R1.PayebelPrice2, R1.TaxValue'
-      
-        ', R1._PersonTel, R1._PersonFax, R1.StoreID2, R1.c_StoreName2, R1' +
-        '.StandardRate, R1.UseOtherID'
-      
-        ', R1._UseOtherID, R1._UseOtherCode, R1.UseUnitID, R1._UseUnitNam' +
-        'e, R1._PersonName2, R1.PersonID3'
-      
-        ', R1._PersonName3, R1.ReciptsRow, R1.ModifyDate, R1.InsertDate, ' +
-        'R1.RegPrice, R1.UserRegistrationDoc'
-      
-        ', R1.DefaultDate, R1.DefaultDuration, R1.RegDocNo, R1.RegDocDate' +
-        ', R1.ReciptDateMiladi, R1.PersonID4'
-      
-        ', R1.Tozin_Note, R1._PersonName4, R1.PersonID5, R1._PersonName5,' +
-        ' R1.RelatedID, R1.CalcCostStorage'
-      
-        ', R1.ArzAmount, R1._ValuationType, R1.MachineNo, R1.MachineName,' +
-        ' R1.TruckNumber, R1.MachineInfo'
-      
-        ', R1.Article, R1.Wage, R1.Scoria, R1.InsuranceValue, R1.Address,' +
-        ' R1.WarehouseID'
-      
-        ', R1.ReagentName, R1.External_ID, R1.ExpireDate, R1.tax_status, ' +
-        'R1.tax_statusNote, R1.LoanPayment'
-      
-        ', R1.TAXID, R1.IRTAXID, R1.REFERENCENUMBER, R1.InvoiceTemplate, ' +
-        'R1.DATE_OF_SEND_TO_TAX, R1.HCTarafGaradadTypeCode'
-      
-        ', R1.HCKharidarTypeCode, R1._NationalID, R1.NationalCode, R1.Eco' +
-        'nomicNumber, R1.PostalCode, R1.RialsEqual'
-      ', R1.ArzTypeID, R1.CurrencyCode, R1.ReciptsFlag'
-      ', Fitful.DetailCode AS Appendix'
+      'SELECT      *'
       
         'FROM            dbo.ReciptsList(DEFAULT, DEFAULT, DEFAULT, DEFAU' +
         'LT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAULT, DEFAUL' +
@@ -3205,12 +3155,12 @@ inherited Rpt001FDF: TRpt001FDF
       FieldName = 'ReciptState'
       OnGetText = qryReciptsReciptStateGetText
     end
-    object qryReciptsEntity: TFloatField
+    object qryReciptsEntity: TFMTBCDField
       Tag = 3
       DisplayLabel = #1605#1602#1583#1575#1585
       FieldName = 'Entity'
     end
-    object qryReciptsWeight: TFloatField
+    object qryReciptsWeight: TFMTBCDField
       Tag = 3
       DisplayLabel = #1608#1586#1606
       FieldName = 'Weight'
@@ -3621,6 +3571,20 @@ inherited Rpt001FDF: TRpt001FDF
     object qryReciptsRialsEqual: TCurrencyField
       FieldName = 'RialsEqual'
       Origin = 'RialsEqual'
+    end
+    object qryReciptsInsr: TBooleanField
+      FieldName = 'Insr'
+    end
+    object qryReciptsIndati2m: TDateTimeField
+      FieldName = 'Indati2m'
+    end
+    object qryReciptsNti1: TStringField
+      FieldName = 'Nti1'
+      Size = 30
+    end
+    object qryReciptsNti2: TStringField
+      FieldName = 'Nti2'
+      Size = 30
     end
     object qryReciptsTAXUID: TStringField
       FieldName = 'TAXUID'

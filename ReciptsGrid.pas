@@ -1250,6 +1250,19 @@ type
     ppField70: TppField;
     ppField71: TppField;
     srcStuffCodingImage: TDataSource;
+    qryReciptsInsr: TBooleanField;
+    qryReciptsIndati2m: TDateTimeField;
+    qryReciptsNti1: TStringField;
+    qryReciptsNti2: TStringField;
+    dbchkInsr: TDBCheckBox;
+    pnlNti: TPanel;
+    Panel10: TPanel;
+    Label16: TLabel;
+    edtNti1: TDBEdit;
+    Panel11: TPanel;
+    Label17: TLabel;
+    edtNti2: TDBEdit;
+    procedure dbchkInsrClick(Sender: TObject);
     procedure btnPersonID1Click(Sender: TObject);
     procedure btnPersonID2Click(Sender: TObject);
     procedure ALLDBEditKeyDown(Sender: TObject; var Key: Word;
@@ -1973,6 +1986,8 @@ begin
     btnTax1.Visible := btnTax.Visible;
     btnTax.Visible := btnTax.Visible and (SellEffect > 0);
     dbtxttax_status.Visible := btnTax.Visible;
+    dbchkInsr.Visible := btnTax.Visible;
+    pnlNti.Visible := btnTax.Visible;
 
     if (btnTax.Visible) and (qryinit.FieldByName('ShowNotEntityOnSearch')
       .AsLargeInt and Integer(CHkPrintTax) <> 0) then
@@ -5237,6 +5252,7 @@ begin
   qryReciptsInsertDate.AsDateTime := Now;
   DataSet.FieldByName('OperatorID').AsInteger := User.id;
   DataSet.FieldByName('ReciptType').AsInteger := formType;
+  DataSet.FieldByName('Insr').AsBoolean := False;
   GetReciptID(qryRecipts, qryItems, qryinit, 0);
   if qryinit.FieldByName('PriorityReciptDate').AsInteger in [1, 2, 3] then
     DataSet.FieldByName('ReciptDate').ReadOnly := False;
@@ -9543,10 +9559,15 @@ end;
 procedure TReciptsGridF.qryItemsAfterOpen(DataSet: TDataSet);
 var
   s: string;
+  BarcodeImage: TBitmap;
 begin
   inherited;
-  imgBarcode.Picture.Bitmap := GenerateBarcodeImage
-    (qryItemsSyntheticCode.AsString);
+  BarcodeImage := GenerateBarcodeImage(qryItemsSyntheticCode.AsString);
+  try
+    imgBarcode.Picture.Bitmap := BarcodeImage;
+  finally
+    BarcodeImage.Free;
+  end;
 
   if (qryinit.FieldByName('ReciptIDEventKind').AsInteger <> 1) then
     qryItems.Sort := qryinit.FieldByName('OrderByFields').AsString;
@@ -10764,6 +10785,20 @@ begin
   if grdTax <> nil then
     grdTax.Visible := True;
   popMoaadiyan.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y);
+end;
+
+procedure TReciptsGridF.dbchkInsrClick(Sender: TObject);
+begin
+  inherited;
+  if not (qryRecipts.State in dsEditModes) then
+    Exit;
+  if dbchkInsr.Checked then
+  begin
+    if qryReciptsIndati2m.IsNull then
+      qryReciptsIndati2m.AsDateTime := Now;
+  end
+  else
+    qryReciptsIndati2m.Clear;
 end;
 
 procedure TReciptsGridF.btnTozinClick(Sender: TObject);
@@ -16127,7 +16162,17 @@ begin
 
     ReciptDate := ReciptDate + Time;
     aTax.InvoiceHeaderDto.indatim := DateTimeToUTC(ReciptDate);
-    aTax.InvoiceHeaderDto.Indati2m := aTax.InvoiceHeaderDto.indatim;
+    // ماده (9) قانون پایانه‌های فروشگاهی: insr/indati2m فقط برای اسناد
+    // ثبت‌شده/کتمان‌شده دیرارسال پر می‌شوند، نه برای هر سند.
+    if qryReciptsInsr.AsBoolean then
+    begin
+      aTax.InvoiceHeaderDto.Insr := 1;
+      if not qryReciptsIndati2m.IsNull then
+        aTax.InvoiceHeaderDto.Indati2m :=
+          DateTimeToUTC(qryReciptsIndati2m.AsDateTime);
+    end;
+    aTax.InvoiceHeaderDto.Nti1 := qryReciptsNti1.AsString;
+    aTax.InvoiceHeaderDto.Nti2 := qryReciptsNti2.AsString;
     // taxId:=taxId;
 
     aTax.InvoiceHeaderDto.inno :=

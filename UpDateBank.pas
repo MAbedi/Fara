@@ -1773,7 +1773,7 @@ begin
   with ADOCmdUpDate do
   begin
     try
-      pb1.Max := 35;
+      pb1.Max := 36;
       pb1.Min := 1;
       pb1.Position := 0;
       pb1.Step := 1;
@@ -1805,7 +1805,7 @@ begin
           (optSub.Subsys[26] <> '1'))) then
           Continue;
 
-        if ((i in [29]) and (optSub.Subsys[1] = '0') and
+        if ((i in [29, 35]) and (optSub.Subsys[1] = '0') and
           (optSub.Subsys[2] = '0') and (optSub.Subsys[3] = '0')) then
           Continue;
 

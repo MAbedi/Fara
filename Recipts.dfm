@@ -1,32 +1,34 @@
 inherited ReciptsF: TReciptsF
-  Left = 229
-  Top = -64
+  Left = 219
+  Top = 0
   Caption = #1588#1606#1575#1587#1575#1610#1610' '#1608#1610#1688#1607
-  ClientHeight = 843
-  ClientWidth = 1065
+  ClientHeight = 853
+  ClientWidth = 1091
   KeyPreview = True
   Position = poDesigned
   ShowHint = True
   OnResize = FormResize
-  ExplicitTop = -221
-  ExplicitWidth = 1073
-  ExplicitHeight = 874
+  ExplicitLeft = 2
+  ExplicitTop = -394
+  ExplicitWidth = 1099
+  ExplicitHeight = 884
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
-    Top = 802
-    Width = 1065
+    Top = 812
+    Width = 1091
     BevelOuter = bvNone
     ExplicitTop = 802
     ExplicitWidth = 1065
     object okPanel: TPanel [0]
-      Left = 430
+      Left = 456
       Top = 0
       Width = 163
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 430
       DesignSize = (
         163
         41)
@@ -133,13 +135,14 @@ inherited ReciptsF: TReciptsF
       ExplicitHeight = 29
     end
     object newPanel: TPanel
-      Left = 593
+      Left = 619
       Top = 0
       Width = 472
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 593
       object BitBtn3: TBitBtn
         AlignWithMargins = True
         Left = 396
@@ -349,27 +352,27 @@ inherited ReciptsF: TReciptsF
     end
   end
   inherited Panel2: TPanel
-    Width = 1065
+    Width = 1091
     Height = 55
     BevelOuter = bvNone
     ExplicitWidth = 1065
     ExplicitHeight = 55
     DesignSize = (
-      1065
+      1091
       55)
     inherited ImgTemplate: TImage
-      Left = 1027
+      Left = 1053
       ExplicitLeft = 781
     end
     inherited lblCaption: TLabel
-      Left = 958
+      Left = 984
       Top = 15
       Height = 37
       ExplicitLeft = 958
       ExplicitTop = 15
     end
     inherited lblBaseDate: TLabel
-      Left = 354
+      Left = 363
       ExplicitLeft = 354
     end
     object LblReciptDate: TLabel
@@ -396,7 +399,7 @@ inherited ReciptsF: TReciptsF
       Action = actSearchReciptNumber
     end
     object LblWarn: TLabel
-      Left = 1019
+      Left = 1044
       Top = 34
       Width = 4
       Height = 16
@@ -518,21 +521,23 @@ inherited ReciptsF: TReciptsF
   end
   inherited Panel3: TPanel
     Top = 85
-    Width = 1065
-    Height = 717
+    Width = 1091
+    Height = 727
     BevelInner = bvNone
     BevelOuter = bvNone
     ExplicitTop = 85
     ExplicitWidth = 1065
     ExplicitHeight = 717
     object Panel1: TPanel
-      Left = 870
+      Left = 896
       Top = 0
       Width = 195
-      Height = 717
+      Height = 727
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 870
+      ExplicitHeight = 717
       object pnlPerson2: TPanel
         Left = 0
         Top = 181
@@ -814,7 +819,7 @@ inherited ReciptsF: TReciptsF
       end
       object RdGrpReciptState: TDBRadioGroup
         Left = 0
-        Top = 634
+        Top = 644
         Width = 195
         Height = 36
         Align = alBottom
@@ -835,6 +840,7 @@ inherited ReciptsF: TReciptsF
           '1'
           '2'
           '3')
+        ExplicitTop = 634
       end
       object PnlSecondType: TPanel
         Left = 0
@@ -869,12 +875,13 @@ inherited ReciptsF: TReciptsF
       end
       object Panel4: TPanel
         Left = 0
-        Top = 670
+        Top = 680
         Width = 195
         Height = 47
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 11
+        ExplicitTop = 670
         DesignSize = (
           195
           47)
@@ -1034,12 +1041,14 @@ inherited ReciptsF: TReciptsF
       end
       object PnlReciptNote: TPanel
         Left = 0
-        Top = 574
+        Top = 617
         Width = 195
-        Height = 60
+        Height = 27
         Align = alClient
         BevelOuter = bvNone
         TabOrder = 9
+        ExplicitTop = 574
+        ExplicitHeight = 60
         object Label10: TLabel
           Left = 0
           Top = 0
@@ -1068,7 +1077,7 @@ inherited ReciptsF: TReciptsF
         end
         object dbmmoReciptNote2: TDBMemo
           Left = 0
-          Top = 2
+          Top = -31
           Width = 195
           Height = 58
           Align = alBottom
@@ -1078,6 +1087,7 @@ inherited ReciptsF: TReciptsF
           DataField = 'ReciptNote'
           DataSource = srcRecipts
           TabOrder = 1
+          ExplicitTop = 2
         end
       end
       object PnlStore2: TPanel
@@ -1497,15 +1507,95 @@ inherited ReciptsF: TReciptsF
           TabOrder = 0
         end
       end
+      object pnlNti: TPanel
+        Left = 0
+        Top = 574
+        Width = 195
+        Height = 43
+        Align = alTop
+        BevelOuter = bvNone
+        TabOrder = 16
+        ExplicitTop = 1000
+        object Panel10: TPanel
+          Left = 0
+          Top = 0
+          Width = 195
+          Height = 23
+          Align = alTop
+          BevelOuter = bvNone
+          TabOrder = 0
+          object Label37: TLabel
+            Left = 120
+            Top = 0
+            Width = 75
+            Height = 23
+            Align = alClient
+            Alignment = taRightJustify
+            BiDiMode = bdRightToLeft
+            Caption = #1740#1575#1583#1583#1575#1588#1578' '#1777
+            ParentBiDiMode = False
+            ExplicitWidth = 49
+            ExplicitHeight = 13
+          end
+          object edtNti1: TDBEdit
+            Left = 0
+            Top = 0
+            Width = 120
+            Height = 23
+            Align = alLeft
+            Color = clCream
+            DataField = 'Nti1'
+            DataSource = srcRecipts
+            TabOrder = 0
+            ExplicitHeight = 21
+          end
+        end
+        object Panel11: TPanel
+          Left = 0
+          Top = 23
+          Width = 195
+          Height = 20
+          Align = alClient
+          BevelOuter = bvNone
+          TabOrder = 1
+          object Label38: TLabel
+            Left = 120
+            Top = 0
+            Width = 75
+            Height = 20
+            Align = alClient
+            Alignment = taRightJustify
+            BiDiMode = bdRightToLeft
+            Caption = #1740#1575#1583#1583#1575#1588#1578' 2'
+            ParentBiDiMode = False
+            ExplicitWidth = 49
+            ExplicitHeight = 13
+          end
+          object edtNti2: TDBEdit
+            Left = 0
+            Top = 0
+            Width = 120
+            Height = 20
+            Align = alLeft
+            Color = clCream
+            DataField = 'Nti2'
+            DataSource = srcRecipts
+            TabOrder = 0
+            ExplicitHeight = 21
+          end
+        end
+      end
     end
     object Panel15: TPanel
       Left = 0
       Top = 0
-      Width = 870
-      Height = 717
+      Width = 896
+      Height = 727
       Align = alClient
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitWidth = 870
+      ExplicitHeight = 717
       object Lbl4panel15: TLabel
         Left = 300
         Top = 8
@@ -1517,25 +1607,29 @@ inherited ReciptsF: TReciptsF
       object Panel5: TPanel
         Left = 0
         Top = 0
-        Width = 870
-        Height = 688
+        Width = 896
+        Height = 698
         Align = alClient
         TabOrder = 0
+        ExplicitWidth = 870
+        ExplicitHeight = 688
         object Panel7: TPanel
           Left = 1
           Top = 1
-          Width = 868
-          Height = 272
+          Width = 894
+          Height = 282
           Align = alClient
           BevelOuter = bvNone
           BevelWidth = 2
           Color = clAppWorkSpace
           TabOrder = 0
+          ExplicitWidth = 868
+          ExplicitHeight = 272
           object DBGrid1: TCedarDbgrid
             Left = 0
             Top = 0
-            Width = 868
-            Height = 251
+            Width = 894
+            Height = 261
             Align = alClient
             Color = clCream
             Ctl3D = False
@@ -1710,6 +1804,14 @@ inherited ReciptsF: TReciptsF
                 CellButtons = <>
                 DynProps = <>
                 EditButtons = <>
+                FieldName = 'Portage'
+                Footers = <>
+                Width = 63
+              end
+              item
+                CellButtons = <>
+                DynProps = <>
+                EditButtons = <>
                 FieldName = 'ItemNote'
                 Footers = <>
                 Width = 81
@@ -1863,15 +1965,17 @@ inherited ReciptsF: TReciptsF
           end
           object pnl1: TPanel
             Left = 0
-            Top = 251
-            Width = 868
+            Top = 261
+            Width = 894
             Height = 21
             Align = alBottom
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitTop = 251
+            ExplicitWidth = 868
             object tlb1: TToolBar
               AlignWithMargins = True
-              Left = 793
+              Left = 819
               Top = 0
               Width = 72
               Height = 21
@@ -1893,6 +1997,7 @@ inherited ReciptsF: TReciptsF
               ShowHint = False
               TabOrder = 0
               Transparent = False
+              ExplicitLeft = 793
               object btnInsertRow: TToolButton
                 Left = 0
                 Top = 0
@@ -1914,7 +2019,7 @@ inherited ReciptsF: TReciptsF
             object StatusBar1: TStatusBar
               Left = 0
               Top = 0
-              Width = 790
+              Width = 816
               Height = 21
               Align = alClient
               BiDiMode = bdRightToLeft
@@ -1932,13 +2037,14 @@ inherited ReciptsF: TReciptsF
                   Width = 100
                 end>
               ParentBiDiMode = False
+              ExplicitWidth = 790
             end
           end
         end
         object StatusBar2: TStatusBar
           Left = 1
-          Top = 273
-          Width = 868
+          Top = 283
+          Width = 894
           Height = 19
           BiDiMode = bdRightToLeft
           BorderWidth = 1
@@ -1966,20 +2072,24 @@ inherited ReciptsF: TReciptsF
             end>
           ParentBiDiMode = False
           UseSystemFont = False
+          ExplicitTop = 273
+          ExplicitWidth = 868
         end
         object Pnl_GradeToAlloy: TPanel
           Left = 1
-          Top = 340
-          Width = 868
+          Top = 350
+          Width = 894
           Height = 28
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 3
+          ExplicitTop = 340
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             28)
           object Label15: TLabel
-            Left = 768
+            Left = 794
             Top = 6
             Width = 46
             Height = 13
@@ -1996,7 +2106,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 721
           end
           object Label17: TLabel
-            Left = 609
+            Left = 635
             Top = 6
             Width = 20
             Height = 13
@@ -2024,7 +2134,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = DBEdit19
           end
           object EdtStuffGrade: TDBEdit
-            Left = 685
+            Left = 711
             Top = 2
             Width = 80
             Height = 21
@@ -2032,6 +2142,7 @@ inherited ReciptsF: TReciptsF
             DataField = 'StuffGrade'
             DataSource = srcItems
             TabOrder = 0
+            ExplicitLeft = 685
           end
           object EdtStuffAlloy: TDBEdit
             Left = 4
@@ -2055,7 +2166,7 @@ inherited ReciptsF: TReciptsF
           end
           object EdtStuffSize: TDBEdit
             Tag = 111
-            Left = 527
+            Left = 553
             Top = 2
             Width = 78
             Height = 21
@@ -2074,21 +2185,24 @@ inherited ReciptsF: TReciptsF
             OnEnter = EdtStuffSizeEnter
             OnExit = EdtStuffSizeExit
             OnKeyDown = EdtStuffSizeKeyDown
+            ExplicitLeft = 527
           end
         end
         object pnlStuffCode: TPanel
           Left = 1
-          Top = 292
-          Width = 868
+          Top = 302
+          Width = 894
           Height = 48
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitTop = 292
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             48)
           object Label20: TLabel
-            Left = 768
+            Left = 794
             Top = 6
             Width = 41
             Height = 13
@@ -2105,7 +2219,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 721
           end
           object lbl_StuffTecInfo: TLabel
-            Left = 768
+            Left = 794
             Top = 28
             Width = 69
             Height = 13
@@ -2132,7 +2246,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = EdtControlCode
           end
           object SpeedButton7: TSpeedButton
-            Left = 659
+            Left = 685
             Top = 1
             Width = 23
             Height = 22
@@ -2159,7 +2273,7 @@ inherited ReciptsF: TReciptsF
             Caption = #1605#1581#1604
           end
           object EdtStuffCode: TDBEdit
-            Left = 685
+            Left = 711
             Top = 2
             Width = 80
             Height = 21
@@ -2170,6 +2284,7 @@ inherited ReciptsF: TReciptsF
             OnChange = EdtStuffCodeChange
             OnKeyDown = EdtStuffCodeeyDown
             OnKeyPress = EdtStuffCodeKeyPress
+            ExplicitLeft = 685
           end
           object EdtControlCode: TDBEdit
             Left = 4
@@ -2183,7 +2298,7 @@ inherited ReciptsF: TReciptsF
           object edt_StuffTecInfo: TDBEdit
             Left = 315
             Top = 24
-            Width = 342
+            Width = 368
             Height = 19
             TabStop = False
             Anchors = [akLeft, akTop, akRight]
@@ -2194,6 +2309,7 @@ inherited ReciptsF: TReciptsF
             ParentCtl3D = False
             ReadOnly = True
             TabOrder = 5
+            ExplicitWidth = 342
           end
           object EdtUnit: TDBEdit
             Left = 128
@@ -2212,7 +2328,7 @@ inherited ReciptsF: TReciptsF
           object EdtStuffName: TDBEdit
             Left = 315
             Top = 3
-            Width = 342
+            Width = 368
             Height = 19
             TabStop = False
             Anchors = [akLeft, akTop, akRight]
@@ -2223,6 +2339,7 @@ inherited ReciptsF: TReciptsF
             ParentCtl3D = False
             ReadOnly = True
             TabOrder = 1
+            ExplicitWidth = 342
           end
           object EdtItemDate: TDBEdit
             Left = 4
@@ -2234,7 +2351,7 @@ inherited ReciptsF: TReciptsF
             TabOrder = 3
           end
           object medt_StuffTecInfo: TMaskEdit
-            Left = 685
+            Left = 711
             Top = 24
             Width = 80
             Height = 21
@@ -2243,6 +2360,7 @@ inherited ReciptsF: TReciptsF
             Text = ''
             OnChange = medt_StuffTecInfoChange
             OnEnter = medt_StuffTecInfoEnter
+            ExplicitLeft = 685
           end
           object edt_c_KeepPlace: TDBEdit
             Left = 128
@@ -2261,17 +2379,19 @@ inherited ReciptsF: TReciptsF
         end
         object PnlEntityWeightPrice: TPanel
           Left = 1
-          Top = 420
-          Width = 868
+          Top = 430
+          Width = 894
           Height = 29
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 4
+          ExplicitTop = 420
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             29)
           object LblEntity: TLabel
-            Left = 768
+            Left = 794
             Top = 7
             Width = 25
             Height = 13
@@ -2288,7 +2408,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 721
           end
           object LblWeight: TLabel
-            Left = 609
+            Left = 635
             Top = 7
             Width = 16
             Height = 13
@@ -2316,7 +2436,7 @@ inherited ReciptsF: TReciptsF
             Caption = #1601#1610
           end
           object lblAuxiliary: TLabel
-            Left = 506
+            Left = 532
             Top = 7
             Width = 15
             Height = 13
@@ -2336,7 +2456,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = cmbDiagnosisCalcTotalPrice
           end
           object EdtIOEntity: TDBEdit
-            Left = 685
+            Left = 711
             Top = 3
             Width = 80
             Height = 21
@@ -2345,9 +2465,10 @@ inherited ReciptsF: TReciptsF
             DataSource = srcItems
             TabOrder = 0
             OnEnter = EdtIOEntityEnter
+            ExplicitLeft = 685
           end
           object EdtIOWeight: TDBEdit
-            Left = 527
+            Left = 553
             Top = 3
             Width = 78
             Height = 21
@@ -2356,6 +2477,7 @@ inherited ReciptsF: TReciptsF
             DataSource = srcItems
             TabOrder = 1
             OnEnter = EdtIOEntityEnter
+            ExplicitLeft = 527
           end
           object EdtTotalIOPrice: TDBEdit
             Left = 4
@@ -2380,7 +2502,7 @@ inherited ReciptsF: TReciptsF
             TabOrder = 3
           end
           object edtAuxiliary: TDBEdit
-            Left = 460
+            Left = 486
             Top = 3
             Width = 41
             Height = 21
@@ -2389,6 +2511,7 @@ inherited ReciptsF: TReciptsF
             DataField = 'Auxiliary'
             DataSource = srcItems
             TabOrder = 2
+            ExplicitLeft = 460
           end
           object cmbDiagnosisCalcTotalPrice: TDBComboBox
             Left = 165
@@ -2405,18 +2528,20 @@ inherited ReciptsF: TReciptsF
         end
         object GrpBoxAccount: TGroupBox
           Left = 1
-          Top = 574
-          Width = 868
+          Top = 584
+          Width = 894
           Height = 57
           Align = alBottom
           Caption = #1575#1585#1578#1576#1575#1591' '#1576#1575' '#1581#1587#1575#1576#1583#1575#1585#1610' '
           TabOrder = 9
           OnEnter = GrpBoxAccountEnter
+          ExplicitTop = 574
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             57)
           object Label7: TLabel
-            Left = 643
+            Left = 669
             Top = 19
             Width = 51
             Height = 13
@@ -2427,7 +2552,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 590
           end
           object SpeedButton3: TSpeedButton
-            Left = 560
+            Left = 586
             Top = 14
             Width = 23
             Height = 22
@@ -2437,7 +2562,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 507
           end
           object DBText3: TDBText
-            Left = 560
+            Left = 586
             Top = 37
             Width = 140
             Height = 16
@@ -2450,7 +2575,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 507
           end
           object Label1: TLabel
-            Left = 817
+            Left = 843
             Top = 19
             Width = 45
             Height = 13
@@ -2464,9 +2589,10 @@ inherited ReciptsF: TReciptsF
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
+            ExplicitLeft = 817
           end
           object SpeedButton4: TSpeedButton
-            Left = 720
+            Left = 746
             Top = 14
             Width = 23
             Height = 22
@@ -2476,7 +2602,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 667
           end
           object DBText4: TDBText
-            Left = 720
+            Left = 746
             Top = 37
             Width = 140
             Height = 16
@@ -2536,7 +2662,7 @@ inherited ReciptsF: TReciptsF
             end
           end
           object DBEdit7: TDBEdit
-            Left = 587
+            Left = 613
             Top = 15
             Width = 51
             Height = 21
@@ -2545,9 +2671,10 @@ inherited ReciptsF: TReciptsF
             DataSource = srcItems
             TabOrder = 1
             OnKeyDown = DBEdit7KeyDown
+            ExplicitLeft = 587
           end
           object DBEdit1: TDBEdit
-            Left = 744
+            Left = 770
             Top = 15
             Width = 70
             Height = 21
@@ -2556,6 +2683,7 @@ inherited ReciptsF: TReciptsF
             DataSource = srcItems
             TabOrder = 0
             OnKeyDown = DBEdit1KeyDown
+            ExplicitLeft = 744
           end
           object Panel6: TPanel
             Left = 306
@@ -2654,17 +2782,19 @@ inherited ReciptsF: TReciptsF
         end
         object PnlItemNote: TPanel
           Left = 1
-          Top = 501
-          Width = 868
+          Top = 511
+          Width = 894
           Height = 29
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 7
+          ExplicitTop = 501
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             29)
           object Label11: TLabel
-            Left = 768
+            Left = 794
             Top = 8
             Width = 64
             Height = 13
@@ -2682,7 +2812,7 @@ inherited ReciptsF: TReciptsF
           object DBMemo2: TDBMemo
             Left = 1
             Top = 3
-            Width = 761
+            Width = 787
             Height = 25
             Align = alCustom
             Anchors = [akLeft, akTop, akRight]
@@ -2691,25 +2821,29 @@ inherited ReciptsF: TReciptsF
             DataField = 'ItemNote'
             DataSource = srcItems
             TabOrder = 0
+            ExplicitWidth = 761
           end
         end
         object PnlProductCode_UseUnit: TPanel
           Left = 1
-          Top = 530
-          Width = 868
+          Top = 540
+          Width = 894
           Height = 44
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 8
+          ExplicitTop = 530
+          ExplicitWidth = 868
           object PnlProduct: TPanel
             Left = 0
             Top = 0
-            Width = 664
+            Width = 690
             Height = 44
             Align = alClient
             BevelOuter = bvNone
             ParentBackground = False
             TabOrder = 1
+            ExplicitWidth = 664
             object DBText6: TDBText
               Left = 8
               Top = 26
@@ -2800,13 +2934,14 @@ inherited ReciptsF: TReciptsF
             end
           end
           object PnlPersonID1OnDetail: TPanel
-            Left = 664
+            Left = 690
             Top = 0
             Width = 204
             Height = 44
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = 664
             DesignSize = (
               204
               44)
@@ -2862,17 +2997,19 @@ inherited ReciptsF: TReciptsF
         end
         object PnlDiscountActive: TPanel
           Left = 1
-          Top = 475
-          Width = 868
+          Top = 485
+          Width = 894
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 6
+          ExplicitTop = 475
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             26)
           object Label8: TLabel
-            Left = 768
+            Left = 794
             Top = 6
             Width = 27
             Height = 13
@@ -2907,7 +3044,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = edtDeficitValue
           end
           object DBText8: TDBText
-            Left = 643
+            Left = 669
             Top = 6
             Width = 41
             Height = 13
@@ -2918,9 +3055,10 @@ inherited ReciptsF: TReciptsF
             DataSource = srcRecipts
             ParentColor = False
             Transparent = True
+            ExplicitLeft = 643
           end
           object edtWaterCo: TDBEdit
-            Left = 685
+            Left = 711
             Top = 2
             Width = 80
             Height = 21
@@ -2928,6 +3066,7 @@ inherited ReciptsF: TReciptsF
             DataField = 'WaterCo'
             DataSource = srcItems
             TabOrder = 0
+            ExplicitLeft = 685
           end
           object edtTotallSellPrice1: TDBEdit
             Left = 4
@@ -2954,17 +3093,19 @@ inherited ReciptsF: TReciptsF
         end
         object PnlMachineD: TPanel
           Left = 1
-          Top = 631
-          Width = 868
+          Top = 641
+          Width = 894
           Height = 28
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 10
+          ExplicitTop = 631
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             28)
           object Label23: TLabel
-            Left = 768
+            Left = 794
             Top = 6
             Width = 68
             Height = 13
@@ -2981,7 +3122,7 @@ inherited ReciptsF: TReciptsF
             ExplicitLeft = 721
           end
           object Label24: TLabel
-            Left = 548
+            Left = 574
             Top = 6
             Width = 41
             Height = 13
@@ -3008,7 +3149,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = EdtMachineWeight
           end
           object DBEdit14: TDBEdit
-            Left = 685
+            Left = 711
             Top = 2
             Width = 80
             Height = 21
@@ -3016,9 +3157,10 @@ inherited ReciptsF: TReciptsF
             DataField = 'MachineNo'
             DataSource = srcItems
             TabOrder = 0
+            ExplicitLeft = 685
           end
           object DBEdit16: TDBEdit
-            Left = 465
+            Left = 491
             Top = 2
             Width = 78
             Height = 21
@@ -3026,6 +3168,7 @@ inherited ReciptsF: TReciptsF
             DataField = 'MachineName'
             DataSource = srcItems
             TabOrder = 1
+            ExplicitLeft = 465
           end
           object DBEdit18: TDBEdit
             Left = 239
@@ -3056,20 +3199,23 @@ inherited ReciptsF: TReciptsF
         end
         object PnlSecondTypeItem_StandardRate: TPanel
           Left = 1
-          Top = 659
-          Width = 868
+          Top = 669
+          Width = 894
           Height = 28
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 11
+          ExplicitTop = 659
+          ExplicitWidth = 868
           object PnlSecondTypeItem: TPanel
-            Left = 567
+            Left = 593
             Top = 0
             Width = 301
             Height = 28
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitLeft = 567
             DesignSize = (
               301
               28)
@@ -3143,20 +3289,23 @@ inherited ReciptsF: TReciptsF
         end
         object Panel8: TPanel
           Left = 1
-          Top = 394
-          Width = 868
+          Top = 404
+          Width = 894
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 12
+          ExplicitTop = 394
+          ExplicitWidth = 868
           object PnlSection2Visible: TPanel
-            Left = 458
+            Left = 484
             Top = 0
             Width = 410
             Height = 26
             Align = alRight
             BevelOuter = bvNone
             TabOrder = 0
+            ExplicitLeft = 458
             DesignSize = (
               410
               26)
@@ -3203,16 +3352,17 @@ inherited ReciptsF: TReciptsF
           object pnlPestEntity: TPanel
             Left = 0
             Top = 0
-            Width = 458
+            Width = 484
             Height = 26
             Align = alClient
             BevelOuter = bvNone
             TabOrder = 1
+            ExplicitWidth = 458
             DesignSize = (
-              458
+              484
               26)
             object Label30: TLabel
-              Left = 435
+              Left = 461
               Top = 6
               Width = 46
               Height = 13
@@ -3229,7 +3379,7 @@ inherited ReciptsF: TReciptsF
               ExplicitLeft = 382
             end
             object Label31: TLabel
-              Left = 180
+              Left = 206
               Top = 6
               Width = 60
               Height = 13
@@ -3246,7 +3396,7 @@ inherited ReciptsF: TReciptsF
               ExplicitLeft = 133
             end
             object dbedtPestEntity: TDBEdit
-              Left = 351
+              Left = 377
               Top = 2
               Width = 80
               Height = 21
@@ -3254,9 +3404,10 @@ inherited ReciptsF: TReciptsF
               DataField = 'PestEntity'
               DataSource = srcItems
               TabOrder = 0
+              ExplicitLeft = 351
             end
             object dbedtPestEntity1: TDBEdit
-              Left = 98
+              Left = 124
               Top = 2
               Width = 80
               Height = 21
@@ -3264,22 +3415,25 @@ inherited ReciptsF: TReciptsF
               DataField = 'PestEntity'
               DataSource = srcItems
               TabOrder = 1
+              ExplicitLeft = 98
             end
           end
         end
         object pnlTax: TPanel
           Left = 1
-          Top = 449
-          Width = 868
+          Top = 459
+          Width = 894
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 5
+          ExplicitTop = 449
+          ExplicitWidth = 868
           DesignSize = (
-            868
+            894
             26)
           object Label27: TLabel
-            Left = 768
+            Left = 794
             Top = 6
             Width = 58
             Height = 13
@@ -3314,7 +3468,7 @@ inherited ReciptsF: TReciptsF
             FocusControl = edtTotallSellPrice2
           end
           object edtTaxCo: TDBEdit
-            Left = 685
+            Left = 711
             Top = 2
             Width = 80
             Height = 21
@@ -3322,6 +3476,7 @@ inherited ReciptsF: TReciptsF
             DataField = 'TaxCo'
             DataSource = srcItems
             TabOrder = 0
+            ExplicitLeft = 685
           end
           object edtTaxValue: TDBEdit
             Left = 339
@@ -3346,13 +3501,15 @@ inherited ReciptsF: TReciptsF
         end
         object PnlAidInfoItems_Portage: TPanel
           Left = 1
-          Top = 368
-          Width = 868
+          Top = 378
+          Width = 894
           Height = 26
           Align = alBottom
           BevelOuter = bvNone
           TabOrder = 13
           ExplicitLeft = -4
+          ExplicitTop = 368
+          ExplicitWidth = 868
           object pnlPortage: TPanel
             Left = 0
             Top = 0
@@ -3362,7 +3519,7 @@ inherited ReciptsF: TReciptsF
             BevelOuter = bvNone
             TabOrder = 1
             object Label36: TLabel
-              Left = 141
+              Left = 133
               Top = 9
               Width = 47
               Height = 13
@@ -3371,7 +3528,7 @@ inherited ReciptsF: TReciptsF
               FocusControl = edtPortage
             end
             object edtPortage: TDBEdit
-              Left = 12
+              Left = 4
               Top = 5
               Width = 127
               Height = 21
@@ -3383,7 +3540,7 @@ inherited ReciptsF: TReciptsF
           object PnlAidInfoItems: TPanel
             Left = 297
             Top = 0
-            Width = 571
+            Width = 597
             Height = 26
             Align = alClient
             BevelOuter = bvNone
@@ -3392,10 +3549,10 @@ inherited ReciptsF: TReciptsF
             ExplicitTop = 368
             ExplicitWidth = 868
             DesignSize = (
-              571
+              597
               26)
             object LblAidInfoNo2: TLabel
-              Left = 471
+              Left = 497
               Top = 6
               Width = 30
               Height = 13
@@ -3412,7 +3569,7 @@ inherited ReciptsF: TReciptsF
               ExplicitLeft = 721
             end
             object LblAidInfoDate2: TLabel
-              Left = 312
+              Left = 338
               Top = 6
               Width = 21
               Height = 13
@@ -3423,7 +3580,7 @@ inherited ReciptsF: TReciptsF
               ExplicitLeft = 556
             end
             object DBEdit10: TDBEdit
-              Left = 388
+              Left = 414
               Top = 2
               Width = 80
               Height = 21
@@ -3434,7 +3591,7 @@ inherited ReciptsF: TReciptsF
               ExplicitLeft = 685
             end
             object DBEdit11: TDBEdit
-              Left = 230
+              Left = 256
               Top = 2
               Width = 78
               Height = 21
@@ -3449,12 +3606,14 @@ inherited ReciptsF: TReciptsF
       end
       object PnlItems: TPanel
         Left = 0
-        Top = 688
-        Width = 870
+        Top = 698
+        Width = 896
         Height = 29
         Align = alBottom
         BevelOuter = bvNone
         TabOrder = 1
+        ExplicitTop = 688
+        ExplicitWidth = 870
         object PnlUseUnitD: TPanel
           Left = 0
           Top = 0
@@ -3463,6 +3622,7 @@ inherited ReciptsF: TReciptsF
           Align = alLeft
           BevelOuter = bvNone
           TabOrder = 0
+          ExplicitLeft = -8
           object DBTextUseUnitID_D: TDBText
             Left = 2
             Top = 6
@@ -3509,13 +3669,14 @@ inherited ReciptsF: TReciptsF
           end
         end
         object newPanel2: TPanel
-          Left = 630
+          Left = 656
           Top = 0
           Width = 240
           Height = 29
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 2
+          ExplicitLeft = 630
           object BitBtn9: TBitBtn
             Left = 160
             Top = 3
@@ -3545,13 +3706,14 @@ inherited ReciptsF: TReciptsF
           end
         end
         object okPanel2: TPanel
-          Left = 387
+          Left = 413
           Top = 0
           Width = 243
           Height = 29
           Align = alRight
           BevelOuter = bvNone
           TabOrder = 1
+          ExplicitLeft = 387
           DesignSize = (
             243
             29)
@@ -3586,23 +3748,37 @@ inherited ReciptsF: TReciptsF
             TabOrder = 2
           end
         end
+        object dbchkInsr: TDBCheckBox
+          Left = 340
+          Top = 0
+          Width = 178
+          Height = 29
+          Align = alLeft
+          Caption = #1605#1588#1605#1608#1604' '#1605#1575#1583#1607' '#1785' ('#1579#1576#1578' '#1662#1587#8204#1585#1608#1606#1583#1607')'
+          DataField = 'Insr'
+          DataSource = srcRecipts
+          TabOrder = 3
+          OnClick = dbchkInsrClick
+          ExplicitLeft = 772
+        end
       end
     end
   end
   object Panel9: TPanel [3]
     Left = 0
     Top = 55
-    Width = 1065
+    Width = 1091
     Height = 30
     Align = alTop
     BevelOuter = bvNone
     TabOrder = 4
+    ExplicitWidth = 1065
     DesignSize = (
-      1065
+      1091
       30)
     object dbtxtReciptState: TDBText
       AlignWithMargins = True
-      Left = 937
+      Left = 963
       Top = 6
       Width = 98
       Height = 21
@@ -3619,11 +3795,12 @@ inherited ReciptsF: TReciptsF
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 937
       ExplicitHeight = 13
     end
     object txtDocNo: TDBText
       AlignWithMargins = True
-      Left = 852
+      Left = 878
       Top = 6
       Width = 52
       Height = 21
@@ -3640,11 +3817,12 @@ inherited ReciptsF: TReciptsF
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 852
       ExplicitHeight = 13
     end
     object txtDocDate: TDBText
       AlignWithMargins = True
-      Left = 774
+      Left = 800
       Top = 6
       Width = 65
       Height = 21
@@ -3661,10 +3839,11 @@ inherited ReciptsF: TReciptsF
       Font.Name = 'Tahoma'
       Font.Style = [fsBold]
       ParentFont = False
+      ExplicitLeft = 774
       ExplicitHeight = 13
     end
     object LblStateChang: TLabel
-      Left = 481
+      Left = 494
       Top = 3
       Width = 104
       Height = 23
@@ -3742,8 +3921,8 @@ inherited ReciptsF: TReciptsF
   object grd1: TCedarDbgrid [4]
     Tag = 1
     AlignWithMargins = True
-    Left = 7396
-    Top = 7357
+    Left = 7429
+    Top = 7390
     Width = 366
     Height = 158
     Align = alCustom
@@ -6703,6 +6882,20 @@ inherited ReciptsF: TReciptsF
     end
     object qryReciptsPO: TStringField
       FieldName = 'PO'
+      Size = 30
+    end
+    object qryReciptsInsr: TBooleanField
+      FieldName = 'Insr'
+    end
+    object qryReciptsIndati2m: TDateTimeField
+      FieldName = 'Indati2m'
+    end
+    object qryReciptsNti1: TStringField
+      FieldName = 'Nti1'
+      Size = 30
+    end
+    object qryReciptsNti2: TStringField
+      FieldName = 'Nti2'
       Size = 30
     end
   end

@@ -663,6 +663,19 @@ type
     pnlPortage: TPanel;
     edtPortage: TDBEdit;
     Label36: TLabel;
+    qryReciptsInsr: TBooleanField;
+    qryReciptsIndati2m: TDateTimeField;
+    qryReciptsNti1: TStringField;
+    qryReciptsNti2: TStringField;
+    pnlNti: TPanel;
+    Panel10: TPanel;
+    Label37: TLabel;
+    edtNti1: TDBEdit;
+    Panel11: TPanel;
+    Label38: TLabel;
+    edtNti2: TDBEdit;
+    dbchkInsr: TDBCheckBox;
+    procedure dbchkInsrClick(Sender: TObject);
     procedure SBtnPersonID1Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
     procedure SBtnStoreIDClick(Sender: TObject);
@@ -1113,6 +1126,8 @@ begin
     btnTax1.Visible := btnTax.Visible;
     btnTax.Visible := btnTax.Visible and (SellEffect > 0);
     dbtxttax_status.Visible := btnTax.Visible;
+    dbchkInsr.Visible := btnTax.Visible;
+    pnlNti.Visible := btnTax.Visible;
 
     edtDeficitValue.ReadOnly := qryinit.FieldByName('WaterCoOrDeficitValueEdit')
       .AsInteger = 0;
@@ -1829,6 +1844,7 @@ begin
 
   DataSet.FieldByName('OperatorID').AsInteger := User.id;
   DataSet.FieldByName('ReciptType').AsInteger := formType;
+  DataSet.FieldByName('Insr').AsBoolean := False;
   GetReciptNumber(qryinit, DataSet, 0, myStore);
   SetDefaultSellsMethodEmporium(qryRecipts, dblkcbb_SellsEmporium,
     dblkcbb_SellsMethod);
@@ -4885,6 +4901,20 @@ begin
     Warn('لطفا نوع ارسال  مقدار یا وزن را مشخص کنید');
   // if grdTax <> nil then    grdTax.Visible := True;
   popMoaadiyan.Popup(Mouse.CursorPos.X, Mouse.CursorPos.Y)
+end;
+
+procedure TReciptsF.dbchkInsrClick(Sender: TObject);
+begin
+  inherited;
+  if not (qryRecipts.State in dsEditModes) then
+    Exit;
+  if dbchkInsr.Checked then
+  begin
+    if qryReciptsIndati2m.IsNull then
+      qryReciptsIndati2m.AsDateTime := Now;
+  end
+  else
+    qryReciptsIndati2m.Clear;
 end;
 
 procedure TReciptsF.RecallBook(flag: Byte);

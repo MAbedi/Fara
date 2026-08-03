@@ -9,6 +9,7 @@ inherited ReciptsGridF: TReciptsGridF
   ShowHint = True
   OnActivate = FormActivate
   OnResize = FormResize
+  ExplicitTop = -388
   ExplicitWidth = 1432
   ExplicitHeight = 876
   PixelsPerInch = 96
@@ -2057,8 +2058,8 @@ inherited ReciptsGridF: TReciptsGridF
     object grd1: TCedarDbgrid
       Tag = 1
       AlignWithMargins = True
-      Left = 9823
-      Top = 9528
+      Left = 9955
+      Top = 9660
       Width = 366
       Height = 158
       Align = alCustom
@@ -2168,15 +2169,18 @@ inherited ReciptsGridF: TReciptsGridF
         TabOrder = 0
         object dbmmoReciptNote: TDBMemo
           Tag = 111
-          Left = 156
+          Left = 355
           Top = 15
-          Width = 1036
+          Width = 837
           Height = 43
           Align = alClient
           Color = clCream
           DataField = 'ReciptNote'
           DataSource = srcRecipts
           TabOrder = 0
+          ExplicitLeft = 311
+          ExplicitTop = 14
+          ExplicitWidth = 882
         end
         object pnlInsertTime: TPanel
           Left = 2
@@ -2260,6 +2264,85 @@ inherited ReciptsGridF: TReciptsGridF
               ReadOnly = True
               TabOrder = 0
               ExplicitHeight = 19
+            end
+          end
+        end
+        object pnlNti: TPanel
+          Left = 156
+          Top = 15
+          Width = 199
+          Height = 43
+          Align = alLeft
+          BevelOuter = bvNone
+          TabOrder = 2
+          object Panel10: TPanel
+            Left = 0
+            Top = 0
+            Width = 199
+            Height = 23
+            Align = alTop
+            BevelOuter = bvNone
+            TabOrder = 0
+            ExplicitWidth = 154
+            object Label16: TLabel
+              Left = 120
+              Top = 0
+              Width = 79
+              Height = 23
+              Align = alClient
+              Alignment = taRightJustify
+              BiDiMode = bdRightToLeft
+              Caption = #1740#1575#1583#1583#1575#1588#1578' '#1777
+              ParentBiDiMode = False
+              ExplicitLeft = 85
+              ExplicitWidth = 49
+              ExplicitHeight = 13
+            end
+            object edtNti1: TDBEdit
+              Left = 0
+              Top = 0
+              Width = 120
+              Height = 23
+              Align = alLeft
+              Color = clCream
+              DataField = 'Nti1'
+              DataSource = srcRecipts
+              TabOrder = 0
+            end
+          end
+          object Panel11: TPanel
+            Left = 0
+            Top = 23
+            Width = 199
+            Height = 20
+            Align = alClient
+            BevelOuter = bvNone
+            TabOrder = 1
+            ExplicitWidth = 154
+            object Label17: TLabel
+              Left = 120
+              Top = 0
+              Width = 79
+              Height = 20
+              Align = alClient
+              Alignment = taRightJustify
+              BiDiMode = bdRightToLeft
+              Caption = #1740#1575#1583#1583#1575#1588#1578' 2'
+              ParentBiDiMode = False
+              ExplicitLeft = 85
+              ExplicitWidth = 49
+              ExplicitHeight = 13
+            end
+            object edtNti2: TDBEdit
+              Left = 0
+              Top = 0
+              Width = 120
+              Height = 20
+              Align = alLeft
+              Color = clCream
+              DataField = 'Nti2'
+              DataSource = srcRecipts
+              TabOrder = 0
             end
           end
         end
@@ -2643,6 +2726,18 @@ inherited ReciptsGridF: TReciptsGridF
       Align = alLeft
       Caption = #1605#1585#1578#1576#8207#1603#1585#1583#1606#8207#1585#1583#1610#1601
       TabOrder = 10
+    end
+    object dbchkInsr: TDBCheckBox
+      Left = 772
+      Top = 0
+      Width = 178
+      Height = 29
+      Align = alLeft
+      Caption = #1605#1588#1605#1608#1604' '#1605#1575#1583#1607' '#1785' ('#1579#1576#1578' '#1662#1587#8204#1585#1608#1606#1583#1607')'
+      DataField = 'Insr'
+      DataSource = srcRecipts
+      TabOrder = 11
+      OnClick = dbchkInsrClick
     end
   end
   object pnlMaster: TPanel [5]
@@ -8911,6 +9006,20 @@ inherited ReciptsGridF: TReciptsGridF
     object qryReciptsNtswID: TLargeintField
       FieldName = 'NtswID'
     end
+    object qryReciptsInsr: TBooleanField
+      FieldName = 'Insr'
+    end
+    object qryReciptsIndati2m: TDateTimeField
+      FieldName = 'Indati2m'
+    end
+    object qryReciptsNti1: TStringField
+      FieldName = 'Nti1'
+      Size = 30
+    end
+    object qryReciptsNti2: TStringField
+      FieldName = 'Nti2'
+      Size = 30
+    end
   end
   object qryStuff_Unit_TecInf: TADOQuery
     Connection = DmF.adcBSell
@@ -14022,8 +14131,8 @@ inherited ReciptsGridF: TReciptsGridF
     BiDiMode = bdRightToLeft
     Images = ImageList1
     ParentBiDiMode = False
-    Left = 318
-    Top = 689
+    Left = 302
+    Top = 633
     object MenuItem1: TMenuItem
       Tag = 1
       Action = actPrint1

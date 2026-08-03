@@ -522,7 +522,17 @@ begin
     ReciptDate := Shamsi2Miladi(qryRecipts.FieldByName('ReciptDate').AsString);
     ReciptDate := ReciptDate + Time;
     aTax.InvoiceHeaderDto.indatim := DateTimeToUTC(ReciptDate);
-    aTax.InvoiceHeaderDto.Indati2m := aTax.InvoiceHeaderDto.indatim;
+    // ماده (9) قانون پایانه‌های فروشگاهی: insr/indati2m فقط برای اسناد
+    // ثبت‌شده/کتمان‌شده دیرارسال پر می‌شوند، نه برای هر سند.
+    if qryRecipts.FieldByName('Insr').AsBoolean then
+    begin
+      aTax.InvoiceHeaderDto.Insr := 1;
+      if not qryRecipts.FieldByName('Indati2m').IsNull then
+        aTax.InvoiceHeaderDto.Indati2m := DateTimeToUTC(qryRecipts.FieldByName
+          ('Indati2m').AsDateTime);
+    end;
+    aTax.InvoiceHeaderDto.Nti1 := qryRecipts.FieldByName('Nti1').AsString;
+    aTax.InvoiceHeaderDto.Nti2 := qryRecipts.FieldByName('Nti2').AsString;
     // taxId:=taxId;
 
     aTax.InvoiceHeaderDto.inno :=

@@ -2445,6 +2445,20 @@ inherited Rpt001F: TRpt001F
       ReadOnly = True
       Precision = 19
     end
+    object qryReciptsInsr: TBooleanField
+      FieldName = 'Insr'
+    end
+    object qryReciptsIndati2m: TDateTimeField
+      FieldName = 'Indati2m'
+    end
+    object qryReciptsNti1: TStringField
+      FieldName = 'Nti1'
+      Size = 30
+    end
+    object qryReciptsNti2: TStringField
+      FieldName = 'Nti2'
+      Size = 30
+    end
   end
   object srcRecipts: TDataSource
     DataSet = qryRecipts
