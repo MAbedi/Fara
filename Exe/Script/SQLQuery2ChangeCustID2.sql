@@ -1,0 +1,14 @@
+ exec [dbo].[ChangeCustID]       6019 ,        138
+ exec [dbo].[ChangeCustID]      11121 ,         15
+ exec [dbo].[ChangeCustID]       4091 ,         62
+ exec [dbo].[ChangeCustID]       2374 ,         66
+ exec [dbo].[ChangeCustID]      11085 ,         85
+ exec [dbo].[ChangeCustID]      11082 ,         82
+ exec [dbo].[ChangeCustID]     100082 ,         82
+ exec [dbo].[ChangeCustID]     100051 ,      11044
+ exec [dbo].[ChangeCustID]       5011 ,          1
+ exec [dbo].[ChangeCustID]      11160 ,        111
+ exec [dbo].[ChangeCustID]         86 ,         59
+ exec [dbo].[ChangeCustID]      11152 ,        136
+ exec [dbo].[ChangeCustID]      11007 ,       4031
+ exec [dbo].[ChangeCustID]         50 ,          6

@@ -1,5 +1,9 @@
 # Delphi build output
-Exe/
+Exe/*
+!Exe/Script/
+Exe/Script/**
+!Exe/Script/**/
+!Exe/Script/**/*.sql
 Dcus/
 Win32/
 Win64/
