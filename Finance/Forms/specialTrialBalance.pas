@@ -192,6 +192,7 @@ type
   private
     aWhere: String;
     bWhere: String;
+    DateFrom, DateTo: String;
     prvAccName, prvAccCode: string;
     FilterStringCaption: string;
     AccCodeForPrint: string;
@@ -231,11 +232,15 @@ type
     // FBootMark: TBookmark;
     FWhereBeforeYear: String;
     FSamelevel: Boolean;
+    FOpenFromDate: String;
+    FOpenToDate: String;
     // property BootMark : TBookmark  read FBootMark write FBootMark;
     property WhereSQL: string read FWhereSQL write FWhereSQL;
     Property WhereBeforeYear: String read FWhereBeforeYear
       write FWhereBeforeYear;
     Property Samelevel: Boolean read FSamelevel write FSamelevel;
+    property OpenFromDate: String read FOpenFromDate write FOpenFromDate;
+    property OpenToDate: String read FOpenToDate write FOpenToDate;
 
     property BaseParam: String read FBaseParam write FBaseParam;
     property AddParam: string read FAddParam write FAddParam;
@@ -338,6 +343,8 @@ begin
     ParentParam := nil;
     WhereSQL := aWhere;
     WhereBeforeYear := bWhere;
+    OpenFromDate := DateFrom;
+    OpenToDate := DateTo;
     pnlCirculation.Visible := False;
     pnlAccOld.Visible := False;
     if BaseParam <> emptystr then
@@ -434,6 +441,9 @@ begin
       end
       else
         Parameters.ParamByName('CurrencyKind').Value := 0;
+
+      Parameters.ParamByName('OpenFromDate').Value := OpenFromDate;
+      Parameters.ParamByName('OpenToDate').Value := OpenToDate;
 
       open;
 
@@ -631,7 +641,6 @@ Var
   AccCodeFrom, AccCodeTo: String;
   CompanyFrom, CompanyTo: String;
   YearFrom, YearTo: String;
-  DateFrom, DateTo: String;
   TypeFrom: String;
   StatusFrom: string;
   CurrencyTypeFrom, CurrencyTypeTO: String;
@@ -772,6 +781,8 @@ begin
   begin
     SetParam.WhereSQL := aWhere;
     SetParam.WhereBeforeYear := bWhere;
+    SetParam.OpenFromDate := DateFrom;
+    SetParam.OpenToDate := DateTo;
     SetParam.Refresh
   end;
 
@@ -972,6 +983,8 @@ begin
       Samelevel := chkSamelevel.Checked;
       WhereSQL := SetParam.WhereSQL;
       WhereBeforeYear := SetParam.WhereBeforeYear;
+      OpenFromDate := SetParam.OpenFromDate;
+      OpenToDate := SetParam.OpenToDate;
       SplitCaption := chkCaption.Checked;
       ParentParam := SetParam;
 

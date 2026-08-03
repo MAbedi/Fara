@@ -952,12 +952,30 @@ inherited SpecialTrialBalanceF: TSpecialTrialBalanceF
         Precision = 10
         Size = 4
         Value = 1
+      end
+      item
+        Name = 'OpenFromDate'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 10
+        Value = ''
+      end
+      item
+        Name = 'OpenToDate'
+        Attributes = [paNullable]
+        DataType = ftString
+        NumericScale = 255
+        Precision = 255
+        Size = 10
+        Value = ''
       end>
     SQL.Strings = (
       'Acc.SpTrialBalance :BaseParam,:AddParam,:FilterParam,'
-      
+
         ' :MargeCode, :MargeCaption , :awhere, :ShowColumnSamelevel , :Cu' +
-        'rrencyKind'
+        'rrencyKind, :OpenFromDate, :OpenToDate'
       '')
     Left = 61
     Top = 176

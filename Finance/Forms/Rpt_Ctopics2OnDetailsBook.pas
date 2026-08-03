@@ -558,53 +558,16 @@ var
   Txt: String;
 begin
   inherited;
-  // Txt := 'select * from (SELECT  LTRIM(rTRIM(STR(Documents.CTopicCode2))) + '' - '' + LTRIM(RTRIM(STR(Documents.DetailCode))) + '' - '' + RTRIM(LTRIM(STR(Documents.TopicCode))) as acccode,'
-  // + '  Categories.MoeenName_l1+ '' - ''+Details.DetailName_L1+ '' - ''+CenterTopics2.CTopicName2_l1 as AccName_l1'
-  // + ' ,Categories.MoeenName_l2+ '' - ''+Details.DetailName_L2+ '' - ''+CenterTopics2.CTopicName2_l2 as AccName_l2'
-  // + ' FROM acc.Documents as Documents INNER JOIN ' +
-  // ' ACC.CenterTopics2 as CenterTopics2 ON Documents.CTopicCode2 = CenterTopics2.CTopicCode2 INNER JOIN '
-  // + ' ACC.Details AS Details ON Documents.DetailCode = Details.DetailCode INNER JOIN '
-  // + ' ACC.Categories AS CategorieS ON Documents.TopicCode = Categories.TopicCode INNER JOIN '
-  // + ' ACC.DocGroups AS DocGroups ON Documents.Serial = DocGroups.Serial' +
-  // // ' WHERE (dbo.DocGroups.SecondaryDocNo <= '+GetcTo(myParams.ParamValues['SecondaryDocNo'],ftString)+' ) '+
-  // // ' AND (dbo.DocGroups.PrimaryDocNo <='+GetcTo(myParams.ParamValues['PrimaryDocNo'],ftString)+') '+
-  // // ' AND (dbo.DocGroups.DocDate <='+QuotedStr(GetcTo(myParams.ParamValues['DocDate'],ftString))+' ) '+
-  // // ' AND (dbo.Documents.TopicCode  BETWEEN '+GetcFrom(myParams.ParamValues['TopicCode'],ftString)+'  AND '+GetcTo(myParams.ParamValues['TopicCode'],ftString)+' ) '+
-  // // ' AND (dbo.Documents.DetailCode  BETWEEN '+GetcFrom(myParams.ParamValues['DetailCode'],ftString)+' AND '+GetcTo(myParams.ParamValues['DetailCode'],ftString)+ ') '+
-  // // ' AND (dbo.Documents.CTopicCode2 BETWEEN '+GetcFrom(myParams.ParamValues['CTopicCode2'],ftString)+' AND '+GetcTo(myParams.ParamValues['CTopicCode2'],ftString)+ ') '+
-  // ' WHERE (DocGroups.CompanyCode =' +
-  // qry_CompaniesCompanyCode.AsString + ') ' +
-  // // 'and ( dbo.DocGroups.Status<>'+IntToStr(param1)+')  AND (dbo.DocGroups.Status<>'+IntToStr(param2)+')'+
-  // ' GROUP BY CenterTopics2.CTopicName2_L1, Documents.DetailCode, Documents.CTopicCode2,Details.CompanyCode,'
-  // + ' Documents.TopicCode,Categories.MoeenName_L1,Details.DetailName_L1,CenterTopics2.CTopicName2_L2 ,Categories.MoeenName_L2, Details.DetailName_L2'
-  // + ')fun ';
-
-  Txt := 'select * from (SELECT  LTRIM(rTRIM(STR(Documents.CTopicCode3))) + '' - '' + LTRIM(RTRIM(STR(Documents.DetailCode))) + '' - '' + RTRIM(LTRIM(STR(Documents.TopicCode))) as acccode,'
-    + '  Categories.MoeenName_l1+ '' - ''+Details.DetailName_L1+ '' - ''+CenterTopics3.CTopicName3_l1 as AccName_l1'
-    + ' ,Categories.MoeenName_l2+ '' - ''+Details.DetailName_L2+ '' - ''+CenterTopics3.CTopicName3_l2 as AccName_l2'
+  Txt := 'select * from (SELECT  LTRIM(rTRIM(STR(Documents.CTopicCode2))) + '' - '' + LTRIM(RTRIM(STR(Documents.DetailCode))) + '' - '' + RTRIM(LTRIM(STR(Documents.TopicCode))) as acccode,'
+    + '  Categories.MoeenName_l1+ '' - ''+Details.DetailName_L1+ '' - ''+CenterTopics2.CTopicName2_l1 as AccName_l1'
+    + ' ,Categories.MoeenName_l2+ '' - ''+Details.DetailName_L2+ '' - ''+CenterTopics2.CTopicName2_l2 as AccName_l2'
     + ' FROM acc.Documents as Documents INNER JOIN ' +
-    ' ACC.CenterTopics3 as CenterTopics3 ON Documents.CTopicCode3 = CenterTopics3.CTopicCode3 INNER JOIN '
+    ' ACC.CenterTopics2 as CenterTopics2 ON Documents.CTopicCode2 = CenterTopics2.CTopicCode2 INNER JOIN '
     + ' ACC.Details AS Details ON Documents.DetailCode = Details.DetailCode INNER JOIN '
     + ' ACC.Categories AS CategorieS ON Documents.TopicCode = Categories.TopicCode INNER JOIN '
     + ' ACC.DocGroups AS DocGroups ON Documents.Serial = DocGroups.Serial' +
-    ' WHERE    (DocGroups.SecondaryDocNo <= ' +
-    IntToStr(qry_AccCode.Parameters.ParamByName('SecondaryDocNoTo').Value) +
-    ') ' + ' AND (DocGroups.PrimaryDocNo <= ' +
-    IntToStr(qry_AccCode.Parameters.ParamByName('PrimaryDocNoTo').Value) + ') '
-    + ' AND (DocGroups.DocDate <= ' +
-    QuotedStr(qry_AccCode.Parameters.ParamByName('DocDateTo').Value) + ' )' +
-    ' AND (Documents.TopicCode  BETWEEN ' +
-    IntToStr(qry_AccCode.Parameters.ParamByName('TopicCodeFrom').Value) +
-    '  AND ' + IntToStr(qry_AccCode.Parameters.ParamByName('TopicCodeTo').Value)
-    + ' )' + ' AND (Documents.CTopicCode3  BETWEEN ' +
-    IntToStr(qry_AccCode.Parameters.ParamByName('CTopicCode2From').Value) +
-    ' AND ' + IntToStr(qry_AccCode.Parameters.ParamByName('CTopicCode2To')
-    .Value) + ' )' + ' AND (DocGroups.CompanyCode = ' +
-    qry_CompaniesCompanyCode.AsString + ')' +
-    ' AND (Documents.DetailCode Between ' +
-    IntToStr(qry_AccCode.Parameters.ParamByName('DetailCodeFrom').Value) +
-    '  And ' + IntToStr(qry_AccCode.Parameters.ParamByName('DetailCodeTo')
-    .Value) + ' )' +
+    ' WHERE (DocGroups.CompanyCode =' +
+    qry_CompaniesCompanyCode.AsString + ') ' +
     ' GROUP BY CenterTopics2.CTopicName2_L1, Documents.DetailCode, Documents.CTopicCode2,Details.CompanyCode,'
     + ' Documents.TopicCode,Categories.MoeenName_L1,Details.DetailName_L1,CenterTopics2.CTopicName2_L2 ,Categories.MoeenName_L2, Details.DetailName_L2'
     + ')fun ';

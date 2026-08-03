@@ -232,6 +232,11 @@ begin
         EmptyStr, qrySerchDoc.FieldByName('DocNote_L1').AsString + ' - '),
         strDocNote]);
 
+      // Acc.DocGroups.DocNote_L1 is varchar(6000); truncate so a merge of
+      // many documents can't overflow it and abort the whole transaction.
+      if length(strDocNote) > 6000 then
+        SetLength(strDocNote, 6000);
+
       // if FieldByName('DocNote_L1').AsString <> EmptyStr then
       // strDocNote := Format('%s - %s',
       // [strDocNote, FieldByName('DocNote_L1').AsString]);

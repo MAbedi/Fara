@@ -424,6 +424,13 @@ begin
         qry_TrialCTopicBalance.Parameters.ParamByName('FromYearId').Value;
       Parameters.ParamByName('ToYearID').Value :=
         qry_TrialCTopicBalance.Parameters.ParamByName('ToYearID').Value;
+      // محدوده‌ی کد حساب همون فیلتری باشه که کاربر در تراز آزمایشی وارد کرده
+      Parameters.ParamByName('AccCode').Value :=
+        qry_TrialCTopicBalanceTopicCode.AsLargeInt;
+      Parameters.ParamByName('CTopicCode').Value :=
+        qry_TrialCTopicBalanceCTopicCode.AsInteger;
+      Parameters.ParamByName('DetailCode').Value :=
+        qry_TrialCTopicBalanceDetailCode.AsInteger;
       Active := true;
     end; // with
     with qry_Companies do
