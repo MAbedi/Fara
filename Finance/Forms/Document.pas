@@ -2139,10 +2139,6 @@ end;
 procedure TDocumentF.qry_DocGroupsAfterScroll(DataSet: TDataSet);
 begin
   inherited;
-  // DEBUG TEMP: ردیابی موقت برای پیدا کردن باگ قاطی‌شدن آرتیکل‌ها بین اسناد
-  add2log('qry_DocGroupsAfterScroll FIRED: Serial=' +
-    qry_DocGroupsSerial.AsString + ' State=' +
-    IntToStr(Ord(qry_DocGroups.State)));
   newPanel.Enabled := ((qry_DocGroupsYearID.AsInteger = APPBank.Year) or
     (qry_DocGroupsYearID.AsInteger = 0));
 
@@ -2547,10 +2543,6 @@ begin
   // DataSet.fieldbyname('ID').AsInteger :=
   // GetANewCode(Format('select Max(ID) From acc.Documents where Serial = %D',
   // [qry_DocGroups.fieldbyname('Serial').AsInteger]), 'ID',dmf.adcAccounting);
-  // DEBUG TEMP: ردیابی موقت برای پیدا کردن باگ قاطی‌شدن آرتیکل‌ها بین اسناد
-  add2log('qry_DocumentsAfterInsert: qry_DocGroupsSerial=' +
-    qry_DocGroupsSerial.AsString + ' qry_DocGroups.State=' +
-    IntToStr(Ord(qry_DocGroups.State)));
   DataSet.fieldbyname('Serial').AsInteger := qry_DocGroupsSerial.AsInteger;
   DataSet.fieldbyname('CompanyCode').AsInteger :=
     qry_DocGroupsCompanyCode.AsInteger;
