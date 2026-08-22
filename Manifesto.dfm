@@ -14,7 +14,7 @@ inherited ManifestoF: TManifestoF
     Width = 982
     BevelOuter = bvNone
     ExplicitTop = 534
-    ExplicitWidth = 953
+    ExplicitWidth = 982
     DesignSize = (
       982
       41)
@@ -26,7 +26,6 @@ inherited ManifestoF: TManifestoF
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 480
       DesignSize = (
         237
         41)
@@ -142,7 +141,6 @@ inherited ManifestoF: TManifestoF
       Anchors = [akLeft, akTop, akRight]
       Flat = True
       TabOrder = 7
-      ExplicitWidth = 312
     end
     inherited BtnReject: TBitBtn
       Left = 3
@@ -223,7 +221,6 @@ inherited ManifestoF: TManifestoF
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 717
       DesignSize = (
         236
         41)
@@ -310,7 +307,7 @@ inherited ManifestoF: TManifestoF
     Width = 982
     Height = 55
     BevelOuter = bvNone
-    ExplicitWidth = 953
+    ExplicitWidth = 982
     ExplicitHeight = 55
     DesignSize = (
       982
@@ -323,7 +320,7 @@ inherited ManifestoF: TManifestoF
       Left = 875
       Top = 15
       Height = 37
-      ExplicitLeft = 846
+      ExplicitLeft = 875
       ExplicitTop = 15
     end
     inherited lblBaseDate: TLabel
@@ -349,13 +346,15 @@ inherited ManifestoF: TManifestoF
       ParentFont = False
       ExplicitLeft = 333
     end
-    object Panel4: TPanel
+    object dbchkManifestoActive: TDBCheckBox
       Left = 0
       Top = 0
-      Width = 151
+      Width = 65
       Height = 55
       Align = alLeft
-      BevelOuter = bvNone
+      Caption = #1601#1593#1575#1604
+      DataField = 'Active'
+      DataSource = srcManifesto
       TabOrder = 0
     end
   end
@@ -365,7 +364,7 @@ inherited ManifestoF: TManifestoF
     Height = 479
     BevelOuter = bvNone
     ExplicitTop = 55
-    ExplicitWidth = 953
+    ExplicitWidth = 982
     ExplicitHeight = 479
     object pnlDelete: TPanel
       Left = 1
@@ -375,7 +374,6 @@ inherited ManifestoF: TManifestoF
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
-      ExplicitWidth = 951
       object SpeedButton16: TSpeedButton
         Left = 0
         Top = 0
@@ -451,7 +449,6 @@ inherited ManifestoF: TManifestoF
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitWidth = 951
       DesignSize = (
         980
         58)
@@ -512,7 +509,6 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         ParentCtl3D = False
         TabOrder = 0
-        ExplicitLeft = 808
       end
       object dbedtManifestoDate: TDBEdit
         Left = 837
@@ -525,7 +521,6 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         ParentCtl3D = False
         TabOrder = 1
-        ExplicitLeft = 808
       end
       object edtManifestoRunDate: TDBEdit
         Left = 114
@@ -590,7 +585,6 @@ inherited ManifestoF: TManifestoF
       Align = alTop
       Caption = '   '#1578#1608#1590#1610#1581#1575#1578'   '
       TabOrder = 1
-      ExplicitWidth = 951
       object dbmmoNote: TDBMemo
         Left = 2
         Top = 15
@@ -600,7 +594,6 @@ inherited ManifestoF: TManifestoF
         DataField = 'Note'
         DataSource = srcManifesto
         TabOrder = 0
-        ExplicitWidth = 947
       end
     end
     object pnl1: TPanel
@@ -611,7 +604,6 @@ inherited ManifestoF: TManifestoF
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 4
-      ExplicitWidth = 951
       DesignSize = (
         980
         133)
@@ -766,7 +758,6 @@ inherited ManifestoF: TManifestoF
         DataField = '_SellsMethod'
         DataSource = srcManifesto
         TabOrder = 0
-        ExplicitLeft = 710
       end
       object DBLookupComboBox2: TDBLookupComboBox
         Left = 16
@@ -787,7 +778,6 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         TabOrder = 2
         OnKeyDown = DBEdit1KeyDown
-        ExplicitLeft = 734
       end
       object DBEdit2: TDBEdit
         Left = 763
@@ -799,7 +789,6 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         TabOrder = 3
         OnKeyDown = DBEdit1KeyDown
-        ExplicitLeft = 734
       end
       object DBEdit3: TDBEdit
         Left = 40
@@ -830,7 +819,6 @@ inherited ManifestoF: TManifestoF
       Align = alTop
       Caption = ' '#1578#1594#1610#1610#1585' '#1603#1604#1610' '#1605#1576#1604#1594' '#1601#1585#1608#1588' '
       TabOrder = 5
-      ExplicitWidth = 951
       object lblCo: TLabel
         AlignWithMargins = True
         Left = 669
@@ -841,7 +829,6 @@ inherited ManifestoF: TManifestoF
         Margins.Bottom = 10
         Align = alRight
         Caption = #1590#1585#1610#1576
-        ExplicitLeft = 640
         ExplicitHeight = 13
       end
       object lblConstant: TLabel
@@ -854,7 +841,6 @@ inherited ManifestoF: TManifestoF
         Margins.Bottom = 10
         Align = alRight
         Caption = #1579#1575#1576#1578
-        ExplicitLeft = 485
         ExplicitHeight = 13
       end
       object rdgrpDecAdd: TRadioGroup
@@ -868,7 +854,6 @@ inherited ManifestoF: TManifestoF
           #1575#1601#1586#1575#1610#1588
           #1603#1575#1607#1588)
         TabOrder = 0
-        ExplicitLeft = 817
       end
       object mskCo: TMaskEdit
         AlignWithMargins = True
@@ -881,7 +866,6 @@ inherited ManifestoF: TManifestoF
         Align = alRight
         TabOrder = 1
         Text = ''
-        ExplicitLeft = 510
         ExplicitHeight = 21
       end
       object BitBtn2: TBitBtn
@@ -908,7 +892,6 @@ inherited ManifestoF: TManifestoF
         Align = alRight
         TabOrder = 3
         Text = '0'
-        ExplicitLeft = 355
         ExplicitHeight = 21
       end
       object CheckListBox1: TCheckListBox
@@ -919,7 +902,6 @@ inherited ManifestoF: TManifestoF
         Align = alClient
         ItemHeight = 13
         TabOrder = 4
-        ExplicitWidth = 269
       end
       object rdgrpCalcType: TRadioGroup
         Left = 699
@@ -933,7 +915,6 @@ inherited ManifestoF: TManifestoF
           #1605#1602#1583#1575#1585' '#1579#1575#1576#1578)
         TabOrder = 5
         OnClick = rdgrpCalcTypeClick
-        ExplicitLeft = 670
       end
     end
     object DBGrid1: TCedarDbgrid
@@ -1231,6 +1212,13 @@ inherited ManifestoF: TManifestoF
           Footers = <>
           Title.TitleButton = True
           Width = 39
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'Active'
+          Footers = <>
         end>
       object RowDetailData: TRowDetailPanelControlEh
       end
@@ -1733,6 +1721,10 @@ inherited ManifestoF: TManifestoF
     end
     object qryManifestoSellOrBuy: TWordField
       FieldName = 'SellOrBuy'
+    end
+    object qryManifestoActive: TBooleanField
+      DisplayLabel = #1601#1593#1575#1604
+      FieldName = 'Active'
     end
   end
   object srcManifesto: TDataSource
@@ -3550,11 +3542,15 @@ inherited ManifestoF: TManifestoF
       Size = 150
       Lookup = True
     end
+    object qryManifestoItemsActive: TBooleanField
+      DisplayLabel = #1601#1593#1575#1604
+      FieldName = 'Active'
+    end
   end
   object popPrint: TPopupMenu
     AutoHotkeys = maManual
-    Left = 504
-    Top = 295
+    Left = 568
+    Top = 183
     object ManifestoF1: TMenuItem
       Caption = #1670#1575#1662' 1 '
       object N1: TMenuItem
@@ -3596,13 +3592,13 @@ inherited ManifestoF: TManifestoF
       'SELECT     *'
       'FROM        Aid_StuffCoding'
       'WHERE     (State = 0)')
-    Left = 419
-    Top = 329
+    Left = 435
+    Top = 393
   end
   object pmRecall: TPopupMenu
     AutoHotkeys = maManual
-    Left = 70
-    Top = 11
+    Left = 86
+    Top = 67
     object AllClick: TMenuItem
       Caption = #1575#1586' '#1603#1583#1610#1606#1711' '#1603#1575#1604#1575
       OnClick = AllClickClick
@@ -3629,7 +3625,7 @@ inherited ManifestoF: TManifestoF
       'SELECT     *'
       'FROM        SellsMethods'
       '')
-    Left = 459
+    Left = 507
     Top = 97
   end
   object qrySellsEmporium: TADOQuery
@@ -3652,8 +3648,8 @@ inherited ManifestoF: TManifestoF
     Parameters = <>
     SQL.Strings = (
       'SELECT CustID,CustName FROM Customers')
-    Left = 363
-    Top = 111
+    Left = 283
+    Top = 95
   end
   object qryCustomersGroup: TADOQuery
     Connection = DmF.adcBSell

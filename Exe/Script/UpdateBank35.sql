@@ -15,3 +15,10 @@ if ( COLUMNPROPERTY( OBJECT_ID('Recipts'),'Nti1','IsRowGuidCol')is null )
 
 if ( COLUMNPROPERTY( OBJECT_ID('Recipts'),'Nti2','IsRowGuidCol')is null )
   ALTER TABLE Recipts ADD Nti2 varchar(30) NULL
+
+-- اعلاميه قيمت: فعال/غيرفعال بودن اعلاميه و هر قلم آن
+if ( COLUMNPROPERTY( OBJECT_ID('Manifesto'),'Active','IsRowGuidCol')is null )
+  ALTER TABLE Manifesto ADD Active bit NOT NULL CONSTRAINT DF_Manifesto_Active DEFAULT (1)
+
+if ( COLUMNPROPERTY( OBJECT_ID('ManifestoItems'),'Active','IsRowGuidCol')is null )
+  ALTER TABLE ManifestoItems ADD Active bit NOT NULL CONSTRAINT DF_ManifestoItems_Active DEFAULT (1)

@@ -249,11 +249,10 @@ inherited DocGroupsF: TDocGroupsF
         Left = 873
         Top = 3
         Width = 64
-        Height = 26
+        Height = 13
         Align = alRight
         Alignment = taRightJustify
         Caption = #1578#1608#1590#1610#1581#1575#1578' '#1587#1606#1583
-        ExplicitHeight = 13
       end
       object pnlSearch: TPanel
         Left = 0

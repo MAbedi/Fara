@@ -235,6 +235,7 @@ begin
                 SQL.Add('Manifesto.CustIDFrom <= Customers.CustID AND Manifesto.CustIDTo >= Customers.CustID');
                 SQL.Add('WHERE (Manifesto.ManifestoRunDate <= ''' +
                   var_glb_CurrentDate + ''')AND (SellOrBuy = 0) ');
+                SQL.Add('AND ISNULL(Manifesto.Active, 1) = 1 AND ISNULL(ManifestoItems.Active, 1) = 1 ');
                 SQL.Add('AND (ManifestoItems.StuffCode = ' +
                   qryRecall.FieldByName('StuffCode').AsString + ') AND');
                 SQL.Add('(Customers.CustID = ' +

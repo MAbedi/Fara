@@ -1778,6 +1778,7 @@ begin
       SQL.Add(')AND (SellOrBuy = ' + ifthen(((SellEffect <> 2) AND
         (BuyEffect <> 1)), '0', '1') + ') AND (ManifestoRunDate <= ''' +
         qryRecipts.FieldByName('ReciptDate').AsString + ''')');
+      SQL.Add(' AND ISNULL(Manifesto.Active, 1) = 1 AND ISNULL(Mi.Active, 1) = 1');
       SQL.Add(' AND (Manifesto.SellsMethod = ' + qryRecipts.FieldByName
         ('SellsMethod').AsInteger.ToString + ')');
 

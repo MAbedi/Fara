@@ -307,7 +307,7 @@ type
     // procedure ChangeStatusAll(st:integer);
     procedure ChangeStatus(StateT: Integer; MaxPrimary: Integer;
       AllChange: Boolean = False; IsPerpetuate: Boolean = False;
-      Sn: Integer = 0 { ; CompanyCode: Integer = 1 } );
+      Sn: Integer = 0; ACompanyCode: Integer = -1);
     procedure StautePerpetuate(AllState: Boolean = True);
     // Function CheckAccurateUser:Boolean;
 
@@ -743,7 +743,7 @@ end;
 
 procedure TDocGroupsF.ChangeStatus(StateT: Integer; MaxPrimary: Integer;
   AllChange: Boolean = False; IsPerpetuate: Boolean = False;
-  Sn: Integer = 0 { ; CompanyCode: Integer = 1 } );
+  Sn: Integer = 0; ACompanyCode: Integer = -1);
 var
   uSQL, aWhere: string;
   CanMsg: Boolean;
@@ -775,7 +775,10 @@ begin
       finally
         Filtered := False;
       end;
-  CompanyCode := qry_DocGroupsCompanyCode.AsInteger;
+  if ACompanyCode < 0 then
+    CompanyCode := qry_DocGroupsCompanyCode.AsInteger
+  else
+    CompanyCode := ACompanyCode;
   // if opta.RestDocCode then
   // MaxPrimary := GetANewCode('',
   // Format('select max(PrimaryDocNo) from acc.docGroups where  YearID=%d And CompanyCode =%d',
@@ -1066,7 +1069,8 @@ begin
           if not(GetUnConstBefore(qry_DocGroups.FieldByName('DocDate')
             .AsString) > 0) then
             ChangeStatus(3, MaxPrimary, False, True,
-              qry_DocGroups.FieldByName('Serial').AsInteger);
+              qry_DocGroups.FieldByName('Serial').AsInteger,
+              qry_DocGroups.FieldByName('CompanyCode').AsInteger);
           inc(MaxPrimary);
         End;
         DMF.adcAccounting.CommitTrans;
@@ -1136,8 +1140,8 @@ begin
           while not Eof do
           begin
             ChangeStatus(3, MaxPrimary, False, True,
-              FieldByName('Serial').AsInteger { ,
-                FieldByName('CompanyCode').AsInteger } );
+              FieldByName('Serial').AsInteger,
+              FieldByName('CompanyCode').AsInteger);
             inc(MaxPrimary);
             Next;
           end;

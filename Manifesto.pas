@@ -40,7 +40,6 @@ type
     ppDBPipeline2: TppDBPipeline;
     qryManifestoItems: TADOQuery;
     DBNavigator1: TDBNavigator;
-    Panel4: TPanel;
     BitBtn10: TBitBtn;
     pnlDelete: TPanel;
     SpeedButton16: TSpeedButton;
@@ -87,6 +86,7 @@ type
     qryManifestoLastUser: TWideStringField;
     qryManifestoCustIDFrom: TIntegerField;
     qryManifestoCustIDTo: TIntegerField;
+    qryManifestoActive: TBooleanField;
     pnl1: TPanel;
     qrySellsMethods: TADOQuery;
     qrySellsEmporium: TADOQuery;
@@ -181,6 +181,8 @@ type
     rdgrpCalcType: TRadioGroup;
     qryManifestoItemsCurrenciesID: TIntegerField;
     qryManifestoItems_CurrenciesID: TStringField;
+    qryManifestoItemsActive: TBooleanField;
+    dbchkManifestoActive: TDBCheckBox;
     procedure qryManifestoItemsAfterDelete(DataSet: TDataSet);
     procedure qryManifestoItemsAfterInsert(DataSet: TDataSet);
     procedure qryManifestoItemsBeforeDelete(DataSet: TDataSet);
@@ -811,6 +813,7 @@ begin
   DataSet.FieldByName('ManifestoDate').AsString := var_glb_CurrentDate;
   DataSet.FieldByName('ManifestoRunDate').AsString := var_glb_CurrentDate;
   DataSet.FieldByName('FirstUser').AsString := User.Name;
+  DataSet.FieldByName('Active').AsBoolean := True;
   edtManifestoNo.SetFocus;
 end;
 
@@ -845,6 +848,7 @@ begin
   DataSet.FieldByName('ManifestoID').AsInteger :=
     qryManifesto.FieldByName('ManifestoID').AsInteger;
   DataSet.FieldByName('FirstUser').AsString := User.Name;
+  DataSet.FieldByName('Active').AsBoolean := True;
 end;
 
 procedure TManifestoF.qryManifestoAfterScroll(DataSet: TDataSet);

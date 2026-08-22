@@ -4227,6 +4227,7 @@ begin
     SQL.Add('WHERE(StuffCode = ' + IntToStr(StuffCode));
     SQL.Add(')AND (SellOrBuy = 1) AND (ManifestoRunDate <= ''' +
       qryRecipts.FieldByName('ReciptDate').AsString + ''')');
+    SQL.Add(' AND ISNULL(Manifesto.Active, 1) = 1 AND ISNULL(ManifestoItems.Active, 1) = 1');
     SQL.Add(' AND (Manifesto.SellsMethod = ' + qryRecipts.FieldByName
       ('SellsMethod').AsInteger.ToString + ')');
 
