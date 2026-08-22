@@ -50,6 +50,17 @@ type
     DBGrid1: TCedarDbgrid;
     qryIncorporateReciptItemID: TIntegerField;
     pb1: TProgressBar;
+    qryUnpriced: TADOQuery;
+    dsUnpriced: TDataSource;
+    qryUnpricedInputReciptNumber: TIntegerField;
+    qryUnpricedInputReciptDate: TStringField;
+    qryUnpricedStuffCode: TLargeintField;
+    qryUnpricedc_StuffName: TStringField;
+    qryUnpricedOutputReciptNumber: TIntegerField;
+    qryUnpricedOutputReciptDate: TStringField;
+    qryUnpricedOutputProductCodes: TStringField;
+    DBGrid12: TCedarDbgrid;
+    Memo1: TMemo;
     procedure FormCreate(Sender: TObject);
     procedure actSendToExcelExecute(Sender: TObject);
     procedure actSearch_Execute(Sender: TObject);
@@ -69,6 +80,7 @@ type
     procedure InitCombo;
     procedure UpdateFilter;
     procedure UpdateQryFilter(qry: TADOQuery);
+    procedure UpdateUnpricedQryFilter(qry: TADOQuery);
     // function Total(SellPrice: Real): String;
     { Private declarations }
   public
@@ -220,6 +232,7 @@ begin
     end;
   PriceOnStoreType(i, DBGrid1, qryIncorporate);
   UpdateQryFilter(qryIncorporate);
+  UpdateUnpricedQryFilter(qryUnpriced);
 
   with qryIncorporate.Parameters do
   begin
@@ -240,10 +253,14 @@ begin
     SQL.Add(',Recipts.ParentCoReciptID AS reciptID');
 
     SQL.Add(',MAX(ReciptItems_1.ReciptItemID) AS ReciptItemID');
+//    SQL.Add(',(ReciptItems_1.ReciptItemID) AS ReciptItemID');
 
     SQL.Add(',ReciptItems.ProductCode AS StuffCode,');
     SQL.Add('SUM(ReciptItems.TotalInputPrice) AS TotalInputPrice');
     SQL.Add(',SUM(ReciptItems.TotalOutputPrice) AS TotalOutputPrice');
+//    SQL.Add('(ReciptItems.TotalInputPrice) AS TotalInputPrice');
+//    SQL.Add(',(ReciptItems.TotalOutputPrice) AS TotalOutputPrice');
+
     SQL.Add(',ReciptItems.TransFormID, StuffCoding.c_StuffName, Units.UnitName');
     SQL.Add('FROM ReciptItems INNER JOIN');
     SQL.Add('Recipts ON ReciptItems.ReciptID = Recipts.ReciptID AND ReciptItems.ServerID = Recipts.ServerID ');
@@ -303,6 +320,80 @@ begin
 
     if CtrlDown then
       ShowQryParam(qry);
+
+    Active := True;
+  end;
+end;
+
+procedure TConversionCoCalcF.UpdateUnpricedQryFilter(qry: TADOQuery);
+begin
+  with qry do
+  begin
+    Active := false;
+    if ProcedureActive = 4 then
+      // این حالت اصلاً به تطبیق ProductCode/TransFormID نیاز نداره، پس
+      // مصرفی «قیمت‌گذاری‌نشده» به این معنا وجود نداره
+      Exit;
+
+    SQL.Text := 'SELECT DISTINCT Recipts_1.ReciptNumber AS InputReciptNumber';
+    SQL.Add(',Recipts_1.ReciptDate AS InputReciptDate');
+    SQL.Add(',ReciptItems_1.StuffCode, StuffCoding.c_StuffName');
+    SQL.Add(',Recipts.ReciptNumber AS OutputReciptNumber');
+    SQL.Add(',Recipts.ReciptDate AS OutputReciptDate');
+    SQL.Add(',(SELECT CAST(STUFF((SELECT DISTINCT '','' + CAST(ri2.ProductCode AS varchar(20))');
+    SQL.Add('FROM ReciptItems ri2');
+    SQL.Add('WHERE ri2.ReciptID = Recipts.ReciptID AND ri2.ServerID = Recipts.ServerID AND ri2.YearID = Recipts.YearID');
+    SQL.Add('FOR XML PATH('''')), 1, 1, '''') AS varchar(500))) AS OutputProductCodes');
+    SQL.Add('FROM ReciptItems AS ReciptItems_1 INNER JOIN');
+    SQL.Add('Recipts AS Recipts_1 ON ReciptItems_1.ReciptID = Recipts_1.ReciptID');
+    SQL.Add('AND ReciptItems_1.ServerID = Recipts_1.ServerID AND ReciptItems_1.YearID = Recipts_1.YearID INNER JOIN');
+    SQL.Add('Recipts ON Recipts.ParentCoReciptID = Recipts_1.ReciptID');
+    SQL.Add('AND Recipts.ServerID = Recipts_1.ServerID AND Recipts.YearID = Recipts_1.YearID INNER JOIN');
+    SQL.Add('StuffCoding ON ReciptItems_1.StuffCode = StuffCoding.c_StuffCode');
+    SQL.Add('WHERE (Recipts_1.StoreID BETWEEN :StoreIDFrom AND :StoreIDTo )');
+    SQL.Add('AND (Recipts_1.ReciptType = :ReciptType )');
+    SQL.Add('AND (Recipts_1.ReciptNumber BETWEEN :ReciptNumberFrom AND :ReciptNumberTo )');
+    SQL.Add('AND (Recipts_1.ReciptDate BETWEEN :ReciptDateFrom AND :ReciptDateTo )');
+    SQL.Add('AND (Recipts_1.ReciptState < 3)');
+    SQL.Add('AND ( Recipts_1.DocNo = 0 )');
+    SQL.Add('AND (Recipts_1.YearID BETWEEN :YearIDFrom AND :YearIDTo)');
+    SQL.Add('AND (Recipts_1.PersonID1 BETWEEN :CustIDFrom AND :CustIDTo OR Recipts_1.PersonID1=0 )');
+    SQL.Add('AND (Recipts_1.SellsEmporium BETWEEN :SellsEmporiumFrom AND :SellsEmporiumTo)');
+    SQL.Add('AND NOT EXISTS (SELECT 1 FROM ReciptItems ri3');
+    SQL.Add('WHERE ri3.ReciptID = Recipts.ReciptID AND ri3.ServerID = Recipts.ServerID AND ri3.YearID = Recipts.YearID');
+    SQL.Add('AND ri3.ProductCode = ReciptItems_1.StuffCode AND ri3.TransFormID = ReciptItems_1.TransFormID)');
+    SQL.Add('ORDER BY Recipts_1.ReciptNumber');
+
+    Parameters.ParamByName('ReciptType').Value :=
+      Integer(cmbReciptType.Items.Objects[cmbReciptType.ItemIndex]);
+
+    Parameters.ParamByName('StoreIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['StoreID'], ftInteger);
+    Parameters.ParamByName('StoreIDTo').Value :=
+      GetcTo(myParams.ParamValues['StoreID'], ftInteger);
+
+    Parameters.ParamByName('ReciptDateFrom').Value :=
+      GetcFrom(myParams.ParamValues['ReciptDate'], ftDate);
+    Parameters.ParamByName('ReciptDateTo').Value :=
+      GetcTo(myParams.ParamValues['ReciptDate'], ftDate);
+
+    Parameters.ParamByName('ReciptNumberFrom').Value :=
+      GetcFrom(myParams.ParamValues['ReciptNumber'], ftInteger);
+    Parameters.ParamByName('ReciptNumberTo').Value :=
+      GetcTo(myParams.ParamValues['ReciptNumber'], ftInteger);
+
+    Parameters.ParamByName('YearIDFrom').Value := opt.DefaultYear;
+    Parameters.ParamByName('YearIDTo').Value := APPBank.Year;
+
+    Parameters.ParamByName('CustIDFrom').Value :=
+      GetcFrom(myParams.ParamValues['CustID'], ftInteger);
+    Parameters.ParamByName('CustIDTo').Value :=
+      GetcTo(myParams.ParamValues['CustID'], ftInteger);
+
+    Parameters.ParamByName('SellsEmporiumFrom').Value :=
+      GetcFrom(myParams.ParamValues['SellsEmporium'], ftInteger);
+    Parameters.ParamByName('SellsEmporiumTo').Value :=
+      GetcTo(myParams.ParamValues['SellsEmporium'], ftInteger);
 
     Active := True;
   end;

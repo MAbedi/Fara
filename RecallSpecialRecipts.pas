@@ -1122,7 +1122,7 @@ begin
                 FieldKind := fkData;
                 DataSet := qrySpecialRecall;
                 Name := 'qrySpecialRecall' + FieldName;
-                DisplayLabel := 'مقدار0 موجودی';
+                DisplayLabel := 'مقدار.موجودی';
                 Tag := 3;
                 qrySpecialRecall.FieldDefs.Add(Name, ftFloat, 0, True);
                 i := ColumnIndexByFieldName(DBGrid1, 'Weight');

@@ -359,26 +359,38 @@ begin
   begin
     Active := False;
     SQL.Text :=
-      'SELECT MIN(CheckNumber) AS MINCheckNumber,MAX(CheckNumber) AS MAXCheckNumber,'
-      + 'MIN(HunterCode) AS MINHunterCode, MAX(HunterCode) AS MAXHunterCode,' +
-      'MIN(CheckDate) AS MINCheckDate, MAX(CheckDate) AS MAXCheckDate,' +
-      'MIN(ISNULL(CheckCounter,0)) AS MINCheckCounter, MAX(ISNULL(CheckCounter,0)) AS MAXCheckCounter,'
-      + 'MIN(ItemAmount) AS MINItemAmount,MAX(ItemAmount) AS MAXItemAmount FROM dbo.FormItems';
-    Active := true;
-    numberfrom.Text := Fieldbyname('MINCheckNumber').AsString;
-    numberto.Text := Fieldbyname('MaxCheckNumber').AsString;
+      'SELECT ' +
+      '  MIN(TRY_CAST(RTRIM(CheckNumber) AS DECIMAL(20,0))) AS MINCheckNumber, ' +
+      '  MAX(TRY_CAST(RTRIM(CheckNumber) AS DECIMAL(20,0))) AS MAXCheckNumber, ' +
+      '  MIN(HunterCode) AS MINHunterCode, ' +
+      '  MAX(HunterCode) AS MAXHunterCode, ' +
+      '  MIN(CheckDate) AS MINCheckDate, ' +
+      '  MAX(CheckDate) AS MAXCheckDate, ' +
+      '  MIN(ISNULL(CheckCounter,0)) AS MINCheckCounter, ' +
+      '  MAX(ISNULL(CheckCounter,0)) AS MAXCheckCounter, ' +
+      '  MIN(ItemAmount) AS MINItemAmount, ' +
+      '  MAX(ItemAmount) AS MAXItemAmount ' +
+      'FROM dbo.FormItems ' +
+      'WHERE CheckNumber IS NOT NULL ' +
+      '  AND RTRIM(CheckNumber) <> '''' ' +
+      '  AND TRY_CAST(RTRIM(CheckNumber) AS DECIMAL(20,0)) IS NOT NULL';
 
-    HunterCodeFrom.Text := Fieldbyname('MINHunterCode').AsString;
-    HunterCodeTo.Text := Fieldbyname('MaxHunterCode').AsString;
+    Active := True;
 
-    amountFrom.Text := Fieldbyname('MINItemAmount').AsString;
-    amountTo.Text := Fieldbyname('MaxItemAmount').AsString;
-    dateFrom.Text := Fieldbyname('MinCheckDate').AsString;
-    dateTo.Text := Fieldbyname('MaxCheckDate').AsString;
+    numberfrom.Text := FieldByName('MINCheckNumber').AsString;
+    numberto.Text   := FieldByName('MAXCheckNumber').AsString;
 
-    medtCheckCounterFrom.Text := Fieldbyname('MinCheckCounter').AsString;
-    medtCheckCounterTo.Text := Fieldbyname('MaxCheckCounter').AsString;
+    HunterCodeFrom.Text := FieldByName('MINHunterCode').AsString;
+    HunterCodeTo.Text   := FieldByName('MAXHunterCode').AsString;
 
+    amountFrom.Text := FieldByName('MINItemAmount').AsString;
+    amountTo.Text   := FieldByName('MAXItemAmount').AsString;
+
+    dateFrom.Text := FieldByName('MINCheckDate').AsString;
+    dateTo.Text   := FieldByName('MAXCheckDate').AsString;
+
+    medtCheckCounterFrom.Text := FieldByName('MINCheckCounter').AsString;
+    medtCheckCounterTo.Text   := FieldByName('MAXCheckCounter').AsString;
   end;
 end;
 

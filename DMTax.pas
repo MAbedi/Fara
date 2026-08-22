@@ -526,13 +526,18 @@ begin
     // ثبت‌شده/کتمان‌شده دیرارسال پر می‌شوند، نه برای هر سند.
     if qryRecipts.FieldByName('Insr').AsBoolean then
     begin
-      aTax.InvoiceHeaderDto.Insr := 1;
+      aTax.InvoiceHeaderDto.Insr := '1';
       if not qryRecipts.FieldByName('Indati2m').IsNull then
-        aTax.InvoiceHeaderDto.Indati2m := DateTimeToUTC(qryRecipts.FieldByName
-          ('Indati2m').AsDateTime);
-    end;
-    aTax.InvoiceHeaderDto.Nti1 := qryRecipts.FieldByName('Nti1').AsString;
-    aTax.InvoiceHeaderDto.Nti2 := qryRecipts.FieldByName('Nti2').AsString;
+        aTax.InvoiceHeaderDto.Indati2m :=
+          DateTimeToUTC(qryRecipts.FieldByName('Indati2m').AsDateTime);
+    end
+    else
+      aTax.InvoiceHeaderDto.Indati2m := aTax.InvoiceHeaderDto.indatim;
+
+    if qryRecipts.FieldByName('Nti1').AsString.Trim <> EmptyStr then
+      aTax.InvoiceHeaderDto.Nti1 := qryRecipts.FieldByName('Nti1').AsString;
+    if qryRecipts.FieldByName('Nti2').AsString.Trim <> EmptyStr then
+      aTax.InvoiceHeaderDto.Nti2 := qryRecipts.FieldByName('Nti2').AsString;
     // taxId:=taxId;
 
     aTax.InvoiceHeaderDto.inno :=
@@ -1472,7 +1477,6 @@ begin
     JsonStr := StringReplace(JsonStr, '"prfOrderNumber":""',
       '"prfOrderNumber":null', [rfReplaceAll]);
 
-
     add2log2('_______________1RDR=' + qryRecipts.FieldByName('ReciptNumber')
       .AsString, True, 'Ntsw');
     add2log2(#13#10 + MaskSensitiveFields(JsonStr), True, 'Ntsw');
@@ -1894,4 +1898,3 @@ begin
 end;
 
 end.
-

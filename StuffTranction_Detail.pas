@@ -195,6 +195,9 @@ type
     grdStuff: TCedarDbgrid;
     grdStuffDec: TCedarDbgrid;
     grdStuffInc: TCedarDbgrid;
+    N12: TMenuItem;
+    N4: TMenuItem;
+    N5: TMenuItem;
     procedure actFilterExecute(Sender: TObject);
     procedure qryStuffAfterScroll(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);

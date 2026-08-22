@@ -4,6 +4,7 @@ inherited RptTrialBalance_CTopics3_CTopicsF: TRptTrialBalance_CTopics3_CTopicsF
   Caption = #1578#1585#1575#1586' '#1570#1586#1605#1575#1610#1588#1610' '#1587#1585#1601#1589#1604' '#1578#1601#1589#1740#1604#1740' 4 - '#1583#1585' '#1587#1591#1581' '#1578#1601#1589#1740#1604#1740' 1 '#1608' 2 '#1608' 3  '
   ClientHeight = 526
   ClientWidth = 778
+  ExplicitTop = -2
   ExplicitWidth = 786
   ExplicitHeight = 557
   PixelsPerInch = 96
@@ -886,7 +887,7 @@ inherited RptTrialBalance_CTopics3_CTopicsF: TRptTrialBalance_CTopics3_CTopicsF
         ':FromYearID  ,  :ToYearID                 , :CurrencyTypeFrom , ' +
         ':CurrencyTypeTo , :CurrencyKind ) AS AccTrialCTopics3Balance_CTo' +
         'pics')
-    Left = 270
+    Left = 254
     Top = 128
     object qry_TrialCTopic2BalanceTopicCode: TLargeintField
       Tag = 3

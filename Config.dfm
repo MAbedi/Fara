@@ -289,11 +289,15 @@ inherited ConfigF: TConfigF
     Top = 73
     Width = 765
     Height = 443
-    ActivePage = TabSheet24
+    ActivePage = TabSheet6
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
       Caption = #8207#1588#1585#1603#1578
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label5: TLabel
         Left = 516
         Top = 97
@@ -664,6 +668,10 @@ inherited ConfigF: TConfigF
     object tsAdmin: TTabSheet
       Caption = #1575#1585#1578#1576#1575#1591'...'
       ImageIndex = 10
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PageControl4: TPageControl
         Left = 0
         Top = 0
@@ -792,13 +800,12 @@ inherited ConfigF: TConfigF
               Left = 30
               Top = 8
               Width = 43
-              Height = 17
+              Height = 13
               Margins.Left = 30
               Margins.Top = 8
               Align = alLeft
               Caption = 'ServerID'
               FocusControl = edtServerID
-              ExplicitHeight = 13
             end
             object btn1: TSpeedButton
               AlignWithMargins = True
@@ -888,6 +895,10 @@ inherited ConfigF: TConfigF
         object TabSheet17: TTabSheet
           Caption = #1587#1610#1587#1578#1605' '#1580#1575#1606#1576#1610
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object lbl2: TLabel
             Left = 437
             Top = 7
@@ -1176,10 +1187,9 @@ inherited ConfigF: TConfigF
               Left = 5
               Top = 18
               Width = 66
-              Height = 31
+              Height = 26
               Align = alLeft
               Caption = 'IPCameraURL'#13#10#1585#1588#1578#1607' '#1575#1578#1589#1575#1604
-              ExplicitHeight = 26
             end
             object edtIPCameraURL: TDBEdit
               Left = 2
@@ -1216,6 +1226,10 @@ inherited ConfigF: TConfigF
         object TabSheet22: TTabSheet
           Caption = #1578#1608#1586#1740#1606' '#1607#1585' '#1705#1575#1585#1576#1585
           ImageIndex = 5
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object grdConfigUser: TCedarDbgrid
             Tag = 111
             Left = 0
@@ -1359,6 +1373,10 @@ inherited ConfigF: TConfigF
           Caption = #1578#1606#1592#1610#1605#1575#1578' '#1662#1587#1578' '#1575#1604#1603#1578#1585#1608#1606#1610#1603
           ImageIndex = 2
           OnEnter = TabSheet3Enter
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label48: TLabel
             Left = 152
             Top = 96
@@ -1457,6 +1475,10 @@ inherited ConfigF: TConfigF
         object tbsSMS: TTabSheet
           Caption = #1575#1585#1587#1575#1604' '#1662#1610#1575#1605#1603
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label65: TLabel
             Left = 443
             Top = 47
@@ -1549,6 +1571,10 @@ inherited ConfigF: TConfigF
         object TabSheet25: TTabSheet
           Caption = #1705#1575#1585#1578' '#1582#1608#1575#1606
           ImageIndex = 5
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object GroupBox18: TGroupBox
             Left = 288
             Top = 16
@@ -1616,6 +1642,10 @@ inherited ConfigF: TConfigF
     object TabSheet15: TTabSheet
       Caption = #1581#1587#1575#1576#1583#1575#1585#1610
       ImageIndex = 10
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PageControl3: TPageControl
         Left = 0
         Top = 0
@@ -1776,6 +1806,10 @@ inherited ConfigF: TConfigF
         object TabSheet14: TTabSheet
           Caption = #1578#1606#1592#1610#1605#1575#1578' '#1581#1587#1575#1576#1583#1575#1585#1610
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label7: TLabel
             Left = 161
             Top = 57
@@ -1935,6 +1969,10 @@ inherited ConfigF: TConfigF
         object TabSheet20: TTabSheet
           Caption = #1578#1601#1589#1740#1604#1740'2'
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label69: TLabel
             Left = 413
             Top = 30
@@ -1965,6 +2003,10 @@ inherited ConfigF: TConfigF
     object TabSheet4: TTabSheet
       Caption = #8207#1608#1610#1688#1607
       ImageIndex = 3
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label16: TLabel
         Left = 578
         Top = 128
@@ -2258,6 +2300,10 @@ inherited ConfigF: TConfigF
     object TabSheet24: TTabSheet
       Caption = #1587#1575#1605#1575#1606#1607' '#1607#1575
       ImageIndex = 15
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PageControl5: TPageControl
         Left = 0
         Top = 0
@@ -2269,6 +2315,10 @@ inherited ConfigF: TConfigF
         object TabSheet5: TTabSheet
           Caption = #1587#1575#1605#1575#1606#1607' '#1580#1575#1605#1593' '#1605#1608#1583#1740#1575#1606
           ImageIndex = 13
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object GroupBox13: TGroupBox
             Left = 0
             Top = 218
@@ -2451,6 +2501,10 @@ inherited ConfigF: TConfigF
         object TabSheet23: TTabSheet
           Caption = #1587#1575#1605#1575#1606#1607' '#1580#1575#1605#1593' '#1578#1580#1575#1585#1578
           ImageIndex = 14
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label86: TLabel
             Left = 72
             Top = 72
@@ -2535,6 +2589,10 @@ inherited ConfigF: TConfigF
         object ts2: TTabSheet
           Caption = #1587#1575#1605#1575#1606#1607' '#1580#1575#1605#1593' '#1578#1608#1604#1740#1583' '#1608' '#1601#1585#1608#1588
           ImageIndex = 4
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object lbl11: TLabel
             Left = 66
             Top = 64
@@ -2580,6 +2638,10 @@ inherited ConfigF: TConfigF
     object TTabSheet
       Caption = #1593#1605#1608#1605#1610
       ImageIndex = 4
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label21: TLabel
         Left = 165
         Top = 237
@@ -2852,6 +2914,10 @@ inherited ConfigF: TConfigF
     object TabSheet6: TTabSheet
       Caption = #1603#1583#1610#1606#1711#8207#1603#1575#1604#1575
       ImageIndex = 5
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object PageControl2: TPageControl
         Left = 0
         Top = 0
@@ -2862,6 +2928,10 @@ inherited ConfigF: TConfigF
         TabOrder = 0
         object TabSheet7: TTabSheet
           Caption = #1593#1606#1575#1608#1610#1606' '#1705#1583#1610#1606#1711' '#1705#1575#1604#1575
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label20: TLabel
             Left = 0
             Top = 0
@@ -3019,6 +3089,10 @@ inherited ConfigF: TConfigF
         object TabSheet8: TTabSheet
           Caption = #1705#1583#1610#1606#1711' '#1705#1575#1604#1575
           ImageIndex = 1
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label22: TLabel
             Left = 400
             Top = 8
@@ -3193,6 +3267,10 @@ inherited ConfigF: TConfigF
         object TabSheet19: TTabSheet
           Caption = #1588#1585#1581' '#1603#1575#1604#1575
           ImageIndex = 2
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object Label66: TLabel
             Left = 207
             Top = 18
@@ -3278,6 +3356,10 @@ inherited ConfigF: TConfigF
         object ts1: TTabSheet
           Caption = #1588#1606#1575#1587#1606#1575#1605#1607' '#1605#1575#1588#1740#1606' '#1570#1604#1575#1578
           ImageIndex = 3
+          ExplicitLeft = 0
+          ExplicitTop = 0
+          ExplicitWidth = 0
+          ExplicitHeight = 0
           object grp2: TGroupBox
             Left = 67
             Top = 3
@@ -3403,6 +3485,10 @@ inherited ConfigF: TConfigF
     object TabSheet9: TTabSheet
       Caption = #1589#1583#1608#1585#1587#1606#1583
       ImageIndex = 6
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object lblDocStatusDefault: TLabel
         Left = 392
         Top = 14
@@ -3500,9 +3586,9 @@ inherited ConfigF: TConfigF
           Caption = #1593#1606#1608#1575#1606' '#1576#1580#1575#1610' '#1581#1587#1575#1576'# '#1578#1601#1589#1610#1604#1610'# '#1578#1601#1589#1610#1604#1610'2'#39'...'#8207
           TabOrder = 0
           object lbl10: TLabel
-            Left = 2
+            Left = 7
             Top = 248
-            Width = 214
+            Width = 209
             Height = 26
             Align = alBottom
             Caption = #1740#1575' '#1607#1740#1670' '#1593#1606#1608#1575#1606#1740' '#1608#1575#1585#1583' '#1606#1588#1608#1583' '#1740#1575' '#1607#1605#1607' '#1593#1606#1608#1575#1606' '#1607#1575' '#1608#1575#1585#1583' '#1588#1608#1606#1583
@@ -3513,8 +3599,6 @@ inherited ConfigF: TConfigF
             Font.Style = []
             ParentFont = False
             WordWrap = True
-            ExplicitLeft = 7
-            ExplicitWidth = 209
           end
           object Label83: TLabel
             Left = -9
@@ -3597,6 +3681,10 @@ inherited ConfigF: TConfigF
     object TabSheet10: TTabSheet
       Caption = #1583#1587#1578#1585#1587#1610
       ImageIndex = 7
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         757
         415)
@@ -3727,6 +3815,10 @@ inherited ConfigF: TConfigF
     object TabSheet11: TTabSheet
       Caption = #1603#1606#1578#1585#1604#8207' '#1607#1575
       ImageIndex = 8
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox9: TGroupBox
         Left = 0
         Top = 0
@@ -3997,6 +4089,10 @@ inherited ConfigF: TConfigF
     object TabSheet2: TTabSheet
       Caption = #1603#1575#1585#1603#1585#1583
       ImageIndex = 10
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object GroupBox1: TGroupBox
         Left = 0
         Top = 0
@@ -4240,6 +4336,10 @@ inherited ConfigF: TConfigF
     object TabSheet21: TTabSheet
       Caption = #1582#1585#1740#1583'/'#1601#1585#1608#1588' '#1601#1589#1604#1740
       ImageIndex = 12
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object Label68: TLabel
         Left = 433
         Top = 68

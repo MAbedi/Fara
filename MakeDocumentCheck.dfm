@@ -1255,22 +1255,30 @@ inherited MakeDocumentCheckF: TMakeDocumentCheckF
     SQL.Strings = (
       
         'SELECT     0 AS FormItemID, 0 AS FormID,  0 AS ServerID,  0 AS Y' +
-        'earID, 0.0 AS CheckNumber, '#39#39' AS CheckDate, TopicCode, DetailCod' +
-        'e, CtopicCode, CtopicCode2, '
+        'earID, 526800267651563.0000 AS CheckNumber, '#39#39' AS CheckDate, Top' +
+        'icCode, DetailCode, CtopicCode, CtopicCode2,CtopicCode3,'
       
         '                      '#39' ????  '#39' + FormCaption + '#39' ?????? '#39' + For' +
-        'mDate AS Comment, SUM(debt) AS Debt, SUM(credit) AS Credit, Budg' +
-        'etCode'
+        'mDate AS Comment,'
       
-        'FROM         dbo.MakeDocuments_Check(:FormDateFrom, :FormDateTo,' +
-        ':FormNumberFrom, :FormNumberTo,  :CheckStateFrom, :CheckStateTo'
+        '                      '#39' ????  '#39' + FormCaption + '#39' ?????? '#39' + For' +
+        'mDate AS Comment2,'
+      
+        '                       SUM(debt) AS Debt, SUM(credit) AS Credit,' +
+        ' BudgetCode'
+      ''
+      
+        'FROM         dbo.MakeDocuments_Check(0,:FormDateFrom, :FormDateT' +
+        'o,:FormNumberFrom, :FormNumberTo,  :CheckStateFrom, :CheckStateT' +
+        'o'
       
         ', :SellsEmporiumFrom , :SellsEmporiumTo , :PayTypesFrom , :PayTy' +
         'pesTo ,1  , :AidDateFrom , :AidDateTo ) AS MakeDocuments_Check'
       'WHERE     (FormType IN (103, 104))'
       
         'GROUP BY FormNumber, FormDate, FormCaption, TopicCode, DetailCod' +
-        'e, CtopicCode, CtopicCode2, bedbes, BudgetCode')
+        'e, CtopicCode, CtopicCode2,CtopicCode3, bedbes, BudgetCode'
+      '')
     Left = 300
     Top = 181
     object qryItemsFormItemID: TIntegerField
@@ -1370,15 +1378,17 @@ inherited MakeDocumentCheckF: TMakeDocumentCheckF
       currency = True
       Precision = 19
     end
+    object qryItemsCheckNumber: TFMTBCDField
+      FieldName = 'CheckNumber'
+      ReadOnly = True
+      Precision = 20
+      Size = 4
+    end
     object qryItemsCheckDate: TStringField
       DisplayWidth = 10
       FieldName = 'CheckDate'
       ReadOnly = True
       Size = 10
-    end
-    object qryItemsCheckNumber: TFloatField
-      FieldName = 'CheckNumber'
-      ReadOnly = True
     end
     object qryItems_TopicName2: TStringField
       FieldKind = fkLookup

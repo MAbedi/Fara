@@ -1199,7 +1199,6 @@ inherited searchCheckF: TsearchCheckF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1670#1603
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
     end
     object qryCheckHunterCode: TStringField
       Tag = 3
@@ -2650,7 +2649,6 @@ inherited searchCheckF: TsearchCheckF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1670#1603
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
     end
     object qryChkBankName: TStringField
       Tag = 3

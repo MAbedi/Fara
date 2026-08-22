@@ -4,6 +4,7 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
   Caption = #1711#1586#1575#1585#1588' '#1711#1585#1583#1588' '#1603#1575#1604#1575#1610' '#1575#1606#1576#1575#1585
   ClientHeight = 547
   ClientWidth = 1056
+  ExplicitLeft = -156
   ExplicitWidth = 1064
   ExplicitHeight = 578
   PixelsPerInch = 96
@@ -11,7 +12,8 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
   inherited PnlUnderButton: TPanel
     Top = 464
     Width = 1056
-    ExplicitTop = 434
+    ExplicitTop = 464
+    ExplicitWidth = 1056
     object BitBtn6: TBitBtn
       AlignWithMargins = True
       Left = 85
@@ -63,7 +65,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       Align = alRight
       Caption = #1670#1575#1662
       TabOrder = 4
-      ExplicitLeft = 626
     end
     object BitBtn3: TBitBtn
       AlignWithMargins = True
@@ -77,7 +78,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       Align = alRight
       Caption = #1605#1581#1583#1608#1583#1607
       TabOrder = 5
-      ExplicitLeft = 707
     end
     object BitBtn5: TBitBtn
       AlignWithMargins = True
@@ -95,17 +95,21 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
   end
   inherited Panel2: TPanel
     Width = 1056
+    ExplicitWidth = 1056
     DesignSize = (
       1056
       53)
     inherited ImgTemplate: TImage
       Left = 1047
+      ExplicitLeft = 1047
     end
     inherited lblCaption: TLabel
       Left = 948
+      ExplicitLeft = 948
     end
     inherited lblBaseDate: TLabel
       Left = 477
+      ExplicitLeft = 477
     end
   end
   inherited Panel3: TPanel
@@ -113,7 +117,8 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
     Width = 1056
     Height = 394
     ExplicitTop = 70
-    ExplicitHeight = 364
+    ExplicitWidth = 1056
+    ExplicitHeight = 394
     object Panel1: TPanel
       Left = 520
       Top = 2
@@ -234,7 +239,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       Height = 390
       Align = alClient
       TabOrder = 1
-      ExplicitWidth = 454
       object Panel5: TPanel
         Left = 1
         Top = 181
@@ -242,8 +246,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
         Height = 208
         Align = alClient
         TabOrder = 0
-        ExplicitWidth = 452
-        ExplicitHeight = 178
         object Label1: TLabel
           Left = 1
           Top = 1
@@ -346,7 +348,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
         Height = 180
         Align = alTop
         TabOrder = 1
-        ExplicitWidth = 452
         object Label2: TLabel
           Left = 1
           Top = 1
@@ -451,7 +452,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
     Height = 17
     Align = alTop
     TabOrder = 3
-    ExplicitWidth = 786
     object LblShowLimitPlace2: TLabel
       Left = 1
       Top = 1
@@ -484,7 +484,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       Font.Style = []
       ParentFont = False
       Transparent = True
-      ExplicitLeft = 691
       ExplicitHeight = 13
     end
   end
@@ -496,8 +495,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
     Align = alBottom
     Caption = #1605#1588#1582#1589#1575#1578' '#1601#1606#1610' '#1603#1575#1604#1575
     TabOrder = 4
-    ExplicitTop = 475
-    ExplicitWidth = 786
     DesignSize = (
       1056
       42)
@@ -513,7 +510,6 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       DataSource = SrcStuff
       ParentCtl3D = False
       TabOrder = 0
-      ExplicitWidth = 749
     end
   end
   inherited ActionList: TActionList
@@ -3279,6 +3275,20 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
         Tag = 1
         Caption = #1607#1605#1607' '#1603#1575#1604#1575' '#1607#1575
         Hint = 'StuffTranction_Detail2'
+        OnClick = MenuItem1Click
+      end
+    end
+    object N12: TMenuItem
+      Caption = #1670#1575#1662'3'
+      object N5: TMenuItem
+        Caption = #1603#1575#1604#1575#1610' '#1580#1575#1585#1610
+        Hint = 'StuffTranction_Detail3'
+        OnClick = MenuItem1Click
+      end
+      object N4: TMenuItem
+        Tag = 1
+        Caption = #1607#1605#1607' '#1603#1575#1604#1575' '#1607#1575
+        Hint = 'StuffTranction_Detail3'
         OnClick = MenuItem1Click
       end
     end

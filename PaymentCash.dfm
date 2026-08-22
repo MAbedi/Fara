@@ -4870,7 +4870,7 @@ inherited PaymentCashF: TPaymentCashF
       ImportedConstraint = '0'
       OnChange = qryFormItemsCheckNumberChange
       EditMask = '!999999999999999;0;_'
-      Size = 15
+      Size = 20
     end
     object qryFormItemsCustomerID2: TIntegerField
       Tag = 3

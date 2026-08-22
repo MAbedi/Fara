@@ -49,7 +49,7 @@ type
     Ftvop: string;
     Ftax17: string;
     FBpc: string;
-    FInsr: integer;
+    FInsr: string;
     FNti1: string;
     FNti2: string;
   published
@@ -67,7 +67,7 @@ type
     property Inp: integer read FInp write FInp;
     property Ins: string read FIns write FIns;
     property Insp: string read Finsp write Finsp;
-    property Insr: integer read FInsr write FInsr;
+    property Insr: string read FInsr write FInsr;
     property Nti1: string read FNti1 write FNti1;
     property Nti2: string read FNti2 write FNti2;
     property Inty: string read FInty write FInty;

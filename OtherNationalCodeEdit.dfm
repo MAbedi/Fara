@@ -490,7 +490,7 @@ inherited OtherNationalCodeEditF: TOtherNationalCodeEditF
       FieldName = 'CheckNumber'
       ReadOnly = True
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryFormItemsCheckDate: TStringField
       DisplayLabel = #1587#1585#1585#1587#1740#1583' '#1670#1705

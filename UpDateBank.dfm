@@ -292,7 +292,6 @@ inherited UpDateBankF: TUpDateBankF
     Align = alBottom
     Caption = #1575#1586' '#1608#1585#1688#1606' 0 '#1575#1580#1585#1575' '#1588#1608#1583
     Checked = True
-    Enabled = False
     State = cbChecked
     TabOrder = 6
   end

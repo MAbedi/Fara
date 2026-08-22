@@ -254,7 +254,7 @@ end;
 procedure TUpDateBankF.initForm;
 begin
   Pathini := __AppData + AppID + '_UpDateBank.ini';
-  chkVertion.Enabled := IsDelphiRunning;
+//  chkVertion.Enabled := IsDelphiRunning;
   if IsDelphiRunning then
     chkVertion.Checked := False;
 
@@ -1025,9 +1025,9 @@ begin
               'GRANT SELECT ON dbo.InvoiceList TO OtherUser; ';
             ADOCmdUpDate.Execute;
           end;
-        OpenFileName := 'Special' + FcompanyCode.ToString.trim + '.sql';
-        if FileExists(OpenFileName) then
-          Views_Fun(ChkBankName.Items[i], -2, OpenFileName);
+//        OpenFileName := 'Special' + FcompanyCode.ToString.trim + '.sql';
+  //      if FileExists(OpenFileName) then
+    //      Views_Fun(ChkBankName.Items[i], -2, OpenFileName);
 
         ChkBankName.Checked[i] := False;
       end;

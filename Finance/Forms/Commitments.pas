@@ -231,6 +231,8 @@ type
     srcLookUp: TDataSource;
     qryItemsCostTypeName: TStringField;
     qryInterfaceCustGroups: TStringField;
+    actViewFile: TAction;
+    BitBtn19: TBitBtn;
     procedure srcMasterStateChange(Sender: TObject);
     procedure qryMasterAfterInsert(DataSet: TDataSet);
     procedure qryMasterAfterPost(DataSet: TDataSet);
@@ -297,6 +299,7 @@ type
     procedure DBLookupComboBox1Enter(Sender: TObject);
     procedure qryItemsCostTypeChange(Sender: TField);
     procedure qryInterfaceAfterScroll(DataSet: TDataSet);
+    procedure actViewFileExecute(Sender: TObject);
   private
     SumRemaining: Currency;
     formType: byte;
@@ -318,7 +321,7 @@ implementation
 
 uses Dm, searchCode_L1_L2, GlobalPro, mmessage, search2, sort2, searchCode_ADO,
   sndkey32,
-  Note, Main;
+  Note, Main, ViewFileOnServer;
 
 {$R *.dfm}
 
@@ -660,6 +663,14 @@ procedure TCommitmentsF.actSortExecute(Sender: TObject);
 begin
   inherited;
   sort2F.ShowSort(qryItems);
+end;
+
+procedure TCommitmentsF.actViewFileExecute(Sender: TObject);
+begin
+  inherited;
+  ViewFileOnServerF.Enter(qryMaster.FieldByName('BudgetID').AsString,
+    'BudgetsCommitmentsFiles', False);
+
 end;
 
 procedure TCommitmentsF.BitBtn1Click(Sender: TObject);

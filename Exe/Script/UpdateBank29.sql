@@ -1,4 +1,4 @@
-﻿ ----   UpdateBank 29   1405/05/7  
+﻿ ----   UpdateBank 29   1405/05/20  
 SET NOCOUNT ON
 -------------------------------------------------------------------------------------------------------------------------------------------------------------
 DECLARE @filename NVARCHAR(256);
@@ -196,6 +196,13 @@ IF EXISTS ( SELECT 1 FROM sys.indexes WHERE name = 'IX_Recipts_FormType_FormNumb
 
 IF EXISTS ( SELECT 1 FROM sys.indexes WHERE name = 'IX_Forms_FormType_CustomerID2' AND object_id = OBJECT_ID('dbo.Forms') ) 
  DROP INDEX IX_Forms_FormType_CustomerID2 ON dbo.Forms
+
+  IF NOT EXISTS (SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE   (TABLE_NAME = N'FormItems') AND (COLUMN_NAME = N'CheckNumber') AND (DATA_TYPE = N'char')AND (CHARACTER_MAXIMUM_LENGTH = 20))
+	begin
+      ALTER TABLE FormItems ALTER COLUMN CheckNumber char(20)
+
+  end
 
 /*
 select AidInfoNo  from Forms where len(AidInfoNo)>10  order by len(AidInfoNo) desc

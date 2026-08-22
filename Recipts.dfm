@@ -9149,7 +9149,7 @@ inherited ReciptsF: TReciptsF
     object qryReciptOnFormsRangeCheckNumber: TStringField
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryReciptOnFormsRangeCheckDate: TStringField
       FieldName = 'CheckDate'

@@ -4,8 +4,8 @@ inherited rptBalanceCofferF: TrptBalanceCofferF
   Caption = #1711#1586#1575#1585#1588' '#1606#1602#1583#1610#1606#1711#1610' '#1606#1586#1583' '#1589#1606#1583#1608#1602' '#1608' '#1576#1575#1606#1603#1607#1575
   ClientHeight = 477
   ClientWidth = 953
-  ExplicitWidth = 969
-  ExplicitHeight = 516
+  ExplicitWidth = 961
+  ExplicitHeight = 508
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
@@ -238,7 +238,7 @@ inherited rptBalanceCofferF: TrptBalanceCofferF
           EditButtons = <>
           FieldName = 'BankId'
           Footers = <>
-          Width = 42
+          Width = 48
         end
         item
           CellButtons = <>

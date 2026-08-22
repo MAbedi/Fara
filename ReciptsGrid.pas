@@ -5738,6 +5738,8 @@ begin
 end;
 
 procedure TReciptsGridF.SetqryUnit2Stuffs(IsEnter: Boolean);
+var
+  b: Boolean;
 begin
   if UnitCoAct then
   begin
@@ -5759,8 +5761,12 @@ begin
       Active := True;
       if qryItems.State in dsEditModes then
         if qryItems.FieldByName('UnitCode2').AsString = '' then
-          qryItems.FieldByName('UnitCode2').AsInteger :=
-            qryUnit2Stuffs.FieldByName('UnitCode').AsInteger;
+        begin
+          b := qryItems.FieldByName('UnitCode2').ReadOnly;
+          qryItems.FieldByName('UnitCode2').ReadOnly := False;
+          qryUnit2Stuffs.FieldByName('UnitCode').AsInteger;
+          qryItems.FieldByName('UnitCode2').ReadOnly := b;
+        end;
 
     end;
   end;
@@ -10790,8 +10796,8 @@ end;
 procedure TReciptsGridF.dbchkInsrClick(Sender: TObject);
 begin
   inherited;
-  if not (qryRecipts.State in dsEditModes) then
-    Exit;
+  if not(qryRecipts.State in dsEditModes) then
+    exit;
   if dbchkInsr.Checked then
   begin
     if qryReciptsIndati2m.IsNull then
@@ -16166,13 +16172,17 @@ begin
     // ثبت‌شده/کتمان‌شده دیرارسال پر می‌شوند، نه برای هر سند.
     if qryReciptsInsr.AsBoolean then
     begin
-      aTax.InvoiceHeaderDto.Insr := 1;
+      aTax.InvoiceHeaderDto.Insr := '1';
       if not qryReciptsIndati2m.IsNull then
         aTax.InvoiceHeaderDto.Indati2m :=
           DateTimeToUTC(qryReciptsIndati2m.AsDateTime);
-    end;
-    aTax.InvoiceHeaderDto.Nti1 := qryReciptsNti1.AsString;
-    aTax.InvoiceHeaderDto.Nti2 := qryReciptsNti2.AsString;
+    end
+    else
+      aTax.InvoiceHeaderDto.Indati2m := aTax.InvoiceHeaderDto.indatim;
+    if qryReciptsNti1.AsString.Trim <> EmptyStr then
+      aTax.InvoiceHeaderDto.Nti1 := qryReciptsNti1.AsString;
+    if qryReciptsNti2.AsString.Trim <> EmptyStr then
+      aTax.InvoiceHeaderDto.Nti2 := qryReciptsNti2.AsString;
     // taxId:=taxId;
 
     aTax.InvoiceHeaderDto.inno :=

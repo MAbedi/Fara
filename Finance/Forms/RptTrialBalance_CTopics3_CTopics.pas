@@ -9,7 +9,7 @@ uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, template2MDI, ImgList, DBActns, ActnList, StdCtrls, ExtCtrls,
   Buttons, DBCtrls, Grids, Vcl.DBGrids, DB, ADODB, ComCtrls, Menus,
-  Filter_ADO_Const,AccFunctions,
+  Filter_ADO_Const, AccFunctions,
   ppBands, ppClass, ppCtrls, ppVar, ppPrnabl, ppCache, ppProd, ppReport,
   ppComm, ppRelatv, ppDB, ppDBPipe, SumDBGrid, ppParameter, ppDesignLayer,
   System.ImageList, System.Actions, DBGridEhGrouping, ToolCtrlsEh,
@@ -281,8 +281,7 @@ begin
   with qry_TrialCTopic2Balance do
   begin
     Active := false;
-    SetArzParameters(qry_TrialCTopic2Balance,MyParams);
-
+    SetArzParameters(qry_TrialCTopic2Balance, myParams);
 
     Parameters.ParamByName('DocTypeCode_Not').Value :=
       GetcFrom(myParams.ParamValues['checked'], ftString);
@@ -321,7 +320,7 @@ begin
       qry_TrialCTopic2Balance.Parameters.ParamByName('CompanyCodeFrom')
         .Value := 0;
       qry_TrialCTopic2Balance.Parameters.ParamByName('CompanyCodeTo')
-        .Value := 99;
+        .Value := 99999;
     end;
     SetCompanyFilterinLogin(qry_TrialCTopic2Balance.Parameters);
     Parameters.ParamByName('CTopicCodeFrom').Value :=
@@ -392,8 +391,8 @@ procedure TRptTrialBalance_CTopics3_CTopicsF.qry_TrialCTopic2BalanceAfterOpen
   (DataSet: TDataSet);
 begin
   inherited;
-  DBGridCurrencyKind(DBGrid1,myParams,qry_TrialCTopic2Balance)
-    // Updateremain;
+  DBGridCurrencyKind(DBGrid1, myParams, qry_TrialCTopic2Balance)
+  // Updateremain;
 end;
 
 procedure TRptTrialBalance_CTopics3_CTopicsF.actSortExecute(Sender: TObject);
@@ -423,10 +422,12 @@ begin
     Rpt_Ctopics3OnDetailsBookF, Self);
   with Rpt_Ctopics3OnDetailsBookF do
   begin
+    // ---------- qry_Doc ----------
     with qry_Doc do
     begin
       Active := false;
-      SetParametersqry(qry_Doc,qry_TrialCTopic2Balance)   ;
+      SetParametersqry(qry_Doc, qry_TrialCTopic2Balance);
+
       Parameters.ParamByName('DocDateFrom').Value :=
         qry_TrialCTopic2Balance.Parameters.ParamByName('DocDateFrom').Value;
       Parameters.ParamByName('DocDateTo').Value :=
@@ -451,28 +452,36 @@ begin
         qry_TrialCTopic2Balance.Parameters.ParamByName('FromYearId').Value;
       Parameters.ParamByName('ToYearID').Value :=
         qry_TrialCTopic2Balance.Parameters.ParamByName('ToYearID').Value;
-      // محدوده‌ی کد حساب همون فیلتری باشه که کاربر در تراز آزمایشی وارد کرده
+
+      // فیلتر دقیق همان سطر انتخاب‌شده
       Parameters.ParamByName('AccCode').Value :=
         qry_TrialCTopic2BalanceTopicCode.AsLargeInt;
       Parameters.ParamByName('CTopicCode2').Value :=
-        qry_TrialCTopic2BalanceCTopicCode3.AsInteger;
+        qry_TrialCTopic2Balancectopiccode3.AsInteger;
+      // تفصیلی ۴ (قرارداد فعلی SP)
       Parameters.ParamByName('DetailCode').Value :=
         qry_TrialCTopic2BalanceDetailCode.AsInteger;
-      Parameters.ParamByName('CTopicCodeFrom').Value :=
-        qry_TrialCTopic2Balance.Parameters.ParamByName('CTopicCodeFrom').Value;
-      Parameters.ParamByName('CTopicCodeTo').Value :=
-        qry_TrialCTopic2Balance.Parameters.ParamByName('CTopicCodeTo').Value;
-      Parameters.ParamByName('CTopicCode2From').Value :=
-        qry_TrialCTopic2Balance.Parameters.ParamByName('CTopicCode2From').Value;
-      Parameters.ParamByName('CTopicCode2To').Value :=
-        qry_TrialCTopic2Balance.Parameters.ParamByName('CTopicCode2To').Value;
-      Active := true;
-    end; // with
 
+      // مهم: محدود کردن به مقدار همان سطر، نه محدوده کلی فیلتر تراز
+      Parameters.ParamByName('CTopicCodeFrom').Value :=
+        qry_TrialCTopic2BalanceCTopicCode.AsInteger; // تفصیلی ۲
+      Parameters.ParamByName('CTopicCodeTo').Value :=
+        qry_TrialCTopic2BalanceCTopicCode.AsInteger;
+      Parameters.ParamByName('CTopicCode2From').Value :=
+        qry_TrialCTopic2BalanceCTopicCode2.AsInteger; // تفصیلی ۳
+      Parameters.ParamByName('CTopicCode2To').Value :=
+        qry_TrialCTopic2BalanceCTopicCode2.AsInteger;
+
+      // Active را اینجا True نکنید؛ بگذارید بعد از باز شدن qry_AccCode و AfterScroll انجام شود
+      // یا اگر لازم است، بعد از تنظیم کامل qry_AccCode یک بار Requery کنید
+    end;
+
+    // ---------- qry_AccCode ----------
     with qry_AccCode do
     begin
       Active := false;
-      SetParametersqry(qry_AccCode,qry_TrialCTopic2Balance)   ;
+      SetParametersqry(qry_AccCode, qry_TrialCTopic2Balance);
+
       Parameters.ParamByName('SecondaryDocNoTo').Value :=
         qry_TrialCTopic2Balance.Parameters.ParamByName
         ('SecondaryDocNoTo').Value;
@@ -480,27 +489,39 @@ begin
         qry_TrialCTopic2Balance.Parameters.ParamByName('PrimaryDocNoTo').Value;
       Parameters.ParamByName('DocDateTo').Value :=
         qry_TrialCTopic2Balance.Parameters.ParamByName('DocDateTo').Value;
+
+      // همه سطوح دقیقاً روی همان سطر تراز قفل شوند
       Parameters.ParamByName('TopicCodeFrom').Value :=
         qry_TrialCTopic2BalanceTopicCode.AsLargeInt;
       Parameters.ParamByName('TopicCodeTo').Value :=
         qry_TrialCTopic2BalanceTopicCode.AsLargeInt;
+
       Parameters.ParamByName('DetailCodeFrom').Value :=
         qry_TrialCTopic2BalanceDetailCode.AsInteger;
       Parameters.ParamByName('DetailCodeTo').Value :=
         qry_TrialCTopic2BalanceDetailCode.AsInteger;
+
+      // ← این دو خط قبلاً وجود نداشت و علت اصلی باز شدن فیلتر بود
+      Parameters.ParamByName('CTopicCodeFrom').Value :=
+        qry_TrialCTopic2BalanceCTopicCode.AsInteger; // تفصیلی ۲
+      Parameters.ParamByName('CTopicCodeTo').Value :=
+        qry_TrialCTopic2BalanceCTopicCode.AsInteger;
+
       Parameters.ParamByName('CTopicCode2From').Value :=
-        qry_TrialCTopic2BalanceCTopicCode2.AsInteger;
+        qry_TrialCTopic2BalanceCTopicCode2.AsInteger; // تفصیلی ۳
       Parameters.ParamByName('CTopicCode2To').Value :=
         qry_TrialCTopic2BalanceCTopicCode2.AsInteger;
 
       Parameters.ParamByName('CTopicCode3From').Value :=
-        qry_TrialCTopic2BalanceCTopicCode3.AsInteger;
+        qry_TrialCTopic2Balancectopiccode3.AsInteger; // تفصیلی ۴
       Parameters.ParamByName('CTopicCode3To').Value :=
-        qry_TrialCTopic2BalanceCTopicCode3.AsInteger;
+        qry_TrialCTopic2Balancectopiccode3.AsInteger;
 
       Active := true;
-    end; // with
+      // اینجا AfterScroll اجرا می‌شود و qry_Doc را با مقادیر صحیح پر می‌کند
+    end;
 
+    // ---------- qry_Companies ----------
     with qry_Companies do
     begin
       Active := false;
@@ -511,12 +532,11 @@ begin
           ('CompanyCodeFrom').Value;
         Parameters.ParamByName('CompanyCodeTo').Value :=
           qry_TrialCTopic2Balance.Parameters.ParamByName('CompanyCodeTo').Value;
-      end; // if
+      end;
       SetCompanyFilterinLogin(Parameters);
       Active := true;
-    end; // with
-  end
-
+    end;
+  end;
 end;
 
 procedure TRptTrialBalance_CTopics3_CTopicsF.actBeforeLevelExecute
@@ -530,7 +550,7 @@ begin
     with qry_TrialCTopicBalance do
     begin
       Active := false;
-      SetParametersqry(qry_TrialCTopicBalance,qry_TrialCTopic2Balance)   ;
+      SetParametersqry(qry_TrialCTopicBalance, qry_TrialCTopic2Balance);
       // Parameters.ParamByName('DocTypeCodeFrom').Value:=qry_TrialCTopic2Balance.Parameters.ParamByName('DocTypeCodeFrom').Value;
       // Parameters.ParamByName('DocTypeCodeTo').Value:=qry_TrialCTopic2Balance.Parameters.ParamByName('DocTypeCodeTo').Value;
       Parameters.ParamByName('DocTypeCode1_Not').Value :=
@@ -794,15 +814,15 @@ end;
 procedure TRptTrialBalance_CTopics3_CTopicsF.N4Click(Sender: TObject);
 begin
   inherited;
-  InitReportFile(ppReport1, 'RepRptTrialBalance_CTopics3_Topic_AllCurrency', DBGrid1,
-    ppDBPipeline1);
+  InitReportFile(ppReport1, 'RepRptTrialBalance_CTopics3_Topic_AllCurrency',
+    DBGrid1, ppDBPipeline1);
 end;
 
 procedure TRptTrialBalance_CTopics3_CTopicsF.N5Click(Sender: TObject);
 begin
   inherited;
-  InitReportFile(ppReport1, 'RepRptTrialBalance_CTopics3_Topic_Currency', DBGrid1,
-    ppDBPipeline1);
+  InitReportFile(ppReport1, 'RepRptTrialBalance_CTopics3_Topic_Currency',
+    DBGrid1, ppDBPipeline1);
 end;
 
 procedure TRptTrialBalance_CTopics3_CTopicsF.MenuItem5Click(Sender: TObject);

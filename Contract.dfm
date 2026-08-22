@@ -3509,8 +3509,8 @@ inherited ContractF: TContractF
     object ppDBPipeline2FormItemsCheckppField4: TppField
       FieldAlias = #1588#1605#1575#1585#1607' '#1670#1603
       FieldName = 'CheckNumber'
-      FieldLength = 15
-      DisplayWidth = 15
+      FieldLength = 20
+      DisplayWidth = 20
       Position = 3
     end
     object ppDBPipeline2FormItemsCheckppField5: TppField
@@ -3773,7 +3773,7 @@ inherited ContractF: TContractF
       FieldName = 'CheckNumber'
       Required = True
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryFormItemsCheckCheckDate: TStringField
       Tag = 3

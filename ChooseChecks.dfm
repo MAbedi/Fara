@@ -495,7 +495,7 @@ inherited ChooseChecksF: TChooseChecksF
       DisplayLabel = #1588#1605#1575#1585#1607' '
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryChecksCheckDate: TStringField
       Tag = 3

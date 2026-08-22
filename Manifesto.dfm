@@ -3,29 +3,30 @@ inherited ManifestoF: TManifestoF
   Top = 156
   Caption = #1575#1593#1604#1575#1605#1610#1607' '#1602#1610#1605#1578
   ClientHeight = 575
-  ClientWidth = 953
+  ClientWidth = 982
   OnResize = FormResize
-  ExplicitWidth = 961
+  ExplicitWidth = 990
   ExplicitHeight = 606
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
     Top = 534
-    Width = 953
+    Width = 982
     BevelOuter = bvNone
     ExplicitTop = 534
     ExplicitWidth = 953
     DesignSize = (
-      953
+      982
       41)
     object okPanel: TPanel [0]
-      Left = 480
+      Left = 509
       Top = 0
       Width = 237
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 480
       DesignSize = (
         237
         41)
@@ -134,13 +135,14 @@ inherited ManifestoF: TManifestoF
     object DBNavigator1: TDBNavigator [1]
       Left = 398
       Top = 8
-      Width = 312
+      Width = 340
       Height = 25
       DataSource = srcManifesto
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Anchors = [akLeft, akTop, akRight]
       Flat = True
       TabOrder = 7
+      ExplicitWidth = 312
     end
     inherited BtnReject: TBitBtn
       Left = 3
@@ -214,13 +216,14 @@ inherited ManifestoF: TManifestoF
       TabOrder = 3
     end
     object newPanel: TPanel
-      Left = 717
+      Left = 746
       Top = 0
       Width = 236
       Height = 41
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 717
       DesignSize = (
         236
         41)
@@ -304,33 +307,33 @@ inherited ManifestoF: TManifestoF
     end
   end
   inherited Panel2: TPanel
-    Width = 953
+    Width = 982
     Height = 55
     BevelOuter = bvNone
     ExplicitWidth = 953
     ExplicitHeight = 55
     DesignSize = (
-      953
+      982
       55)
     inherited ImgTemplate: TImage
-      Left = 915
+      Left = 944
       ExplicitLeft = 751
     end
     inherited lblCaption: TLabel
-      Left = 846
+      Left = 875
       Top = 15
       Height = 37
       ExplicitLeft = 846
       ExplicitTop = 15
     end
     inherited lblBaseDate: TLabel
-      Left = 432
+      Left = 446
       Top = 6
       ExplicitLeft = 393
       ExplicitTop = 6
     end
     object dbtxtStatuss: TDBText
-      Left = 414
+      Left = 428
       Top = 19
       Width = 123
       Height = 31
@@ -358,7 +361,7 @@ inherited ManifestoF: TManifestoF
   end
   inherited Panel3: TPanel
     Top = 55
-    Width = 953
+    Width = 982
     Height = 479
     BevelOuter = bvNone
     ExplicitTop = 55
@@ -367,11 +370,12 @@ inherited ManifestoF: TManifestoF
     object pnlDelete: TPanel
       Left = 1
       Top = 455
-      Width = 951
+      Width = 980
       Height = 23
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 3
+      ExplicitWidth = 951
       object SpeedButton16: TSpeedButton
         Left = 0
         Top = 0
@@ -442,16 +446,17 @@ inherited ManifestoF: TManifestoF
     object Panel5: TPanel
       Left = 1
       Top = 1
-      Width = 951
+      Width = 980
       Height = 58
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitWidth = 951
       DesignSize = (
-        951
+        980
         58)
       object SpeedButton5: TSpeedButton
-        Left = 784
+        Left = 813
         Top = 6
         Width = 23
         Height = 20
@@ -461,7 +466,7 @@ inherited ManifestoF: TManifestoF
         ExplicitLeft = 618
       end
       object Label1: TLabel
-        Left = 876
+        Left = 905
         Top = 10
         Width = 30
         Height = 13
@@ -471,7 +476,7 @@ inherited ManifestoF: TManifestoF
         ExplicitLeft = 710
       end
       object Label2: TLabel
-        Left = 876
+        Left = 905
         Top = 35
         Width = 21
         Height = 13
@@ -497,7 +502,7 @@ inherited ManifestoF: TManifestoF
         Caption = #1601#1585#1575#1582#1608#1575#1606#1610
       end
       object edtManifestoNo: TDBEdit
-        Left = 808
+        Left = 837
         Top = 7
         Width = 66
         Height = 19
@@ -507,9 +512,10 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         ParentCtl3D = False
         TabOrder = 0
+        ExplicitLeft = 808
       end
       object dbedtManifestoDate: TDBEdit
-        Left = 808
+        Left = 837
         Top = 32
         Width = 66
         Height = 19
@@ -519,6 +525,7 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         ParentCtl3D = False
         TabOrder = 1
+        ExplicitLeft = 808
       end
       object edtManifestoRunDate: TDBEdit
         Left = 114
@@ -578,35 +585,38 @@ inherited ManifestoF: TManifestoF
     object grpNote: TGroupBox
       Left = 1
       Top = 192
-      Width = 951
+      Width = 980
       Height = 67
       Align = alTop
       Caption = '   '#1578#1608#1590#1610#1581#1575#1578'   '
       TabOrder = 1
+      ExplicitWidth = 951
       object dbmmoNote: TDBMemo
         Left = 2
         Top = 15
-        Width = 947
+        Width = 976
         Height = 50
         Align = alClient
         DataField = 'Note'
         DataSource = srcManifesto
         TabOrder = 0
+        ExplicitWidth = 947
       end
     end
     object pnl1: TPanel
       Left = 1
       Top = 59
-      Width = 951
+      Width = 980
       Height = 133
       Align = alTop
       BevelOuter = bvNone
       TabOrder = 4
+      ExplicitWidth = 951
       DesignSize = (
-        951
+        980
         133)
       object Label5: TLabel
-        Left = 876
+        Left = 905
         Top = 10
         Width = 51
         Height = 13
@@ -624,7 +634,7 @@ inherited ManifestoF: TManifestoF
         FocusControl = DBLookupComboBox2
       end
       object Label7: TLabel
-        Left = 876
+        Left = 905
         Top = 45
         Width = 70
         Height = 13
@@ -634,7 +644,7 @@ inherited ManifestoF: TManifestoF
         ExplicitLeft = 710
       end
       object Label8: TLabel
-        Left = 876
+        Left = 905
         Top = 92
         Width = 69
         Height = 13
@@ -669,7 +679,7 @@ inherited ManifestoF: TManifestoF
         OnClick = btnCustIDFromClick
       end
       object dbtxt_CustomerGrpIDFrom: TDBText
-        Left = 710
+        Left = 739
         Top = 67
         Width = 231
         Height = 16
@@ -691,7 +701,7 @@ inherited ManifestoF: TManifestoF
         OnClick = btnCustIDFromClick
       end
       object btnCustomerGrpIDFrom: TSpeedButton
-        Left = 710
+        Left = 739
         Top = 40
         Width = 23
         Height = 22
@@ -702,7 +712,7 @@ inherited ManifestoF: TManifestoF
         ExplicitLeft = 544
       end
       object btnCustomerGrpIDTo: TSpeedButton
-        Left = 710
+        Left = 739
         Top = 88
         Width = 23
         Height = 22
@@ -713,7 +723,7 @@ inherited ManifestoF: TManifestoF
         ExplicitLeft = 544
       end
       object dbtxt_CustomerGrpIDTo: TDBText
-        Left = 710
+        Left = 739
         Top = 115
         Width = 231
         Height = 16
@@ -748,7 +758,7 @@ inherited ManifestoF: TManifestoF
         Transparent = True
       end
       object DBLookupComboBox1: TDBLookupComboBox
-        Left = 710
+        Left = 739
         Top = 6
         Width = 164
         Height = 21
@@ -756,6 +766,7 @@ inherited ManifestoF: TManifestoF
         DataField = '_SellsMethod'
         DataSource = srcManifesto
         TabOrder = 0
+        ExplicitLeft = 710
       end
       object DBLookupComboBox2: TDBLookupComboBox
         Left = 16
@@ -767,7 +778,7 @@ inherited ManifestoF: TManifestoF
         TabOrder = 1
       end
       object DBEdit1: TDBEdit
-        Left = 734
+        Left = 763
         Top = 41
         Width = 140
         Height = 21
@@ -776,9 +787,10 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         TabOrder = 2
         OnKeyDown = DBEdit1KeyDown
+        ExplicitLeft = 734
       end
       object DBEdit2: TDBEdit
-        Left = 734
+        Left = 763
         Top = 88
         Width = 140
         Height = 21
@@ -787,6 +799,7 @@ inherited ManifestoF: TManifestoF
         DataSource = srcManifesto
         TabOrder = 3
         OnKeyDown = DBEdit1KeyDown
+        ExplicitLeft = 734
       end
       object DBEdit3: TDBEdit
         Left = 40
@@ -812,14 +825,15 @@ inherited ManifestoF: TManifestoF
     object grpCalc: TGroupBox
       Left = 1
       Top = 259
-      Width = 951
+      Width = 980
       Height = 51
       Align = alTop
       Caption = ' '#1578#1594#1610#1610#1585' '#1603#1604#1610' '#1605#1576#1604#1594' '#1601#1585#1608#1588' '
       TabOrder = 5
+      ExplicitWidth = 951
       object lblCo: TLabel
         AlignWithMargins = True
-        Left = 640
+        Left = 669
         Top = 25
         Width = 27
         Height = 14
@@ -827,11 +841,12 @@ inherited ManifestoF: TManifestoF
         Margins.Bottom = 10
         Align = alRight
         Caption = #1590#1585#1610#1576
+        ExplicitLeft = 640
         ExplicitHeight = 13
       end
       object lblConstant: TLabel
         AlignWithMargins = True
-        Left = 485
+        Left = 514
         Top = 25
         Width = 19
         Height = 14
@@ -839,10 +854,11 @@ inherited ManifestoF: TManifestoF
         Margins.Bottom = 10
         Align = alRight
         Caption = #1579#1575#1576#1578
+        ExplicitLeft = 485
         ExplicitHeight = 13
       end
       object rdgrpDecAdd: TRadioGroup
-        Left = 817
+        Left = 846
         Top = 15
         Width = 132
         Height = 34
@@ -852,10 +868,11 @@ inherited ManifestoF: TManifestoF
           #1575#1601#1586#1575#1610#1588
           #1603#1575#1607#1588)
         TabOrder = 0
+        ExplicitLeft = 817
       end
       object mskCo: TMaskEdit
         AlignWithMargins = True
-        Left = 510
+        Left = 539
         Top = 20
         Width = 124
         Height = 24
@@ -864,6 +881,7 @@ inherited ManifestoF: TManifestoF
         Align = alRight
         TabOrder = 1
         Text = ''
+        ExplicitLeft = 510
         ExplicitHeight = 21
       end
       object BitBtn2: TBitBtn
@@ -881,7 +899,7 @@ inherited ManifestoF: TManifestoF
       end
       object medtConstant: TMaskEdit
         AlignWithMargins = True
-        Left = 355
+        Left = 384
         Top = 20
         Width = 124
         Height = 24
@@ -890,19 +908,21 @@ inherited ManifestoF: TManifestoF
         Align = alRight
         TabOrder = 3
         Text = '0'
+        ExplicitLeft = 355
         ExplicitHeight = 21
       end
       object CheckListBox1: TCheckListBox
         Left = 83
         Top = 15
-        Width = 269
+        Width = 298
         Height = 34
         Align = alClient
         ItemHeight = 13
         TabOrder = 4
+        ExplicitWidth = 269
       end
       object rdgrpCalcType: TRadioGroup
-        Left = 670
+        Left = 699
         Top = 15
         Width = 147
         Height = 34
@@ -913,13 +933,14 @@ inherited ManifestoF: TManifestoF
           #1605#1602#1583#1575#1585' '#1579#1575#1576#1578)
         TabOrder = 5
         OnClick = rdgrpCalcTypeClick
+        ExplicitLeft = 670
       end
     end
     object DBGrid1: TCedarDbgrid
       Tag = 111
       Left = 1
       Top = 310
-      Width = 951
+      Width = 980
       Height = 145
       Align = alClient
       Color = clCream
@@ -1040,7 +1061,7 @@ inherited ManifestoF: TManifestoF
           EditButtons = <>
           FieldName = '_CurrenciesID'
           Footers = <>
-          Width = 64
+          Width = 33
         end
         item
           ButtonStyle = cbsDropDown
@@ -1168,7 +1189,7 @@ inherited ManifestoF: TManifestoF
           EditButtons = <>
           FieldName = 'DiscountPercent2'
           Footers = <>
-          Width = 79
+          Width = 58
         end
         item
           CellButtons = <>
@@ -1724,7 +1745,7 @@ inherited ManifestoF: TManifestoF
   object srcManifestoItems: TDataSource
     DataSet = qryManifestoItems
     Left = 200
-    Top = 359
+    Top = 351
   end
   object ppReport1: TppReport
     AutoStop = False

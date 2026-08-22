@@ -3316,7 +3316,7 @@ inherited PaymentExpenceF: TPaymentExpenceF
       DisplayLabel = #1588#1605#1575#1585#1607
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryFormItemsCheckDate: TStringField
       Tag = 3
@@ -3638,7 +3638,7 @@ inherited PaymentExpenceF: TPaymentExpenceF
       FieldName = 'CheckNumber'
       ImportedConstraint = '0'
       EditMask = '!99999999;0;_'
-      Size = 15
+      Size = 20
     end
     object qryDetail_ItemCheckDate: TStringField
       Tag = 3
@@ -4068,7 +4068,7 @@ inherited PaymentExpenceF: TPaymentExpenceF
       FieldName = 'CheckNumber'
       ImportedConstraint = '0'
       EditMask = '!99999999;0;_'
-      Size = 15
+      Size = 20
     end
     object qryDetail_ItemTCheckDate: TStringField
       Tag = 3
@@ -4371,7 +4371,7 @@ inherited PaymentExpenceF: TPaymentExpenceF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1602#1587#1591
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object StringField10: TStringField
       Tag = 3

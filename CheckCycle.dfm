@@ -395,7 +395,7 @@ inherited CheckCycleF: TCheckCycleF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1670#1603
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryCheckCycleCheckDate: TStringField
       Tag = 3

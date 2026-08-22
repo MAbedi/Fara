@@ -1,4 +1,5 @@
-﻿// Hassan Rezaei   And Mahmood Abedi
+﻿
+// Hassan Rezaei   And Mahmood Abedi
 unit MakeDocumentCheck;
 
 interface
@@ -72,7 +73,6 @@ type
     qryItemsCTopicCode2: TIntegerField;
     qryItemsCredit: TFMTBCDField;
     qryItemsCheckDate: TStringField;
-    qryItemsCheckNumber: TFloatField;
     grpCheckState: TGroupBox;
     cmbCheckState: TComboBox;
     actCheckDocument: TAction;
@@ -140,6 +140,7 @@ type
     qryItemsCurrencyRate: TFMTBCDField;
     qryItemsAidInfoNo: TStringField;
     qryItemsAidInfoNoItem: TStringField;
+    qryItemsCheckNumber: TFMTBCDField;
     procedure FormCreate(Sender: TObject);
     procedure actMakeDocExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);

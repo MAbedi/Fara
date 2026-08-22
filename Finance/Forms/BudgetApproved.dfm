@@ -2,19 +2,18 @@ inherited BudgetApprovedF: TBudgetApprovedF
   Left = 170
   Top = 231
   Caption = #1576#1608#1583#1580#1607' '#1605#1589#1608#1576
-  ClientWidth = 992
-  ExplicitLeft = -109
-  ExplicitWidth = 1000
+  ClientWidth = 1107
+  ExplicitWidth = 1115
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
     Top = 457
-    Width = 992
+    Width = 1107
     TabOrder = 3
     ExplicitTop = 457
     ExplicitWidth = 992
     object okPanel: TPanel [0]
-      Left = 452
+      Left = 798
       Top = 1
       Width = 308
       Height = 39
@@ -22,9 +21,10 @@ inherited BudgetApprovedF: TBudgetApprovedF
       AutoSize = True
       BevelOuter = bvNone
       TabOrder = 0
+      ExplicitLeft = 760
       object BitBtn9: TBitBtn
         AlignWithMargins = True
-        Left = 232
+        Left = 155
         Top = 3
         Width = 75
         Height = 33
@@ -72,7 +72,7 @@ inherited BudgetApprovedF: TBudgetApprovedF
       end
       object BitBtn10: TBitBtn
         AlignWithMargins = True
-        Left = 155
+        Left = 78
         Top = 3
         Width = 75
         Height = 33
@@ -120,7 +120,7 @@ inherited BudgetApprovedF: TBudgetApprovedF
       end
       object BitBtn16: TBitBtn
         AlignWithMargins = True
-        Left = 78
+        Left = 1
         Top = 3
         Width = 75
         Height = 33
@@ -133,7 +133,7 @@ inherited BudgetApprovedF: TBudgetApprovedF
       end
       object BitBtn1: TBitBtn
         AlignWithMargins = True
-        Left = 1
+        Left = 232
         Top = 3
         Width = 75
         Height = 33
@@ -147,13 +147,17 @@ inherited BudgetApprovedF: TBudgetApprovedF
     end
     inherited BtnReject: TBitBtn
       Left = 2
+      Top = 4
+      Height = 33
       Margins.Left = 1
+      Margins.Top = 3
       Margins.Right = 1
+      Margins.Bottom = 3
       TabOrder = 2
       ExplicitLeft = 2
     end
     object newPanel: TPanel
-      Left = 760
+      Left = 567
       Top = 1
       Width = 231
       Height = 39
@@ -161,6 +165,7 @@ inherited BudgetApprovedF: TBudgetApprovedF
       AutoSize = True
       BevelOuter = bvNone
       TabOrder = 1
+      ExplicitLeft = 760
       object BitBtn6: TBitBtn
         AlignWithMargins = True
         Left = 155
@@ -203,16 +208,17 @@ inherited BudgetApprovedF: TBudgetApprovedF
     end
     object BitBtn11: TBitBtn
       AlignWithMargins = True
-      Left = 310
+      Left = 491
       Top = 4
       Width = 75
       Height = 33
       Margins.Left = 1
       Margins.Right = 1
-      Action = actPrint
-      Align = alLeft
-      Caption = #1670#1575#1662
+      Action = actViewFile
+      Align = alRight
+      Caption = #1662#1610#1608#1587#1578'...'
       TabOrder = 6
+      ExplicitLeft = 453
     end
     object BitBtn12: TBitBtn
       AlignWithMargins = True
@@ -327,37 +333,54 @@ inherited BudgetApprovedF: TBudgetApprovedF
       AlignWithMargins = True
       Left = 389
       Top = 4
-      Width = 80
+      Width = 98
       Height = 33
       DataSource = srcMaster
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
       Align = alClient
       Flat = True
       TabOrder = 7
+      ExplicitWidth = 80
+    end
+    object BitBtn2: TBitBtn
+      AlignWithMargins = True
+      Left = 310
+      Top = 4
+      Width = 75
+      Height = 33
+      Margins.Left = 1
+      Margins.Right = 1
+      Action = actPrint
+      Align = alLeft
+      Caption = #1670#1575#1662
+      TabOrder = 8
     end
   end
   inherited Panel2: TPanel
-    Width = 992
+    Width = 1107
     Height = 49
     TabOrder = 0
     ExplicitWidth = 992
     ExplicitHeight = 49
     DesignSize = (
-      992
+      1107
       49)
     inherited ImgTemplate: TImage
-      Left = 930
+      Left = 1045
       ExplicitLeft = 720
     end
     inherited lblCaption: TLabel
-      Left = 884
+      Left = 999
       Height = 29
       ExplicitLeft = 884
+    end
+    inherited lblBaseDate: TLabel
+      Left = 392
     end
   end
   inherited Panel3: TPanel
     Top = 49
-    Width = 992
+    Width = 1107
     Height = 408
     Anchors = [akTop, akRight]
     TabOrder = 1
@@ -367,19 +390,21 @@ inherited BudgetApprovedF: TBudgetApprovedF
     object Panel6: TPanel
       Left = 2
       Top = 2
-      Width = 988
+      Width = 1103
       Height = 63
       Align = alTop
       BevelOuter = bvLowered
       TabOrder = 0
+      ExplicitWidth = 988
       object PnlCompany: TPanel
-        Left = 336
+        Left = 451
         Top = 1
         Width = 651
         Height = 61
         Align = alRight
         BevelOuter = bvNone
         TabOrder = 0
+        ExplicitLeft = 336
         object lbl1: TLabel
           Left = 568
           Top = 8
@@ -512,15 +537,16 @@ inherited BudgetApprovedF: TBudgetApprovedF
     object grp1: TGroupBox
       Left = 2
       Top = 65
-      Width = 988
+      Width = 1103
       Height = 72
       Align = alTop
       Caption = '   '#1578#1608#1590#1740#1581#1575#1578'   '
       TabOrder = 1
+      ExplicitWidth = 988
       object dbredtNote_L1: TDBRichEdit
         Left = 2
         Top = 15
-        Width = 984
+        Width = 1099
         Height = 55
         Align = alClient
         DataField = 'Note_L1'
@@ -532,13 +558,14 @@ inherited BudgetApprovedF: TBudgetApprovedF
         Font.Style = []
         TabOrder = 0
         Zoom = 100
+        ExplicitWidth = 984
       end
     end
     object DBGrid1: TCedarDbgrid
       Tag = 111
       Left = 2
       Top = 137
-      Width = 988
+      Width = 1103
       Height = 269
       Align = alClient
       Color = clCream
@@ -725,7 +752,7 @@ inherited BudgetApprovedF: TBudgetApprovedF
   object StatusBar1: TStatusBar [3]
     Left = 0
     Top = 498
-    Width = 992
+    Width = 1107
     Height = 19
     Panels = <
       item
@@ -775,6 +802,10 @@ inherited BudgetApprovedF: TBudgetApprovedF
     object actGetExcel: TAction
       Caption = #1583#1585#1740#1575#1601#1578'Excel'
       OnExecute = actGetExcelExecute
+    end
+    object actViewFile: TAction
+      Caption = #1662#1610#1608#1587#1578'...'
+      OnExecute = actViewFileExecute
     end
   end
   inherited ImageList1: TImageList

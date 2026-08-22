@@ -5,7 +5,7 @@ interface
 uses
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
   Dialogs, template2MDI, ImgList, DBActns, ActnList, StdCtrls, ExtCtrls,
-  Buttons, DB, ADODB,  DBCtrls, Mask, Menus,
+  Buttons, DB, ADODB, DBCtrls, Mask, Menus,
   ppBands, ppClass, ppModule, raCodMod, ppCtrls, ppReport, ppStrtch,
   ppSubRpt, ppVar, ppPrnabl, ppCache, ppProd, ppDB, ppComm, ppRelatv,
   ppDBPipe, ppTypes, ppParameter, Math, ppDesignLayer,
@@ -202,9 +202,9 @@ type
   private
     { Private declarations }
     showFilter: boolean;
-//    cloned: TADOQuery;
+    // cloned: TADOQuery;
 
-//    procedure Updateremain;
+    // procedure Updateremain;
     procedure UpdateFilter;
     procedure InitForm;
     // function CalcSumFileds(FiledName: String): Currency;
@@ -219,16 +219,15 @@ var
 
 implementation
 
-uses Dm, GlobalPro, FilterClass_ADO, filter_ADO,
-  Document, search2, sort2, searchCode_L1_L2,
-  DBGrid2Print, Resource, FormFunctions;
+uses Dm, GlobalPro, FilterClass_ADO, filter_ADO, Document, search2, sort2,
+  searchCode_L1_L2, DBGrid2Print, Resource, FormFunctions;
 
 {$R *.dfm}
 
 procedure TRpt_Ctopics3OnDetailsBookF.FormCreate(Sender: TObject);
 begin
   inherited;
-  //cloned := TADOQuery.Create(Self);
+  // cloned := TADOQuery.Create(Self);
   showFilter := var_glb_Boolean;
   if opta.AccBookSortType = 0 then
     qry_Doc.SQL.Add
@@ -268,18 +267,15 @@ begin
         'SELECT CTopicCode3,CTopicName3_L1 FROM acc.CenterTopics3 ',
         'SELECT Min(CTopicCode3),  Max(CTopicCode3)  FROM acc.Documents');
 
-
       AddItem(DMF.adcAccounting, 'CTopicCode2', 'كد و نام حساب تفصیلی 3',
         'كد حساب', ftInteger, dvMinMax, '', '', ciLookup,
         'SELECT CTopicCode2,CTopicName2_L1 FROM acc.CenterTopics2 ',
         'SELECT Min(CTopicCode2),  Max(CTopicCode2)  FROM acc.Documents');
 
-
       AddItem(DMF.adcAccounting, 'CtopicCode', ' حساب تفصیلی 2 ', 'كد ',
         ftInteger, dvMinMax, '', '', ciLookup,
         'SELECT CTopicCode, CTopicName_L1 FROM acc.CenterTopics ',
         'SELECT  MIN(0) , MAX(CTopicCode) FROM acc.CenterTopics ');
-
 
       AddItem(DMF.adcAccounting, 'DetailCode', 'كد و نام حساب تفصيلي 1 ',
         'كد حساب', ftInteger, dvMinMax, '', '', ciLookup,
@@ -340,7 +336,7 @@ begin
     // Parameters.ParamByName('ToYearID').Value := APPBank.Year;
     Active := True;
   end; // with
-//  Updateremain;
+  // Updateremain;
 end;
 
 procedure TRpt_Ctopics3OnDetailsBookF.qry_CompaniesAfterScroll
@@ -379,13 +375,13 @@ end;
 procedure TRpt_Ctopics3OnDetailsBookF.qry_DocAfterOpen(DataSet: TDataSet);
 begin
   inherited;
-  DBGridCurrencyKind(DBGrid1, myParams,qry_Doc)
+  DBGridCurrencyKind(DBGrid1, myParams, qry_Doc)
 end;
 
 procedure TRpt_Ctopics3OnDetailsBookF.FormDestroy(Sender: TObject);
 begin
   inherited;
-//  cloned.Free;
+  // cloned.Free;
 
 end;
 
@@ -426,7 +422,6 @@ begin
     Parameters.ParamByName('DetailCodeTo').Value :=
       GetcTo(myParams.ParamValues['DetailCode'], ftInteger);
 
-
     Parameters.ParamByName('CTopicCode2From').Value :=
       GetcFrom(myParams.ParamValues['CTopicCode2'], ftInteger);
     Parameters.ParamByName('CTopicCode2To').Value :=
@@ -435,7 +430,6 @@ begin
       GetcFrom(myParams.ParamValues['CTopicCode'], ftInteger);
     Parameters.ParamByName('CTopicCodeTo').Value :=
       GetcTo(myParams.ParamValues['CTopicCode'], ftInteger);
-
 
     Active := True;
   end; // with
@@ -493,49 +487,49 @@ begin
   end; // with
 end;
 
-//procedure TRpt_Ctopics3OnDetailsBookF.Updateremain;
-//var
-//  c, bes, bed: Currency;
-//  amount, i: integer;
-//begin
-//  with qry_Doc do
-//  begin
-//    try
-//      First;
-//      DisableControls;
-//      c := 0;
-//      bed := 0;
-//      i := 0;
-//      bes := 0;
-//      amount := 0;
-//      while not eof do
-//      begin
-//        i := i + 1;
-//        amount := amount + Fieldbyname('AidAmount').AsInteger;
-//        c := c + Fieldbyname('Balance').AsCurrency;
-//        bed := bed + Fieldbyname('Debt').AsCurrency;
-//        bes := bes + Fieldbyname('Credit').AsCurrency;
-//        edit;
-//        Fieldbyname('_row').AsInteger := i;
-//        Fieldbyname('Amount').AsInteger := amount;
-//        Fieldbyname('calcuBalance').AsCurrency := c;
-//        Fieldbyname('bed').AsCurrency := bed;
-//        Fieldbyname('bes').AsCurrency := bes;
-//        post;
-//        Next;
-//      end; //
-//    finally
-//      First;
-//      EnableControls;
-//    end; // try
-//  end; // with
-//  // StatusBar1.Panels[5].Text:='تعداد  =  '+IntToStr(qry_Doc.RecordCount);
-//  // StatusBar1.Panels[3].Text:='مقدار = '+IfThen(DBGrid1.Columns[5].Visible,inttostr(amount),'0');
-//  // StatusBar1.Panels[2].Text:='بد = '+CurrToStrF(bed,ffCurrency,0)  ;
-//  // StatusBar1.Panels[1].Text:='بس = '+CurrToStrF(bes,ffCurrency,0)  ;
-//  // StatusBar1.Panels[0].Text:= 'مانده = '+CurrToStrF(bed-bes,ffCurrency,0)  ;
+// procedure TRpt_Ctopics3OnDetailsBookF.Updateremain;
+// var
+// c, bes, bed: Currency;
+// amount, i: integer;
+// begin
+// with qry_Doc do
+// begin
+// try
+// First;
+// DisableControls;
+// c := 0;
+// bed := 0;
+// i := 0;
+// bes := 0;
+// amount := 0;
+// while not eof do
+// begin
+// i := i + 1;
+// amount := amount + Fieldbyname('AidAmount').AsInteger;
+// c := c + Fieldbyname('Balance').AsCurrency;
+// bed := bed + Fieldbyname('Debt').AsCurrency;
+// bes := bes + Fieldbyname('Credit').AsCurrency;
+// edit;
+// Fieldbyname('_row').AsInteger := i;
+// Fieldbyname('Amount').AsInteger := amount;
+// Fieldbyname('calcuBalance').AsCurrency := c;
+// Fieldbyname('bed').AsCurrency := bed;
+// Fieldbyname('bes').AsCurrency := bes;
+// post;
+// Next;
+// end; //
+// finally
+// First;
+// EnableControls;
+// end; // try
+// end; // with
+// // StatusBar1.Panels[5].Text:='تعداد  =  '+IntToStr(qry_Doc.RecordCount);
+// // StatusBar1.Panels[3].Text:='مقدار = '+IfThen(DBGrid1.Columns[5].Visible,inttostr(amount),'0');
+// // StatusBar1.Panels[2].Text:='بد = '+CurrToStrF(bed,ffCurrency,0)  ;
+// // StatusBar1.Panels[1].Text:='بس = '+CurrToStrF(bes,ffCurrency,0)  ;
+// // StatusBar1.Panels[0].Text:= 'مانده = '+CurrToStrF(bed-bes,ffCurrency,0)  ;
 //
-//end;
+// end;
 
 procedure TRpt_Ctopics3OnDetailsBookF.BitBtn1Click(Sender: TObject);
 var
@@ -786,7 +780,8 @@ begin
         end;
     end;
 
-    InitReportFile(ppReport1, 'Rpt_CtopicsOnDetails_AllCurrency', DBGrid1, ppDBPipeline1);
+    InitReportFile(ppReport1, 'Rpt_CtopicsOnDetails_AllCurrency', DBGrid1,
+      ppDBPipeline1);
   finally
     qry_Doc.EnableControls;
     qry_AccCode.EnableControls;
@@ -815,8 +810,9 @@ begin
         end;
     end;
 
-    InitReportFile(ppReport1, 'Rpt_CtopicsOnDetails_Currency', DBGrid1, ppDBPipeline1);
- finally
+    InitReportFile(ppReport1, 'Rpt_CtopicsOnDetails_Currency', DBGrid1,
+      ppDBPipeline1);
+  finally
     qry_Doc.EnableControls;
     qry_AccCode.EnableControls;
     qry_Companies.EnableControls;
@@ -1019,4 +1015,3 @@ begin
 end;
 
 end.
-

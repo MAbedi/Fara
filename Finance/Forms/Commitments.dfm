@@ -17,23 +17,25 @@ inherited CommitmentsF: TCommitmentsF
     ExplicitTop = 666
     ExplicitWidth = 991
     object okPanel: TPanel [0]
-      Left = 485
+      Left = 585
       Top = 1
-      Width = 252
+      Width = 162
       Height = 39
       Align = alRight
+      AutoSize = True
       BevelOuter = bvNone
       TabOrder = 1
-      DesignSize = (
-        252
-        39)
+      ExplicitLeft = 581
       object BitBtn9: TBitBtn
-        Left = 169
-        Top = 7
+        AlignWithMargins = True
+        Left = 84
+        Top = 6
         Width = 75
-        Height = 25
+        Height = 27
+        Margins.Top = 6
+        Margins.Bottom = 6
         Action = DataSetPost1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1578#1575#1610#1610#1583
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -71,14 +73,19 @@ inherited CommitmentsF: TCommitmentsF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 1
+        ExplicitTop = 3
+        ExplicitHeight = 33
       end
       object BitBtn10: TBitBtn
-        Left = 92
-        Top = 7
+        AlignWithMargins = True
+        Left = 3
+        Top = 6
         Width = 75
-        Height = 25
+        Height = 27
+        Margins.Top = 6
+        Margins.Bottom = 6
         Action = DataSetCancel1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1575#1606#1589#1585#1575#1601
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -116,79 +123,102 @@ inherited CommitmentsF: TCommitmentsF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 0
+        ExplicitTop = 3
+        ExplicitHeight = 33
       end
     end
     inherited BtnReject: TBitBtn
       TabOrder = 2
     end
     object newPanel: TPanel
-      Left = 737
+      Left = 747
       Top = 1
-      Width = 253
+      Width = 243
       Height = 39
       Align = alRight
+      AutoSize = True
       BevelOuter = bvNone
       TabOrder = 0
-      DesignSize = (
-        253
-        39)
+      ExplicitLeft = 737
       object BitBtn6: TBitBtn
-        Left = 168
-        Top = 7
+        AlignWithMargins = True
+        Left = 165
+        Top = 6
         Width = 75
-        Height = 25
+        Height = 27
+        Margins.Top = 6
+        Margins.Bottom = 6
         Action = DataSetInsert1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1580#1583#1610#1583
         TabOrder = 2
       end
       object BitBtn7: TBitBtn
-        Left = 91
-        Top = 7
+        AlignWithMargins = True
+        Left = 84
+        Top = 6
         Width = 75
-        Height = 25
+        Height = 27
+        Margins.Top = 6
+        Margins.Bottom = 6
         Action = DataSetEdit1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1608#1610#1585#1575#1610#1588
         TabOrder = 1
       end
       object BitBtn8: TBitBtn
-        Left = 14
-        Top = 7
+        AlignWithMargins = True
+        Left = 3
+        Top = 6
         Width = 75
-        Height = 25
+        Height = 27
+        Margins.Top = 6
+        Margins.Bottom = 6
         Action = DataSetDelete1_
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1581#1584#1601
         TabOrder = 0
       end
     end
     object BitBtn11: TBitBtn
-      Left = 314
-      Top = 8
+      AlignWithMargins = True
+      Left = 328
+      Top = 7
       Width = 75
-      Height = 25
+      Height = 30
+      Margins.Top = 6
       Action = actPrint
-      Anchors = [akLeft, akBottom]
+      Align = alLeft
       Caption = #1670#1575#1662
       TabOrder = 6
+      ExplicitLeft = 318
+      ExplicitTop = 6
+      ExplicitHeight = 25
     end
     object BitBtn12: TBitBtn
-      Left = 237
-      Top = 8
+      AlignWithMargins = True
+      Left = 247
+      Top = 7
       Width = 75
-      Height = 25
+      Height = 30
+      Margins.Top = 6
       Action = actExcel
-      Anchors = [akLeft, akBottom]
+      Align = alLeft
       Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
       TabOrder = 5
+      ExplicitLeft = 237
+      ExplicitTop = 8
+      ExplicitHeight = 25
     end
     object BitBtn13: TBitBtn
-      Left = 160
-      Top = 8
+      AlignWithMargins = True
+      Left = 166
+      Top = 7
       Width = 75
-      Height = 25
+      Height = 30
+      Margins.Top = 6
       Action = actSearch_
+      Align = alLeft
       Caption = #1580#1587#1578#1580#1608
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
@@ -226,13 +256,19 @@ inherited CommitmentsF: TCommitmentsF
         FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C69C
         8C00CEA59C00C69C9400FF00FF00FF00FF00FF00FF00FF00FF00}
       TabOrder = 4
+      ExplicitLeft = 160
+      ExplicitTop = 8
+      ExplicitHeight = 25
     end
     object BitBtn14: TBitBtn
-      Left = 83
-      Top = 8
+      AlignWithMargins = True
+      Left = 85
+      Top = 7
       Width = 75
-      Height = 25
+      Height = 30
+      Margins.Top = 6
       Action = actSort
+      Align = alLeft
       Caption = #1578#1585#1578#1610#1576
       Glyph.Data = {
         36040000424D3604000000000000360000002800000010000000100000000100
@@ -270,17 +306,38 @@ inherited CommitmentsF: TCommitmentsF
         7B0011007B0011007B0011007B0011007B0011007B00FF00FF00FF00FF00FF00
         FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00}
       TabOrder = 3
+      ExplicitLeft = 83
+      ExplicitTop = 8
+      ExplicitHeight = 25
     end
     object DBNavigator1: TDBNavigator
-      Left = 468
-      Top = 9
-      Width = 96
-      Height = 23
+      Left = 406
+      Top = 1
+      Width = 98
+      Height = 39
       DataSource = srcMaster
       VisibleButtons = [nbFirst, nbPrior, nbNext, nbLast]
-      Anchors = [akLeft, akBottom]
+      Align = alClient
       Flat = True
       TabOrder = 7
+      ExplicitLeft = 468
+      ExplicitTop = 9
+      ExplicitWidth = 96
+      ExplicitHeight = 23
+    end
+    object BitBtn19: TBitBtn
+      AlignWithMargins = True
+      Left = 507
+      Top = 7
+      Width = 75
+      Height = 27
+      Margins.Top = 6
+      Margins.Bottom = 6
+      Action = actViewFile
+      Align = alRight
+      Caption = #1662#1610#1608#1587#1578'...'
+      TabOrder = 8
+      ExplicitLeft = 472
     end
   end
   inherited Panel2: TPanel
@@ -1182,6 +1239,10 @@ inherited CommitmentsF: TCommitmentsF
       Hint = 'Cancel'
       ImageIndex = 8
       DataSource = srcItems
+    end
+    object actViewFile: TAction
+      Caption = #1662#1610#1608#1587#1578'...'
+      OnExecute = actViewFileExecute
     end
   end
   inherited ImageList1: TImageList

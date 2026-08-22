@@ -4,6 +4,7 @@ inherited ConversionCoCalcF: TConversionCoCalcF
   Caption = #1602#1740#1605#1578' '#1711#1584#1575#1585#1740' '#1576#1585' '#1575#1587#1575#1587' '#1601#1585#1605#1608#1604' '#1587#1575#1582#1578
   ClientHeight = 518
   ClientWidth = 785
+  ExplicitTop = 6
   ExplicitWidth = 793
   ExplicitHeight = 549
   PixelsPerInch = 96
@@ -154,8 +155,8 @@ inherited ConversionCoCalcF: TConversionCoCalcF
       TabOrder = 0
     end
     object cmbReciptType: TComboBox
-      Left = 10
-      Top = 14
+      Left = 8
+      Top = 11
       Width = 249
       Height = 21
       Style = csDropDownList
@@ -182,7 +183,7 @@ inherited ConversionCoCalcF: TConversionCoCalcF
       Left = 2
       Top = 2
       Width = 781
-      Height = 338
+      Height = 142
       Align = alClient
       Color = clCream
       DataSource = dsIncorporate
@@ -257,6 +258,119 @@ inherited ConversionCoCalcF: TConversionCoCalcF
         end>
       object RowDetailData: TRowDetailPanelControlEh
       end
+    end
+    object DBGrid12: TCedarDbgrid
+      Tag = 111
+      Left = 2
+      Top = 160
+      Width = 781
+      Height = 180
+      Align = alBottom
+      Color = clCream
+      DataSource = dsUnpriced
+      DynProps = <>
+      Flat = True
+      FooterParams.FillStyle = cfstGradientEh
+      FooterParams.Font.Charset = DEFAULT_CHARSET
+      FooterParams.Font.Color = clWindowText
+      FooterParams.Font.Height = -12
+      FooterParams.Font.Name = 'Tahoma'
+      FooterParams.Font.Style = [fsBold]
+      FooterParams.ParentFont = False
+      FooterParams.VertLines = False
+      GridLineParams.VertEmptySpaceStyle = dessNonEh
+      HorzScrollBar.ExtraPanel.Visible = True
+      IndicatorTitle.ShowDropDownSign = True
+      IndicatorTitle.TitleButton = True
+      OddRowColor = clGradientInactiveCaption
+      RowHeight = 21
+      SearchPanel.Enabled = True
+      SortLocal = True
+      TabOrder = 1
+      ActiveSearchPanel = False
+      SelectFooterIndex = 0
+      Columns = <
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'InputReciptNumber'
+          Footers = <>
+          Width = 100
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'InputReciptDate'
+          Footers = <>
+          Width = 84
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'StuffCode'
+          Footers = <>
+          Width = 63
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'c_StuffName'
+          Footers = <>
+          Width = 100
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'OutputReciptNumber'
+          Footers = <>
+          Width = 100
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'OutputReciptDate'
+          Footers = <>
+          Width = 100
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'OutputProductCodes'
+          Footers = <>
+          Width = 151
+        end>
+      object RowDetailData: TRowDetailPanelControlEh
+      end
+    end
+    object Memo1: TMemo
+      Left = 2
+      Top = 144
+      Width = 781
+      Height = 16
+      Align = alBottom
+      Color = clInactiveCaption
+      Ctl3D = False
+      Font.Charset = DEFAULT_CHARSET
+      Font.Color = clMaroon
+      Font.Height = -11
+      Font.Name = 'Tahoma'
+      Font.Style = []
+      Lines.Strings = (
+        
+          #1705#1575#1604#1575#1607#1575#1740#1740' '#1705#1607' '#1705#1583' '#1605#1581#1589#1608#1604#1616' '#1579#1576#1578#8204#1588#1583#1607' '#1585#1608#1740' '#1587#1606#1583' '#1578#1608#1604#1740#1583#1588#1575#1606' '#1576#1575' '#1607#1740#1670' '#1705#1575#1604#1575#1740' '#1608#1575#1602#1593 +
+          #1740' '#1605#1591#1575#1576#1602#1578' '#1606#1583#1575#1585#1583' '#1608' '#1576#1607' '#1607#1605#1740#1606' '#1583#1604#1740#1604' '#1602#1740#1605#1578#8204#1711#1584#1575#1585#1740' '#1606#1588#1583#1607#8204#1575#1606#1583)
+      ParentCtl3D = False
+      ParentFont = False
+      ReadOnly = True
+      TabOrder = 2
+      ExplicitTop = 138
     end
   end
   object pnlLblLimitPlace: TPanel [3]
@@ -397,7 +511,7 @@ inherited ConversionCoCalcF: TConversionCoCalcF
   end
   inherited ActionList: TActionList
     Left = 576
-    Top = 192
+    Top = 176
     inherited DataSetInsert1: TDataSetInsert
       DataSource = dsIncorporate
     end
@@ -439,7 +553,7 @@ inherited ConversionCoCalcF: TConversionCoCalcF
     end
   end
   inherited ImageList1: TImageList
-    Left = 456
+    Top = 185
     Bitmap = {
       494C010106000900040010001000FFFFFFFFFF10FFFFFFFFFFFFFFFF424D3600
       0000000000003600000028000000400000002000000001002000000000000020
@@ -777,5 +891,50 @@ inherited ConversionCoCalcF: TConversionCoCalcF
     Parameters = <>
     Left = 176
     Top = 313
+  end
+  object qryUnpriced: TADOQuery
+    Connection = DmF.adcBSell
+    CursorType = ctStatic
+    CommandTimeout = 0
+    Parameters = <>
+    Left = 272
+    Top = 313
+    object qryUnpricedInputReciptNumber: TIntegerField
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1587#1606#1583' '#1605#1589#1585#1601
+      FieldName = 'InputReciptNumber'
+    end
+    object qryUnpricedInputReciptDate: TStringField
+      DisplayLabel = #1578#1575#1585#1740#1582' '#1587#1606#1583' '#1605#1589#1585#1601
+      FieldName = 'InputReciptDate'
+      Size = 10
+    end
+    object qryUnpricedStuffCode: TLargeintField
+      DisplayLabel = #1705#1583' '#1605#1575#1583#1607' '#1575#1608#1604#1740#1607
+      FieldName = 'StuffCode'
+    end
+    object qryUnpricedc_StuffName: TStringField
+      DisplayLabel = #1606#1575#1605' '#1605#1575#1583#1607' '#1575#1608#1604#1740#1607
+      FieldName = 'c_StuffName'
+      Size = 150
+    end
+    object qryUnpricedOutputReciptNumber: TIntegerField
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1587#1606#1583' '#1578#1608#1604#1740#1583
+      FieldName = 'OutputReciptNumber'
+    end
+    object qryUnpricedOutputReciptDate: TStringField
+      DisplayLabel = #1578#1575#1585#1740#1582' '#1587#1606#1583' '#1578#1608#1604#1740#1583
+      FieldName = 'OutputReciptDate'
+      Size = 10
+    end
+    object qryUnpricedOutputProductCodes: TStringField
+      DisplayLabel = #1705#1583#1607#1575#1740' '#1579#1576#1578#1588#1583#1607' '#1585#1608#1740' '#1587#1606#1583' '#1578#1608#1604#1740#1583
+      FieldName = 'OutputProductCodes'
+      Size = 500
+    end
+  end
+  object dsUnpriced: TDataSource
+    DataSet = qryUnpriced
+    Left = 232
+    Top = 370
   end
 end

@@ -155,6 +155,8 @@ type
     BitBtn1: TBitBtn;
     actGetExcel: TAction;
     DBGrid1: TCedarDbgrid;
+    actViewFile: TAction;
+    BitBtn2: TBitBtn;
     procedure srcMasterStateChange(Sender: TObject);
     procedure qryMasterAfterInsert(DataSet: TDataSet);
     procedure qryMasterAfterPost(DataSet: TDataSet);
@@ -196,6 +198,7 @@ type
     procedure qryInterfaceAfterScroll(DataSet: TDataSet);
     procedure qryItemsEntityChange(Sender: TField);
     procedure actGetExcelExecute(Sender: TObject);
+    procedure actViewFileExecute(Sender: TObject);
   private
     formType: byte;
     activeGetExcelF: Boolean;
@@ -218,7 +221,7 @@ implementation
 
 uses Dm, searchCode_L1_L2, GlobalPro, mmessage, search2, sort2, searchCode_ADO,
   sndkey32,
-  Note, Main, GetExcel, FaraConsts, FormFunctions;
+  Note, Main, GetExcel, FaraConsts, FormFunctions, ViewFileOnServer;
 
 {$R *.dfm}
 
@@ -510,6 +513,14 @@ procedure TBudgetApprovedF.actSortExecute(Sender: TObject);
 begin
   inherited;
   sort2F.ShowSort(qryItems);
+end;
+
+procedure TBudgetApprovedF.actViewFileExecute(Sender: TObject);
+begin
+  inherited;
+  ViewFileOnServerF.Enter(qryMaster.FieldByName('BudgetID').AsString,
+    'BudgetApprovedsFiles', False);
+
 end;
 
 procedure TBudgetApprovedF.DBGrid1EditButtonClick(Sender: TObject);

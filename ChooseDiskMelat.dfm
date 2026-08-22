@@ -192,7 +192,7 @@ inherited ChooseDiskMelatF: TChooseDiskMelatF
       Width = 124
       Height = 19
       Ctl3D = False
-      EditMask = '999999999999999;1;_'
+      EditMask = '99999999999999999999;1;_'
       MaxLength = 15
       ParentCtl3D = False
       TabOrder = 1
@@ -501,7 +501,7 @@ inherited ChooseDiskMelatF: TChooseDiskMelatF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1670#1603
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object cliChecksCheckDate: TStringField
       Tag = 3

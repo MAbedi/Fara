@@ -1400,7 +1400,7 @@ inherited Rpt_Ctopics3OnDetailsBookF: TRpt_Ctopics3OnDetailsBookF
       ''
       '')
     Left = 184
-    Top = 109
+    Top = 125
     object qry_AccCodeAidInfoType: TWordField
       FieldName = 'AidInfoType'
     end

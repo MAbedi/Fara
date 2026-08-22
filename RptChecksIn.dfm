@@ -3,7 +3,7 @@ inherited RptChecksInF: TRptChecksInF
   Top = 341
   Caption = 'RptChecksInF'
   ClientWidth = 1106
-  ExplicitWidth = 1122
+  ExplicitWidth = 1114
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
@@ -600,7 +600,7 @@ inherited RptChecksInF: TRptChecksInF
       DisplayWidth = 12
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryChecksInCheckDate: TStringField
       Tag = 3

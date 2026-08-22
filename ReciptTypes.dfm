@@ -6,8 +6,6 @@ inherited ReciptTypesF: TReciptTypesF
   ClientWidth = 1073
   Position = poDesigned
   OnResize = FormResize
-  ExplicitLeft = -190
-  ExplicitTop = -190
   ExplicitWidth = 1081
   ExplicitHeight = 808
   PixelsPerInch = 96
@@ -269,13 +267,12 @@ inherited ReciptTypesF: TReciptTypesF
       Height = 498
       Align = alClient
       TabOrder = 0
-      ExplicitTop = 119
       object PageControl1: TPageControl
         Left = 1
         Top = 1
         Width = 1067
         Height = 496
-        ActivePage = TabSheet19
+        ActivePage = TabSheet3
         Align = alClient
         MultiLine = True
         TabOrder = 0
@@ -9380,7 +9377,7 @@ inherited ReciptTypesF: TReciptTypesF
     end
     object qryReciptTypesOtherRptCaptions: TStringField
       FieldName = 'OtherRptCaptions'
-      Size = 500
+      Size = 1000
     end
     object qryReciptTypesSearchReciptNumber: TWordField
       FieldName = 'SearchReciptNumber'

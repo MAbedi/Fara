@@ -13342,7 +13342,7 @@ begin
           First;
           while not Eof do
           begin
-            if FieldByName('CustomerID2').AsInteger = Sender.OldValue then
+            if Sender.NewValue <> Sender.OldValue then
             begin
               Edit;
               FieldByName('CustomerID2').AsInteger := Sender.NewValue;
@@ -14204,5 +14204,6 @@ if Assigned(Mypop) then
   FreeAndNil(Mypop);
 
 end.
+
 
 

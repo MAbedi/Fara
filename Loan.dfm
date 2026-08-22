@@ -3129,7 +3129,7 @@ inherited LoanF: TLoanF
       DisplayLabel = #1588#1605#1575#1585#1607' '#1602#1587#1591
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 15
+      Size = 20
     end
     object qryFormItemsCheckDate: TStringField
       Tag = 3
