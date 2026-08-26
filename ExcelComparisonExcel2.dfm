@@ -864,7 +864,7 @@ object ExcelComparisonExcel2F: TExcelComparisonExcel2F
     end
   end
   object ActionList1: TActionList
-    Left = 136
+    Left = 144
     Top = 177
     object actOpenExcel: TAction
       Caption = #1576#1575#1586' '#1705#1585#1583#1606' '#1601#1575#1610#1604' Excel '
@@ -972,7 +972,9 @@ object ExcelComparisonExcel2F: TExcelComparisonExcel2F
     LockType = ltReadOnly
     Parameters = <>
     SQL.Strings = (
-      'SELECT        c_StuffCode, GroupID, c_StuffName,c_StuffTecInfo'
+      
+        'SELECT        c_StuffCode, GroupID, c_StuffName,c_StuffTecInfo,s' +
+        'd1'
       'FROM            StuffCoding'
       'WHERE        (GroupID > 0) AND (c_StuffCode<> 0)')
     Left = 459
@@ -992,6 +994,10 @@ object ExcelComparisonExcel2F: TExcelComparisonExcel2F
       DisplayLabel = #1605#1588#1582#1589#1575#1578' '#1601#1606#1610
       FieldName = 'c_StuffTecInfo'
       Size = 60
+    end
+    object qryStuffcodingsd1: TStringField
+      FieldName = 'sd1'
+      Size = 64
     end
   end
   object srcNewExcel1: TDataSource

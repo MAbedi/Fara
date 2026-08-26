@@ -45,6 +45,7 @@ type
     qryStuffcodingc_StuffCode: TLargeintField;
     qryStuffcodingGroupID: TIntegerField;
     qryStuffcodingc_StuffName: TStringField;
+    qryStuffcodingsd1: TStringField;
     lblEcxel1: TLabel;
     srcNewExcel1: TDataSource;
     srcNewExcel2: TDataSource;
@@ -149,6 +150,9 @@ type
     // procedure addLinks(lstS1, lstS2, lstDesti: TListBox; qry1, qry2: TADOQuery);
     procedure OpenBaseQry(Qry: TADOQuery);
     function ChkExists(Qry1: TADOQuery): Boolean;
+    function FSD1: string;
+    function CurrentStuffCode: LargeInt;
+    function CurrentDuplicateKey: string;
     function SaveForms(RelatedRecipts: Integer): Boolean;
     function FixNationalID(NationalID: string): string;
     function Excel1NationalID: string;
@@ -270,38 +274,92 @@ end;
 
 function TExcelComparisonExcel2F.ChkExists(Qry1: TADOQuery): Boolean;
 var
-  S: string;
+  S, LegacyS: string;
 begin
-//  S := qryExcel1.FieldByName(F17ShomarePay).AsString;
-
-  if cmbFieldName.ItemIndex = 5 then
-    S := qryExcel1.FieldByName(F17ShomarePay).AsString + '_' +
-      IntToStr(GlobalPro.GetHashCode(qryExcel1.FieldByName(F16c_StuffTecInfo).AsString))
-  else
-    S := qryExcel1.FieldByName(F17ShomarePay).AsString;
-
-  // if S='C7ae6096a1db04b448dec401096cd8d9f' then
-  // Warn('C7ae6096a1db04b448dec401096cd8d9f');
+  S := CurrentDuplicateKey;
+  LegacyS := qryExcel1.FieldByName(F17ShomarePay).AsString + '_' +
+    IntToStr(GlobalPro.GetHashCode(qryExcel1.FieldByName(F16c_StuffTecInfo)
+    .AsString));
   Result := Qry1.Locate('TruckNumber', S, []);
+  if (not Result) and (cmbFieldName.ItemIndex = 5) then
+    Result := Qry1.Locate('TruckNumber', LegacyS, []);
+  if (not Result) and (cmbFieldName.ItemIndex = 5) then
+  begin
+    if (Qry1.Name = qryTruckNumber.Name) and qryRecipts.Active then
+      Result := qryRecipts.Locate('TruckNumber', S, [])
+    else if (Qry1.Name = qryTruckNumberForms.Name) and qryForms.Active then
+      Result := qryForms.Locate('TruckNumber', S, []);
+  end;
   if Result then
   begin
     mmo1.Lines.Add('RSamane=' + qryExcel1.FieldByName(Radif).AsString + ' ' +
-      Qry1.FieldByName('ReciptNumber').AsString + ' > ' + S)
+      Qry1.FieldByName('ReciptNumber').AsString + ' > ' + S);
   end
   else
   begin
-    // Qry1.Insert;
-    // Qry1.FieldByName('TruckNumber').AsString := S;
-    // Qry1.Post;
-
-    if (cmbFieldName.ItemIndex = 6) and (Qry1.Name = qryTruckNumberForms.Name)
-    then
+    if (cmbFieldName.ItemIndex = 6) and
+      (Qry1.Name = qryTruckNumberForms.Name) then
     begin
       qryTruckNumberForms.Insert;
       qryTruckNumberForms.FieldByName('TruckNumber').AsString := S;
       qryTruckNumberForms.Post;
     end;
+  end;
+end;
 
+function TExcelComparisonExcel2F.FSD1: string;
+begin
+  if (cmbFieldName.ItemIndex = 5) and
+    (qryExcel1.FindField('درصد سبوس گیری') <> nil) then
+    Result := 'درصد سبوس گیری'
+  else if qryUtilEcE.Locate('SystemFieldName', 'SD1', []) and
+    (qryExcel1.FindField(qryUtilEcEExcelFieldName.AsString) <> nil) then
+    Result := qryUtilEcEExcelFieldName.AsString
+  else
+    Result := EmptyStr;
+end;
+
+function TExcelComparisonExcel2F.CurrentStuffCode: LargeInt;
+var
+  TechInfo, SD1Value: string;
+begin
+  Result := 0;
+  if cmbFieldName.ItemIndex <> 5 then
+    Exit;
+
+  TechInfo := qryExcel1.FieldByName(F16c_StuffTecInfo).AsString.Trim;
+  if FSD1 <> EmptyStr then
+    SD1Value := qryExcel1.FieldByName(FSD1).AsString.Trim
+  else
+    SD1Value := EmptyStr;
+
+  if (TechInfo <> EmptyStr) and
+    (qryStuffcoding.Locate('c_StuffTecInfo',
+      CorrectFarsiChars(TechInfo), [] ) or
+     qryStuffcoding.Locate('c_StuffTecInfo', TechInfo, [])) then
+    Exit(qryStuffcodingc_StuffCode.AsLargeInt);
+
+  if (SD1Value <> EmptyStr) and
+    qryStuffcoding.Locate('sd1', SD1Value, []) then
+    Result := qryStuffcodingc_StuffCode.AsLargeInt;
+end;
+
+function TExcelComparisonExcel2F.CurrentDuplicateKey: string;
+var
+  StuffCode: LargeInt;
+begin
+  Result := qryExcel1.FieldByName(F17ShomarePay).AsString.Trim;
+  if cmbFieldName.ItemIndex = 5 then
+  begin
+    StuffCode := CurrentStuffCode;
+    if StuffCode <> 0 then
+      Result := Result + '_' + StuffCode.ToString
+    else
+      Result := Result + '_' +
+        IntToStr(GlobalPro.GetHashCode(
+        qryExcel1.FieldByName(F16c_StuffTecInfo).AsString + '|' +
+        IfThen(FSD1 <> EmptyStr, qryExcel1.FieldByName(FSD1).AsString,
+        EmptyStr)));
   end;
 end;
 
@@ -399,9 +457,7 @@ begin
 
             if cmbFieldName.ItemIndex = 5 then
               qryRecipts.FieldByName('TruckNumber').AsString :=
-                FieldByName(F17ShomarePay).AsString + '_' +
-                IntToStr(GlobalPro.GetHashCode(qryExcel1.FieldByName(F16c_StuffTecInfo)
-                .AsString))
+                CurrentDuplicateKey
             else
               qryRecipts.FieldByName('TruckNumber').AsString :=
                 FieldByName(F17ShomarePay).AsString;
@@ -474,7 +530,13 @@ begin
 
             if cmbFieldName.ItemIndex in [2, 3, 4, 5, 6] then
             begin
-              if (qryStuffcoding.Locate('c_StuffTecInfo',
+              if (cmbFieldName.ItemIndex = 5) and
+                (CurrentStuffCode <> 0) then
+              begin
+                qryReciptItems.FieldByName('StuffCode').AsLargeInt :=
+                  CurrentStuffCode;
+              end
+              else if (qryStuffcoding.Locate('c_StuffTecInfo',
                 CorrectFarsiChars(qryExcel1.FieldByName(F16c_StuffTecInfo)
                 .AsString), [])) or
                 (qryStuffcoding.Locate('c_StuffTecInfo',
@@ -485,9 +547,11 @@ begin
               end
               else
               begin
-                S := qryExcel1.FieldByName(F16c_StuffTecInfo).AsString + ' = ' +
+                S := qryExcel1.FieldByName(F16c_StuffTecInfo).AsString + ' / ' +
                   CorrectFarsiChars(qryExcel1.FieldByName(F16c_StuffTecInfo)
                   .AsString);
+                if FSD1 <> EmptyStr then
+                  S := S + ' / ' + qryExcel1.FieldByName(FSD1).AsString;
                 add2log('c_StuffTecInfo Not Found : ' + QuotedStr(S));
                 Warn2(S, 0);
               end;
@@ -1249,12 +1313,16 @@ begin
   if FileKind = cmbFieldName.ItemIndex then
     with qryUtilEcE do
     begin
-      Insert;
-      qryUtilEcECaption.AsString := Caption;
-      qryUtilEcESystemFieldName.AsString := SystemFieldName;
-      qryUtilEcEExcelFieldName.AsString := ExcelFieldName;
-      qryUtilEcENote.AsString := Note;
-      Post;
+      if not Locate('SystemFieldName;ExcelFieldName',
+        VarArrayOf([SystemFieldName, ExcelFieldName]), []) then
+      begin
+        Insert;
+        qryUtilEcECaption.AsString := Caption;
+        qryUtilEcESystemFieldName.AsString := SystemFieldName;
+        qryUtilEcEExcelFieldName.AsString := ExcelFieldName;
+        qryUtilEcENote.AsString := Note;
+        Post;
+      end;
     end;
 end;
 
@@ -1547,7 +1615,11 @@ end;
 
 function TExcelComparisonExcel2F.F16c_StuffTecInfo: string;
 begin
-  Result := UtilEcE('c_StuffTecInfo'); // F16
+  if (cmbFieldName.ItemIndex = 5) and
+    (qryExcel1.FindField('محصول') <> nil) then
+    Result := 'محصول'
+  else
+    Result := UtilEcE('c_StuffTecInfo'); // F16
 end;
 
 function TExcelComparisonExcel2F.Weight_Entity: string;
@@ -1728,9 +1800,7 @@ begin
 
         if cmbFieldName.ItemIndex = 5 then
           FieldByName('TruckNumber').AsString :=
-            qryExcel1.FieldByName(F17ShomarePay).AsString + '_' +
-            IntToStr(GlobalPro.GetHashCode(qryExcel1.FieldByName(F16c_StuffTecInfo)
-            .AsString))
+            CurrentDuplicateKey
         else
           FieldByName('TruckNumber').AsString :=
             qryExcel1.FieldByName(F17ShomarePay).AsString;
@@ -1955,6 +2025,15 @@ begin
     ' WHERE (FileKind = 2)' + ' and ReciptType not in (SELECT ReciptType' +
     ' FROM Util.ExcelComparisonExcel AS ExcelComparisonExcel_1' +
     ' WHERE (FileKind = 5))');
+
+  DMF.adcBSell.Execute('INSERT INTO Util.ExcelComparisonExcel' +
+    ' (ReciptType, FileKind, Caption, SystemFieldName, ExcelFieldName, Note)' +
+    ' SELECT DISTINCT E.ReciptType, 5, ''درصد سبوس گیری'', ''SD1'', ''درصد سبوس گیری'', NULL' +
+    ' FROM Util.ExcelComparisonExcel E' +
+    ' WHERE E.FileKind = 5' +
+    ' AND NOT EXISTS (SELECT 1 FROM Util.ExcelComparisonExcel X' +
+    ' WHERE X.ReciptType = E.ReciptType AND X.FileKind = 5' +
+    ' AND X.SystemFieldName = ''SD1'')');
 
   // DMF.adcBSell.Execute('INSERT INTO Util.ExcelComparisonExcel' +
   // ' (ReciptType, FileKind, Caption, SystemFieldName, ExcelFieldName, Note)' +
@@ -2292,7 +2371,7 @@ end;
 procedure TExcelComparisonExcel2F.qryUtilEcEAfterInsert(DataSet: TDataSet);
 begin
   qryUtilEcEReciptType.AsInteger := ReciptType;
-  qryUtilEcEFileKind.AsInteger := cmbFieldName.ItemIndex;
+  qryUtilEcEFileKind.AsInteger := cmbFieldName.ItemIndex
 end;
 
 end.
