@@ -225,11 +225,13 @@ uses filter_ADO, FilterClass_ADO, GlobalPro, DM, search2,
 procedure TRptChecksInF.UpdateFilter;
 var
   custIDKindActive, SyadSystem: Integer;
+  historicalCheckInventory: Boolean;
   b: Boolean;
 begin
   with qryChecksIn do
   begin
     Active := False;
+    historicalCheckInventory := formTypeInt in [10, 11, 50];
     SQL.Text := 'SELECT FormItems.FormItemID,';
     SQL.Add('ltrim(rtrim( FormItems.CheckNumber))as CheckNumber, FormItems.CheckDate,FormItems.BankName,');
     SQL.Add('FormItems.AccountNumber,');
@@ -259,20 +261,20 @@ begin
     SQL.Add('FormTypes ON Forms.FormType = FormTypes.FormType  JOIN');
     SQL.Add('Customers Customers_2 ON FormItems.CustomerID2 = Customers_2.CustID JOIN');
     SQL.Add('Customers Customers_1 ON Forms.CustomerID1 = Customers_1.CustID  JOIN');
-    SQL.Add('Customers C2M ON Forms.CustomerID2 = C2M.CustID LEFT OUTER JOIN');
-
-    SQL.Add('-- FormItems ---');
-    SQL.Add('(SELECT FormItems.FormItemID, FormItems.preFormItemID, FormItems.FormID,');
-    SQL.Add('FormItems.ServerID, FormItems.YearID');
-    SQL.Add(', Forms.FormDate, FormItems.PerServerID, FormItems.CheckDate');
-    SQL.Add('FROM FormItems INNER JOIN');
-    SQL.Add('Forms ON FormItems.FormID = Forms.FormID AND FormItems.ServerID = Forms.ServerID AND FormItems.YearID');
-    SQL.Add('= Forms.YearID');
-
-    SQL.Add('WHERE (Forms.FormDate BETWEEN :DueDateFrom AND :DueDateTo))');
-
-    SQL.Add('FormItems_1 ON FormItems.ServerID =FormItems_1.PerServerID AND FormItems.YearID = FormItems_1.YearID AND');
-    SQL.Add('FormItems.FormItemID = FormItems_1.preFormItemID');
+    SQL.Add('Customers C2M ON Forms.CustomerID2 = C2M.CustID');
+    if not historicalCheckInventory then
+    begin
+      SQL.Add('LEFT OUTER JOIN');
+      SQL.Add('(SELECT FormItems.FormItemID, FormItems.preFormItemID, FormItems.FormID,');
+      SQL.Add('FormItems.ServerID, FormItems.YearID');
+      SQL.Add(', Forms.FormDate, FormItems.PerServerID, FormItems.CheckDate');
+      SQL.Add('FROM FormItems INNER JOIN');
+      SQL.Add('Forms ON FormItems.FormID = Forms.FormID AND FormItems.ServerID = Forms.ServerID AND FormItems.YearID');
+      SQL.Add('= Forms.YearID');
+      SQL.Add('WHERE (Forms.FormDate BETWEEN :DueDateFrom AND :DueDateTo))');
+      SQL.Add('FormItems_1 ON FormItems.ServerID =FormItems_1.PerServerID AND FormItems.YearID = FormItems_1.YearID AND');
+      SQL.Add('FormItems.FormItemID = FormItems_1.preFormItemID');
+    end;
 
     SQL.Add('INNER JOIN CustomersGroup CG2 ON Customers_2.CustomerGrpID = CG2.CustomerGrpID');
     SQL.Add('inner join SellsEmporiums on forms.sellsemporium = SellsEmporiums.sellsemporium');
@@ -280,15 +282,34 @@ begin
     // if PayTypes then
     SQL.Add('LEFT OUTER JOIN LookUps AS lookupspaytypes ON forms.PayTypes = lookupspaytypes.LookUpID');
 
-    SQL.Add('WHERE (FormItems_1.preFormItemID IS NULL) AND');
+    SQL.Add('WHERE ');
+    if historicalCheckInventory then
+    begin
+      SQL.Add('NOT EXISTS (SELECT 1 FROM FormItems FormItems_1 INNER JOIN Forms Forms_1');
+      SQL.Add('ON FormItems_1.FormID = Forms_1.FormID AND FormItems_1.ServerID = Forms_1.ServerID');
+      SQL.Add('AND FormItems_1.YearID = Forms_1.YearID');
+      SQL.Add('WHERE FormItems_1.preFormItemID = FormItems.FormItemID');
+      SQL.Add('AND FormItems_1.PerServerID = FormItems.ServerID');
+      SQL.Add('AND FormItems_1.YearID = FormItems.YearID');
+      SQL.Add('AND Forms_1.FormDate <= :FormDateToChild');
+      SQL.Add('AND ((FormItems_1.CheckDate BETWEEN :Date2From AND :Date2To)');
+      SQL.Add('OR FormItems_1.CheckDate IS NULL)) AND');
+    end
+    else
+      SQL.Add('(FormItems_1.preFormItemID IS NULL) AND');
     SQL.Add('((FormItems.CheckDate BETWEEN :DateFrom AND :DateTo) or FormItems.CheckDate <= ''0'' ) AND');
-    SQL.Add('((FormItems_1.CheckDate BETWEEN :Date2From AND :Date2To) or FormItems_1.CheckDate IS NULL ) AND');
+    if not historicalCheckInventory then
+      SQL.Add('((FormItems_1.CheckDate BETWEEN :Date2From AND :Date2To) or FormItems_1.CheckDate IS NULL ) AND');
     SQL.Add('(Forms.FormType in( ' + FormType + '))AND');
 
     SQL.Add('(Forms.CustomerID1 BETWEEN :CustID1From AND :CustID1To)AND');
     SQL.Add('(FormItems.CustomerID2 BETWEEN :CustID2From AND :CustID2To) AND');
     SQL.Add('((Forms.BudgetCode BETWEEN :BudgetCodeFrom AND :BudgetCodeTo)OR (Forms.BudgetCode IS NULL )) AND');
-    SQL.Add('(Forms.FormDate BETWEEN :FormDateFrom AND :FormDateTo) AND');
+    if historicalCheckInventory then
+      // Inventory is an as-of report: include all forms up to the report date.
+      SQL.Add('(Forms.FormDate <= :FormDateTo) AND')
+    else
+      SQL.Add('(Forms.FormDate BETWEEN :FormDateFrom AND :FormDateTo) AND');
     SQL.Add('(Forms.FormNumber BETWEEN :NumberForm AND :NumberTo)');
     SQL.Add('AND (Forms.FormState<10) and (Forms.YearID between :YearIDFrom and :YearIDTo)');
     SQL.Add('AND (FormItems.Checktype BETWEEN :ChecktypeFrom AND :ChecktypeTo)');
@@ -392,10 +413,24 @@ begin
       GetcFrom(myParams.ParamValues['CustomerID1'], ftInteger);
     Parameters.ParamByName('CustID1To').Value :=
       GetcTo(myParams.ParamValues['CustomerID1'], ftInteger);
-    Parameters.ParamByName('FormDateFrom').Value :=
-      GetcFrom(myParams.ParamValues['FormDate'], ftDate);
-    Parameters.ParamByName('FormDateTo').Value :=
-      GetcTo(myParams.ParamValues['FormDate'], ftDate);
+    if historicalCheckInventory then
+    begin
+      if Parameters.FindParam('FormDateTo') <> nil then
+        Parameters.ParamByName('FormDateTo').Value :=
+          GetcTo(myParams.ParamValues['FormDate'], ftDate);
+      if Parameters.FindParam('FormDateToChild') <> nil then
+        Parameters.ParamByName('FormDateToChild').Value :=
+          GetcTo(myParams.ParamValues['FormDate'], ftDate);
+    end
+    else
+    begin
+      if Parameters.FindParam('FormDateFrom') <> nil then
+        Parameters.ParamByName('FormDateFrom').Value :=
+          GetcFrom(myParams.ParamValues['FormDate'], ftDate);
+      if Parameters.FindParam('FormDateTo') <> nil then
+        Parameters.ParamByName('FormDateTo').Value :=
+          GetcTo(myParams.ParamValues['FormDate'], ftDate);
+    end;
 
     Parameters.ParamByName('NumberForm').Value :=
       GetcFrom(myParams.ParamValues['Number'], ftInteger);
@@ -415,10 +450,13 @@ begin
       Parameters.ParamByName('Date2To').Value :=
         GetcTo(myParams.ParamValues['CheckDate'], ftDate);
 
-      Parameters.ParamByName('DueDateFrom').Value :=
-        GetcFrom(myParams.ParamValues['DueDate'], ftDate);
-      Parameters.ParamByName('DueDateTo').Value :=
-        GetcTo(myParams.ParamValues['DueDate'], ftDate);
+      if Parameters.FindParam('DueDateFrom') <> nil then
+      begin
+        Parameters.ParamByName('DueDateFrom').Value :=
+          GetcFrom(myParams.ParamValues['DueDate'], ftDate);
+        Parameters.ParamByName('DueDateTo').Value :=
+          GetcTo(myParams.ParamValues['DueDate'], ftDate);
+      end;
 
     end
     else
@@ -427,8 +465,11 @@ begin
       Parameters.ParamByName('DateTo').Value := '9999/99/99';
       Parameters.ParamByName('Date2From').Value := '0000/00/00';
       Parameters.ParamByName('Date2To').Value := '9999/99/99';
-      Parameters.ParamByName('DueDateFrom').Value := '0000/00/00';
-      Parameters.ParamByName('DueDateTo').Value := '9999/99/99';
+      if Parameters.FindParam('DueDateFrom') <> nil then
+      begin
+        Parameters.ParamByName('DueDateFrom').Value := '0000/00/00';
+        Parameters.ParamByName('DueDateTo').Value := '9999/99/99';
+      end;
     end;
 
     grpMaster.Visible := custIDKindActive <> 0;
