@@ -1,6 +1,34 @@
 ﻿-- Modify Data :Acc  1405/04/13  Up ----------
 SET NOCOUNT ON
 
+-- Currency amounts must not be limited to the historical three-decimal
+-- scale.  Update existing databases as well as newly-created columns.
+IF EXISTS (
+    SELECT 1
+    FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = N'Acc'
+      AND TABLE_NAME = N'Documents'
+      AND COLUMN_NAME IN (N'CurrencyDebit', N'CurrencyCredit', N'CurrencyRate')
+      AND DATA_TYPE = N'decimal'
+      AND NUMERIC_SCALE < 8
+)
+BEGIN
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyDebit')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyDebit
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyCredit')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyCredit
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyRate')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyRate
+
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyDebit Decimal(38,8) NOT NULL
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyCredit Decimal(38,8) NOT NULL
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyRate Decimal(38,8) NOT NULL
+
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyDebit DEFAULT 0 FOR CurrencyDebit
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyCredit DEFAULT 0 FOR CurrencyCredit
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyRate DEFAULT 1 FOR CurrencyRate
+END
+
 declare @LinkServerName varchar(500)
 select @LinkServerName=c.LinkServerName from Config c
 update Config set LinkServerName=''

@@ -198,6 +198,12 @@ type
     N12: TMenuItem;
     N4: TMenuItem;
     N5: TMenuItem;
+    qryStuffEntityInc: TFMTBCDField;
+    qryStuffWeightInc: TFMTBCDField;
+    qryStuffPriceInc: TFMTBCDField;
+    qryStuffEntityDec: TFMTBCDField;
+    qryStuffWeightDec: TFMTBCDField;
+    qryStuffPriceDec: TFMTBCDField;
     procedure actFilterExecute(Sender: TObject);
     procedure qryStuffAfterScroll(DataSet: TDataSet);
     procedure FormShow(Sender: TObject);

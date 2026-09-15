@@ -572,6 +572,9 @@ type
     Label91: TLabel;
     mmoMasage: TMemo;
     BitBtn6: TBitBtn;
+    qryConfigAutoBackupActive: TIntegerField;
+    dbchkAutoBackupActive: TDBCheckBox;
+    qryConfigAutoBackupResetVersion: TWordField;
     procedure qryConfigEntityDisplayTypeGetText(Sender: TField;
       var Text: String; DisplayText: Boolean);
     procedure qryConfigEntityDisplayTypeSetText(Sender: TField;
@@ -607,6 +610,7 @@ type
     procedure chklstCustomerTrancKindsClick(Sender: TObject);
     procedure SpeedButton2Click(Sender: TObject);
     procedure btn2Click(Sender: TObject);
+    procedure dbchkAutoBackupActiveClick(Sender: TObject);
     procedure cmbComPortKindChange(Sender: TObject);
     procedure CheckListBox1Click(Sender: TObject);
     procedure ValueListEditor1Enter(Sender: TObject);
@@ -761,6 +765,11 @@ var
 begin
   inherited;
 
+  if (DataSet.FieldByName('AutoBackupActive').AsInteger = 0) and
+    (DataSet.FieldByName('AutoBackupActive').OldValue = 1) then
+    DataSet.FieldByName('AutoBackupResetVersion').AsInteger :=
+      DataSet.FieldByName('AutoBackupResetVersion').AsInteger + 1;
+
   if not chkAccOLd.Checked then
     DataSet.FieldByName('AccountDBNameOld').AsString := '';
   // else
@@ -896,6 +905,7 @@ var
 begin
   inherited;
   pnlServer.Visible := user.OperatorKind >= 2;
+  dbchkAutoBackupActive.Visible := User.PowerUser;
 
   getCustGroupsNames(chklstCustomerTrancKinds.Items, True);
   chklstCustomerTrancKinds.Items[1] := '';
@@ -953,6 +963,25 @@ begin
 
   pnlFunctionDate4Edit.Visible := user.admin;
   initcmbTogrd;
+end;
+
+procedure TConfigF.dbchkAutoBackupActiveClick(Sender: TObject);
+begin
+  if dbchkAutoBackupActive.Checked then
+    Exit;
+
+  if not User.PowerUser then
+  begin
+    qryConfig.FieldByName('AutoBackupActive').AsInteger := 1;
+    Exit;
+  end;
+
+  if get_response(
+    'بکاپ خودکار همه کلاینت‌ها غیرفعال شود؟' + #13#10 +
+    'این کار تنظیم فعال بودن بکاپ را در همه کلاینت‌ها پاک می‌کند؛ ' +
+    'برای فعال‌سازی مجدد، باید آن را در هر کلاینت جداگانه روشن کنید.') <>
+    mrYes then
+    qryConfig.FieldByName('AutoBackupActive').AsInteger := 1;
 end;
 
 procedure TConfigF.initcmbTogrd;

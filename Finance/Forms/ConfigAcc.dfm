@@ -2,14 +2,14 @@ inherited ConfigAccF: TConfigAccF
   Left = 279
   Top = 179
   Caption = #1578#1606#1592#1610#1605#1575#1578' '#1587#1610#1587#1578#1605' '#1581#1587#1575#1576#1583#1575#1585#1740
-  ClientHeight = 536
+  ClientHeight = 559
   ClientWidth = 734
   ExplicitWidth = 740
-  ExplicitHeight = 565
+  ExplicitHeight = 588
   PixelsPerInch = 96
   TextHeight = 13
   inherited Bevel1: TBevel
-    Top = 479
+    Top = 502
     Width = 734
     ExplicitTop = 346
     ExplicitWidth = 555
@@ -213,7 +213,7 @@ inherited ConfigAccF: TConfigAccF
     end
   end
   inherited pnlDown: TPanel
-    Top = 499
+    Top = 522
     Width = 734
     TabOrder = 2
     ExplicitTop = 499
@@ -251,14 +251,16 @@ inherited ConfigAccF: TConfigAccF
     Left = 0
     Top = 73
     Width = 571
-    Height = 426
-    ActivePage = TabSheet5
+    Height = 449
+    ActivePage = TabSheet3
     Align = alClient
     Style = tsFlatButtons
     TabOrder = 1
     OnChange = PageControl1Change
+    ExplicitHeight = 426
     object TabSheet1: TTabSheet
       Caption = #1587#1610#1587#1578#1605' '
+      ExplicitHeight = 395
       object Label22: TLabel
         Left = 498
         Top = 162
@@ -498,7 +500,7 @@ inherited ConfigAccF: TConfigAccF
       inline frmLoginKind1: TfrmLoginKind
         AlignWithMargins = True
         Left = 8
-        Top = 363
+        Top = 386
         Width = 552
         Height = 29
         Margins.Left = 8
@@ -541,6 +543,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet2: TTabSheet
       Caption = #1587#1606#1583' '#1581#1587#1575#1576#1583#1575#1585#1610' '
       ImageIndex = 1
+      ExplicitHeight = 395
       object Label4: TLabel
         Left = 428
         Top = -1
@@ -926,10 +929,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet3: TTabSheet
       Caption = #1603#1583#1610#1606#1711' '#1581#1587#1575#1576#1607#1575' '
       ImageIndex = 2
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object dbchkCTopicCode2Active: TDBCheckBox
         Left = 22
         Top = 104
@@ -1198,6 +1198,20 @@ inherited ConfigAccF: TConfigAccF
           TabOrder = 0
         end
       end
+      object dbchkCTopicCodeIsZero: TDBCheckBox
+        Left = 22
+        Top = 201
+        Width = 235
+        Height = 17
+        BiDiMode = bdLeftToRight
+        Caption = #1603#1583' '#1578#1601#1589#1610#1604#1610'2  '#1605#1602#1583#1575#1585' '#1589#1601#1585'(0) '#1607#1605' '#1705#1606#1578#1585#1604' '#1588#1608#1583
+        DataField = 'CTopicCodeIsZero'
+        DataSource = srcConfigAcc
+        ParentBiDiMode = False
+        TabOrder = 10
+        ValueChecked = '1'
+        ValueUnchecked = '0'
+      end
       object dbchkCTopicCode2IsZero: TDBCheckBox
         Left = 22
         Top = 223
@@ -1208,7 +1222,7 @@ inherited ConfigAccF: TConfigAccF
         DataField = 'CTopicCode2IsZero'
         DataSource = srcConfigAcc
         ParentBiDiMode = False
-        TabOrder = 10
+        TabOrder = 11
         ValueChecked = '1'
         ValueUnchecked = '0'
       end
@@ -1222,18 +1236,19 @@ inherited ConfigAccF: TConfigAccF
         DataField = 'CTopicCode3IsZero'
         DataSource = srcConfigAcc
         ParentBiDiMode = False
-        TabOrder = 11
+        TabOrder = 12
         ValueChecked = '1'
         ValueUnchecked = '0'
       end
       object GroupBox15: TGroupBox
         Left = 0
-        Top = 280
+        Top = 303
         Width = 563
         Height = 115
         Align = alBottom
         Caption = #1578#1606#1592#1740#1605#1575#1578' '#1582#1604#1575#1589#1607' '#1575#1587#1606#1575#1583' '#1605#1575#1607#1740#1575#1606#1607
         TabOrder = 12
+        ExplicitTop = 280
         object chklstrptMD: TCheckListBox
           Left = 2
           Top = 15
@@ -1255,10 +1270,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet6: TTabSheet
       Caption = #1587#1606#1583' - '#1586#1576#1575#1606' 2'
       ImageIndex = 5
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object Label24: TLabel
         Left = 174
         Top = 23
@@ -1299,10 +1311,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet7: TTabSheet
       Caption = #1587#1591#1581' '#1583#1587#1578#1585#1587#1610
       ImageIndex = 6
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object Label39: TLabel
         Left = 445
         Top = 249
@@ -1366,10 +1375,7 @@ inherited ConfigAccF: TConfigAccF
     object tsBudget: TTabSheet
       Caption = #1576#1608#1583#1580#1607
       ImageIndex = 5
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object dbchkAccCodeInBudgetActive: TDBCheckBox
         Left = 336
         Top = 87
@@ -1526,6 +1532,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet5: TTabSheet
       Caption = #1603#1606#1578#1585#1604#1607#1575
       ImageIndex = 7
+      ExplicitHeight = 395
       object Label20: TLabel
         Left = 430
         Top = 344
@@ -1717,10 +1724,7 @@ inherited ConfigAccF: TConfigAccF
     object TabSheet8: TTabSheet
       Caption = #1578#1606#1592#1610#1605#1575#1578' Email'
       ImageIndex = 8
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object Label16: TLabel
         Left = 41
         Top = 36
@@ -1809,10 +1813,7 @@ inherited ConfigAccF: TConfigAccF
     object tsWebSite: TTabSheet
       Caption = #1578#1606#1592#1740#1605#1575#1578' '#1587#1575#1740#1578
       ImageIndex = 9
-      ExplicitLeft = 0
-      ExplicitTop = 0
-      ExplicitWidth = 0
-      ExplicitHeight = 0
+      ExplicitHeight = 395
       object edtRemoteDir: TLabeledEdit
         Left = 72
         Top = 48
@@ -1858,13 +1859,14 @@ inherited ConfigAccF: TConfigAccF
     Left = 571
     Top = 73
     Width = 163
-    Height = 426
+    Height = 449
     Align = alRight
     BiDiMode = bdLeftToRight
     Indent = 19
     ParentBiDiMode = False
     TabOrder = 3
     OnChange = trvTabChange
+    ExplicitHeight = 426
   end
   inherited ActionList1: TActionList
     Left = 88
@@ -2223,6 +2225,9 @@ inherited ConfigAccF: TConfigAccF
     end
     object qryConfigAccPOActive: TWordField
       FieldName = 'POActive'
+    end
+    object qryConfigAccCTopicCodeIsZero: TWordField
+      FieldName = 'CTopicCodeIsZero'
     end
     object qryConfigAccCTopicCode3IsZero: TWordField
       FieldName = 'CTopicCode3IsZero'

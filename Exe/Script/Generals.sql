@@ -34,6 +34,108 @@ GO
 
 
 ------------------------------------------------------------------------------------------
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+SET ANSI_NULLS ON
+GO
+
+IF NOT EXISTS (
+  SELECT 1 FROM sys.indexes
+  WHERE object_id = OBJECT_ID(N'dbo.MetaDataChangeLog')
+    AND name = N'IX_MetaDataChangeLog_RowCreateDateTime'
+)
+BEGIN
+  EXEC(N'CREATE' + N' INDEX IX_MetaDataChangeLog_RowCreateDateTime'
+    + N' ON dbo.MetaDataChangeLog (RowCreateDateTime DESC, MetaDataChangeLogId DESC)'
+    + N' INCLUDE (TableName, LoginName);');
+END;
+GO
+
+/* Audit log readers (SQL Server 2016 SP1+).
+   XML columns are PreviousRowXmlValues and CurrentRowXmlValues. */
+CREATE OR ALTER PROCEDURE dbo.sp_GetAuditMaster
+    @TableName NVARCHAR(128) = NULL,
+    @RecordKey NVARCHAR(100) = NULL,
+    @FromDate CHAR(10) = NULL,
+    @ToDate CHAR(10) = NULL,
+    @TopRows INT = 200
+AS
+BEGIN
+    SET NOCOUNT ON;
+    SELECT TOP (@TopRows) L.MetaDataChangeLogId AS LogId, L.TableName,
+           COALESCE(NULLIF(ATC.TableCaption,N''),NULLIF(ATC.PersianCaption,N''),L.TableName) AS DisplayCaption,
+           ATC.ModuleName, L.LoginName AS UserName, L.RowCreateDateTime AS ChangeDate, L.RowCreateDateTime AS ChangeTime,
+           CASE WHEN L.PreviousRowXmlValues IS NULL AND L.CurrentRowXmlValues IS NOT NULL THEN N'Insert'
+                WHEN L.CurrentRowXmlValues IS NULL AND L.PreviousRowXmlValues IS NOT NULL THEN N'Delete'
+                ELSE N'Update' END AS ActionType,
+           K.RecordKey
+    FROM dbo.MetaDataChangeLog L
+    OUTER APPLY (SELECT COALESCE(
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@Serial)[1]','nvarchar(100)'),N''),
+        NULLIF(L.PreviousRowXmlValues.value('(/deleted/@Serial)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/Row/@Serial)[1]','nvarchar(100)'),N''),
+        NULLIF(L.PreviousRowXmlValues.value('(/Row/@Serial)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@Key)[1]','nvarchar(100)'),N''),
+        NULLIF(L.PreviousRowXmlValues.value('(/deleted/@Key)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/Row/@Key)[1]','nvarchar(100)'),N''),
+        NULLIF(L.PreviousRowXmlValues.value('(/Row/@Key)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@FormID)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@FormItemID)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@ReciptID)[1]','nvarchar(100)'),N''),
+        NULLIF(L.CurrentRowXmlValues.value('(/inserted/@ReciptItemID)[1]','nvarchar(100)'),N'')) AS RecordKey) K
+    LEFT JOIN dbo.AuditTableCaption ATC ON ATC.TableName=L.TableName
+    WHERE (@TableName IS NULL OR L.TableName=@TableName)
+      AND (@FromDate IS NULL OR CONVERT(char(10),L.RowCreateDateTime,111)>=@FromDate)
+      AND (@ToDate IS NULL OR CONVERT(char(10),L.RowCreateDateTime,111)<=@ToDate)
+      AND (@RecordKey IS NULL OR K.RecordKey=@RecordKey)
+    ORDER BY L.RowCreateDateTime DESC,L.MetaDataChangeLogId DESC;
+END;
+GO
+
+CREATE OR ALTER PROCEDURE dbo.sp_GetAuditDetail
+    @LogId BIGINT
+AS
+BEGIN
+    SET NOCOUNT ON;
+    DECLARE @OldXml XML,@NewXml XML,@TableName NVARCHAR(128);
+    SELECT @OldXml=PreviousRowXmlValues,@NewXml=CurrentRowXmlValues,@TableName=TableName
+    FROM dbo.MetaDataChangeLog WHERE MetaDataChangeLogId=@LogId;
+    ;WITH O AS (
+      SELECT P.ColumnName,MAX(P.ValueText) OldValue FROM (
+        SELECT A.c.value('local-name(.)','nvarchar(128)'),A.c.value('.','nvarchar(max)')
+        FROM @OldXml.nodes('/*/@*') A(c)
+        UNION ALL
+        SELECT E.c.value('local-name(.)','nvarchar(128)'),E.c.value('.','nvarchar(max)')
+        FROM @OldXml.nodes('/*/*[not(@*) and not(*)]') E(c)) P(ColumnName,ValueText)
+      GROUP BY P.ColumnName),
+    N AS (
+      SELECT P.ColumnName,MAX(P.ValueText) NewValue FROM (
+        SELECT A.c.value('local-name(.)','nvarchar(128)'),A.c.value('.','nvarchar(max)')
+        FROM @NewXml.nodes('/*/@*') A(c)
+        UNION ALL
+        SELECT E.c.value('local-name(.)','nvarchar(128)'),E.c.value('.','nvarchar(max)')
+        FROM @NewXml.nodes('/*/*[not(@*) and not(*)]') E(c)) P(ColumnName,ValueText)
+      GROUP BY P.ColumnName)
+    SELECT COALESCE(N.ColumnName,O.ColumnName) ColumnName,
+           COALESCE(L.ColumnCaption,COALESCE(N.ColumnName,O.ColumnName)) ColumnCaption,
+           O.OldValue,N.NewValue
+    FROM O FULL OUTER JOIN N ON N.ColumnName=O.ColumnName
+    LEFT JOIN dbo.logTable L ON L.TableName=@TableName AND L.ColumnName=COALESCE(N.ColumnName,O.ColumnName)
+    WHERE ISNULL(O.OldValue,N'')<>ISNULL(N.NewValue,N'')
+      AND COALESCE(N.ColumnName,O.ColumnName) NOT IN (N'ID',N'LogId',N'Serial');
+END;
+GO
 ----------------------------------------------------------------------------
 GO 
 SET QUOTED_IDENTIFIER ON 

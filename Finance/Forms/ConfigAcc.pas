@@ -248,6 +248,8 @@ type
     qryConfigAccChkSelfDocShow: TWordField;
     DBCheckBox3: TDBCheckBox;
     qryConfigAccPOActive: TWordField;
+    qryConfigAccCTopicCodeIsZero: TWordField;
+    dbchkCTopicCodeIsZero: TDBCheckBox;
     qryConfigAccCTopicCode2IsZero: TWordField;
     dbchkCTopicCode2IsZero: TDBCheckBox;
     qryConfigAccCTopicCode3IsZero: TWordField;

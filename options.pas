@@ -83,6 +83,9 @@ end;
 procedure ToptionsF.SaveOptions;
 begin
   inherited;
+  if chkAutoBackup.Checked then
+    SaveConfig(APPID, 'AutoBackupResetVersion',
+      DmF.ReadBankConfig('AutoBackupResetVersion', '0'));
   SaveConfig(APPID, 'SeletedPrintEnabled',
     BoolToStr(ChkSeletedPrintEnabled.Checked));
   SaveConfig(APPID, 'SystemWarn', BoolToStr(chkSystemWarn.Checked));

@@ -2,11 +2,11 @@
 SET NOCOUNT ON
 
 if ( COLUMNPROPERTY( OBJECT_ID('Acc.Documents'),'CurrencyDebit','IsRowGuidCol')is  null )
-ALTER TABLE Acc.Documents ADD CurrencyDebit Decimal(38,3) NOT NULL CONSTRAINT DF_Documents_CurrencyDebit DEFAULT (0) 
+ALTER TABLE Acc.Documents ADD CurrencyDebit Decimal(38,18) NOT NULL CONSTRAINT DF_Documents_CurrencyDebit DEFAULT (0) 
 
 if ( COLUMNPROPERTY( OBJECT_ID('Acc.Documents'),'CurrencyCredit','IsRowGuidCol')is  null )
 begin
-ALTER TABLE Acc.Documents ADD CurrencyCredit Decimal(38,3) NOT NULL CONSTRAINT DF_Documents_CurrencyCredit DEFAULT (0) 
+ALTER TABLE Acc.Documents ADD CurrencyCredit Decimal(38,18) NOT NULL CONSTRAINT DF_Documents_CurrencyCredit DEFAULT (0) 
 exec('
 update acc.Documents set
 CurrencyDebit  = case when Debt   > 0 then AidAmount else 0 end,
@@ -17,7 +17,7 @@ exec('update acc.Documents set AidAmount  = 0 where CurrencyType<>0 ')
 end
 
 if ( COLUMNPROPERTY( OBJECT_ID('Acc.Documents'),'CurrencyRate','IsRowGuidCol')is  null )
-ALTER TABLE Acc.Documents ADD CurrencyRate Decimal(38,3) NOT NULL CONSTRAINT DF_Documents_CurrencyRate DEFAULT (1) 
+ALTER TABLE Acc.Documents ADD CurrencyRate Decimal(38,18) NOT NULL CONSTRAINT DF_Documents_CurrencyRate DEFAULT (1) 
 
 
 IF NOT EXISTS (SELECT DATA_TYPE FROM INFORMATION_SCHEMA.COLUMNS
@@ -34,9 +34,9 @@ IF  EXISTS (SELECT 1 from sysobjects where name = 'DF_Documents_CurrencyCredit')
  ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyRate
 
 
-ALTER TABLE Acc.Documents ALTER COLUMN CurrencyDebit Decimal(38,3) NOT NULL 
-ALTER TABLE Acc.Documents ALTER COLUMN CurrencyCredit Decimal(38,3) NOT NULL 
-ALTER TABLE Acc.Documents ALTER COLUMN CurrencyRate Decimal(38,3) NOT NULL 
+ALTER TABLE Acc.Documents ALTER COLUMN CurrencyDebit Decimal(38,18) NOT NULL 
+ALTER TABLE Acc.Documents ALTER COLUMN CurrencyCredit Decimal(38,18) NOT NULL 
+ALTER TABLE Acc.Documents ALTER COLUMN CurrencyRate Decimal(38,18) NOT NULL 
 
 ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyDebit DEFAULT 0 FOR CurrencyDebit
 ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyCredit DEFAULT 0 FOR CurrencyCredit

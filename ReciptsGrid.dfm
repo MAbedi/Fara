@@ -2057,8 +2057,8 @@ inherited ReciptsGridF: TReciptsGridF
     object grd1: TCedarDbgrid
       Tag = 1
       AlignWithMargins = True
-      Left = 9991
-      Top = 9696
+      Left = 10015
+      Top = 9720
       Width = 366
       Height = 158
       Align = alCustom

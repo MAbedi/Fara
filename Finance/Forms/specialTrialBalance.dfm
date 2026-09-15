@@ -391,6 +391,7 @@ inherited SpecialTrialBalanceF: TSpecialTrialBalanceF
           Anchors = [akTop, akRight]
           Caption = #1593#1606#1608#1575#1606' '#1581#1587#1575#1576#1607#1575' '#1576#1607' '#1589#1608#1585#1578' '#1605#1580#1586#1575' '#1604#1610#1587#1578' '#1588#1608#1606#1583
           TabOrder = 0
+          OnClick = chkCaptionClick
         end
         object chkAccCode: TCheckBox
           Left = 5
@@ -400,6 +401,7 @@ inherited SpecialTrialBalanceF: TSpecialTrialBalanceF
           Anchors = [akTop, akRight]
           Caption = #1603#1583' '#1605#1593#1740#1606#1607#1575' '#1576#1607' '#1589#1608#1585#1578' '#1605#1580#1586#1575' '#1604#1610#1587#1578' '#1588#1608#1606#1583
           TabOrder = 1
+          OnClick = chkAccCodeClick
         end
         object chkTrial: TCheckBox
           Left = 117
@@ -973,7 +975,7 @@ inherited SpecialTrialBalanceF: TSpecialTrialBalanceF
       end>
     SQL.Strings = (
       'Acc.SpTrialBalance :BaseParam,:AddParam,:FilterParam,'
-
+      
         ' :MargeCode, :MargeCaption , :awhere, :ShowColumnSamelevel , :Cu' +
         'rrencyKind, :OpenFromDate, :OpenToDate'
       '')
@@ -987,7 +989,7 @@ inherited SpecialTrialBalanceF: TSpecialTrialBalanceF
   end
   object popGrd: TPopupMenu
     Left = 272
-    Top = 281
+    Top = 289
     object mnusadas1: TMenuItem
       Caption = 'sadas'
     end

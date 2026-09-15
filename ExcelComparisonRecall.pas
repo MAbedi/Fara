@@ -345,8 +345,8 @@ begin
             if (qryinit.FieldByName('ProcedureActive').AsInteger in [1, 2, 4])
             then
             begin
-              qryItems.FieldByName('ProductCode').AsInteger :=
-                qryRecall.FieldByName('ProductCode').AsInteger;
+              qryItems.FieldByName('ProductCode').AsLargeInt :=
+                qryRecall.FieldByName('ProductCode').AsLargeInt;
             end;
 
             if (qryinit.FieldByName('ProcedureActive').AsInteger in [1, 2, 3])

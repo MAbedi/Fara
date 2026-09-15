@@ -361,7 +361,7 @@ begin
     SQL.Text :=
       'SELECT ' +
       '  MIN(TRY_CAST(RTRIM(CheckNumber) AS DECIMAL(20,0))) AS MINCheckNumber, ' +
-      '  MAX(TRY_CAST(RTRIM(CheckNumber) AS DECIMAL(20,0))) AS MAXCheckNumber, ' +
+      '  99999999999999999999 AS MAXCheckNumber, ' +
       '  MIN(HunterCode) AS MINHunterCode, ' +
       '  MAX(HunterCode) AS MAXHunterCode, ' +
       '  MIN(CheckDate) AS MINCheckDate, ' +
@@ -378,7 +378,7 @@ begin
     Active := True;
 
     numberfrom.Text := FieldByName('MINCheckNumber').AsString;
-    numberto.Text   := FieldByName('MAXCheckNumber').AsString;
+    numberto.Text   := '99999999999999999999';//+FieldByName('MAXCheckNumber').AsString;
 
     HunterCodeFrom.Text := FieldByName('MINHunterCode').AsString;
     HunterCodeTo.Text   := FieldByName('MAXHunterCode').AsString;

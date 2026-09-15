@@ -179,6 +179,8 @@ type
     procedure ppLabel2GetText(Sender: TObject; var Text: string);
     procedure qryTrialBalanceAfterOpen(DataSet: TDataSet);
     procedure pplblPrvAccGetText(Sender: TObject; var Text: string);
+    procedure chkAccCodeClick(Sender: TObject);
+    procedure chkCaptionClick(Sender: TObject);
     procedure chkSamelevelClick(Sender: TObject);
     procedure chkZeroClick(Sender: TObject);
     procedure btnPrintClick(Sender: TObject);
@@ -213,6 +215,7 @@ type
     // procedure FreeSumSelected;
     procedure initReportTrial;
     procedure ClickNextMenuItem;
+    procedure ApplyColumnSplitOptions;
 
     { Private declarations }
   public
@@ -895,7 +898,31 @@ begin
   inherited;
   chkCaption.Checked := chkSamelevel.Checked;
   chkAccCode.Checked := chkSamelevel.Checked;
-  pnlAccOld.Visible := not chkSamelevel.Checked
+  pnlAccOld.Visible := not chkSamelevel.Checked;
+  ApplyColumnSplitOptions;
+end;
+
+procedure TSpecialTrialBalanceF.chkAccCodeClick(Sender: TObject);
+begin
+  inherited;
+  ApplyColumnSplitOptions;
+end;
+
+procedure TSpecialTrialBalanceF.chkCaptionClick(Sender: TObject);
+begin
+  inherited;
+  ApplyColumnSplitOptions;
+end;
+
+procedure TSpecialTrialBalanceF.ApplyColumnSplitOptions;
+begin
+  if not Assigned(SetParam) then
+    Exit;
+
+  SetParam.SplitCode := chkAccCode.Checked;
+  SetParam.SplitCaption := chkCaption.Checked;
+  SetParam.Samelevel := chkSamelevel.Checked;
+  SetParam.Refresh;
 end;
 
 procedure TSpecialTrialBalanceF.chkTrialClick(Sender: TObject);
@@ -1457,7 +1484,7 @@ procedure TSpecialTrialBalanceF.pplblPrvAccGetText(Sender: TObject;
   var Text: string);
 begin
   inherited;
-  Text := prvAccCode + ' : ' + prvAccName;
+  Text := prvAccCode + ' : ' + prvAccName
 end;
 
 end.

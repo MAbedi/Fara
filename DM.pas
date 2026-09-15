@@ -165,6 +165,7 @@ type
     stpSp_dboption: TADOStoredProc;
     stpSp_dboptionOptionName: TWideStringField;
     stpSp_dboptionCurrentSetting: TStringField;
+    fdcAuditLog: TFDConnection;
     procedure DataModuleCreate(Sender: TObject);
     procedure adcFaraSystemBeforeConnect(Sender: TObject);
     procedure DataModuleDestroy(Sender: TObject);
@@ -181,6 +182,7 @@ type
     procedure fdcBSellBeforeConnect(Sender: TObject);
     procedure adcBSellAfterDisconnect(Sender: TObject);
     procedure SkinManagerAfterChange(Sender: TObject);
+    procedure fdcAuditLogBeforeConnect(Sender: TObject);
   private
     { Private declarations }
   public
@@ -223,7 +225,7 @@ type
     DocDate, CanRelation, ShowLevel, DocTool, SumBook: Boolean;
     BudgetType, DocReport1, DocReport2, DocReport3, Footer, ReportPath: String;
     LastDoc: Boolean;
-    RestDocCode, ChkBalancCTopicCode3, ChkSelfDocShow, CTopicCode2IsZero,
+    RestDocCode, ChkBalancCTopicCode3, ChkSelfDocShow,CTopicCodeIsZero, CTopicCode2IsZero,
       CTopicCode3IsZero, TopicCaptionActive: Boolean;
     DriveBackup, LastAccYear, AccChangeNames, AccOwnerName: String;
     // AccActive, BudgetActive, AuditActive, FinancialActive, PortainActive,
@@ -731,6 +733,11 @@ begin
   finally
     FreeAndNil(qry);
   end;
+end;
+
+procedure TDmF.fdcAuditLogBeforeConnect(Sender: TObject);
+begin
+  GetConStr('AuditLog', 15, adcAuditLog, '', fdcAuditLog)
 end;
 
 procedure TDmF.fdcBSellBeforeConnect(Sender: TObject);

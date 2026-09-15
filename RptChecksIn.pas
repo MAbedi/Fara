@@ -581,8 +581,8 @@ begin
       end; // if
 
       AddItem(DMf.adcBSell, 'FormDate', ' تاريخ فرم ', 'تاريخ', ftDate,
-        dvMinMax, '', '', ciSimple, '', 'SELECT  ''' + APPBank.StartYear +
-        ''',MAX(FormDate) FROM Forms WHERE  FormType IN(' + FormType + ')');
+        dvMinMax, '', '', ciSimple, '', 'Select  ''' + APPBank.StartYear +
+        ''',''' + APPBank.endYear + '''');
 
       AddItem(DMf.adcBSell, 'Number', ' فرم ', 'شماره', ftInteger, dvMinMax, '',
         '', ciSimple, '', 'SELECT 0,2147483647');

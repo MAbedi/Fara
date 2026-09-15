@@ -252,8 +252,9 @@ begin
     SQL.Text := 'SELECT Recipts.ServerID, Recipts.YearID';
     SQL.Add(',Recipts.ParentCoReciptID AS reciptID');
 
-    SQL.Add(',MAX(ReciptItems_1.ReciptItemID) AS ReciptItemID');
-//    SQL.Add(',(ReciptItems_1.ReciptItemID) AS ReciptItemID');
+    // شناسه آیتم مقصد باید همان ردیف متناظر باشد؛ استفاده از MAX
+    // در حالت وجود چند آیتم، قیمت را فقط روی آخرین آیتم اعمال می‌کرد.
+    SQL.Add(',ReciptItems_1.ReciptItemID AS ReciptItemID');
 
     SQL.Add(',ReciptItems.ProductCode AS StuffCode,');
     SQL.Add('SUM(ReciptItems.TotalInputPrice) AS TotalInputPrice');
@@ -285,6 +286,7 @@ begin
     SQL.Add('AND (Recipts_1.SellsEmporium BETWEEN :SellsEmporiumFrom AND :SellsEmporiumTo)');
     SQL.Add('GROUP BY Recipts.ParentCoReciptID, ReciptItems.ProductCode, Recipts.ServerID');
     SQL.Add(', Recipts.YearID, ReciptItems.TransFormID');
+    SQL.Add(', ReciptItems_1.ReciptItemID');
     SQL.Add(', StuffCoding.c_StuffName, Units.UnitName');
 
     Parameters.ParamByName('ReciptType').Value :=

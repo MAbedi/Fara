@@ -4,7 +4,6 @@ inherited ConversionCoCalcF: TConversionCoCalcF
   Caption = #1602#1740#1605#1578' '#1711#1584#1575#1585#1740' '#1576#1585' '#1575#1587#1575#1587' '#1601#1585#1605#1608#1604' '#1587#1575#1582#1578
   ClientHeight = 518
   ClientWidth = 785
-  ExplicitTop = 6
   ExplicitWidth = 793
   ExplicitHeight = 549
   PixelsPerInch = 96
@@ -370,7 +369,6 @@ inherited ConversionCoCalcF: TConversionCoCalcF
       ParentFont = False
       ReadOnly = True
       TabOrder = 2
-      ExplicitTop = 138
     end
   end
   object pnlLblLimitPlace: TPanel [3]

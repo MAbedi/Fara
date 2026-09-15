@@ -1,578 +1,555 @@
-﻿-- Modify Data :  1402/10/27  fun&view_Accounting ------??---
--- Last Modify Data :  94/01/22  ---------- mehdi.kahdooei
+﻿-- Modify Data :  1402/12/02  fun&view_Accounting -- 
 
---CREATE VIEW Acc._4UpdateCompanyCode
---ASDetailsOnTopicBookRelated
---SELECT     D.YearID, D.CompanyCode, D.Serial, D.ID,  AccComparisonMonthCTopicsBalance
---                      Acc.Details.CompanyCode AS MainCompanyCode
---FROM         Acc.Details INNER JOIN   
---                      Acc.Documents D ON Acc.Details.DetailCode = D.DetailCode 
---UPDATE    Acc._4UpdateCompanyCode SET              Detail_Company = MainCompanyCode
 set nocount on
-if not exists (SELECT FormInfoID FROM  Acc.FormsInfo WHERE (FORmType = 11) AND (InfoID = 99) )
+if not exists (SELECT FormInfoID FROM  Acc.FormsInfo WHERE (FormType = 11) AND (InfoID = 99) )
 begin
-declare @FormInfoID int
-SELECT @FormInfoID=MAX(FormInfoID) FROM  Acc.FormsInfo
-INSERT INTO  Acc.FormsInfo  (FormInfoID, InfoID, InfoName_l1, FORmType, InfoName_l2)
-SELECT     @FormInfoID+1, 0, 'افتتاحیه', 11,'خلاصه اسناد ماهیانه'
-union all
-SELECT     @FormInfoID+2, 98, 'سود و زیان', 11,'خلاصه اسناد ماهیانه'
-union all
-SELECT     @FormInfoID+3, 99, 'اختتامیه', 11,'خلاصه اسناد ماهیانه'
+	declare @FormInfoID int
+
+	SELECT @FormInfoID=MAX(FormInfoID) 
+	FROM  Acc.FormsInfo
+
+	INSERT INTO  Acc.FormsInfo  (FormInfoID, InfoID, InfoName_l1, FORmType, InfoName_l2)
+	SELECT     @FormInfoID+1, 0, 'افتتاحیه', 11,'خلاصه اسناد ماهیانه'
+	union all
+	SELECT     @FormInfoID+2, 98, 'سود و زیان', 11,'خلاصه اسناد ماهیانه'
+	union all
+	SELECT     @FormInfoID+3, 99, 'اختتامیه', 11,'خلاصه اسناد ماهیانه'
 end
 GO
 
-IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
-Alter table acc.documents disable trigger TR_ConfigChangeLog_Documents
+begin -- Alter table
+	IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
+		Alter table acc.documents disable trigger TR_ConfigChangeLog_Documents
 
-if ( COLUMNPROPERTY( OBJECT_ID('acc.Config'),'BudgetType','IsRowGuidCol')is  null )  
-Alter table acc.Config add BudgetType varchar(1000) null
-if ( COLUMNPROPERTY( OBJECT_ID('acc.Config'),'SanamaInfo','IsRowGuidCol')is  null )  
-Alter table acc.Config add SanamaInfo varchar(4000) null
-if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'EditableDetailRange','IsRowGuidCol')is  null )  
-ALTER TABLE [ACC].[Config] ADD [EditableDetailRange] [bit] NOT NULL  DEFAULT (1)
---if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'AddStuffcoding','IsRowGuidCol')is  null )  
---ALTER TABLE [ACC].[Config] ADD [AddStuffcoding] tinyint NOT NULL  DEFAULT (0)
-if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'AccBookSortType','IsRowGuidCol')is  null )  
-ALTER TABLE [ACC].[Config] ADD [AccBookSortType] tinyint NOT NULL  DEFAULT (0)
-if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'ShowAccountInfoInDetailsReport','IsRowGuidCol')is  null )  
-ALTER TABLE [ACC].[Config] ADD [ShowAccountInfoInDetailsReport] tinyint NOT NULL  DEFAULT (0)
- 
-UPDATE Acc.Documents SET DetailCode = 0 WHERE (DetailCode IS NULL)
-UPDATE Acc.Documents SET CTopicCode = 0 WHERE (CTopicCode IS NULL)
-UPDATE Acc.Documents SET CTopicCode2 = 0 WHERE (CTopicCode2 IS NULL)
-UPDATE Acc.Documents SET CTopicCode3 = 0 WHERE (CTopicCode3 IS NULL)
-UPDATE Acc.Config SET AccBankNames = '' WHERE (AccBankNames IS NULL)
-UPDATE Acc.Config SET BsellBankNames = '' WHERE 1=1 --and(BsellBankNames IS NULL)
-UPDATE Acc.Contacts Set YearID = cast(left(enddate,2) as int) where YearId = 0
-UPDATE Acc.Documents SET AidDocNo = 0 WHERE (AidDocNo  IS NULL)
-DELETE FROM util.ScanType WHERE (ScanType = 1)
-DELETE FROM util.ScanInfo WHERE (ScanType = 1)
-INSERT INTO util.ScanType(ScanType, ScanTypeName)VALUES (1, N'سند حسابداري')
-INSERT INTO util.ScanInfo(ScanType, ScanInfoID, ScanInfoName) VALUES (1, 1, 'سند حسابداري')
+	if ( COLUMNPROPERTY( OBJECT_ID('acc.Config'),'BudgetType','IsRowGuidCol')is  null )  
+		Alter table acc.Config add BudgetType varchar(1000) null
 
-if (Select Count(*) From [Acc].[Analyze] ) = 0
-begin
-    --DELETE FROM [Acc].[Analyze]
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	Select 1,N'گروه','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5)) FROM Acc.AccTopicLevels where LevelID = 1)+')','Acc.Categories','MoeenName_L1','C1','TopicCode'
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	Select 2,N'كل','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5)) FROM Acc.AccTopicLevels where LevelID = 2)+')','Acc.Categories','MoeenName_L1','C2','TopicCode'
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	select 3,N'حساب','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5))FROM Acc.AccTopicLevels where LevelID = 3)+')','Acc.Categories','MoeenName_L1','C3','TopicCode'
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(4,N'تفصيلي یک','Acc.Documents.DetailCode','acc.Details','DetailName_L1','D','DetailCode')
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(5,N'تفصيلي دو','Acc.Documents.CTopicCode','Acc.CenterTopics','CTopicName_l1','CT1','CTopicCode')						
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(6,N'تفصيلي سه','Acc.Documents.CTopicCode2','Acc.CenterTopics2','CTopicName2_L1','CT2','CTopicCode2')							
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(7,N'تفصيلي چهار','Acc.Documents.CTopicCode3','Acc.CTopicCode3','CTopicName3_L1','CT3','CTopicCode3')						
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(8,N'سال‏مالي','Acc.DocGroups.YearID','Util.MaliYear',NULL,'Y','YearID')	
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(9,N'ماه','SUBSTRING(Acc.DocGroups.DocDate,6,2)','Acc.Months','MonthName','Months','MonthID')	
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(10,N'شماره سند','LTRIM(Acc.DocGroups.Serial) + ''_'' + LTRIM(Acc.DocGroups.YearID) + ''_'' + LTRIM(Acc.DocGroups.CompanyCode)','Acc.DocList','DocDate','C5','Serial')	
+	if ( COLUMNPROPERTY( OBJECT_ID('acc.Config'),'SanamaInfo','IsRowGuidCol')is  null )  
+		Alter table acc.Config add SanamaInfo varchar(4000) null
 
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(11,N'تاریخ کمکی','Acc.Documents.AidDocdate','Tsh.Calendar','WeekDayName','Ca','CalendarDate')		
+	if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'EditableDetailRange','IsRowGuidCol')is  null )  
+		ALTER TABLE [ACC].[Config] ADD [EditableDetailRange] [bit] NOT NULL  DEFAULT (1)
+
+	if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'AccBookSortType','IsRowGuidCol')is  null )  
+		ALTER TABLE [ACC].[Config] ADD [AccBookSortType] tinyint NOT NULL  DEFAULT (0)
+
+	if ( COLUMNPROPERTY( OBJECT_ID('ACC.Config'),'ShowAccountInfoInDetailsReport','IsRowGuidCol')is  null )  
+		ALTER TABLE [ACC].[Config] ADD [ShowAccountInfoInDetailsReport] tinyint NOT NULL  DEFAULT (0)
+
+	IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
+		Alter table acc.documents enable trigger TR_ConfigChangeLog_Documents
+
+	IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers' AND type = 'F')
+		ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers FOREIGN KEY(DetailCode)
+		REFERENCES dbo.Customers (CustID)
+		ON UPDATE CASCADE
+
+	IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers1' AND type = 'F')
+		ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers1 FOREIGN KEY(CTopicCode)
+		REFERENCES dbo.Customers (CustID)
+
+	IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers2' AND type = 'F')
+		ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers2 FOREIGN KEY(CTopicCode2)
+		REFERENCES dbo.Customers (CustID)
+
+	IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers3' AND type = 'F')
+		ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers3 FOREIGN KEY(CTopicCode3)
+		REFERENCES dbo.Customers (CustID)
+end 
+---000---
+
+begin -- update /DELETE tables
+	UPDATE Acc.Documents SET DetailCode = 0 WHERE (DetailCode IS NULL)
+	UPDATE Acc.Documents SET CTopicCode = 0 WHERE (CTopicCode IS NULL)
+	UPDATE Acc.Documents SET CTopicCode2 = 0 WHERE (CTopicCode2 IS NULL)
+	UPDATE Acc.Documents SET CTopicCode3 = 0 WHERE (CTopicCode3 IS NULL)
+	UPDATE Acc.Contacts  Set YearID = cast(left(enddate,2) as int) where YearId = 0
+	UPDATE Acc.Documents SET AidDocNo = 0 WHERE (AidDocNo  IS NULL)
+	Update Acc.Documents Set DetailCompany = CompanyCode  
+	where  DetailCompany= 0 
+			AND (SELECT  CompanyCode FROM  Acc.Companies WHERE     (CompanyCode = 0)) is null 
+
+	DELETE FROM util.ScanType WHERE ScanType = 1 
+	DELETE FROM util.ScanInfo WHERE ScanType = 1 
+end
+---000---
+
+begin -- Insert into table 
+	INSERT INTO util.ScanType(ScanType, ScanTypeName)VALUES (1, N'سند حسابداري')
+	INSERT INTO util.ScanInfo(ScanType, ScanInfoID, ScanInfoName) VALUES (1, 1, 'سند حسابداري')
+
+	if (Select Count(*) From [Acc].[Analyze]  ) = 0
+	begin
+		--DELETE FROM [Acc].[Analyze]
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		Select 1,N'گروه','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5)) FROM Acc.AccTopicLevels where LevelID = 1)+')','Acc.Categories','MoeenName_L1','C1','TopicCode'
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		Select 2,N'كل','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5)) FROM Acc.AccTopicLevels where LevelID = 2)+')','Acc.Categories','MoeenName_L1','C2','TopicCode'
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		select 3,N'حساب','Left(Acc.Documents.TopicCode,'+(SELECT top 1 cast(CodeLength as varchar(5))FROM Acc.AccTopicLevels where LevelID = 3)+')','Acc.Categories','MoeenName_L1','C3','TopicCode'
+
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(4,N'تفصيلي یک','Acc.Documents.DetailCode','acc.Details','DetailName_L1','D','DetailCode')
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(5,N'تفصيلي دو','Acc.Documents.CTopicCode','Acc.CenterTopics','CTopicName_l1','CT1','CTopicCode')						
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(6,N'تفصيلي سه','Acc.Documents.CTopicCode2','Acc.CenterTopics2','CTopicName2_L1','CT2','CTopicCode2')							
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(7,N'تفصيلي چهار','Acc.Documents.CTopicCode3','Acc.CTopicCode3','CTopicName3_L1','CT3','CTopicCode3')						
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(8,N'سال‏مالي','Acc.DocGroups.YearID','Util.MaliYear',NULL,'Y','YearID')	
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(9,N'ماه','SUBSTRING(Acc.DocGroups.DocDate,6,2)','Acc.Months','MonthName','Months','MonthID')	
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(10,N'شماره سند','LTRIM(Acc.DocGroups.Serial) + ''_'' + LTRIM(Acc.DocGroups.YearID) + ''_'' + LTRIM(Acc.DocGroups.CompanyCode)','Acc.DocList','DocDate','C5','Serial')	
+
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(11,N'تاریخ کمکی','Acc.Documents.AidDocdate','Tsh.Calendar','WeekDayName','Ca','CalendarDate')		
+	end 
 	-- add by rezaei 
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(12,N'بودجه','Acc.Documents.BudgetTopicID','Acc.BudgetTopics','BudgetCaption_L1','Nu','BudgetTopicID')		
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(13,N'طرح بودجه ای','Acc.Documents.ProjectID','Acc.Projects','ProjectCaption_L1','Pr','ProjectID')		
-	INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
-	VALUES(14,N'نوع ارز','Acc.Documents.CurrencyType','dbo.Currencies ','CurrenciesName','cu','CurrenciesID')		
+	--Select * From [Acc].[Analyze]
+	declare @ID int
+	Select @ID =max(ID) From [Acc].[Analyze]
+	if (Select Count(*) From [Acc].[Analyze] where JoinFieldName ='BudgetTopicID') = 0
+	begin
+
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(@ID+1,N'بودجه','Acc.Documents.BudgetTopicID','Acc.BudgetTopics','BudgetCaption_L1','Nu','BudgetTopicID')		
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(@ID+2,N'طرح بودجه ای','Acc.Documents.ProjectID','Acc.Projects','ProjectCaption_L1','Pr','ProjectID')		
+		INSERT INTO [Acc].[Analyze]([ID],[CaptionName],[FieldName],[TableName],[TopicName],[AliasName],[JoinFieldName])
+		VALUES(@ID+3,N'نوع ارز','Acc.Documents.CurrencyType','dbo.Currencies ','CurrenciesName','cu','CurrenciesID')		
+	end;
+	begin  -- بروز رسانی ارتباطات کدینگ حسابهای حساب با سایر سرفصلها --
+    -- بروز رسانی ارتباطات کدینگ حسابهای حساب با سایر سرفصلها --
+	-- تفضیلی سطح یک
+	INSERT INTO Acc.TopicRange
+							(TopicCode,DGID)
+	SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
+	FROM         Acc.Documents D Left OUTER JOIN
+							Acc.DetailRange ON D.TopicCode = Acc.DetailRange.TopicCode AND
+							D.DetailCode = Acc.DetailRange.DetailCode
+							INNER JOIN
+							Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.DetailRange.DetailCode
+							INNER JOIN
+							Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
+	WHERE     (D.DetailCode <> 0) AND (Acc.DetailRange.TopicCode IS NULL)
+
+	-- تفضیلی سطح دو
+	INSERT INTO Acc.TopicRange
+							(TopicCode,DGID)
+	SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
+	FROM         Acc.Documents D Left OUTER JOIN
+							Acc.CenterTopicRange ON D.TopicCode = Acc.CenterTopicRange.TopicCode AND
+							D.CTopicCode = Acc.CenterTopicRange.CTopicCode
+							INNER JOIN
+							Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicRange.CTopicCode
+							INNER JOIN
+							Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
+	WHERE     (D.CTopicCode <> 0) AND (Acc.CenterTopicRange.TopicCode IS NULL)
+
+	-- تفضیلی سطح سه
+	INSERT INTO Acc.TopicRange
+							(TopicCode,DGID)
+	SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
+	FROM         Acc.Documents D Left OUTER JOIN
+							Acc.CenterTopicAllRange ON D.TopicCode = Acc.CenterTopicAllRange.TopicCode AND
+							D.CTopicCode2 = Acc.CenterTopicAllRange.CTopicCode2
+							INNER JOIN
+							Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicAllRange.CTopicCode2
+							INNER JOIN
+							Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
+	WHERE     (D.CTopicCode2 <> 0) AND (Acc.CenterTopicAllRange.TopicCode IS NULL)
+
+	-- تفضیلی سطح چهار
+	INSERT INTO Acc.TopicRange
+							(TopicCode,DGID)
+	SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
+	FROM         Acc.Documents D Left OUTER JOIN
+							Acc.CenterTopicAllRange ON D.TopicCode = Acc.CenterTopicAllRange.TopicCode AND
+							D.ctopiccode3 = Acc.CenterTopicAllRange.CTopicCode3
+							INNER JOIN
+							Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicAllRange.CTopicCode3
+							INNER JOIN
+							Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
+	WHERE     (D.ctopiccode3 <> 0) AND (Acc.CenterTopicAllRange.TopicCode IS NULL)
+	end ;
+
+End ;
+---000---
+
+-- Drop Veiw -- 
+Begin -- Drop Veiw
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view  [Acc].[CenterTopics3]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DocList]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view  [Acc].[DocList]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3FORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view  [Acc].CTopics3FORUse
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].MainDetailsRange') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view  [Acc].MainDetailsRange
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[Months]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[Months]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[_4UpdateCompanyCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[_4UpdateCompanyCode]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DocTypes]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[DocTypes]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DescTemplates]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[DescTemplates]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccCodeWith5Levels]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[AccCodeWith5Levels]
+
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AuditTopicFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[AuditTopicFORUse]
 
- 
-end;
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[BudgetTopicsFORUse]
 
-Update  [Acc].[Documents] Set DetailCompany = CompanyCode 
- where  DetailCompany= 0 AND (SELECT  CompanyCode FROM  Acc.Companies WHERE     (CompanyCode = 0)) is null 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CategoriesForUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[CategoriesForUse]
 
-IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
-Alter table acc.documents enable trigger TR_ConfigChangeLog_Documents
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CompaniesFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[CompaniesFORUse]
 
-IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers' AND type = 'F')
-ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers FOREIGN KEY(DetailCode)
-REFERENCES dbo.Customers (CustID)
-ON UPDATE CASCADE
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2FORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[CTopics2FORUse]
 
-IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers1' AND type = 'F')
-ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers1 FOREIGN KEY(CTopicCode)
-REFERENCES dbo.Customers (CustID)
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[CTopicsFORUse]
 
-IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers2' AND type = 'F')
-ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers2 FOREIGN KEY(CTopicCode2)
-REFERENCES dbo.Customers (CustID)
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[FinancialTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[FinancialTopicsFORUse]
 
-IF NOT EXISTS (SELECT name FROM sysobjects WHERE name = 'FK_Documents_Customers3' AND type = 'F')
-ALTER TABLE Acc.Documents  WITH NOCHECK ADD  CONSTRAINT FK_Documents_Customers3 FOREIGN KEY(CTopicCode3)
-REFERENCES dbo.Customers (CustID)
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[ProjectsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[ProjectsFORUse]
 
---------------------------------------- Drop Veiw -------------------------------------------
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view  [Acc].[CenterTopics3]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[ShowBalance]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[ShowBalance]
 
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[TopicLevelWithUperLevel]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[TopicLevelWithUperLevel]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DocList]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view  [Acc].[DocList]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[TrialBalanceFORAccCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3FORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view  [Acc].CTopics3FORUse
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialCTopicsBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[TrialCTopicsBalanceFORAccCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].MainDetailsRange') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view  [Acc].MainDetailsRange
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialDetailsBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[TrialDetailsBalanceFORAccCode]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[OtherDocuments]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		drop view [Acc].[OtherDocuments]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicCode3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CTopicCode3]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2And3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CTopics2And3]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopicAllRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CenterTopicAllRange]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics2]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CenterTopics2]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[Months]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[Months]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CenterTopics]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopicRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CenterTopicRange]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[_4UpdateCompanyCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[_4UpdateCompanyCode]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CtopicNotes]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CtopicNotes]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DocTypes]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[DocTypes]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicRangeTogether]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[CTopicRangeTogether]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DescTemplates]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[DescTemplates]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailGroups]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[DetailGroups]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccCodeWith5Levels]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[AccCodeWith5Levels]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[MainDetails]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[MainDetails]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AuditTopicFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[AuditTopicFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[Details]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[Details]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[BudgetTopicsFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[DetailRange]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CategoriesForUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[CategoriesForUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[SanamaView]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[SanamaView]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CompaniesFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[CompaniesFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[Currencies]') AND OBJECTPROPERTY(id, N'IsView') = 1)
+		DROP VIEW [Acc].[Currencies]
+end 
+---000---
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2FORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[CTopics2FORUse]
+--  Drop Function   --
+begin --  Drop Function
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3OnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopics3OnDetailCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[CTopicsFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccUserDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccUserDetailsBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[FinancialTopicsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[FinancialTopicsFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopics3Balance_CTopics]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopics3Balance_CTopics]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[ProjectsFORUse]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[ProjectsFORUse]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance3]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopicsBalance3]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[ShowBalance]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[ShowBalance]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance3]') AND xtype in (N'FN', N'IF', N'TF'))
+	drop FUNCTION [Acc].[AccTrialCTopicsBalance3]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[TopicLevelWithUperLevel]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[TopicLevelWithUperLevel]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3OnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopics3OnTopicCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[TrialBalanceFORAccCode]
+	if exists (select * from sysobjects where id = object_id(N'[dbo].[SanamaValue]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [dbo].[SanamaValue]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialCTopicsBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[TrialCTopicsBalanceFORAccCode]
+	if exists (select * from sysobjects where id = object_id(N'[dbo].[SanamaKind]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [dbo].[SanamaKind]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[TrialDetailsBalanceFORAccCode]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[TrialDetailsBalanceFORAccCode]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialDetailsBalance_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [Acc].[AccTrialDetailsBalance_arzi]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[OtherDocuments]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-drop view [Acc].[OtherDocuments]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBook_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [Acc].[DetailsOnTopicBook_arzi]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicCode3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CTopicCode3]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance_Arzi]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialBalance_Arzi]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2And3]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CTopics2And3]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBooksCategories_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [Acc].[AccBooksCategories_arzi]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopicAllRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CenterTopicAllRange]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[UserDetailsOnTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[UserDetailsOnTopicBook]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics2]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CenterTopics2]
+	if exists (select * from sysobjects where id = object_id(N'[dbo].[bsell_variance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [dbo].[bsell_variance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopics]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CenterTopics]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetsInfo]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BudgetsInfo]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CenterTopicRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CenterTopicRange]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CtopicNotes]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CtopicNotes]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BudgetTopicBook]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicRangeTogether]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[CTopicRangeTogether]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailGroups]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[DetailGroups]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[RptBudgetSettlement]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[RptBudgetSettlement]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetReportOnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BudgetReportOnTopicCode]
 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BudgetTrialBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[MainDetails]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[MainDetails]
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DateDifferenceDoc]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[DateDifferenceDoc]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[Details]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[Details]
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailRange]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[DetailRange]
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[SanamaView]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[SanamaView]
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[Currencies]') AND OBJECTPROPERTY(id, N'IsView') = 1)
-DROP VIEW [Acc].[Currencies]
-
-
---------------------------------------- End Of Drop Veiw -------------------------------------------
-
-
---------------------------------------- Drop Function  -------------------------------------------
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3OnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopics3OnDetailCode]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccUserDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccUserDetailsBalance]
-GO
-
-
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopics3Balance_CTopics]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopics3Balance_CTopics]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance3]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopicsBalance3]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance3]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopicsBalance3]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics3OnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopics3OnTopicCode]
-GO
-
-
-
-if exists (select * from sysobjects where id = object_id(N'[dbo].[SanamaValue]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [dbo].[SanamaValue]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[dbo].[SanamaKind]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [dbo].[SanamaKind]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialDetailsBalance_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [Acc].[AccTrialDetailsBalance_arzi]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBook_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [Acc].[DetailsOnTopicBook_arzi]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance_Arzi]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialBalance_Arzi]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBooksCategories_arzi]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [Acc].[AccBooksCategories_arzi]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[UserDetailsOnTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[UserDetailsOnTopicBook]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[dbo].[bsell_variance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [dbo].[bsell_variance]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetsInfo]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BudgetsInfo]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BudgetTopicBook]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[RptBudgetSettlement]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[RptBudgetSettlement]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetReportOnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BudgetReportOnTopicCode]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BudgetTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BudgetTrialBalance]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DateDifferenceDoc]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[DateDifferenceDoc]
-GO
-
-if exists (select * from sysobjects where id = object_id(N'[Acc].[SplitString]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[SplitString]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[SplitString]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[SplitString]
   
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeCORmparisonBalanceWithSelected]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeCORmparisonBalanceWithSelected]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeCORmparisonBalanceWithSelected]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeCORmparisonBalanceWithSelected]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBookRelated]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[DetailsOnTopicBookRelated]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBookRelated]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[DetailsOnTopicBookRelated]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBookFORSomeYear]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccBookFORSomeYear]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBookFORSomeYear]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccBookFORSomeYear]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CheckAccCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CheckAccCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CheckAccCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CheckAccCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceCtopicWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[rptBalaceCtopicWithSomeColumn]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceCtopicWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[rptBalaceCtopicWithSomeColumn]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[RptPORtionDocs]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[RptPORtionDocs]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[RptPORtionDocs]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[RptPORtionDocs]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBooksCategories]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccBooksCategories]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccBooksCategories]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccBooksCategories]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccComparisonMonthBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccComparisonMonthBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthCTopicsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccComparisonMonthCTopicsBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthCTopicsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccComparisonMonthCTopicsBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthCTopics2Balance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccComparisonMonthCTopics2Balance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthCTopics2Balance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccComparisonMonthCTopics2Balance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccComparisonMonthDetailsBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccComparisonMonthDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccComparisonMonthDetailsBalance]
+ 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccDetailBookFORSomeYear]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccDetailBookFORSomeYear]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccDetailBookFORSomeYear]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccDetailBookFORSomeYear]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance_SomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialBalance_SomeColumn]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialBalance_SomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialBalance_SomeColumn]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopicsBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopicsBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance_Details]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopicsBalance_Details]
+ 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance2]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopicsBalance2]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance_Details]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopicsBalance_Details]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopics2Balance_CTopics]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialCTopics2Balance_CTopics]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopicsBalance2]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopicsBalance2]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AccTrialDetailsBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialCTopics2Balance_CTopics]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialCTopics2Balance_CTopics]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccBooks]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeAccBooks]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AccTrialDetailsBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AccTrialDetailsBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccountInfo]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeAccountInfo]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccBooks]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeAccBooks]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccountInfoFORUse]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeAccountInfoFORUse]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccountInfo]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeAccountInfo]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeCORmparisonBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeCORmparisonBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeAccountInfoFORUse]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeAccountInfoFORUse]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[AnalyzeTrialBalance]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeCORmparisonBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeCORmparisonBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BalanceSheet]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BalanceSheet]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AnalyzeTrialBalance]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[AnalyzeTrialBalance]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[BalanceTaxonomy]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[BalanceTaxonomy]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BalanceSheet]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BalanceSheet]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2OnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopics2OnDetailCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[BalanceTaxonomy]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[BalanceTaxonomy]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2OnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopics2OnTopicCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2OnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopics2OnDetailCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsOnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopicsOnDetailCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopics2OnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopics2OnTopicCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsOnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[CTopicsOnTopicCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsOnDetailCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopicsOnDetailCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[DetailsOnTopicBook]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[CTopicsOnTopicCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[CTopicsOnTopicCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBookSpecial]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[DetailsOnTopicBookSpecial]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBook]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[DetailsOnTopicBook]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[FORmsInfo_FilterType]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[FORmsInfo_FilterType]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[DetailsOnTopicBookSpecial]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[DetailsOnTopicBookSpecial]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[GeneralJournal]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[GeneralJournal]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[FORmsInfo_FilterType]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[FORmsInfo_FilterType]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceDetaillWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[rptBalaceDetaillWithSomeColumn]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[GeneralJournal]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[GeneralJournal]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceKollWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[rptBalaceKollWithSomeColumn]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceDetaillWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[rptBalaceDetaillWithSomeColumn]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[rptDailyDocuments]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[rptDailyDocuments]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[rptBalaceKollWithSomeColumn]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[rptBalaceKollWithSomeColumn]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[Rptjournal]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[Rptjournal]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[rptDailyDocuments]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[rptDailyDocuments]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[rptMonthDocuments]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[rptMonthDocuments]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[Rptjournal]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[Rptjournal]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[UpdateCategories]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[UpdateCategories]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[rptMonthDocuments]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[rptMonthDocuments]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[UpdateCompanyCode]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[UpdateCompanyCode]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[UpdateCategories]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[UpdateCategories]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[RptPORtionDocs_Koll]') AND xtype in (N'FN', N'IF', N'TF'))
+		drop FUNCTION [Acc].[RptPORtionDocs_Koll]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[UpdateCompanyCode]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[UpdateCompanyCode]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[GetValueFromConfig]') AND xtype in (N'FN', N'IF', N'TF'))
+		DROP FUNCTION [Acc].[GetValueFromConfig]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[RptPORtionDocs_Koll]') AND xtype in (N'FN', N'IF', N'TF'))
-drop FUNCTION [Acc].[RptPORtionDocs_Koll]
+End 
 GO
+-- drop procedure
+begin -- drop procedure
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[AddCodingAllBank]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure [Acc].[AddCodingAllBank]
+ 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[SpTrialBalance]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure [Acc].[SpTrialBalance]
+ 
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[SpOffices]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure  [Acc].[SpOffices] 
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[GetValueFromConfig]') AND xtype in (N'FN', N'IF', N'TF'))
-DROP FUNCTION [Acc].[GetValueFromConfig]
-GO
+	if exists (select * from sysobjects where id = object_id(N'[Acc].[USP_4_InsertIntoPORtion]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	drop procedure  [Acc].[USP_4_InsertIntoPORtion] 
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[AddCodingAllBank]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [Acc].[AddCodingAllBank]
-GO
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[PROC_Currencies]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE  [Acc].[PROC_Currencies] 
+ 
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[SP_Matrix]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE  [Acc].[SP_Matrix] 
+ 
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[dbo].[template]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE  [dbo].[template] 
+ 
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE [Acc].[CreateSanamaXML] 
+ 
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML_By_DateRange]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE [Acc].[CreateSanamaXML_By_DateRange] 
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[SpTrialBalance]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure [Acc].[SpTrialBalance]
-GO
+	IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML_By_DateRange_2]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
+	DROP PROCEDURE [Acc].[CreateSanamaXML_By_DateRange_2] 
+end 
+---000---
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[SpOffices]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure  [Acc].[SpOffices] 
-GO
+--Drop Trigger --
+--Begin --Drop Trigger
+	IF OBJECT_ID ('[Acc].[TR_CleanDocument]', 'TR') IS NOT NULL 
+	DROP TRIGGER [Acc].[TR_CleanDocument]
 
-if exists (select * from sysobjects where id = object_id(N'[Acc].[USP_4_InsertIntoPORtion]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-drop procedure  [Acc].[USP_4_InsertIntoPORtion] 
-GO
+	IF OBJECT_ID ('[Acc].[TR_UpdateDocNo]', 'TR') IS NOT NULL 
+	DROP TRIGGER [Acc].[TR_UpdateDocNo]
 
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[PROC_Currencies]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE  [Acc].[PROC_Currencies] 
-GO
+	IF OBJECT_ID ('[Acc].[TR_UpdateCurrencies]', 'TR') IS NOT NULL 
+	DROP TRIGGER [Acc].[TR_UpdateCurrencies]
 
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[SP_Matrix]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE  [Acc].[SP_Matrix] 
-GO
+	IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_DocGroups_AfterInsert]', 'TR') IS NOT NULL 
+	DROP TRIGGER [Acc].[TR_ConfigChangeLog_DocGroups_AfterInsert]
 
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[dbo].[template]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE  [dbo].[template] 
-GO
-
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [Acc].[CreateSanamaXML] 
-GO
-
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML_By_DateRange]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [Acc].[CreateSanamaXML_By_DateRange] 
-GO
-
-IF EXISTS (SELECT id FROM sysobjects WHERE id = object_id(N'[Acc].[CreateSanamaXML_By_DateRange_2]') AND OBJECTPROPERTY(id, N'IsProcedure') = 1)
-DROP PROCEDURE [Acc].[CreateSanamaXML_By_DateRange_2] 
-GO
----------------------------------------End Of Drop Function  -------------------------------------------
-
-
----------------------------------------Drop Trigger ---------------------------------------------------
-
-IF OBJECT_ID ('[Acc].[TR_CleanDocument]', 'TR') IS NOT NULL 
-DROP TRIGGER [Acc].[TR_CleanDocument]
-GO
-IF OBJECT_ID ('[Acc].[TR_UpdateDocNo]', 'TR') IS NOT NULL 
-DROP TRIGGER [Acc].[TR_UpdateDocNo]
-GO
-IF OBJECT_ID ('[Acc].[TR_UpdateCurrencies]', 'TR') IS NOT NULL 
-DROP TRIGGER [Acc].[TR_UpdateCurrencies]
-GO
-IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_DocGroups_AfterInsert]', 'TR') IS NOT NULL 
-DROP TRIGGER [Acc].[TR_ConfigChangeLog_DocGroups_AfterInsert]
-GO
-IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
-DROP TRIGGER [Acc].[TR_ConfigChangeLog_Documents]
-GO
----------------------------------------End Drop Trigger -----------------------------------------------
-
-
---------------------------------------- Create Veiw -------------------------------------------
-
-CREATE VIEW Acc.Currencies AS  
+	IF OBJECT_ID ('[Acc].[TR_ConfigChangeLog_Documents]', 'TR') IS NOT NULL 
+	DROP TRIGGER [Acc].[TR_ConfigChangeLog_Documents]
+--End 
+---000---
+GO 
+CREATE VIEW Acc.Currencies 
+AS  
 SELECT * FROM  dbo.Currencies
-GO
 
+---000---
+GO 
 CREATE VIEW Acc.DocList
 AS
 SELECT     TOP (100) PERCENT LTRIM(Serial) + '_' + LTRIM(YearID) + '_' + LTRIM(CompanyCode) AS Serial, DocDate + ' - ' + RIGHT('0000000000' + LTRIM(SecondaryDocNo),
@@ -580,8 +557,8 @@ SELECT     TOP (100) PERCENT LTRIM(Serial) + '_' + LTRIM(YearID) + '_' + LTRIM(C
                              FROM         Acc.DocGroups AS DocGroups_2)) AS DocDate
 FROM         Acc.DocGroups
 
-GO
-
+---000--- 
+GO 
 CREATE VIEW Acc.AccCodeWith5Levels
 AS
 SELECT     Acc.Categories.TopicCode, Acc.Categories.MoeenName_L1, Acc.Categories.MoeenName_L2, Acc.Categories.LevelID, 
@@ -602,17 +579,15 @@ FROM         Acc.AccTopicLevels AccTopicLevels_3 LEFT OUTER JOIN
                       Acc.AccTopicLevels AccTopicLevels_1 INNER JOIN
                       Acc.Categories ON AccTopicLevels_1.LevelID = Acc.Categories.LevelID ON AccTopicLevels_2.LevelID = AccTopicLevels_1.PrvLevelID
 
-
+ 
 
 GO
-
 
 CREATE VIEW [Acc].[DetailGroups]
 AS
 SELECT        CustomerGrpID AS DGID, CustomerGrpName AS DGName_L1, CustomerGrpName_L2 AS DGName_L2, StartCode AS StartRange, FinishCode AS EndRange, DetailType, 0 AS UseKindInCo, '' AS Comment_L1, 
                          '' AS Comment_L2, { fn NOW() } AS MakeDate
 FROM            dbo.CustomersGroup
-
 
 GO
 
@@ -629,25 +604,32 @@ GO
 
 CREATE VIEW [Acc].[MainDetails]
 AS
-SELECT     1 AS CompanyCode, CustID AS DetailCode, isnull(CustFirstName,'') +' '+ isnull(CustName,' ') AS DetailName_L1, CustName_L2 AS DetailName_L2, CustomerGrpID AS DetailGroup, ModifyDate AS MakeDate, 0 AS UseKindInCo, 
-                      NationalID, MaxCredit, Mobile, AccountKind AS CurrencyType, NULL AS AidNumber, NULL AS AidDate, 0 AS PortionCode, NULL AS AidQty,
-					  BankName, ManageName, CustAccountNumber ,PaymentCode,CustFirstName, CustName as FirstName,OperatorID, CustomerState
-
-FROM         dbo.Customers
---SELECT        1 AS CompanyCode, CustID AS DetailCode, ISNULL(CustFirstName, '') + ' ' + ISNULL(CustName, ' ') AS DetailName_L1, CustName_L2 AS DetailName_L2, CustomerGrpID AS DetailGroup, ModifyDate AS MakeDate, 
---                         0 AS UseKindInCo, NationalID, MaxCredit, Mobile, AccountKind AS CurrencyType, NULL AS AidNumber, NULL AS AidDate, 0 AS PortionCode, NULL AS AidQty, BankName, ManageName, CustAccountNumber, PaymentCode, 
---                         CustFirstName, CustName AS FirstName,OperatorID
---FROM            dbo.Customers
---union all
---SELECT        1 AS CompanyCode, c.CustID AS DetailCode, ISNULL(CustFirstName, '') + ' ' + ISNULL(CustName, ' ') AS DetailName_L1, CustName_L2 AS DetailName_L2, cog.CustomerGrpID AS DetailGroup, ModifyDate AS MakeDate, 
---                         0 AS UseKindInCo, NationalID, MaxCredit, Mobile, AccountKind AS CurrencyType, NULL AS AidNumber, NULL AS AidDate, 0 AS PortionCode, NULL AS AidQty, BankName, ManageName, CustAccountNumber, PaymentCode, 
---                         CustFirstName, CustName AS FirstName,OperatorID
---FROM            dbo.Customers c
---join CustomersOtherGroups  cog on c.CustID  = cog.CustID 
+SELECT	1 AS CompanyCode
+		, CustID AS DetailCode
+		, isnull(CustFirstName,'') +' '+ isnull(CustName,' ') AS DetailName_L1
+		, CustName_L2 AS DetailName_L2
+		, CustomerGrpID AS DetailGroup
+		, ModifyDate AS MakeDate
+		, 0 AS UseKindInCo
+		, NationalID
+		, MaxCredit
+		, Mobile
+		, AccountKind AS CurrencyType
+		, NULL AS AidNumber
+		, NULL AS AidDate
+		, 0 AS PortionCode
+		, NULL AS AidQty
+		, BankName
+		, ManageName
+		, CustAccountNumber 
+		, PaymentCode
+		, CustFirstName
+		, CustName as FirstName
+		, OperatorID
+		, CustomerState
+FROM    dbo.Customers
 
 GO
-
-
 
 CREATE VIEW [Acc].[Details]
 AS
@@ -660,8 +642,6 @@ WHERE     (Acc.DetailGroups.DetailType = 1) OR
 
 GO
 
-
-
 CREATE VIEW [Acc].[CenterTopics]
 AS
 SELECT     Acc.MainDetails.DetailCode AS CTopicCode, Acc.MainDetails.DetailName_L1 AS CTopicName_L1, Acc.MainDetails.DetailName_L2 AS CTopicName_L2, 61 AS LevelID, Acc.MainDetails.AidNumber, 
@@ -672,8 +652,6 @@ WHERE     (Acc.DetailGroups.DetailType = 2) OR
                       (Acc.MainDetails.DetailCode = 0)
 
 GO
-
-
 
 CREATE VIEW [Acc].[CenterTopics2]
 AS
@@ -686,8 +664,6 @@ WHERE     (Acc.DetailGroups.DetailType = 3) OR
 
 GO
 
-
-
 CREATE VIEW [Acc].[CTopicCode3] 
 AS
 SELECT     Acc.MainDetails.DetailCode AS CTopicCode3, Acc.MainDetails.DetailName_L1 AS CTopicName3_L1, Acc.MainDetails.DetailName_L2 AS CTopicName3_L2, Acc.MainDetails.AidNumber, 
@@ -698,8 +674,6 @@ WHERE     (Acc.DetailGroups.DetailType = 4) OR
                       (Acc.MainDetails.DetailCode = 0)
 
 GO
-
-
 
 CREATE VIEW [Acc].[DetailRange]
 AS
@@ -718,8 +692,6 @@ WHERE     (Acc.DetailGroups.DetailType = 1)
 
 GO
 
-
-
 CREATE VIEW [Acc].[CenterTopicRange]
 AS
 --SELECT     cast(ROW_NUMBER() OVER (ORDER BY Acc.TopicRange.TopicCode) AS INT) AS ID, Acc.TopicRange.TopicCode, Acc.MainDetails.DetailCode AS CTopicCode
@@ -734,8 +706,6 @@ FROM         Acc.TopicRange INNER JOIN
 WHERE     (Acc.DetailGroups.DetailType = 2)
 
 GO
-
-
 
 CREATE VIEW [Acc].[CenterTopicAllRange] 
 AS
@@ -754,8 +724,6 @@ WHERE     (Acc.DetailGroups.DetailType IN (4, 3))
 
 GO
 
-
-
 CREATE VIEW [Acc].[CTopicRangeTogether]
 AS
 SELECT distinct CTopicCode2 *1000 + CTopicCode as id , CTopicCode ,CTopicCode2
@@ -767,15 +735,11 @@ where CTopicCode <>0 and CTopicCode2 <>0
 
 GO
 
-
-
 CREATE VIEW [Acc].[CTopics2And3] 
 AS 
 SELECT     0 AS CTopicCode3, 0 AS CTopicCode2
 
 GO
-
-
 
 CREATE VIEW [Acc].[CtopicNotes]
 AS
@@ -783,8 +747,6 @@ SELECT     ID, TopicCode, DetailCode, Note, NoteDate, AttachFileName, MakeDate
 FROM         Acc.DetailNotes
 
 GO
-
-
 
  CREATE VIEW Acc.AuditTopicFORUse
 AS
@@ -795,13 +757,7 @@ FROM         Acc.AuditTopics INNER JOIN
                       Acc.AccTopicLevels ON Acc.AuditTopics.LevelID = Acc.AccTopicLevels.LevelID LEFT OUTER JOIN
                       Acc.AccTopicLevels AccTopicLevels_1 ON Acc.AccTopicLevels.PrvLevelID = AccTopicLevels_1.LevelID
 
-
-
-
-
 GO
-
-
 
 CREATE VIEW Acc.BudgetTopicsFORUse
 AS
@@ -816,7 +772,6 @@ FROM         Acc.BudgetTopics INNER JOIN
 
 GO
  
-
 CREATE VIEW Acc.CategoriesForUse
 AS
 SELECT     Acc.Categories.TopicCode, Acc.Categories.MoeenName_L1, Acc.Categories.MoeenName_L2, Acc.Categories.LevelID, 
@@ -828,7 +783,6 @@ FROM         Acc.Categories INNER JOIN
 
 
 GO
-
 
 CREATE VIEW Acc.CompaniesFORUse
 AS
@@ -842,7 +796,6 @@ FROM         Acc.AccTopicLevels INNER JOIN
 
 GO
 
-
 CREATE VIEW Acc.CTopics2FORUse
 AS
 SELECT     Acc.CenterTopics2.CTopicCode2, Acc.CenterTopics2.CTopicName2_L1, Acc.CenterTopics2.CTopicName2_L2, Acc.CenterTopics2.LevelID, 
@@ -854,7 +807,6 @@ FROM         Acc.CenterTopics2 INNER JOIN
 
 
 GO
-
 
 CREATE VIEW Acc.CTopicsFORUse
 AS
@@ -868,7 +820,6 @@ FROM         Acc.CenterTopics INNER JOIN
 
 GO
 
-
 CREATE VIEW Acc.DescTemplates
 AS
 SELECT     InfoID AS TemplateCode, InfoName_L1 AS TemplateDesc_L1, InfoName_L2 AS TemplateDesc_L2
@@ -877,8 +828,6 @@ WHERE     (FORmType = 2)
 
 
 GO
- 
-
 
 CREATE VIEW Acc.DocTypes
 AS
@@ -888,8 +837,6 @@ WHERE     (FORmType = 1)
 
 
 GO
- 
-
 
 CREATE VIEW Acc.FinancialTopicsFORUse
 AS
@@ -909,8 +856,6 @@ as
 SELECT        ID, EMP.ED.value('@SanamaType', 'bigint') AS sanamaType, EMP.ED.value('@SanamaValue', 'bigint') AS sanamaValue
 FROM            Acc.Documents CROSS APPLY SanamaID.nodes('/Sanama/SanamaID') AS EMP(ED)
 GO
- 
-
 
 --CREATE VIEW Acc.ProjectsFORUse
 --AS
@@ -929,9 +874,6 @@ GO
 -- 
 GO
 
-
-
-
 CREATE VIEW Acc.ShowBalance
 AS
 SELECT     SUM(Debt - Credit) AS Balance
@@ -940,7 +882,6 @@ WHERE     (TopicCode = 124) AND (DetailCode = 0) AND (CTopicCode = 0) AND (CTopi
 
 
 GO
-
 
 CREATE VIEW Acc.TopicLevelWithUperLevel
 AS
@@ -953,9 +894,6 @@ WHERE     (Acc.AccTopicLevels.TopicType = 0) AND (Acc.AccTopicLevels.LevelID = 1
 
 
 GO
-
-
-
 
 CREATE VIEW Acc.TrialBalanceFORAccCode
 AS
@@ -977,8 +915,6 @@ FROM         (SELECT     LEFT(D.TopicCode, 1) AS PrvAccCode, LEFT(D.TopicCode, 2
 
 
 GO
-
-
 
 CREATE VIEW Acc.TrialCTopicsBalanceFORAccCode
 AS
@@ -1004,7 +940,6 @@ WHERE     (TrialBalance.AccCode BETWEEN '0' AND '2147483647') AND (TrialBalance.
 
 GO
 
-
 CREATE VIEW Acc.TrialDetailsBalanceFORAccCode
 AS
 SELECT     TOP 100 PERCENT TrialBalance.PrvAccCode, TrialBalance.AccCode, TrialBalance.detailCode, Categories_1.MoeenName_L1 AS PrvMoeenName, 
@@ -1029,7 +964,6 @@ WHERE     (TrialBalance.detailCode BETWEEN 0 AND 2147483647) AND (TrialBalance.A
 
 GO
 
-
 CREATE VIEW ACC.Months
 AS
 SELECT     InfoID AS MonthID, InfoName_L1 AS MonthName
@@ -1037,7 +971,6 @@ FROM         Acc.FORmsInfo
 WHERE     (FORmType = 11)
 
 GO
-
 
 CREATE VIEW Acc.OtherDocuments
 AS
@@ -1090,7 +1023,7 @@ FROM            Acc.CenterTopics3 INNER JOIN
 
 GO
 
---------------------------------------- End Of Create Veiw -------------------------------------------
+-- c r e a t e PROCEDURE  --- 
 --  به این صورت نوشته میشود update در قسمت قبل view acc.details به علت ساخته شدن
 CREATE PROCEDURE dbo.template
 as begin
@@ -1104,15 +1037,20 @@ end
 exec dbo.template
 drop PROCEDURE dbo.template
 GO
------------------------------------
+--
 CREATE PROCEDURE [Acc].[SpOffices] 
-	-- Add the parameters fOR the stORed procedure here
-@BaseParam  varchar(1000),	
-@CirculationCode varchar(30),
-@aWhere varchar(2000),
-@BefOReWhere varchar(2000),
-@ActiveBefOReYear bit,
-@ActiveArz char(1)
+	-- Add other parameters fOR the stORed procedure here
+						@BaseParam  varchar(2000),	
+						@CirculationCode varchar(30),
+						@aWhere varchar(2000),
+						@BefOReWhere varchar(2000),
+						@ActiveBefOReYear bit,
+						--@ActiveArz char(1),
+			            @CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0   
+
+
 AS
 BEGIN
 SET NOCOUNT ON;
@@ -1147,20 +1085,26 @@ BEGIN
          '0 as PrimaryDocNo,''مجموع مانده از قبل  ''  as  Comment_L1 ,'''' AS DocTopic_L1 ,''01/01'' as DocDate, 0 as AidDocNo,   0 as BudgetTopicID, 0 as ProjectID, '+CHAR(13)+
          '''--'' as AidDocdate, 0 as AidAmount, sum(Acc.Documents.Debt) as debt, sum(Acc.Documents.Credit) as Credit, '+CHAR(13)+
          'sum(Acc.Documents.Debt - Acc.Documents.Credit) AS balance , '+CHAR(13)+
-         'CASE sum(Acc.Documents.Debt - Acc.Documents.Credit) WHEN 0 THEN ''1'' ELSE ''0'' END as BedBes, '+CHAR(13)+
-		 ' ISNULL(CASE WHEN '+@ActiveArz+'=1 THEN Acc.Documents.CurrencyType ELSE 0 END,0) as CurrencyType' +CHAR(13)+
+         'CASE sum(Acc.Documents.Debt - Acc.Documents.Credit) WHEN 0 THEN ''1'' ELSE ''0'' END as BedBes '+CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE Acc.Documents.CurrencyType END as CurrencyType' +CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrencyCode END as CurrencyCode' +CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrenciesName END as CurrenciesName' +CHAR(13)+
          ' ,SUM(Acc.Documents.CurrencyDebit) AS CurDebit ' + CHAR(13)+ 
-	   ' ,SUM(Acc.Documents.CurrencyCredit) AS CurCredit '+CHAR(13)+
-  	   ' ,SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit) AS CurBalance '+CHAR(13)+	 
+	     ' ,SUM(Acc.Documents.CurrencyCredit) AS CurCredit '+CHAR(13)+
+  	     ' ,SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit) AS CurBalance '+CHAR(13)+	 
 
 		 ', 0.0 AS AidDocNo_1, ''0000/00/00'' AS AidDocdate_1, 0.0 AS AidAmount_1'+CHAR(13)+
          'FROM     Acc.Documents INNER JOIN Acc.DocGroups ON Acc.Documents.Serial = Acc.DocGroups.Serial '+CHAR(13)+
          'AND Acc.Documents.YearID = Acc.DocGroups.YearID AND Acc.Documents.CompanyCode = Acc.DocGroups.CompanyCode ' +CHAR(13)+
+		 ' left Join dbo.Currencies cu on Acc.Documents.CurrencyType = cu.CurrenciesID ' +CHAR(13)
          + @BefOReWhere +CHAR(13)+
-         ' group by   Acc.DocGroups.YearId ,Acc.DocGroups.CompanyCode, '+CHAR(13)+ @AccCode +', ISNULL(Case When '+@ActiveArz+'=1 then Acc.Documents.CurrencyType else 0 end,0) '+
-		 CHAR(13)+
-         'Union All '+CHAR(13); 
-         
+         ' group by   Acc.DocGroups.YearId ,Acc.DocGroups.CompanyCode, '+CHAR(13)+ 
+				@AccCode +CHAR(13)+
+				', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE Acc.Documents.CurrencyType END' +CHAR(13)+
+				', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrencyCode END ' +CHAR(13)+
+				', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrenciesName END ' +CHAR(13)+
+		        'Union All '+CHAR(13); 
+
 END ELSE SET @BefOReYears = '';
 
 SET @SqlFinal =
@@ -1168,14 +1112,18 @@ SET @SqlFinal =
   		'SELECT  '+@AccCode+' as AccCode,Acc.DocGroups.YearId ,Acc.DocGroups.Serial, Acc.Documents.ID, Acc.DocGroups.CompanyCode,  Acc.DocGroups.SecondaryDocNo, ' +CHAR(13)+
 		' Acc.DocGroups.PrimaryDocNo, Acc.Documents.Comment_L1,Acc.DocGroups.DocTopic_L1, Acc.DocGroups.DocDate, Acc.Documents.AidDocNo, Acc.Documents.BudgetTopicID, Acc.Documents.ProjectID , '+CHAR(13)+
 		' Acc.Documents.AidDocdate, Acc.Documents.AidAmount, Acc.Documents.Debt, Acc.Documents.Credit, Acc.Documents.Debt - Acc.Documents.Credit AS balance, '+CHAR(13)+
-		' CASE Acc.Documents.debt WHEN 0 THEN ''1'' ELSE ''0'' END AS BedBes,'+CHAR(13)+
-		' ISNULL(CASE WHEN '+@ActiveArz+'=1 THEN Acc.Documents.CurrencyType ELSE 0 END,0) as CurrencyType' +CHAR(13)+
-		', CAST( case when Acc.Documents.CurrencyType<>0 then  CASE WHEN Debt > 0 THEN AidAmount ELSE 0 END else 0 end AS MONEY) AS CurDebit'+CHAR(13)+
-        ', CAST( case when Acc.Documents.CurrencyType<>0 then CASE WHEN Credit > 0 THEN AidAmount ELSE 0 END else 0 end AS MONEY) AS CurCredit '+CHAR(13)+
-        ', CAST( case when Acc.Documents.CurrencyType<>0 then  CASE WHEN Debt > 0 THEN AidAmount ELSE -AidAmount END else 0 end AS MONEY) AS CurBalance '+CHAR(13)+
+		' CASE Acc.Documents.debt WHEN 0 THEN ''1'' ELSE ''0'' END AS BedBes'+CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE Acc.Documents.CurrencyType END as CurrencyType' +CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrencyCode END as CurrencyCode' +CHAR(13)+
+		', CASE WHEN '+str(@CurrencyKind)+'=0 THEN null ELSE cu.CurrenciesName END as CurrenciesName' +CHAR(13)+
+		', Acc.Documents.CurrencyDebit AS CurDebit'+CHAR(13)+
+        ', Acc.Documents.CurrencyCredit AS CurCredit '+CHAR(13)+
+        ', Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit AS CurBalance '+CHAR(13)+
 		', Acc.Documents.AidDocNo AS AidDocNo_1, Acc.Documents.AidDocdate AS AidDocdate_1, Acc.Documents.AidAmount AS AidAmount_1 '+CHAR(13)+
 		' FROM  Acc.Documents INNER JOIN acc.DocGroups  ON  Acc.Documents.Serial = Acc.DocGroups.Serial AND Acc.Documents.YearID = Acc.DocGroups.YearID AND '+CHAR(13)+
-		' Acc.Documents.CompanyCode =Acc.DocGroups.CompanyCode ' +CHAR(13)+ @aWhere 
+		' Acc.Documents.CompanyCode =Acc.DocGroups.CompanyCode ' +CHAR(13)+
+		' left Join dbo.Currencies cu on isnull(Acc.Documents.CurrencyType,0) = cu.CurrenciesID ' +CHAR(13)
+		+ @aWhere 
 
 SET @SqlFinal =
        	'SELECT ALLSql.*,Fitful.FitfulIDc AS _CalBalance ,Fitful.FitfulIDc AS _rate,Fitful.FitfulIDc AS  _calcuRate'+
@@ -1183,10 +1131,13 @@ SET @SqlFinal =
 
 + ' ORDER BY DocDate,SecondaryDocNo, PrimaryDocNo,bedbes, ID';
 		  ----ISNULL(CASE WHEN '+@ActiveArz+'=1 THEN ALLSql.CurrencyType ELSE 0 END,0),
---print (@SqlFinal)
+
+print (@SqlFinal)
 EXEC (@SqlFinal)
 
 END;
+
+
 
 --CREATE PROCEDURE [Acc].[SpOffices] 
 --	-- Add the parameters fOR the stORed procedure here
@@ -1265,19 +1216,20 @@ CREATE PROCEDURE [Acc].[SpTrialBalance]
  @ShowColumnSamelevel bit ,
  @CurrencyKind int = 0
  
+ 
 AS
 BEGIN
 
 SET NOCOUNT ON;
 
 -- متغيير هاي مربوط به ساخت پرس جو
-DECLARE @Sqlselect varchar(2000)
+DECLARE @Sqlselect varchar(6000)
 --DECLARE @SqlWhere  varchar(1000)
-DECLARE @SqlJoin   varchar(2000)
-DECLARE @SqlGroup  varchar(2000)
-DECLARE @SqlTopic  varchar(2000)
+DECLARE @SqlJoin   varchar(4000)
+DECLARE @SqlGroup  varchar(4000)
+DECLARE @SqlTopic  varchar(4000)
 DECLARE @SqlFinal  varchar(6000) 
-DECLARE @SqlCurrency  varchar(1000) 
+DECLARE @SqlCurrency  varchar(2000) 
 
 
 -- اين دو متغيير براي سطح قبل و نمايش كل ستونها در نظر گرفته شده 
@@ -1345,9 +1297,9 @@ begin
 		IF (@MergeCaption  = 1)
 		begin
 			if (@ShowColumnSamelevel = 1 )
-				SET @SqlTopic  =    'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS ''عنوان‏' +  @CaptionName +''',' ; 
+				SET @SqlTopic  =    'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS [عنوان ' + REPLACE(@CaptionName, ']', ']]') + '],' ;
 			else
-				SET @SqlTopic  =  @SqlTopic  +  'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS ''عنوان‏' +  @CaptionName +''',' ; 
+				SET @SqlTopic  =  @SqlTopic  +  'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS [عنوان ' + REPLACE(@CaptionName, ']', ']]') + '],' ;
 
 		end;
 	end;
@@ -1390,6 +1342,69 @@ Begin
 	
 end;
 
+begin 
+if @CurrencyKind = 0 
+ 
+SET @SqlCurrency = '
+			   , 0 CurrencyType,
+			   null  CurrencyCode,
+			   null CurrenciesName,
+			   SUM(Acc.Documents.CurrencyDebit)  AS CurrencyDebit,
+			   SUM(Acc.Documents.CurrencyCredit)  AS CurrencyCredit,
+			   case
+				 when SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit) > 0 then
+				  SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit)
+				 else
+				  0
+			   END AS BalanceCurrencyDebit,
+		       case
+				 when SUM(Acc.Documents.CurrencyCredit - Acc.Documents.CurrencyDebit) > 0 then
+				  SUM(Acc.Documents.CurrencyCredit - Acc.Documents.CurrencyDebit)
+				 else
+				  0
+			   END AS BalanceCurrencyCredit
+		 
+			'  ;
+else 
+
+SET @SqlCurrency = '
+			   , case when ' + str(@CurrencyKind)+ ' = 0 then null else Acc.Documents.CurrencyType end CurrencyType
+			   , case when ' + str(@CurrencyKind)+ ' = 0 then null else cu.CurrencyCode end CurrencyCode
+			   , case when ' + str(@CurrencyKind)+ ' = 0 then null else cu.CurrenciesName end CurrenciesName
+			   , case 
+					when ' +  str(@CurrencyKind)+ ' = 0 then 0 
+					else SUM(Acc.Documents.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when ' +  str(@CurrencyKind)+ ' = 0 then 0 
+					else SUM(Acc.Documents.CurrencyCredit)  
+			   END AS CurrencyCredit
+			   ,case 
+					when ' +  str(@CurrencyKind)+ ' = 0 then 0 
+					else 
+			   case
+				 when SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit) > 0 then
+				  SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit)
+				 else
+				  0
+			   end  
+			   END AS BalanceCurrencyDebit
+			   ,case 
+					when ' +  str(@CurrencyKind) + ' = 0 then 0 
+				else 
+				   case
+					 when SUM(Acc.Documents.CurrencyCredit - Acc.Documents.CurrencyDebit) > 0 then
+						  SUM(Acc.Documents.CurrencyCredit - Acc.Documents.CurrencyDebit)
+					 else
+					  0
+				   end 
+			   END AS BalanceCurrencyCredit
+		
+			' ;
+
+end 
+
+
 IF  (@AddParam  <> '')
 begin
 	SELECT @OldAcc =  'Cast(' + FieldName +' AS Varchar(20)) +''-''+ '+ @OldAcc      
@@ -1407,26 +1422,40 @@ begin
 end;
 
 -- add currency circulation for 
-IF ( (SELECT TOP 1 ActiveCurrencyInTrialBalance FROM Acc.Config) > 0 )
+--IF ( (SELECT TOP 1 ActiveCurrencyInTrialBalance FROM Acc.Config) > 0 )
+/*
 SET @SqlCurrency = ' ,SUM(Acc.Documents.CurrencyDebit) AS CurDebit '+ 
 			   ' ,SUM(Acc.Documents.CurrencyCredit) AS CurCredit '+
 			   ' ,SUM(Acc.Documents.CurrencyDebit - Acc.Documents.CurrencyCredit) AS CurBalance ';
+*/
 	
 SET @SqlFinal = ' SELECT  CAST(REPLACE(REPLACE(REPLACE('+@ALLColums+',''-'',''''),''_'',''''),'' '','''') AS DECIMAL(38,0)) AS ORdAccCode, '+@ALLColums+ ' as AccCode,' + @ALLCaption + @Sqlselect+ @SqlTopic +'  sum(Acc.Documents.Debt) as SumDebt' +
 				' ,sum(Acc.Documents.Credit) as SumCredit   ,case when SUM(Debt - Credit)>0 then SUM(Debt - Credit) else 0 end  AS   SumBalanceDebt ' +
-				' , case when SUM( Credit - Debt)>0 then SUM(Credit - Debt ) else 0 end  AS  SumBalanceCredit' + @SqlCurrency+				
+				' , case when SUM( Credit - Debt)>0 then SUM(Credit - Debt ) else 0 end  AS  SumBalanceCredit' + @SqlCurrency +	char(13)+			
 				' FROM Acc.DocGroups INNER JOIN '+ char(13)+
                 ' Acc.Documents ON Acc.DocGroups.Serial = Acc.Documents.Serial AND Acc.DocGroups.YearID = Acc.Documents.YearID AND '+ char(13)+
-                ' Acc.DocGroups.CompanyCode = Acc.Documents.CompanyCode  ' + @SqlJoin  + @SqlWhere + Char(13) +' GROUP BY '+ @SqlGroup 
+                ' Acc.DocGroups.CompanyCode = Acc.Documents.CompanyCode  '+ char(13)+
+				' left Join dbo.Currencies cu on Acc.Documents.CurrencyType = cu.CurrenciesID '+ char(13)+
+				 @SqlJoin  + char(13) +
+				 @SqlWhere + Char(13) +
+				' GROUP BY '+ @SqlGroup +
+				'
+				, case when ' +  str(@CurrencyKind)+ ' = 0 then null else Acc.Documents.CurrencyType end 
+			   , case when ' + str( @CurrencyKind)+ ' = 0 then null else cu.CurrencyCode end 
+			   , case when ' +  str(@CurrencyKind)+ ' = 0 then null else cu.CurrenciesName end 
+			   ' 
+	
                 + ', CAST(REPLACE(REPLACE(REPLACE('+@ALLColums+',''-'',''''),''_'',''''),'' '','''') AS DECIMAL(38,0))' 
 
 
+--print (@SqlFinal)
 Exec(@SqlFinal)
-
 END
 
-GO
+  
 
+
+GO
 
 CREATE PROCEDURE [Acc].[AddCodingAllBank]
  @SqlType Tinyint,
@@ -1513,10 +1542,6 @@ EXEC ('IF EXISTS (select * from sysobjects where id = object_id(''[Acc].[Currenc
 END
 
 GO
-
-
-
-
 
 CREATE PROC Acc.SP_Matrix  @COl varchar(2), @Row1 varchar(2), @Row2 varchar(2),  @CircleKind bigint, @Where varchar(8000), @ActiveRowShare bit = 0 , @ActiveColShare bit = 0,
  @CurrencyKind int = 0
@@ -1773,7 +1798,7 @@ END
 EXEC (@Sql)
 END
 
---------------------------------------- Create Function -------------------------------------------
+--------------------------------------- c r e a t e Function -------------------------------------------
 
   
 
@@ -1782,7 +1807,110 @@ END
 
 GO
 
+CREATE PROCEDURE [acc].[USP_4_InsertIntoPORtion] 
+------------------------------		External Parameters OR Insert From MakeRepORt   ----------------------------
+	@InfoID int ,
+	@InfoName varchar(150) ,
+	@DetailCode int ,
+	@CTopicCode int ,
+	@CtopicCode2 int ,
+	@CTopicCode3 int ,
+	@Mounth int ,
+	@Cofficient Float ,
+	@CofficientItem Float ,
+	@YearId int ,
+	@InsertKind int  , -- baray inkeh etelaat dar PORtionRange insert shavad 
+	@PORtionKind int  , -- baray inkeh etelaat dar (1) pORtiontable ya (2)pORtionDoc insert shavad 
+	@InsertCount int output
+as 
+begin
+SET NOCOUNT ON
+------------------------------		Internal Parameters AND Insert From Config   ---------------------------
+DECLARE @TopicCodeFrom bigint
+DECLARE @TopicCodeTo bigint
+DECLARE @FORmInfoID int
+DECLARE @CofficientID int
 
+
+SET @TopicCodeFrom = ( select TopicCodeFrom from config )
+SET @TopicCodeTo =( select TopicCodeTo from config )
+--------------------	Insert Into FORmsInfo	     -------------------------------
+if (SELECT InfoID FROM  Acc.FORmsInfo WHERE   (FORmType = 10) AND (InfoID = @InfoID))  is null
+begin 
+	SET @FORmInfoID = (SELECT MAX(FORmInfoID) FROM   Acc.FORmsInfo) +1 
+
+	INSERT INTO Acc.FORmsInfo
+		(FORmInfoID, InfoID, FORmType, InfoName_L1)
+		VALUES     (@FORmInfoID, @InfoID, 10, @InfoName)
+end else begin 
+	SET @FORmInfoID = (SELECT top 1 FORmInfoID  FROM   Acc.FORmsInfo where InfoID=@InfoID )   
+end 
+--------------------	Insert Into PORtionRange     -------------------------------
+if @InsertKind <> 0 
+begin  
+	INSERT INTO Acc.PORtionRange
+                      (CompanyCode, TopicCode, DetailCode, CTopicCode, CTopicCode2, YearID, FORmInfoID)
+	SELECT DISTINCT 
+                      D.CompanyCode, D.TopicCode, D.DetailCode, D.CTopicCode, D.CTopicCode2, 
+                      D.YearID, @FORmInfoID AS FORmInfoID
+	FROM         Acc.Documents D Left OUTER JOIN
+                      Acc.PORtionRange ON D.YearID = Acc.PORtionRange.YearID AND D.CompanyCode = Acc.PORtionRange.CompanyCode AND 
+                      D.TopicCode = Acc.PORtionRange.TopicCode AND D.DetailCode = Acc.PORtionRange.DetailCode AND 
+                      D.CTopicCode = Acc.PORtionRange.CTopicCode AND D.CTopicCode2 = Acc.PORtionRange.CTopicCode2
+	WHERE     (Acc.PORtionRange.FORmInfoID IS NULL) AND (D.YearID = @YearId ) AND 
+		(D.TopicCode BETWEEN @TopicCodeFrom AND @TopicCodeTo ) AND 
+		(case @InsertKind 
+			when 1 then D.CTopicCode 
+			when 2 then D.CTopicCode2
+		else 0 end  = 
+		case @InsertKind
+			when 1 then @InfoID
+			when 2 then @InfoID
+		else 1 end 
+)
+end 
+--------==========
+if @PORtionKind=1 
+begin 
+	--------------------	Insert Into PORtionTable     -------------------------------
+	If (SELECT COUNT(*) FROM  Acc.PORtionTable WHERE (YearID = @YearId ) AND (PORtionCunt = @Mounth ) AND (FORmInfoID = @FORmInfoID ) AND (CTopicCode = @CTopicCode ) ) =0
+	begin 
+		SET @CofficientID = (SELECT  MAX(CofficientID) FROM Acc.PORtionTable) +1 
+		INSERT INTO Acc.PORtionTable
+			(CofficientID, FORmInfoID, CTopicCode, Cofficient, PORtionCunt, YearID)
+		VALUES     ( @CofficientID , @FORmInfoID , @CTopicCode , @Cofficient , @Mounth , @YearId )
+		SET @InsertCount =@InsertCount +1
+	end else begin 
+		SET @CofficientID = (SELECT   CofficientID  FROM Acc.PORtionTable  WHERE (YearID = @YearId ) AND (PORtionCunt = @Mounth ) AND (FORmInfoID = @FORmInfoID ) AND (CTopicCode =@CTopicCode ) )  
+	end 
+	--------------------	Insert Into PORtionTable     -------------------------------
+	if @CtopicCode2 >0 
+	begin 
+		if (SELECT     COUNT(*) FROM  Acc.PORtionTableItems WHERE     (CofficientID = @CofficientID) AND (CTopicCode2 = @CtopicCode2 ) ) =0
+		begin 
+			INSERT INTO Acc.PORtionTableItems
+	                      (CofficientID, CTopicCode2, CofficientItem)
+			VALUES     ( @CofficientID , @CtopicCode2 , @CofficientItem )
+			SET @InsertCount =@InsertCount +1
+		end
+	end 
+
+end else --//@PORtionKind=2
+begin 
+	--------------------	Insert Into PORtionTable     -------------------------------
+	If (SELECT COUNT(*) FROM Acc.PORtionDoc WHERE (DetailCode = @DetailCode) AND (FORmInfoID = @FORmInfoID) AND (CTopicCode = @CTopicCode) AND (CTopicCode2 = @CtopicCode2) AND (CTopicCode3 = @CTopicCode3) AND (YearID = @YearId)  AND (PORtionCount = @Mounth) ) =0
+	begin 
+		INSERT INTO Acc.PORtionDoc
+                      (DetailCode, FORmInfoID, CTopicCode, CTopicCode2, CTopicCode3, YearID, PORtionCount)
+		VALUES     ( @DetailCode , @FORmInfoID , @CTopicCode , @CtopicCode2 , @CTopicCode3 , @YearId , @Mounth )
+		SET @InsertCount =@InsertCount +1
+	end 
+end 
+--------==========
+-----------------------           end              ---------------------
+end
+---000---
+GO 
 CREATE FUNCTION [Acc].[SplitString]  
 ( 
     -- Add the parameters fOR the function here 
@@ -1825,7 +1953,12 @@ BEGIN
 END  
 GO
 
-CREATE FUNCTION   [Acc].[AccBookFORSomeYear]  (@LenAccCode Varchar(3)=[3]   ,@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99'  )
+CREATE FUNCTION   [Acc].[AccBookFORSomeYear] 
+		( 
+			@LenAccCode Varchar(3)=[3] ,
+			@DocDateFrom Varchar(10)='0001/01/01', 
+			@DocDateTo  Varchar(10)='9999/99/99'  
+		)
 RETURNS table  AS  
 
 return (
@@ -1859,7 +1992,6 @@ FROM	(
 
 
 GO
- 
 
 CREATE FUNCTION [Acc].[BudgetTrialBalance]     (
 					@LenBudgetCode Varchar(4)=[1] ,
@@ -1887,65 +2019,83 @@ having left(Acc.BudgetItems.BudgetTopicID, @LenBudgetCode ) BETWEEN @BudgetCodeF
 
 GO
 
-CREATE  FUNCTION [Acc].[BudgetsInfo]      (
-					@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
-					@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
-					@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
-					@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 )
-RETURNS table AS  
-return
-(
-SELECT	0 AS Kind,   BudgetItems.BudgetTopicID AS BudgetCode, BudgetItems.Bed - BudgetItems.Bes AS MosavabPrice,  
-		BudgetItems.Bes- BudgetItems.Bes  AS MasrafPrice , BudgetItems.BudgetTopicID- BudgetItems.BudgetTopicID AS AidTopicCode, 0 AS CTopicCode
+--CREATE  FUNCTION [Acc].[BudgetsInfo]      
+--				(
+--					@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
+--					@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
+--					@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
+--					@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 
+--				)
+--RETURNS table AS  
+--return
+--(
+--SELECT	0 AS Kind,   BudgetItems.BudgetTopicID AS BudgetCode, BudgetItems.Bed - BudgetItems.Bes AS MosavabPrice,  
+--		BudgetItems.Bes- BudgetItems.Bes  AS MasrafPrice , BudgetItems.BudgetTopicID- BudgetItems.BudgetTopicID AS AidTopicCode, 0 AS CTopicCode
 	
-FROM	acc.BudgetItems as BudgetItems INNER JOIN
-		acc.Budgets as Budgets ON BudgetItems.BudgetID = Budgets.BudgetID
+--FROM	acc.BudgetItems as BudgetItems INNER JOIN
+--		acc.Budgets as Budgets ON BudgetItems.BudgetID = Budgets.BudgetID
 
-Where BudgetItems.BudgetTopicID = 0 AND  Budgets.BudgetDate BETWEEN @DocDateFrom AND @DocDateTo
+--Where BudgetItems.BudgetTopicID = 0 AND  Budgets.BudgetDate BETWEEN @DocDateFrom AND @DocDateTo
 
-UNION ALL
+--UNION ALL
 
-SELECT     1 as Kind ,  ISNULL(BudgetRang.BudgetCode, 0) AS BudgetCode ,  
-    0 as MosavaPrice , Debt -Credit as MasrafPrice  , Docs.TopicCode , Docs.CTopicCode
+--SELECT     1 as Kind ,  ISNULL(BudgetRang.BudgetCode, 0) AS BudgetCode ,  
+--    0 as MosavaPrice , Debt -Credit as MasrafPrice  , Docs.TopicCode , Docs.CTopicCode
 
-FROM         (
+--FROM         (
 
-SELECT	
+--SELECT	
 
-Documents.TopicCode,
-	case 
-		when FirstBudgerRange.CTopicCode is null 
-			then left( Documents.CTopicCode ,1 )
-		else 0 end as CTopicCode ,
-	sum(Documents.Debt) as debt , sum(Documents.Credit ) as Credit
-	--Documents.Comment_L1
+--Documents.TopicCode,
+--	case 
+--		when FirstBudgerRange.CTopicCode is null 
+--			then left( Documents.CTopicCode ,1 )
+--		else 0 end as CTopicCode ,
+--	sum(Documents.Debt) as debt , sum(Documents.Credit ) as Credit
+--	--Documents.Comment_L1
 
 
-FROM	acc.Documents as Documents  INNER JOIN
-	acc.DocGroups as DocGroups ON Documents.Serial = DocGroups.Serial LEFT OUTER JOIN
-		(SELECT     *
-		FROM         acc.BudgetRang as BudgetRang 
-		WHERE     ctopiccode = 0) FirstBudgerRange 
-	ON Documents.TopicCode = FirstBudgerRange.TopicCode
-where   DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo AND  
-		DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo AND 
-	 DocGroups.DocDate BETWEEN  @DocDateFrom AND @DocDateTo  
-Group By Documents.TopicCode , 	
-		case when FirstBudgerRange.CTopicCode is null 	then left( Documents.CTopicCode ,1 )	else 0 end
-) Docs LEFT OUTER JOIN acc.BudgetRang as BudgetRang 
-	ON Docs.TopicCode = BudgetRang.TopicCode AND Docs.CTopicCode = BudgetRang.CTopicCode
-where ( Docs.TopicCode BETWEEN  @AccCodeFrom AND  @AccCodeTo ) AND isnull(BudgetRang.BudgetCode,0) BETWEEN 0  AND 2147483647
+--FROM	acc.Documents as Documents  INNER JOIN
+--	acc.DocGroups as DocGroups ON Documents.Serial = DocGroups.Serial LEFT OUTER JOIN
+--		(SELECT     *
+--		FROM         acc.BudgetRang as BudgetRang 
+--		WHERE     ctopiccode = 0) FirstBudgerRange 
+--	ON Documents.TopicCode = FirstBudgerRange.TopicCode
+--where   DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo AND  
+--		DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo AND 
+--	 DocGroups.DocDate BETWEEN  @DocDateFrom AND @DocDateTo  
+--Group By Documents.TopicCode , 	
+--		case when FirstBudgerRange.CTopicCode is null 	then left( Documents.CTopicCode ,1 )	else 0 end
+--) Docs LEFT OUTER JOIN acc.BudgetRang as BudgetRang 
+--	ON Docs.TopicCode = BudgetRang.TopicCode AND Docs.CTopicCode = BudgetRang.CTopicCode
+--where ( Docs.TopicCode BETWEEN  @AccCodeFrom AND  @AccCodeTo ) AND isnull(BudgetRang.BudgetCode,0) BETWEEN 0  AND 2147483647
 
-)
+--)
 
-GO
+--GO
 
-CREATE  FUNCTION [Acc].[AccBooksCategories]  (@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTo Varchar(12)=[0] ,@LenAccCode Varchar(12)=[2], @AccCode bigint=[11], 
-				     @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, @PrimaryDocNoFrom  Varchar(12)=[0], 
-				     @PrimaryDocNoTo Varchar(12)=2147483647 ,@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99'
-                                     ,@Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer,@ToyearID integer,
-                                     @DocTypeCodeFrom varchar(150)='' ,@DocTypeCodeTo integer  =[9999],
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0 )
+CREATE  FUNCTION [Acc].[AccBooksCategories]  -- Edit By Rezaei 1402/11/04 for Add Currency
+					(
+						@CompanyCodeFrom Varchar(12)=[0],
+						@CompanyCodeTo Varchar(12)=[0] ,
+						@LenAccCode Varchar(12)=[2], 
+						@AccCode bigint=[11], 
+						@SecondaryDocNoFrom Varchar(12)=[0] ,
+						@SecondaryDocNoTo Varchar(12)=2147483647, 
+						@PrimaryDocNoFrom  Varchar(12)=[0], 
+						@PrimaryDocNoTo Varchar(12)=2147483647 ,
+						@DocDateFrom Varchar(10)='0001/01/01', 
+						@DocDateTo  Varchar(10)='9999/99/99',
+						@Status1 varchar(150)='', 
+						@Status2  integer=[-1],
+						@FromYearID integer,
+						@ToyearID integer,
+                        @DocTypeCodeFrom varchar(150)='' ,
+						@DocTypeCodeTo integer  =[9999],
+						@CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0 
+					)
 RETURNS table  AS  
 return (
 SELECT   serial
@@ -1960,7 +2110,7 @@ SELECT   serial
 		,Comment_L2
 		,Debt
 		,Credit
-		,Debt-Credit  as balance
+        ,Debt-Credit as balance
         ,AidDocNo
 		,AidDocdate
 		,AidAmount 
@@ -2021,6 +2171,7 @@ WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo )
            ( DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
            (CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR
            ( DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+		   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 
 	UNION ALL
 		SELECT	DG.YearID,0 as serial,0 as id, DG.CompanyCode,cast( ABS(LEFT(D.TopicCode, @LenAccCode)) as bigint) AS AccCode, 
@@ -2053,21 +2204,28 @@ WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo )
 			  ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
 			  (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
 			  (DG.DocDate < @DocDateFrom ))
+			  AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 		GROUP BY DG.YearID
 				,DG.CompanyCode
 				,cast(ABS(LEFT(D.TopicCode, @LenAccCode)) as bigint)
-				,case when @CurrencyKind = 0 then null else d.CurrencyType end ,
-			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
-			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+				,case when @CurrencyKind = 0 then null else d.CurrencyType end 
+			    ,case when @CurrencyKind = 0 then null else cu.CurrencyCode end 
+			    ,case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 	) Docs
+	/*order by AccCode
+			,YearID
+			,DocDate
+			,PrimaryDocNo
+			,SORtID
+			,SecondaryDocNo
+			,CompanyCode
+			,serial
+			,id*/
+		
 )
-
-
 
 GO
  
-
-
 CREATE FUNCTION [Acc].[AnalyzeCORmparisonBalanceWithSelected]       ( 
 						@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
@@ -2138,7 +2296,6 @@ HAVING      	(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND
 
 GO
 
-
 CREATE FUNCTION [Acc].[AccTrialCTopicsBalance3] (@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
 						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=2147483647 ,
@@ -2148,7 +2305,7 @@ CREATE FUNCTION [Acc].[AccTrialCTopicsBalance3] (@DocTypeCode1_Not varchar(150)=
 						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
 						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
                         @Status1 varchar(150)='' , @Status2  integer=[-1],@FromYearID integer ,@ToYearID integer ,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=99999, @CurrencyKind  integer=0  )
 
 RETURNS table AS  
 return
@@ -2219,7 +2376,6 @@ HAVING      	(D.CTopicCode3 BETWEEN @CTopicCode3From AND @CTopicCode3To )  AND
 
 GO
 
-
 CREATE  FUNCTION [Acc].[AccComparisonMonthBalance]     (@LenPrvAccCode Varchar(4)=[1] ,@LenAccCode Varchar(4)=[2], 
 					@DocTypeCode1_Not Varchar(150)='' ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1] ,
 					@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
@@ -2265,7 +2421,6 @@ HAVING       (LEFT(D.TopicCode, @LenAccCode) BETWEEN @AccCodeFrom AND @AccCodeTo
 
  
 GO
-
 
 CREATE  FUNCTION [Acc].[AccComparisonMonthCTopics2Balance] 	(@DocTypeCode1_Not varchar(150)='' ,
 					@DocTypeCode2_Not integer=[-1]   ,@DocTypeCode3_Not integer=[-1]  ,
@@ -2326,6 +2481,7 @@ HAVING      	(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )  AND
   
 
 GO
+
 CREATE FUNCTION [Acc].[AccComparisonMonthCTopicsBalance] 	(@DocTypeCode1_Not varchar(150)='' ,
 					@DocTypeCode2_Not integer=[-1]   ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
@@ -2385,7 +2541,9 @@ HAVING      	(D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo )  AND
   
 GO
 
-CREATE FUNCTION [Acc].[AccComparisonMonthDetailsBalance] 	(@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
+CREATE FUNCTION [Acc].[AccComparisonMonthDetailsBalance] 	
+					(
+						@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
 						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=2147483647 ,
 						@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 , 
@@ -2393,7 +2551,10 @@ CREATE FUNCTION [Acc].[AccComparisonMonthDetailsBalance] 	(@DocTypeCode1_Not var
 						@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
 						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
 						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
-						@DetailCodeFrom Varchar(12)=[0],  @DetailCodeTo Varchar(12)=2147483647  , @miladi int =0  ,@FromYearID integer ,@ToYearID integer , @UserAdmin int=1 ,@UserID int=1 )
+						@DetailCodeFrom Varchar(12)=[0],  @DetailCodeTo Varchar(12)=2147483647  , 
+						@miladi int =0  ,@FromYearID integer ,@ToYearID integer , @UserAdmin int=1 ,
+						@UserID int=1 
+					)
 RETURNS table AS  
 return
 (
@@ -2438,9 +2599,7 @@ HAVING      	(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND
 
 GO
  
-
-
-CREATE FUNCTION   [Acc].[AccDetailBookFORSomeYear]  (@DocdateFrom Varchar(10)='0001/01/01' , @DocdateTo Varchar(10)=[99/12/30]   )
+CREATE FUNCTION [Acc].[AccDetailBookFORSomeYear]  (@DocdateFrom Varchar(10)='0001/01/01' , @DocdateTo Varchar(10)=[99/12/30]   )
 RETURNS table  AS  
 return ( SELECT        DG.Serial, D.ID, DG.CompanyCode,D.TopicCode AS AccCode, D.DetailCode, 
                      DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
@@ -2475,12 +2634,9 @@ WHERE (DocDate <@DocdateFrom)  and (DG.Status <> 0)
 GROUP BY D.CompanyCode, D.TopicCode, D.DetailCode
 
 )
-
-
 GO
 
-
-CREATE FUNCTION [Acc].[AccTrialBalance]  
+CREATE FUNCTION [Acc].[AccTrialBalance]  -- Edit By Rezaei 1402/11/04 for Add Currency
 						( 
 							@LenPrvAccCode Varchar(4)=[1] , 
 							@DocTypeCode1_Not varchar(150)='' ,
@@ -2506,7 +2662,7 @@ CREATE FUNCTION [Acc].[AccTrialBalance]
 							@CTopicCode3From int=-214748364 , 
 							@CTopicCode3To int=2147483647  ,
 							@CurrencyTypeFrom  integer=0  , 
-							@CurrencyTypeTo  integer=999, 
+							@CurrencyTypeTo  integer=99999, 
 							@CurrencyKind  integer=0
 						)
 RETURNS table AS  
@@ -2576,13 +2732,10 @@ return
 			   (DG.DocTypeCode in
 			   (Select part From acc.SplitString (@DocTypeCode1_Not, ','))))
 		   AND (DG.YearID BETWEEN @FromYearID AND @ToYearID)
-		   AND (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND
-			   @SecondaryDocNoTo)
-		   AND (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND
-			   @PrimaryDocNoTo)
+		   AND (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND  @SecondaryDocNoTo)
+		   AND (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo)
 		   AND (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo)
-		   AND (DG.CompanyCode BETWEEN @CompanyCodeFrom AND
-			   @CompanyCodeTo)
+		   AND (DG.CompanyCode BETWEEN @CompanyCodeFrom AND  @CompanyCodeTo)
 		   AND ((CASE
 				 WHEN @Status1 = '' THEN
 				  1
@@ -2591,10 +2744,9 @@ return
 			   END = 1 AND (DG.Status <> 0)) OR
 			   (DG.Status in
 			   (Select part From Acc.SplitString(@Status1, ','))))
-		   AND (LEFT(D.TopicCode, @LenAccCode) BETWEEN @AccCodeFrom AND
-			   @AccCodeTo)
-		   AND (D.CTopicCode3 BETWEEN @CTopicCode3From AND
-			   @CTopicCode3To)
+		   AND (LEFT(D.TopicCode, @LenAccCode) BETWEEN @AccCodeFrom AND   @AccCodeTo)
+		   AND (D.CTopicCode3 BETWEEN @CTopicCode3From AND @CTopicCode3To)
+		   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 		 GROUP BY
 			LEFT(D.TopicCode, @LenPrvAccCode),
 			LEFT(D.TopicCode, @LenAccCode),
@@ -2605,8 +2757,6 @@ return
 
 --HAVING       (LEFT(D.TopicCode, @LenAccCode) BETWEEN @AccCodeFrom AND @AccCodeTo )
 )
-
-
 GO
 
 CREATE  FUNCTION [Acc].[AccTrialBalance_SomeColumn] 
@@ -2716,19 +2866,32 @@ return
 
 
 GO
- 
- 
 
-CREATE FUNCTION [Acc].[AccTrialCTopicsBalance] (@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer = [-1], @DocTypeCode3_Not integer=[-1]  ,
-						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
-						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=2147483647 ,
-						@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 , 
-						@CTopicCodeFrom Varchar(12)=[0],  @CTopicCodeTo Varchar(12)=[2147483647] , 
-						@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
-						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
-                        @Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer,@ToYearID integer,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0 )
+CREATE FUNCTION [Acc].[AccTrialCTopicsBalance] -- Edit By Rezaei 1402/11/04 for Add Currency
+				(
+					@DocTypeCode1_Not varchar(150)='' ,
+					@DocTypeCode2_Not integer = [-1], 
+					@DocTypeCode3_Not integer=[-1]  ,
+					@DocTypeCodeFrom integer=[0] ,
+					@DocTypeCodeTo integer  =[9999] ,
+					@CompanyCodeFrom Varchar(12)=[0] ,
+					@CompanyCodeTo Varchar(12)=2147483647 ,
+					@AccCodeFrom Varchar(12)=[0],  
+					@AccCodeTo Varchar(12)=2147483647 , 
+					@CTopicCodeFrom Varchar(12)=[0],  
+					@CTopicCodeTo Varchar(12)=[2147483647] , 
+					@SecondaryDocNoFrom Varchar(12)=[0] ,
+					@SecondaryDocNoTo Varchar(12)=2147483647, 
+					@PrimaryDocNoFrom  Varchar(12)=[0], 
+					@PrimaryDocNoTo Varchar(12)=2147483647 ,
+					@DocDateFrom Varchar(10)='0001/01/01', 
+					@DocDateTo  Varchar(10)='9999/99/99',
+                    @Status1 varchar(150)='', @Status2  integer=[-1],
+					@FromYearID integer,@ToYearID integer,
+			        @CurrencyTypeFrom  integer=0  , 
+					@CurrencyTypeTo  integer=99999, 
+					@CurrencyKind  integer=0 
+				 )
 
 RETURNS table AS  
 return
@@ -2829,7 +2992,7 @@ SELECT DG.YearID,
        END) = 1 OR
        DG.DocTypeCode in
        (Select part From Acc.SplitString (@DocTypeCode1_Not, ',')))
-
+	   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
  GROUP BY DG.YearID,
           D.TopicCode,
           D.CTopicCode,
@@ -2850,9 +3013,9 @@ HAVING  (D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo)
  
 GO
 
-
-
-CREATE FUNCTION [Acc].[AccTrialCTopicsBalance_Details] (@DocTypeCode_Not varchar(150)='-1',
+CREATE FUNCTION [Acc].[AccTrialCTopicsBalance_Details] -- Edit By Rezaei 1402/11/04 for Add Currency
+				(
+					@DocTypeCode_Not varchar(150)='-1',
 						@CompanyCodeFrom INT =[0] ,@CompanyCodeTo INT =2147483647 ,
 						@AccCodeFrom BIGINT =[0], @AccCodeTo BIGINT =2147483647 , 
 						@CTopicCodeFrom INT =[0], @CTopicCodeTo INT =2147483647 , 
@@ -2861,7 +3024,8 @@ CREATE FUNCTION [Acc].[AccTrialCTopicsBalance_Details] (@DocTypeCode_Not varchar
 						@PrimaryDocNoFrom  INT =[0], @PrimaryDocNoTo INT =2147483647 ,
 						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
                         @Status varchar(150)='-1', @FromYearID INT = [50], @ToYearID INT = [99],
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0 )
+			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=99999, @CurrencyKind  integer=0 
+				)
 
 RETURNS TABLE AS  
 RETURN
@@ -2926,30 +3090,22 @@ SELECT D.TopicCode,
 			   end  
 			   END AS BalanceCurrencyCredit
 		  -- end of currency 
+	FROM Acc.Documents D
+		INNER JOIN Acc.Categories C ON D.TopicCode = C.TopicCode
+		INNER JOIN Acc.Details DE  ON D.DetailCode = DE.DetailCode --AND D. = DE.CompanyCode 
+		INNER JOIN Acc.CenterTopics CT  ON D.CTopicCode = CT.CTopicCode
+		INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial
+				AND D.YearID = DG.YearID
+				AND D.CompanyCode = DG.CompanyCode
+		left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
 
-  FROM Acc.Documents D
- INNER JOIN Acc.Categories C
-    ON D.TopicCode = C.TopicCode
- INNER JOIN Acc.Details DE
-    ON D.DetailCode = DE.DetailCode --AND D. = DE.CompanyCode 
- INNER JOIN Acc.CenterTopics CT
-    ON D.CTopicCode = CT.CTopicCode
- INNER JOIN Acc.DocGroups DG
-    ON D.Serial = DG.Serial
-   AND D.YearID = DG.YearID
-   AND D.CompanyCode = DG.CompanyCode
-   left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
-
- WHERE (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND
-       @SecondaryDocNoTo)
-   AND (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND
-       @PrimaryDocNoTo)
+ WHERE (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND   @SecondaryDocNoTo)
+   AND (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND   @PrimaryDocNoTo)
    AND (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo)
    AND (D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo)
    AND (D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo)
    AND (D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo)
-   AND (DG.CompanyCode BETWEEN @CompanyCodeFrom AND
-       @CompanyCodeTo)
+   AND (DG.CompanyCode BETWEEN @CompanyCodeFrom AND   @CompanyCodeTo)
    AND (DG.YearID BETWEEN @FromYearID AND @ToYearID)
    AND ((CASE
          WHEN @Status = '-1' THEN
@@ -2967,7 +3123,7 @@ SELECT D.TopicCode,
        END) = 1 OR
        DG.DocTypeCode in
        (Select part From .SplitString (@DocTypeCode_Not, ',')))
-
+	AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
  GROUP BY D.TopicCode,
           D.CTopicCode,
           D.DetailCode,
@@ -2983,192 +3139,248 @@ SELECT D.TopicCode,
 			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
 			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 		  )
- 
 
 GO
 
-CREATE FUNCTION [Acc].[AccTrialCTopicsBalance2] (@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1]  ,
-						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
-						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=2147483647 ,
-						@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 , 
-						@CTopicCode2From Varchar(12)=[0],  @CTopicCode2To Varchar(12)=2147483647 , 
-						@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
-						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                        @Status1 varchar(150)='' , @Status2  integer=[-1],@FromYearID integer ,@ToYearID integer ,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[AccTrialCTopicsBalance2] -- Edit By Rezaei 1402/11/04 for Add Currency
+					(
+						@DocTypeCode1_Not varchar(150)='' ,
+						@DocTypeCode2_Not integer  =[-1] ,
+						@DocTypeCode3_Not integer=[-1]  ,
+						@DocTypeCodeFrom integer=[0] ,
+						@DocTypeCodeTo integer  =[9999] ,
+						@CompanyCodeFrom Varchar(12)=[0] ,
+						@CompanyCodeTo Varchar(12)=2147483647 ,
+						@AccCodeFrom Varchar(12)=[0],  
+						@AccCodeTo Varchar(12)=2147483647 , 
+						@CTopicCode2From Varchar(12)=[0],  
+						@CTopicCode2To Varchar(12)=2147483647 , 
+						@SecondaryDocNoFrom Varchar(12)=[0] ,
+						@SecondaryDocNoTo Varchar(12)=2147483647, 
+						@PrimaryDocNoFrom  Varchar(12)=[0], 
+						@PrimaryDocNoTo Varchar(12)=2147483647 ,
+						@DocDateFrom Varchar(10)='0001/01/01', 
+						@DocDateTo  Varchar(10)='9999/99/99' ,
+                        @Status1 varchar(150)='' , 
+						@Status2  integer=[-1],
+						@FromYearID integer ,
+						@ToYearID integer ,
+						@CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0  
+					)
 
 RETURNS table AS  
 return
 (
-SELECT  	DG.YearID,D.TopicCode, D.CTopicCode2 as CTopicCode , Acc.Categories.MoeenName_L1 , Acc.Categories.MoeenName_L2 , 
-		case D.CTopicCode2 when 0 Then moeenname_L1  else CTopicName2_L1 end as CTopicName_L1 , 
-		case D.CTopicCode2 when 0 Then moeenname_L2  else CTopicName2_L2 end as CTopicName_L2 ,		
-		SUM(D.Debt) AS Debt,SUM(D.Credit) AS Credit,
-		case when SUM(D.Debt - D.Credit)>0 then SUM(D.Debt - D.Credit) else 0 end  AS BalanceDebt ,
-		case when SUM(D.Credit - D.Debt)>0 then SUM(D.Credit - D.Debt) else 0 end  AS BalanceCredit ,
-					   -- for currency 
-			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
-			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
-			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else SUM(D.CurrencyDebit) 
-			   END AS CurrencyDebit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else SUM(D.CurrencyCredit)  
-			   END AS CurrencyCredit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else 
-			   case
-				 when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
-				  SUM(D.CurrencyDebit - D.CurrencyCredit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyDebit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else 
-		       case
-				 when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
-				  SUM(D.CurrencyCredit - D.CurrencyDebit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyCredit
+	SELECT	DG.YearID,
+			D.TopicCode, D.CTopicCode2 as CTopicCode , 
+			Acc.Categories.MoeenName_L1 , 
+			Acc.Categories.MoeenName_L2 , 
+			case D.CTopicCode2 when 0 Then moeenname_L1  else CTopicName2_L1 end as CTopicName_L1 , 
+			case D.CTopicCode2 when 0 Then moeenname_L2  else CTopicName2_L2 end as CTopicName_L2 ,		
+			SUM(D.Debt) AS Debt,
+			SUM(D.Credit) AS Credit,
+			case when SUM(D.Debt - D.Credit)>0 then SUM(D.Debt - D.Credit) else 0 end  AS BalanceDebt ,
+			case when SUM(D.Credit - D.Debt)>0 then SUM(D.Credit - D.Debt) else 0 end  AS BalanceCredit ,
+			-- for currency 
+			case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else SUM(D.CurrencyDebit) 
+			END AS CurrencyDebit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else SUM(D.CurrencyCredit)  
+			END AS CurrencyCredit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else 
+			case
+				when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
+				SUM(D.CurrencyDebit - D.CurrencyCredit)
+				else
+				0
+			end  
+			END AS BalanceCurrencyDebit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else 
+		    case
+				when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
+				SUM(D.CurrencyCredit - D.CurrencyDebit)
+				else
+				0
+			end  
+			END AS BalanceCurrencyCredit
 		  -- end of currency 
+	FROM	Acc.Documents D 
+			Left OUTER JOIN Acc.CenterTopics2 ON D.CTopicCode2 = Acc.CenterTopics2.CTopicCode2 
+			LEFT OUTER JOIN Acc.Categories ON D.TopicCode = Acc.Categories.TopicCode 
+			LEFT OUTER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+			left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE   (CASE WHEN  @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 	
+			(DG.DocTypeCode in (Select Part from [Acc].[SplitString] (@DocTypeCode1_Not,',')))) AND
+			(DG.YearId  BETWEEN  @FromYearID AND  @ToYearID  ) AND 
+			(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
+			(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
+			(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) AND
+			(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)  AND
+			((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 AND (DG.Status <> 0)) OR
+			(DG.Status in (Select Part from [Acc].[SplitString] (@Status1,',')))) 
+			AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	GROUP BY	DG.YearID,D.TopicCode, 
+				D.CTopicCode2, 
+				Acc.Categories.MoeenName_L1 , 
+				Acc.CenterTopics2.CTopicName2_L1,
+				Acc.Categories.MoeenName_L2 , 
+				Acc.CenterTopics2.CTopicName2_L2,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+	HAVING    (D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )  
+			AND (D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo) 
 
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.CenterTopics2 ON D.CTopicCode2 = Acc.CenterTopics2.CTopicCode2 LEFT OUTER JOIN
-                      Acc.Categories ON D.TopicCode = Acc.Categories.TopicCode LEFT OUTER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-		left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
-WHERE   (CASE WHEN  @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 	
-		(DG.DocTypeCode in (Select Part from [Acc].[SplitString] (@DocTypeCode1_Not,',')))) AND
-		(DG.YearId  BETWEEN  @FromYearID AND  @ToYearID  ) AND 
-		(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
-		(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) AND
-		(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)  AND
-		((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 AND (DG.Status <> 0)) OR
-        (DG.Status in (Select Part from [Acc].[SplitString] (@Status1,',')))) 
-GROUP BY 	DG.YearID,D.TopicCode, D.CTopicCode2, Acc.Categories.MoeenName_L1 , Acc.CenterTopics2.CTopicName2_L1,
-                           Acc.Categories.MoeenName_L2 , Acc.CenterTopics2.CTopicName2_L2,
-			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
-			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
-			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
-HAVING      	(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )  AND 
-		(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo) 
 )
 
 
 GO
 
-CREATE FUNCTION [Acc].[AccTrialCTopics2Balance_CTopics] (@DocTypeCode_Not varchar(150)='-1' ,
-						@CompanyCodeFrom INT=[0] ,@CompanyCodeTo INT=2147483647 ,
-						@AccCodeFrom INT=[0],  @AccCodeTo INT=2147483647 , 
-						@DetailCodeFrom INT=[0],  @DetailCodeTo INT=2147483647 , 
-						@CTopicCodeFrom INT=[0],  @CTopicCodeTo INT=2147483647 ,
-						@CTopicCode2From INT=[0],  @CTopicCode2To INT=2147483647 , 
-						@SecondaryDocNoFrom INT=[0] ,@SecondaryDocNoTo INT=2147483647, 
-						@PrimaryDocNoFrom INT=[0], @PrimaryDocNoTo INT=2147483647 ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                        @Status varchar(150)='-1', @FromYearID INT ,@ToYearID INT,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[AccTrialCTopics2Balance_CTopics] -- Edit By Rezaei 1402/11/04 for Add Currency
+				(
+					@DocTypeCode_Not varchar(150)='-1' ,
+					@CompanyCodeFrom INT=[0] ,@CompanyCodeTo INT=2147483647 ,
+					@AccCodeFrom INT=[0],  @AccCodeTo INT=2147483647 , 
+					@DetailCodeFrom INT=[0],  @DetailCodeTo INT=2147483647 , 
+					@CTopicCodeFrom INT=[0],  @CTopicCodeTo INT=2147483647 ,
+					@CTopicCode2From INT=[0],  @CTopicCode2To INT=2147483647 , 
+					@SecondaryDocNoFrom INT=[0] ,@SecondaryDocNoTo INT=2147483647, 
+					@PrimaryDocNoFrom INT=[0], @PrimaryDocNoTo INT=2147483647 ,
+					@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
+                    @Status varchar(150)='-1', @FromYearID INT ,@ToYearID INT,
+			        @CurrencyTypeFrom  integer=0  , 
+					@CurrencyTypeTo  integer=99999, 
+					@CurrencyKind  integer=0  
+				)
 
 RETURNS table AS  
 return
 (
-
-
-SELECT  D.TopicCode ,  D.DetailCode ,  D.CTopicCode , Categories.MoeenName_L1,
-                   D.CTopicCode2 ,		   
-		   Categories.MoeenName_L1 + '-'  + Details.DetailName_L1+' - ' +CenterTopics.CTopicName_L1 + '-' +  +  CenterTopics2.CTopicName2_L1 AS _Name, 
-                   Categories.MoeenName_L2 + '-' + Details.DetailName_L2 + '-' +  CenterTopics.CTopicName_L2 + '-' +    CenterTopics2.CTopicName2_L2 AS Name_L2,
-                   SUM( D.Debt) AS Debt, SUM( D.Credit) AS Credit,
-                   CASE WHEN SUM(D.Debt - D.Credit) > 0 THEN SUM(D.Debt - D.Credit) ELSE 0 END AS BalanceDebt,
-                   CASE WHEN SUM(D.Credit - D.Debt) > 0 THEN SUM(D.Credit - D.Debt) ELSE 0 END AS BalanceCredit,
-				   			   -- for currency 
-			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
-			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
-			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else SUM(D.CurrencyDebit) 
-			   END AS CurrencyDebit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else SUM(D.CurrencyCredit)  
-			   END AS CurrencyCredit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else 
-			   case
-				 when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
-				  SUM(D.CurrencyDebit - D.CurrencyCredit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyDebit,
-			   case 
-					when @CurrencyKind = 0 then 0 
-					else 
-		       case
-				 when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
-				  SUM(D.CurrencyCredit - D.CurrencyDebit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyCredit
-		  -- end of currency 
-FROM    Acc.Documents AS D INNER JOIN
-                  Acc.CenterTopics2 AS CenterTopics2 ON D.CTopicCode2 = CenterTopics2.CTopicCode2 INNER JOIN
-                  Acc.CenterTopics AS CenterTopics ON D.CTopicCode = CenterTopics.CTopicCode INNER JOIN
-                  Acc.Categories AS Categories ON D.TopicCode = Categories.TopicCode INNER JOIN
-                  Acc.Details AS Details ON D.DetailCode = Details.DetailCode INNER JOIN
-                  Acc.DocGroups AS DocGroups ON D.Serial = DocGroups.Serial AND D.CompanyCode = DocGroups.CompanyCode AND D.YearID = DocGroups.YearID
-	    left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
-WHERE  (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo )
-               AND ( DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo )
-               AND ( DocGroups.DocDate BETWEEN  @DocDateFrom AND @DocDateTo )
-               AND ( D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo ) 
-               AND ( D.DetailCode BETWEEN @DetailCodeFrom  AND @DetailCodeTo )  
-               AND ( D.CTopicCode BETWEEN @CtopicCodeFrom AND @CtopicCodeTo )
-               AND ( D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )                
-               AND ( D.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo )                
-               AND ( DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
-               AND ((CASE  WHEN @Status = '-1' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR
-			   DocGroups.Status in (Select part From [Acc].[SplitString] (@Status,',')))
-			   AND ((CASE  WHEN @DocTypeCode_Not = '-1' THEN 1 ELSE 0 END) = 1 OR
-		       DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode_Not,',')))
-GROUP BY  D.CTopicCode,  D.CTopicCode2,  D.TopicCode,  D.DetailCode, 
-                Categories.MoeenName_L1, CenterTopics.CTopicName_L1, Details.DetailName_L1,  CenterTopics2.CTopicName2_L1,
-                Categories.MoeenName_L2, CenterTopics.CTopicName_L2, Details.DetailName_L2, CenterTopics2.CTopicName2_L2,
-			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
-			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
-			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+	SELECT  D.TopicCode ,  
+			D.DetailCode ,  
+			D.CTopicCode , 
+			Categories.MoeenName_L1,
+            D.CTopicCode2 ,		   
+			Categories.MoeenName_L1 + '-'  + Details.DetailName_L1+' - ' +CenterTopics.CTopicName_L1 + '-' +  +  CenterTopics2.CTopicName2_L1 AS _Name, 
+            Categories.MoeenName_L2 + '-' + Details.DetailName_L2 + '-' +  CenterTopics.CTopicName_L2 + '-' +    CenterTopics2.CTopicName2_L2 AS Name_L2,
+            SUM( D.Debt) AS Debt, 
+			SUM( D.Credit) AS Credit,
+            CASE WHEN SUM(D.Debt - D.Credit) > 0 THEN SUM(D.Debt - D.Credit) ELSE 0 END AS BalanceDebt,
+            CASE WHEN SUM(D.Credit - D.Debt) > 0 THEN SUM(D.Credit - D.Debt) ELSE 0 END AS BalanceCredit,
+			-- for currency 
+			case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else SUM(D.CurrencyDebit) 
+			END AS CurrencyDebit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else SUM(D.CurrencyCredit)  
+			END AS CurrencyCredit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else 
+			case
+				when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
+				SUM(D.CurrencyDebit - D.CurrencyCredit)
+				else
+				0
+			end  
+			END AS BalanceCurrencyDebit,
+			case 
+				when @CurrencyKind = 0 then 0 
+				else 
+		    case
+				when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
+				SUM(D.CurrencyCredit - D.CurrencyDebit)
+				else
+				0
+			end  
+			END AS BalanceCurrencyCredit
+			-- end of currency 
+	FROM    Acc.Documents AS D 
+            INNER JOIN Acc.CenterTopics2 AS CenterTopics2 ON D.CTopicCode2 = CenterTopics2.CTopicCode2 
+            INNER JOIN Acc.CenterTopics AS CenterTopics ON D.CTopicCode = CenterTopics.CTopicCode 
+            INNER JOIN Acc.Categories AS Categories ON D.TopicCode = Categories.TopicCode 
+            INNER JOIN Acc.Details AS Details ON D.DetailCode = Details.DetailCode 
+            INNER JOIN Acc.DocGroups AS DocGroups ON D.Serial = DocGroups.Serial 
+									AND D.CompanyCode = DocGroups.CompanyCode 
+									AND D.YearID = DocGroups.YearID
+			left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE  (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo )
+            AND ( DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo )
+            AND ( DocGroups.DocDate BETWEEN  @DocDateFrom AND @DocDateTo )
+            AND ( D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo ) 
+            AND ( D.DetailCode BETWEEN @DetailCodeFrom  AND @DetailCodeTo )  
+            AND ( D.CTopicCode BETWEEN @CtopicCodeFrom AND @CtopicCodeTo )
+            AND ( D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )                
+            AND ( D.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo )                
+            AND ( DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
+            AND (
+				(CASE  WHEN @Status = '-1' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR
+				DocGroups.Status in (Select part From [Acc].[SplitString] (@Status,','))
+				)
+			AND (
+				(CASE  WHEN @DocTypeCode_Not = '-1' THEN 1 ELSE 0 END) = 1 OR
+				DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode_Not,','))
+				)
+	GROUP BY   D.CTopicCode,  D.CTopicCode2,  D.TopicCode,  D.DetailCode, 
+				Categories.MoeenName_L1, CenterTopics.CTopicName_L1, Details.DetailName_L1,  CenterTopics2.CTopicName2_L1,
+				Categories.MoeenName_L2, CenterTopics.CTopicName_L2, Details.DetailName_L2, CenterTopics2.CTopicName2_L2,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 )
-
-
 
 
 GO
 
-CREATE FUNCTION Acc.AccTrialDetailsBalance 	(@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
-						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
-						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=2147483647 ,
-						@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=2147483647 , 
-						@DetailCodeFrom Varchar(12)=[0],  @DetailCodeTo Varchar(12)=2147483647 , 
-						@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=2147483647, 
-						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=2147483647 ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                        @Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer , @ToYearID integer
-						,@GroupOnCompany tinyint = 0 , @CTopicCode3From int=-214748364 , @CTopicCode3To int=2147483647 ,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0 )
+CREATE FUNCTION Acc.AccTrialDetailsBalance 	-- Edit By Rezaei 1402/11/04 for Add Currency
+				(
+					@DocTypeCode1_Not varchar(150)='' ,
+					@DocTypeCode2_Not integer  =[-1]  ,
+					@DocTypeCode3_Not integer=[-1]  ,
+					@DocTypeCodeFrom integer=[0] ,
+					@DocTypeCodeTo integer  =[9999] ,
+					@CompanyCodeFrom Varchar(12)=[0] ,
+					@CompanyCodeTo Varchar(12)=2147483647 ,
+					@AccCodeFrom Varchar(12)=[0],  
+					@AccCodeTo Varchar(12)=2147483647 , 
+					@DetailCodeFrom Varchar(12)=[0],  
+					@DetailCodeTo Varchar(12)=2147483647 , 
+					@SecondaryDocNoFrom Varchar(12)=[0] ,
+					@SecondaryDocNoTo Varchar(12)=2147483647, 
+					@PrimaryDocNoFrom  Varchar(12)=[0], 
+					@PrimaryDocNoTo Varchar(12)=2147483647 ,
+					@DocDateFrom Varchar(10)='0001/01/01', 
+					@DocDateTo  Varchar(10)='9999/99/99' ,
+                    @Status1 varchar(150)='', 
+					@Status2  integer=[-1],
+					@FromYearID integer , 
+					@ToYearID integer,
+					@GroupOnCompany tinyint = 0 , 
+					@CTopicCode3From int=-214748364 , 
+					@CTopicCode3To int=2147483647 ,
+			        @CurrencyTypeFrom  integer=0  , 
+					@CurrencyTypeTo  integer=99999, 
+					@CurrencyKind  integer=0 
+				)
 
 RETURNS table AS  
 return
@@ -3232,7 +3444,7 @@ WHERE ( (@DocTypeCode1_Not = '') OR DG.DocTypeCode in (Select part From [Acc].[S
 		     AND (D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo)
 		     AND ( (@Status1 = '' and (DG.Status <> 0)) OR (DG.Status IN (Select part From [Acc].[SplitString] (@Status1,','))) )
 			 AND (D.CTopicCode3 BETWEEN @CTopicCode3From AND @CTopicCode3To )
-
+			 AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 GROUP BY D.TopicCode, D.DetailCode, C.MoeenName_L1 , Dt.DetailName_L1 ,
            C.MoeenName_L2 , Dt.DetailName_L2, Dt.Mobile, CASE when CF.ActivePartCompany =1 THEN    DG.CompanyCode ELSE 1 END,
 		   Dt.CustAccountNumber, Dt.ManageName, Dt.BankName,Dt.PaymentCode,
@@ -3244,7 +3456,8 @@ GROUP BY D.TopicCode, D.DetailCode, C.MoeenName_L1 , Dt.DetailName_L1 ,
 
 GO
  
-CREATE FUNCTION [Acc].[AnalyzeAccBooks]	 	(
+CREATE FUNCTION [Acc].[AnalyzeAccBooks]	 	-- Edit By Rezaei 1402/11/04 for Add Currency
+				(
 						@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
 						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[2147483647] ,
@@ -3273,130 +3486,163 @@ CREATE FUNCTION [Acc].[AnalyzeAccBooks]	 	(
 						@CTopicCode_2From integer=[0],  @CTopicCode_2To integer=[2147483647] ,
 						@CTopicCode_3From integer=[0],  @CTopicCode_3To integer=[2147483647] ,
 						@CTopicCode2_1From integer=[0],  @CTopicCode2_1To integer=[2147483647] ,
-						@CTopicCode2_2From integer=[0],  @CTopicCode2_2To integer=[21474836479] 
-                       ,@Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer=88 ,@ToYearID integer=88 ,
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+						@CTopicCode2_2From integer=[0],  @CTopicCode2_2To integer=[21474836479] ,
+                        @Status1 varchar(150)='', 
+						@Status2  integer=[-1],
+						@FromYearID integer=88 ,
+						@ToYearID integer=88 ,
+			            @CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0 
+					)
 RETURNS table AS 
  return (
-select * from(
-SELECT	DG.YearID,0 as serial  ,0 as id,0 as  SecondaryDocNo,0 as  PrimaryDocNo,'01/01' as  DocDate,'مجموع مانده از قبل  ' as  Comment_L1,'' as Comment_L2,
-                           sum(D.Debt) as  Debt, 0 as CompanyCode, 
-		sum(D.Credit) as Credit , sum(Debt-Credit) as balance ,0 as calcuBalance ,0 as  AidDocNo,0 as  AidAmount,'' as  AidDocdate,0 as  BudgetTopicID ,0 as ProjectID ,
-		left(D.TopicCode,@LenAcc1) as TopicCode1 ,left(D.TopicCode,@LenAcc2) as TopicCode2 ,
-		left(D.TopicCode,@LenAcc3) as TopicCode3 ,left(D.TopicCode,@LenAcc4) as TopicCode4 ,
-		left(D.TopicCode,@LenAcc5) as TopicCode5 ,left(D.TopicCode,@LenAcc6) as TopicCode6 ,
-		left(D.DetailCode,@LenDetailCode)  AS DetailCode, 
-		left(DG.CompanyCode,@LenCompany1) CompanyCode1 , left(DG.CompanyCode,@LenCompany2) CompanyCode2 , 
-		left(DG.CompanyCode,@LenCompany3) CompanyCode3 , 
-		left(D.CTopicCode,@LenCTopic1) as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 , left(D.CTopicCode,@LenCTopic3) as CTopicCode3 , 
-		left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2
-		,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
+	select * 
+	from(
+	SELECT	DG.YearID,
+			0 as serial  ,
+			0 as id,
+			0 as  SecondaryDocNo,
+			0 as  PrimaryDocNo,
+			'01/01' as  DocDate,
+			'مجموع مانده از قبل  ' as  Comment_L1,
+			'' as Comment_L2,
+			sum(D.Debt) as  Debt, 
+			0 as CompanyCode, 
+			sum(D.Credit) as Credit , sum(Debt-Credit) as balance ,0 as calcuBalance ,0 as  AidDocNo,0 as  AidAmount,'' as  AidDocdate,0 as  BudgetTopicID ,0 as ProjectID ,
+			left(D.TopicCode,@LenAcc1) as TopicCode1 ,left(D.TopicCode,@LenAcc2) as TopicCode2 ,
+			left(D.TopicCode,@LenAcc3) as TopicCode3 ,left(D.TopicCode,@LenAcc4) as TopicCode4 ,
+			left(D.TopicCode,@LenAcc5) as TopicCode5 ,left(D.TopicCode,@LenAcc6) as TopicCode6 ,
+			left(D.DetailCode,@LenDetailCode)  AS DetailCode, 
+			left(DG.CompanyCode,@LenCompany1) CompanyCode1 , left(DG.CompanyCode,@LenCompany2) CompanyCode2 , 
+			left(DG.CompanyCode,@LenCompany3) CompanyCode3 , 
+			left(D.CTopicCode,@LenCTopic1) as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 , left(D.CTopicCode,@LenCTopic3) as CTopicCode3 , 
+			left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, 
+			left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2,
+			-- for currency 
+				   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+				   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+				   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+				   case 
+						when @CurrencyKind = 0 then 0 
+						else SUM(D.CurrencyDebit) 
+				   END AS CurrencyDebit,
+				   case 
+						when @CurrencyKind = 0 then 0 
+						else SUM(D.CurrencyCredit)  
+				   END AS CurrencyCredit,
+				   case 
+					 when @CurrencyKind = 0 then 0 
+					 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+				   END AS CurrencyBalance
+			  -- end of currency 
+	FROM    Acc.Documents D 
+			INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+			left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE  	(
+				 (DG.DocTypeCode<@DocTypeCodeFrom)  or
+				 (DG.SecondaryDocNo<@SecondaryDocNoFrom)  or 
+				 (DG.PrimaryDocNo<@PrimaryDocNoFrom)  or 
+				 (DG.DocDate<@DocDateFrom )
+			 )
+			 AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+			 -- And
+	 		--((D.DetailCode<@DetailCodeFrom)  or 
+			 --(DG.CompanyCode<@CompanyCodeFrom) or
+			 --(D.TopicCode< @TopicCodeFrom) or 
+			 --(D.CTopicCode< @CTopicCodeFrom) or 
+			 --(D.CTopicCode2<@CTopicCode2From))
 
-WHERE  	((DG.DocTypeCode<@DocTypeCodeFrom)  or
-		 (DG.SecondaryDocNo<@SecondaryDocNoFrom)  or 
-	     (DG.PrimaryDocNo<@PrimaryDocNoFrom)  or 
-		 (DG.DocDate<@DocDateFrom ))
-		 -- And
-	 	--((D.DetailCode<@DetailCodeFrom)  or 
-		 --(DG.CompanyCode<@CompanyCodeFrom) or
-		 --(D.TopicCode< @TopicCodeFrom) or 
-		 --(D.CTopicCode< @CTopicCodeFrom) or 
-		 --(D.CTopicCode2<@CTopicCode2From))
-
---WHERE 
--- (  
---		((CASE WHEN @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 
---		(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',')))) OR
---		(DG.SecondaryDocNo<@SecondaryDocNoFrom) OR 
---	    (DG.PrimaryDocNo<@PrimaryDocNoFrom) OR 
---		(DG.DocDate<@DocDateFrom)) AND
---	 	((D.DetailCode<@DetailCodeFrom) OR 
---		(DG.CompanyCode<@CompanyCodeFrom) OR
---		(D.TopicCode< @TopicCodeFrom) OR 
---		(D.CTopicCode< @CTopicCodeFrom) OR 
---		(D.CTopicCode2<@CTopicCode2From))) AND
---		(D.YearID BETWEEN @FromYearID AND @ToYearID)
+	--WHERE 
+	-- (  
+	--		((CASE WHEN @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 
+	--		(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',')))) OR
+	--		(DG.SecondaryDocNo<@SecondaryDocNoFrom) OR 
+	--	    (DG.PrimaryDocNo<@PrimaryDocNoFrom) OR 
+	--		(DG.DocDate<@DocDateFrom)) AND
+	--	 	((D.DetailCode<@DetailCodeFrom) OR 
+	--		(DG.CompanyCode<@CompanyCodeFrom) OR
+	--		(D.TopicCode< @TopicCodeFrom) OR 
+	--		(D.CTopicCode< @CTopicCodeFrom) OR 
+	--		(D.CTopicCode2<@CTopicCode2From))) AND
+	--		(D.YearID BETWEEN @FromYearID AND @ToYearID)
 		
 		
 		
-group by DG.YearID,
-		left(D.TopicCode,@LenAcc1)  ,left(D.TopicCode,@LenAcc2) ,
-		left(D.TopicCode,@LenAcc3)  ,left(D.TopicCode,@LenAcc4) ,
-		left(D.TopicCode,@LenAcc5) ,left(D.TopicCode,@LenAcc6)  ,
-		left(D.DetailCode,@LenDetailCode)  , 
-		left(DG.CompanyCode,@LenCompany1) , left(DG.CompanyCode,@LenCompany2) , 
-		left(DG.CompanyCode,@LenCompany3) , 
-		left(D.CTopicCode,@LenCTopic1) , left(D.CTopicCode,@LenCTopic2)  , left(D.CTopicCode,@LenCTopic3) , 
-		left(D.CTopicCode2,@LenCTopic2_1), left(D.CTopicCode2,@LenCTopic2_2)
-union all
+	group by DG.YearID,
+			left(D.TopicCode,@LenAcc1)  ,left(D.TopicCode,@LenAcc2) ,
+			left(D.TopicCode,@LenAcc3)  ,left(D.TopicCode,@LenAcc4) ,
+			left(D.TopicCode,@LenAcc5) ,left(D.TopicCode,@LenAcc6)  ,
+			left(D.DetailCode,@LenDetailCode)  , 
+			left(DG.CompanyCode,@LenCompany1) , left(DG.CompanyCode,@LenCompany2) , 
+			left(DG.CompanyCode,@LenCompany3) , 
+			left(D.CTopicCode,@LenCTopic1) , left(D.CTopicCode,@LenCTopic2)  , left(D.CTopicCode,@LenCTopic3) , 
+			left(D.CTopicCode2,@LenCTopic2_1), left(D.CTopicCode2,@LenCTopic2_2),
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+	union all
 
-SELECT	DG.YearID, D.serial  ,D.id, SecondaryDocNo, PrimaryDocNo, DocDate, Comment_L1,Comment_L2,D.Debt , D.CompanyCode,
-		D.Credit , Debt-Credit as balance ,Credit as calcuBalance , AidDocNo, AidAmount, AidDocdate, BudgetTopicID ,ProjectID ,
-		left(D.TopicCode,@LenAcc1) as TopicCode1 ,left(D.TopicCode,@LenAcc2) as TopicCode2 ,
-		left(D.TopicCode,@LenAcc3) as TopicCode3 ,left(D.TopicCode,@LenAcc4) as TopicCode4 ,
-		left(D.TopicCode,@LenAcc5) as TopicCode5 ,left(D.TopicCode,@LenAcc6) as TopicCode6 ,
-		left(D.DetailCode,@LenDetailCode)  AS DetailCode, 
-		left(DG.CompanyCode,@LenCompany1) CompanyCode1 , left(DG.CompanyCode,@LenCompany2) CompanyCode2 , 
-		left(DG.CompanyCode,@LenCompany3) CompanyCode3 , 
-		left(D.CTopicCode,@LenCTopic1) as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 , left(D.CTopicCode,@LenCTopic3) as CTopicCode3 , 
-		left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2 
-		,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents D Left OUTER JOIN
-            Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-WHERE   (CASE WHEN @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 
-        (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',')))) AND 
-		(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
-		(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) AND
-	 	(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND 
-		(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND
-		(D.TopicCode BETWEEN @TopicCodeFrom AND @TopicCodeTo ) AND 
-		(D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo ) AND 
-		(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )AND
-		((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 AND (DG.Status <> 0)) OR 
-		(DG.Status in (Select part From [Acc].[SplitString] (@Status1,','))))
-) fun 
-where    (TopicCode1  BETWEEN @TopicCode1From AND @TopicCode1To)  AND
-         (TopicCode2 BETWEEN @TopicCode2From AND @TopicCode2To) AND
-         (TopicCode3 BETWEEN @TopicCode3From AND @TopicCode3To) AND
-         (TopicCode4  BETWEEN @TopicCode4From AND @TopicCode4To) AND
-         (TopicCode5 BETWEEN @TopicCode5From AND @TopicCode5To) AND
-         (TopicCode6 BETWEEN @TopicCode6From AND @TopicCode6To) AND
-         (DetailCode  BETWEEN @DetailCode1From AND @DetailCode1To) AND
-         (CompanyCode1 BETWEEN @CompanyCode1From AND @CompanyCode1To) AND
-         (CompanyCode2  BETWEEN @CompanyCode2From AND @CompanyCode2To) AND
-         (CompanyCode3  BETWEEN @CompanyCode3From AND @CompanyCode3To) AND
-         (CTopicCode1 BETWEEN @CTopicCode_1From AND @CTopicCode_1To) AND
-         (CTopicCode2  BETWEEN @CTopicCode_2From AND @CTopicCode_2To) AND
-         (CTopicCode3  BETWEEN @CTopicCode_3From AND @CTopicCode_3To) AND
-         (CTopicCode2_1 BETWEEN @CTopicCode2_1From AND @CTopicCode2_1To) AND
-         (CTopicCode2_2  BETWEEN @CTopicCode2_2From AND @CTopicCode2_2To) AND 
-         (YearId BETWEEN @FromYearID AND @ToYearID)
+	SELECT	DG.YearID, D.serial  ,D.id, SecondaryDocNo, PrimaryDocNo, DocDate, Comment_L1,Comment_L2,D.Debt , D.CompanyCode,
+			D.Credit , Debt-Credit as balance ,Credit as calcuBalance , AidDocNo, AidAmount, AidDocdate, BudgetTopicID ,ProjectID ,
+			left(D.TopicCode,@LenAcc1) as TopicCode1 ,left(D.TopicCode,@LenAcc2) as TopicCode2 ,
+			left(D.TopicCode,@LenAcc3) as TopicCode3 ,left(D.TopicCode,@LenAcc4) as TopicCode4 ,
+			left(D.TopicCode,@LenAcc5) as TopicCode5 ,left(D.TopicCode,@LenAcc6) as TopicCode6 ,
+			left(D.DetailCode,@LenDetailCode)  AS DetailCode, 
+			left(DG.CompanyCode,@LenCompany1) CompanyCode1 , left(DG.CompanyCode,@LenCompany2) CompanyCode2 , 
+			left(DG.CompanyCode,@LenCompany3) CompanyCode3 , 
+			left(D.CTopicCode,@LenCTopic1) as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 , left(D.CTopicCode,@LenCTopic3) as CTopicCode3 , 
+			left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2, 
+					d.CurrencyType ,
+					cu.CurrencyCode ,
+					cu.CurrenciesName ,
+					d.CurrencyDebit,
+					d.CurrencyCredit,
+					(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+	FROM    Acc.Documents D 
+			INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+			left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE   (CASE WHEN @DocTypeCode1_Not = '' THEN 1 ELSE 0 END = 1 OR 
+			(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',')))) AND 
+			(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
+			(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
+			(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) AND
+	 		(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND 
+			(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND
+			(D.TopicCode BETWEEN @TopicCodeFrom AND @TopicCodeTo ) AND 
+			(D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo ) AND 
+			(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To )AND
+			((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 AND (DG.Status <> 0)) OR 
+			(DG.Status in (Select part From [Acc].[SplitString] (@Status1,','))))
+			AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	) fun 
+	where    (TopicCode1  BETWEEN @TopicCode1From AND @TopicCode1To)  AND
+			 (TopicCode2 BETWEEN @TopicCode2From AND @TopicCode2To) AND
+			 (TopicCode3 BETWEEN @TopicCode3From AND @TopicCode3To) AND
+			 (TopicCode4  BETWEEN @TopicCode4From AND @TopicCode4To) AND
+			 (TopicCode5 BETWEEN @TopicCode5From AND @TopicCode5To) AND
+			 (TopicCode6 BETWEEN @TopicCode6From AND @TopicCode6To) AND
+			 (DetailCode  BETWEEN @DetailCode1From AND @DetailCode1To) AND
+			 (CompanyCode1 BETWEEN @CompanyCode1From AND @CompanyCode1To) AND
+			 (CompanyCode2  BETWEEN @CompanyCode2From AND @CompanyCode2To) AND
+			 (CompanyCode3  BETWEEN @CompanyCode3From AND @CompanyCode3To) AND
+			 (CTopicCode1 BETWEEN @CTopicCode_1From AND @CTopicCode_1To) AND
+			 (CTopicCode2  BETWEEN @CTopicCode_2From AND @CTopicCode_2To) AND
+			 (CTopicCode3  BETWEEN @CTopicCode_3From AND @CTopicCode_3To) AND
+			 (CTopicCode2_1 BETWEEN @CTopicCode2_1From AND @CTopicCode2_1To) AND
+			 (CTopicCode2_2  BETWEEN @CTopicCode2_2From AND @CTopicCode2_2To) AND 
+			 (YearId BETWEEN @FromYearID AND @ToYearID)
  )
 
-  
- 
-
-
 GO
- 
 
-
-CREATE  FUNCTION [Acc].[AnalyzeAccountInfo]  	(@DocTypeCode1_Not varchar(150)='1,2,3,4,5,6,7,8,9,10' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
+CREATE  FUNCTION [Acc].[AnalyzeAccountInfo]  	
+					(
+						@DocTypeCode1_Not varchar(150)='1,2,3,4,5,6,7,8,9,10' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
 						@YearIDFrom integer=[0] ,@YearIDTo integer  =[99],
 						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[2147483647] ,
@@ -3408,7 +3654,9 @@ CREATE  FUNCTION [Acc].[AnalyzeAccountInfo]  	(@DocTypeCode1_Not varchar(150)='1
 						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=[214748364799] ,
 						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
                         @Status1 varchar(150)='0,1,2,3', @Status2  integer=[-1] ,
-                        @RowKind1 integer=[2], @RowKind2  integer=[-1] ,@ColumnKind integer=[3], @PriceKind  integer=[0]  )
+                        @RowKind1 integer=[2], @RowKind2  integer=[-1] ,@ColumnKind integer=[3], 
+						@PriceKind  integer=[0]  
+					)
 RETURNS TABLE  AS  
 RETURN
 (     SELECT  	
@@ -3588,9 +3836,6 @@ HAVING  	sum (case @PriceKind
 
 GO
 
-
-
-
 CREATE FUNCTION [Acc].[AnalyzeAccountInfoFORUse]  	(@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
 						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
 						@YearIDFrom integer=[0] ,@YearIDTo integer  =[99],
@@ -3672,8 +3917,6 @@ where price <>0
 
 
 GO
- 
-
 
 CREATE FUNCTION [Acc].[AnalyzeCORmparisonBalance]       ( 
 						@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
@@ -3747,107 +3990,121 @@ HAVING      	(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND
 
 
 GO
- 
 
-
-CREATE FUNCTION [Acc].[AnalyzeTrialBalance]            ( 
-						@DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1]  ,@DocTypeCode3_Not integer=[-1]  ,
-						@DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
-						@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[2147483647] ,
-						@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=[214748364799] , 
-						@DetailCodeFrom Varchar(12)=[0],  @DetailCodeTo Varchar(12)=[214748364799] , 
-						@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-						@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=[214748364799] ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99'  ,
-						@CTopicCodeFrom Varchar(12)=[0],  @CTopicCodeTo Varchar(12)=[214748364799] ,
-						@CTopicCode2From Varchar(12)=[0],  @CTopicCode2To Varchar(12)=[214748364799] ,
-						@LenAcc1 integer=[1] ,@LenAcc2 integer  =[2]  ,@LenAcc3 integer=[4]  ,@LenAcc4 integer=[0] ,@LenAcc5 integer  =[0]  ,@LenAcc6 integer=[0]  ,
-						@LenCompany1 integer=[1] ,@LenCompany2 integer  =[2]  ,@LenCompany3 integer=[4]  ,
-						@LenCTopic1  integer=[1] ,@LenCTopic2  integer  =[2]  ,@LenCTopic3  integer=[4]  ,
-						@LenCTopic2_1 integer=[1] ,@LenCTopic2_2 integer  =[2] ,
-                        @Status1 varchar(150)='', @Status2  integer=[-1] ,@FromYearID integer ,@ToYearId integer,
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0   )
-
-
-
+CREATE FUNCTION [Acc].[AnalyzeTrialBalance]     -- Edit By Rezaei 1402/11/04 for Add Currency       
+					( 
+						@DocTypeCode1_Not varchar(150)='' ,
+						@DocTypeCode2_Not integer  =[-1]  ,
+						@DocTypeCode3_Not integer=[-1]  ,
+						@DocTypeCodeFrom integer=[0] ,
+						@DocTypeCodeTo integer  =[9999] ,
+						@CompanyCodeFrom Varchar(12)=[0] ,
+						@CompanyCodeTo Varchar(12)=[2147483647] ,
+						@AccCodeFrom Varchar(12)=[0],  
+						@AccCodeTo Varchar(12)=[214748364799] , 
+						@DetailCodeFrom Varchar(12)=[0],  
+						@DetailCodeTo Varchar(12)=[214748364799] , 
+						@SecondaryDocNoFrom Varchar(12)=[0] ,
+						@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+						@PrimaryDocNoFrom  Varchar(12)=[0], 
+						@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+						@DocDateFrom Varchar(10)='0001/01/01', 
+						@DocDateTo  Varchar(10)='9999/99/99'  ,
+						@CTopicCodeFrom Varchar(12)=[0],  
+						@CTopicCodeTo Varchar(12)=[214748364799] ,
+						@CTopicCode2From Varchar(12)=[0],  
+						@CTopicCode2To Varchar(12)=[214748364799] ,
+						@LenAcc1 integer=[1] ,@LenAcc2 integer  =[2]  ,
+						@LenAcc3 integer=[4]  ,@LenAcc4 integer=[0] ,
+						@LenAcc5 integer  =[0]  ,@LenAcc6 integer=[0]  ,
+						@LenCompany1 integer=[1] ,
+						@LenCompany2 integer  =[2]  ,
+						@LenCompany3 integer=[4]  ,
+						@LenCTopic1  integer=[1] ,
+						@LenCTopic2  integer  =[2]  ,
+						@LenCTopic3  integer=[4]  ,
+						@LenCTopic2_1 integer=[1] ,
+						@LenCTopic2_2 integer  =[2] ,
+                        @Status1 varchar(150)='', 
+						@Status2  integer=[-1] ,
+						@FromYearID integer ,
+						@ToYearId integer,
+			            @CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0   
+					)
 RETURNS table AS  
 return (
-SELECT	 DG.YearId ,left(D.TopicCode,@LenAcc1) as TopicCode1 ,  left(D.TopicCode,@LenAcc2) as TopicCode2 ,
-		 left(D.TopicCode,@LenAcc3) as TopicCode3 , left(D.TopicCode,@LenAcc4) as TopicCode4 ,
-		 left(D.TopicCode,@LenAcc5)  as TopicCode5 , left(D.TopicCode,@LenAcc6) as TopicCode6 ,
-		D.DetailCode, 
-		 left(DG.CompanyCode,@LenCompany1)  as  CompanyCode1 ,  left(DG.CompanyCode,@LenCompany2) as CompanyCode2 , 
-		 left(DG.CompanyCode,@LenCompany3)as  CompanyCode3 , 
-		 left(D.CTopicCode,@LenCTopic1)  as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 ,
-                            left(D.CTopicCode,@LenCTopic3)  as CTopicCode3 , 
-		 left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2, 
-		sum( D.Debt) as Debt , Sum(D.Credit) as Credit ,
-		case when SUM(D.Debt - D.Credit)>0 then SUM(D.Debt - D.Credit) else 0 end  AS BalanceDebt ,
-		case when SUM(D.Credit - D.Debt)>0 then SUM(D.Credit - D.Debt) else 0 end  AS BalanceCredit ,
-					   -- for currency 
-			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
-			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
-			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
-			   case 
+		SELECT	DG.YearId ,
+				left(D.TopicCode,@LenAcc1) as TopicCode1 ,  left(D.TopicCode,@LenAcc2) as TopicCode2 ,
+				left(D.TopicCode,@LenAcc3) as TopicCode3 , left(D.TopicCode,@LenAcc4) as TopicCode4 ,
+				left(D.TopicCode,@LenAcc5)  as TopicCode5 , left(D.TopicCode,@LenAcc6) as TopicCode6 ,
+				D.DetailCode, 
+				left(DG.CompanyCode,@LenCompany1)  as  CompanyCode1 ,  left(DG.CompanyCode,@LenCompany2) as CompanyCode2 , 
+				left(DG.CompanyCode,@LenCompany3)as  CompanyCode3 , 
+				left(D.CTopicCode,@LenCTopic1)  as CTopicCode1 , left(D.CTopicCode,@LenCTopic2) as CTopicCode2 ,
+				left(D.CTopicCode,@LenCTopic3)  as CTopicCode3 , 
+				left(D.CTopicCode2,@LenCTopic2_1) as CTopicCode2_1, left(D.CTopicCode2,@LenCTopic2_2) as CTopicCode2_2, 
+				sum( D.Debt) as Debt , Sum(D.Credit) as Credit ,
+				case when SUM(D.Debt - D.Credit)>0 then SUM(D.Debt - D.Credit) else 0 end  AS BalanceDebt ,
+				case when SUM(D.Credit - D.Debt)>0 then SUM(D.Credit - D.Debt) else 0 end  AS BalanceCredit ,
+				-- for currency 
+				case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+				case 
 					when @CurrencyKind = 0 then 0 
 					else SUM(D.CurrencyDebit) 
-			   END AS CurrencyDebit,
-			   case 
+				END AS CurrencyDebit,
+				case 
 					when @CurrencyKind = 0 then 0 
 					else SUM(D.CurrencyCredit)  
-			   END AS CurrencyCredit,
-			   case 
+				END AS CurrencyCredit,
+				case 
 					when @CurrencyKind = 0 then 0 
 					else 
-			   case
-				 when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
-				  SUM(D.CurrencyDebit - D.CurrencyCredit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyDebit,
-			   case 
+				case
+					when SUM(D.CurrencyDebit - D.CurrencyCredit) > 0 then
+					SUM(D.CurrencyDebit - D.CurrencyCredit)
+					else
+					0
+				end  
+				END AS BalanceCurrencyDebit,
+				case 
 					when @CurrencyKind = 0 then 0 
 					else 
-		       case
-				 when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
-				  SUM(D.CurrencyCredit - D.CurrencyDebit)
-				 else
-				  0
-			   end  
-			   END AS BalanceCurrencyCredit
-		  -- end of currency 
-
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-	left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
-WHERE     	
-			(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',') )) AND
-		
-		(DG.YearId  BETWEEN  @FromYearID AND  @ToYearId  ) AND 		
-		(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
-	             (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
-		(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) 
-GROUP BY 	DG.YearId ,D.TopicCode, D.DetailCode, DG.CompanyCode, D.CTopicCode, D.CTopicCode2,DG.Status,
-			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
-			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
-			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
-HAVING      	(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND 
-		(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo) AND
-		(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND
-		(D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo ) AND 
-		(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To ) AND
-			 ( DG.Status in (Select part From [Acc].[SplitString] (@Status1,','))))
+				case
+					when SUM(D.CurrencyCredit - D.CurrencyDebit) > 0 then
+					SUM(D.CurrencyCredit - D.CurrencyDebit)
+					else
+					0
+				end  
+				END AS BalanceCurrencyCredit
+				  -- end of currency 
+		FROM    Acc.Documents D 
+				inner JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+								AND D.YearID = DG.YearID 
+								AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE     	
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode1_Not,',') )) AND
+				(DG.YearId  BETWEEN  @FromYearID AND  @ToYearId  ) AND 		
+				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo) AND 
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo ) 
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		GROUP BY DG.YearId ,D.TopicCode, D.DetailCode, DG.CompanyCode, D.CTopicCode, D.CTopicCode2,DG.Status,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+		HAVING  (D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo )  AND 
+				(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTo) AND
+				(DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND
+				(D.CTopicCode BETWEEN @CTopicCodeFrom AND @CTopicCodeTo ) AND 
+				(D.CTopicCode2 BETWEEN @CTopicCode2From AND @CTopicCode2To ) AND
+					 ( DG.Status in (Select part From [Acc].[SplitString] (@Status1,','))))
             
-
-  
-
-
 GO
- 
-
-
 
 CREATE FUNCTION [Acc].[BalanceSheet]      (@LenPrvAccCode Varchar(4)=[1] , 
 					@DocTypeCode1_Not integer=[-1] ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1] ,
@@ -3974,580 +4231,1076 @@ where topicCode<> TaxTopicCode
 
 GO
 
-
-
-CREATE FUNCTION [Acc].[CTopics2OnDetailCode]  (@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTo Varchar(12)=[0] ,@AccCode Varchar(12)=[2], @CTopicCode2 Varchar(12)=[11], @DetailCode Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 Varchar(150)='', @Status2  integer=[-1],@FromYearID integer,@ToYearID integer,
-                                    @DocTypeCodeFrom varchar(150)='' )
+CREATE FUNCTION [Acc].[CTopics2OnDetailCode]  -- Edit By Rezaei 1402/11/04 for Add Currency
+							(
+								@CompanyCodeFrom Varchar(12)=[0],
+								@CompanyCodeTo Varchar(12)=[0] ,
+								@AccCode Varchar(12)=[2], 
+								@CTopicCode2 Varchar(12)=[11], 
+								@DetailCode Varchar(12)=[11], 
+				                @SecondaryDocNoFrom Varchar(12)=[0] ,
+								@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                                @PrimaryDocNoFrom  Varchar(12)=[0],
+								@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                                @DocDateFrom Varchar(10)='0001/01/01', 
+								@DocDateTo  Varchar(10)='9999/99/99' ,
+                                @Status1 Varchar(150)='', @Status2  integer=[-1],
+								@FromYearID integer,
+								@ToYearID integer,
+                                @DocTypeCodeFrom varchar(150)='' ,
+								@CurrencyTypeFrom  integer=0  , 
+								@CurrencyTypeTo  integer=99999, 
+								@CurrencyKind  integer=0 
+							)
 RETURNS table  AS  
-return (  select * 
-from (
+return (  
+	select * 
+	from (
+		SELECT	DG.YearId , 
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode2, 
+				D.DetailCode, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo, 
+				'01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance ,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes, 
+				0 as SORtID ,
+			-- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+								AND D.YearID = DG.YearID 
+								AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) 
+				AND (DG.YearID BETWEEN @FromYearID AND @ToYearID ) 
+				AND (D.TopicCode = @AccCode) 
+				AND (D.CTopicCode2 =@CTopicCode2 ) 
+				AND (D.DetailCode =@DetailCode ) 
+			    AND (
+						(DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+						(DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+						(DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId,
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode2, 
+				D.DetailCode,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 
-SELECT      DG.YearId , 0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.CTopicCode2, D.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance ,CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes, 0 as SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
+		Union All
 
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND (DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND
-	   (D.TopicCode = @AccCode) AND 
-	   (D.CTopicCode2 =@CTopicCode2 ) AND 
-	   (D.DetailCode =@DetailCode ) AND 
-	   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by DG.YearId,DG.CompanyCode, D.TopicCode, D.CTopicCode2, D.DetailCode
-Union All
-
-  SELECT     DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode2, D.DetailCode, 
-                      DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
-                      D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
-                      D.Debt - D.Credit AS balance, 
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
-                      acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
-
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND  (DG.YearID   BETWEEN @FromYearID AND @ToYearID ) AND
-	    (D.TopicCode = @AccCode) AND 
-	    (D.CTopicCode2 =@CTopicCode2 ) AND 
-	    (D.DetailCode =@DetailCode ) AND 
-  	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
-        (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
-        ( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-	    (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
- )DocOnDetailCode
+        SELECT	DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode2, D.DetailCode, 
+				DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
+				D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
+				D.Debt - D.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				acc.DocTypes.SORtID,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode  
+				LEFT JOIN acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+				LEFT JOIN dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) 
+				AND (DG.YearID   BETWEEN @FromYearID AND @ToYearID ) 
+				AND (D.TopicCode = @AccCode) 
+				AND (D.CTopicCode2 =@CTopicCode2 ) 
+				AND (D.DetailCode =@DetailCode ) 
+				AND (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) 
+				AND (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) 
+				AND	(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )
+				AND	(
+						(CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+						(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))
+					) 
+				AND ( 
+						CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+						(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,',')))
+					)
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo 
+	 )DocOnDetailCode
 
 )
 
 
 GO
 
-CREATE FUNCTION [Acc].[CTopics2OnTopicCode]  (@CompanyCode Varchar(12)=[0] ,@AccCode Varchar(12)=[2], @CTopicCode2 Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 varchar(150)='', @Status2  integer=[-1],@FromyearId integer,@ToYearId integer,
-                                    @DocTypeCodeFrom varchar(150)='',
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=99999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[CTopics2OnTopicCode]  -- Edit By Rezaei 1402/11/04 for Add Currency 
+				(
+					@CompanyCode Varchar(12)=[0] ,
+					@AccCode Varchar(12)=[2], 
+					@CTopicCode2 Varchar(12)=[11], 
+				    @SecondaryDocNoFrom Varchar(12)=[0] ,
+					@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                    @PrimaryDocNoFrom  Varchar(12)=[0],
+					@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                    @DocDateFrom Varchar(10)='0001/01/01', 
+					@DocDateTo  Varchar(10)='9999/99/99' ,
+                    @Status1 varchar(150)='', 
+					@Status2  integer=[-1],
+					@FromyearId integer,
+					@ToYearId integer,
+                    @DocTypeCodeFrom varchar(150)='',
+			        @CurrencyTypeFrom  integer=0  , 
+					@CurrencyTypeTo  integer=9999999, 
+					@CurrencyKind  integer=0  
+				)
 RETURNS table  AS  
-return (  select * 
-from (
-
-SELECT     DG.YearId ,  0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.CTopicCode2, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance, CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,0 As SORtID
-					  					  ,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-
-WHERE   (DG.CompanyCode = @CompanyCode) AND  (DG.YearId BETWEEN @FromyearId AND @ToYearId) AND
-	    (D.TopicCode = @AccCode) AND 
-	    (D.CTopicCode2 =@CTopicCode2 ) AND 
-	    ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	    (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	    (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by DG.YearId , DG.CompanyCode, D.TopicCode, D.CTopicCode2
-Union All
- SELECT    DG.YearId , DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode2, DG.SecondaryDocNo, 
-                      DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, D.BudgetTopicID, D.ProjectID, 
-                      D.AidDocdate, D.AidAmount, D.Debt, D.Credit, D.Debt - D.Credit AS balance, 
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID					  ,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
-                      acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+return (  
+	select * 
+	from (
+		SELECT  DG.YearId ,  
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode2, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo, 
+				'01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance, 
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,
+				0 As SORtID ,
+			   -- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+								AND D.YearID = DG.YearID 
+								AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode = @CompanyCode) AND
+				(DG.YearId BETWEEN @FromyearId AND @ToYearId) AND
+				(D.TopicCode = @AccCode) AND 
+				(D.CTopicCode2 =@CTopicCode2 ) AND 
+				((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+				(DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+				(DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId , DG.CompanyCode, D.TopicCode, D.CTopicCode2,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+		
+		Union All
+		
+		SELECT  DG.YearId , 
+				DG.Serial, 
+				D.ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode2, 
+				DG.SecondaryDocNo, 
+				DG.PrimaryDocNo, 
+				DG.DocDate, 
+				D.Comment_L1, 
+				D.AidDocNo, 
+				D.BudgetTopicID, 
+				D.ProjectID, 
+				D.AidDocdate, 
+				D.AidAmount, 
+				D.Debt, 
+				D.Credit, 
+				D.Debt - D.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID	,
+				d.CurrencyType ,
+				cu.CurrencyCode ,
+				cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+		FROM         Acc.Documents D INNER JOIN
+							  Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
+							  D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
+							  acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+							  left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
                       
-WHERE   (DG.CompanyCode = @CompanyCode)  AND  (DG.YearId BETWEEN @FromyearId AND @ToYearId) AND 
-	    (D.TopicCode = @AccCode) AND 
-	    (D.CTopicCode2 =@CTopicCode2 ) AND 
-  	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
-        (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
-        ( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-	    (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,',')))) 
- )DocOnCTopicCode2
+		WHERE   (DG.CompanyCode = @CompanyCode)  AND  (DG.YearId BETWEEN @FromyearId AND @ToYearId) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.CTopicCode2 =@CTopicCode2 ) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
+				( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,',')))) 
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	 )DocOnCTopicCode2
 
 )
 
 GO
 
-
-CREATE  FUNCTION [Acc].[CTopicsOnDetailCode]  (@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[0],@AccCode Varchar(12)=[2], @CTopicCode Varchar(12)=[11], @DetailCode Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer, @ToYearID integer,
-                                    @DocTypeCodeFrom varchar(150)='')
+CREATE  FUNCTION [Acc].[CTopicsOnDetailCode]  -- Edit By Rezaei 1402/11/04 for Add Currency
+					(
+						@CompanyCodeFrom Varchar(12)=[0] ,
+						@CompanyCodeTo Varchar(12)=[0],
+						@AccCode Varchar(12)=[2], 
+						@CTopicCode Varchar(12)=[11], 
+						@DetailCode Varchar(12)=[11], 
+				        @SecondaryDocNoFrom Varchar(12)=[0] ,
+						@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                        @PrimaryDocNoFrom  Varchar(12)=[0],
+						@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                        @DocDateFrom Varchar(10)='0001/01/01', 
+						@DocDateTo  Varchar(10)='9999/99/99' ,
+                        @Status1 varchar(150)='', 
+						@Status2  integer=[-1],
+						@FromYearID integer, 
+						@ToYearID integer,
+                        @DocTypeCodeFrom varchar(150)='',
+						@CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0 
+					)
 RETURNS table  AS  
-return (  select * 
-from (
-
-SELECT       DG.YearId ,0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.CTopicCode, D.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance, CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,0 As SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND (DG.YearID BETWEEN @FromYearID AND @ToYearID )AND
-	   (D.TopicCode = @AccCode) AND 
-	   (D.CTopicCode =@CTopicCode ) AND 
-	   (D.DetailCode =@DetailCode ) AND 
-	   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by   DG.YearId ,DG.CompanyCode, D.TopicCode, D.CTopicCode, D.DetailCode
-Union All
-SELECT     DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode, D.DetailCode, 
-                      DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
-                      D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
-                      D.Debt - D.Credit AS balance, 
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
-                      acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
-
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)AND (DG.YearID BETWEEN @FromYearID AND @ToYearID )AND
-	    (D.TopicCode = @AccCode) AND 
-	    (D.CTopicCode =@CTopicCode ) AND 
-        (D.DetailCode =@DetailCode ) AND 
-  	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
-	    (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
-	    ( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-	    (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
-              
- )DocOnDetailCode
-
+return (  
+	select * 
+	from (
+		SELECT	DG.YearId ,
+				0 as Serial,  
+				0 as ID, DG.CompanyCode, D.TopicCode, D.CTopicCode, D.DetailCode, 
+				0 as SecondaryDocNo, 0 as PrimaryDocNo, 
+				'01/01' as DocDate,
+				'مجموع مانده از قبل  '  as  Comment_L1, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 
+				0 as AidAmount, sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance, 
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,
+				0 As SORtID,
+			   -- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		FROM    Acc.Documents D 
+				INNER JOIN  Acc.DocGroups DG ON D.Serial = DG.Serial 
+								AND D.YearID = DG.YearID 
+								AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) 
+				AND (DG.YearID BETWEEN @FromYearID AND @ToYearID )AND
+			   (D.TopicCode = @AccCode) AND 
+			   (D.CTopicCode =@CTopicCode ) AND 
+			   (D.DetailCode =@DetailCode ) AND 
+			   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+			   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+			   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+			   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId ,
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode, 
+				D.DetailCode,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+		
+		Union All
+		
+		SELECT	DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode, D.DetailCode, 
+				DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
+				D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
+				D.Debt - D.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				acc.DocTypes.SORtID,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+								AND D.YearID = DG.YearID 
+								AND D.CompanyCode = DG.CompanyCode  
+				LEFT OUTER JOIN acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)
+				AND (DG.YearID BETWEEN @FromYearID AND @ToYearID )AND
+				(D.TopicCode = @AccCode) AND 
+				(D.CTopicCode =@CTopicCode ) AND 
+				(D.DetailCode =@DetailCode ) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
+				( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	 )DocOnDetailCode
 )
 
 GO
 
-
-
-CREATE  FUNCTION [Acc].[CTopicsOnTopicCode]  (@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTo Varchar(12)=[0] ,@AccCode Varchar(12)=[2], @CTopicCode Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 varchar(150)='', @Status2  integer=[-1],@FromYearID integer, @ToYearID integer,
-                                    @DocTypeCodeFrom varchar(150)='',
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE  FUNCTION [Acc].[CTopicsOnTopicCode]  -- Edit By Rezaei 1402/11/04 for Add Currency
+					(
+						@CompanyCodeFrom Varchar(12)=[0],
+						@CompanyCodeTo Varchar(12)=[0] ,
+						@AccCode Varchar(12)=[2], 
+						@CTopicCode Varchar(12)=[11], 
+				        @SecondaryDocNoFrom Varchar(12)=[0] ,
+						@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                        @PrimaryDocNoFrom  Varchar(12)=[0],
+						@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                        @DocDateFrom Varchar(10)='0001/01/01', 
+						@DocDateTo  Varchar(10)='9999/99/99' ,
+                        @Status1 varchar(150)='', 
+						@Status2  integer=[-1],@FromYearID integer, 
+						@ToYearID integer,
+                        @DocTypeCodeFrom varchar(150)='',
+			            @CurrencyTypeFrom  integer=0  , 
+						@CurrencyTypeTo  integer=99999, 
+						@CurrencyKind  integer=0  
+					)
 RETURNS table  AS  
-return (  select * 
-from (
+return (  
+	select * 
+	from (
+		SELECT  DG.YearId ,0 as Serial,  0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, D.CTopicCode, 
+                0 as SecondaryDocNo, 0 as PrimaryDocNo, 
+				'01/01' as DocDate,
+				'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
+                0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+                sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance, 
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,
+				0 as SORtID,
+			   -- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+	FROM    Acc.Documents as D 
+		INNER JOIN acc.DocGroups as DG ON  D.Serial = DG.Serial 
+										AND D.YearID =DG.YearID 
+										AND D.CompanyCode =DG.CompanyCode
+		left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE    (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND 
+			 (DG.YearId BETWEEN @FromYearID AND @ToYearID) AND 
+			 (D.TopicCode = @AccCode) AND (D.CTopicCode =@CTopicCode ) AND 
+			 ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+			 (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+			 (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+			 AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	GROUP BY  DG.YearId ,DG.CompanyCode, D.TopicCode, D.CTopicCode,
+			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 
-SELECT       DocGroups.YearId ,0 as Serial,  0 as ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.CTopicCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(Documents.Debt) as debt, 
-                      sum(Documents.Credit) as Credit, sum(Documents.Debt - Documents.Credit) AS balance, CASE sum(Documents.Debt - Documents.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,0 as SORtID
-					 ,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents as Documents INNER JOIN
-                      acc.DocGroups as DocGroups 
-			 ON  Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND     
-			Documents.CompanyCode =DocGroups.CompanyCode
+	UNION All
 
-WHERE    (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo) AND 
-         (DocGroups.YearId BETWEEN @FromYearID AND @ToYearID) AND 
-         (Documents.TopicCode = @AccCode) AND (Documents.CTopicCode =@CTopicCode ) AND 
-	     ((DocGroups.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	     (DocGroups.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	     (DocGroups.DocDate < @DocDateFrom )) and (DocGroups.Status <> 0)
-
-GROUP BY  DocGroups.YearId ,DocGroups.CompanyCode, Documents.TopicCode, Documents.CTopicCode
-
-UNION All
-
-SELECT    DocGroups.YearId , DocGroups.Serial, Documents.ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.CTopicCode, DocGroups.SecondaryDocNo, 
-                      DocGroups.PrimaryDocNo, DocGroups.DocDate, Documents.Comment_L1, Documents.AidDocNo, Documents.BudgetTopicID, Documents.ProjectID, 
-                      Documents.AidDocdate, Documents.AidAmount, Documents.Debt, Documents.Credit, Documents.Debt - Documents.Credit AS balance, 
-                      CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes,DocTypes.SORtID
-     	,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM        acc.Documents as Documents  INNER JOIN
-            acc.DocGroups as DocGroups ON    Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND     
-			Documents.CompanyCode =DocGroups.CompanyCode LEFT OUTER JOIN
-            acc.DocTypes as DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode
-
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)  AND   (DocGroups.YearId BETWEEN @FromYearID AND @ToYearID) AND
-        (Documents.TopicCode = @AccCode) AND (Documents.CTopicCode = @CTopicCode ) AND 
-  	    (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR
-        (DocGroups.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
-	    ((CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1) OR
-        (DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
-	    
-
+	SELECT  DG.YearId , DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode, DG.SecondaryDocNo, 
+			DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, D.BudgetTopicID, D.ProjectID, 
+			D.AidDocdate, D.AidAmount, D.Debt, D.Credit, D.Debt - D.Credit AS balance, 
+			CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes,DocTypes.SORtID ,
+			d.CurrencyType ,
+			cu.CurrencyCode ,
+			cu.CurrenciesName ,
+			d.CurrencyDebit,
+			d.CurrencyCredit,
+			(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+	FROM    acc.Documents as D  INNER JOIN
+            acc.DocGroups as DG ON    D.Serial = DG.Serial AND D.YearID =DG.YearID AND     
+			D.CompanyCode =DG.CompanyCode LEFT OUTER JOIN
+            acc.DocTypes as DocTypes ON DG.DocTypeCode = DocTypes.DocTypeCode
+			left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+	WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)  
+			AND (DG.YearId BETWEEN @FromYearID AND @ToYearID) AND
+			(D.TopicCode = @AccCode) AND (D.CTopicCode = @CTopicCode ) AND 
+  			(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+			(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+			(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+			((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR
+			(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
+			((CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1) OR
+			(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+			AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
  )DocOnTopicBook
 
 )
 
 GO
 
-CREATE FUNCTION  [Acc].[DetailsOnTopicBookRelated]  (
-												@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTO Varchar(12)=[0] ,@AccCode Varchar(12)=[2], 
-												@DetailCode Varchar(12)=[11], @SecondaryDocNoFrom Varchar(12)=[0] ,
-												@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-												@PrimaryDocNoFrom  Varchar(12)=[0], 
-												@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-												@DocDateFrom Varchar(10)='0001/01/01',
-												@DocDateTo  Varchar(10)='9999/99/99',
-												@Status1 varChar(150)='', @Status2  integer=[-1] ,
-												@FromYearID integer,@ToYearID integer,
-												@DocTypeCodeFrom varChar(150)='' ,@DocTypeCodeTo integer  =[9999],
-												@DetailCompanydel integer =[1])
+CREATE FUNCTION  [Acc].[DetailsOnTopicBookRelated]  -- Edit By Rezaei 1402/11/04 for Add Currency
+						(
+							@CompanyCodeFrom Varchar(12)=[0],
+							@CompanyCodeTO Varchar(12)=[0] ,
+							@AccCode Varchar(12)=[2], 
+							@DetailCode Varchar(12)=[11], 
+							@SecondaryDocNoFrom Varchar(12)=[0] ,
+							@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+							@PrimaryDocNoFrom  Varchar(12)=[0], 
+							@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+							@DocDateFrom Varchar(10)='0001/01/01',
+							@DocDateTo  Varchar(10)='9999/99/99',
+							@Status1 varChar(150)='', 
+							@Status2  integer=[-1] ,
+							@FromYearID integer,
+							@ToYearID integer,
+							@DocTypeCodeFrom varChar(150)='' ,
+							@DocTypeCodeTo integer  =[9999],
+							@DetailCompanydel integer =[1],
+							@CurrencyTypeFrom  integer=0  , 
+							@CurrencyTypeTo  integer=99999, 
+							@CurrencyKind  integer=0 
+						)
 RETURNS table  AS  
 return (  
 
-select *  from (
+	select *    
+	from (
+		SELECT	DG.YearID, 
+				DG.Serial, 
+				D.ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+                DG.SecondaryDocNo, 
+				DG.PrimaryDocNo, 
+				DG.DocDate, 
+				D.Comment_L1, 
+				D.Comment_L2, 
+				D.AidDocNo, 
+                D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount,
+                D.Debt- CASE WHEN D.Debt > 0 THEN  isnull(DocRele.SumRel, 0) ELSE 0 END AS Debt, 
+                D.Credit - CASE WHEN D.Credit > 0 THEN  - isnull(DocRele.SumRel, 0) ELSE 0 END AS Credit, 
+                D.Debt - D.Credit AS balance,
+                CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				DG.Status, DocTypes.SORtID,D.RelatedID, 
+                0 as ItemID , 
+				Details.CustAccountNumber, 
+				Details.ManageName, 
+				Details.BankName,Details.PaymentCode,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance,1 AnalizeType
+		FROM    Acc.Documents as D 
+				INNER JOIN Acc.Details AS Details ON Details.DetailCode = D.DetailCode 
+				INNER JOIN acc.DocGroups as DG ON  
+									D.Serial = DG.Serial AND 
+									D.YearID =DG.YearID 	AND 
+									D.CompanyCode =DG.CompanyCode  
+				Left Outer JOIN 
+						( 
+							SELECT     ID, Serial, YearID, CompanyCode, SUM(Debit - Credit) AS SumRel
+							FROM         Acc.DocRelated
+							GROUP BY  ID, Serial, YearID, CompanyCode
+						) AS DocRele ON D.Serial = DocRele.Serial AND 
+										D.YearID = DocRele.YearID AND 
+										D.ID = DocRele.ID AND 
+										D.CompanyCode = DocRele.CompanyCode 
+				LEFT OUTER JOIN Acc.DocTypes AS DocTypes ON DG.DocTypeCode = DocTypes.DocTypeCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.DetailCode =@DetailCode ) AND 
+				--(D. =@) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
+				( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 
-SELECT     DocGroups.YearID, DocGroups.Serial, Documents.ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode, 
-                      DocGroups.SecondaryDocNo, DocGroups.PrimaryDocNo, DocGroups.DocDate, Documents.Comment_L1, Documents.Comment_L2, Documents.AidDocNo, 
-                      Documents.BudgetTopicID, Documents.ProjectID, Documents.AidDocdate, Documents.AidAmount,
-                       Documents.Debt- 
-                      CASE WHEN Documents.Debt > 0 THEN  isnull(DocRele.SumRel, 0) ELSE 0 END AS Debt, 
-                      Documents.Credit -
-                      CASE WHEN Documents.Credit > 0 THEN  - isnull(DocRele.SumRel, 0) ELSE 0 END AS Credit, 
-                      Documents.Debt - Documents.Credit AS balance,
-                      CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, DocGroups.Status, DocTypes.SORtID,Documents.RelatedID, 1 AS AnalizeType,
-                      0 as ItemID , Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-			,CASE WHEN Debt   <> 0 THEN AidAmount ELSE 0 END AS AidAmountBed
-                      ,CASE WHEN Credit <> 0 THEN AidAmount ELSE 0 END AS AidAmountBes,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
+		Union All
 
-FROM       Acc.Documents as Documents INNER JOIN
-				 Acc.Details AS Details ON Details.DetailCode = Documents.DetailCode INNER JOIN
-           acc.DocGroups as DocGroups ON  Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND     
-			Documents.CompanyCode =DocGroups.CompanyCode  Left Outer JOIN
-           (SELECT     ID, Serial, YearID, CompanyCode, SUM(Debit - Credit) AS SumRel
-            FROM         Acc.DocRelated
-            GROUP BY  ID, Serial, YearID, CompanyCode) AS DocRele ON Documents.Serial = DocRele.Serial AND 
-            Documents.YearID = DocRele.YearID AND Documents.ID = DocRele.ID AND Documents.CompanyCode = DocRele.CompanyCode LEFT OUTER JOIN
-            Acc.DocTypes AS DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode
-
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
-		(DocGroups.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(Documents.TopicCode = @AccCode) AND 
-		(Documents.DetailCode =@DetailCode ) AND 
-		--(Documents. =@) AND 
-  	    (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR
-        (DocGroups.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND
-        ( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR
-        (DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
- 		
-
-Union All
-
-SELECT     DocGroups.YearID, DocGroups.Serial, Documents.ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode, 
-                      DocGroups.SecondaryDocNo, DocGroups.PrimaryDocNo, DocGroups.DocDate, Documents.Comment_L1, Documents.Comment_L2, Documents.AidDocNo, 
-                      Documents.BudgetTopicID, Documents.ProjectID, Documents.AidDocdate, Documents.AidAmount, DocRelated.Debit AS Debt, 
-                      DocRelated.Credit, DocRelated.Debit - DocRelated.Credit AS balance, 
-                      CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, DocGroups.Status, DocTypes.SORtID,DocRelated.RelatedID, 2 AS AnalizeType,
-                      DocRelated.ItemID , Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-					   ,CASE WHEN DocRelated.Debit   <> 0 THEN AidAmount ELSE 0 END AS AidAmountBed
-                      ,CASE WHEN DocRelated.Credit <> 0 THEN AidAmount ELSE 0 END AS AidAmountBes,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-
-FROM        Acc.Documents as Documents INNER JOIN
-                      acc.DocGroups as DocGroups 
-			 ON  Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND  
-			    
-			Documents.CompanyCode =DocGroups.CompanyCode INNER JOIN
-			 Acc.Details AS Details ON Details.DetailCode = Documents.DetailCode INNER JOIN
-                      Acc.DocRelated as DocRelated ON Documents.ID = DocRelated.ID AND Documents.YearID = DocRelated.YearID AND 
-                      Documents.CompanyCode = DocRelated.CompanyCode AND Documents.Serial = DocRelated.Serial LEFT OUTER JOIN
-                      Acc.DocTypes AS DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
-		(DocGroups.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(Documents.TopicCode = @AccCode) AND 
-		(Documents.DetailCode =@DetailCode ) AND 
-		
-  	    (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-        (DocGroups.Status in (Select part From [Acc].[SplitString] (@Status1,',')))
+		SELECT  DG.YearID, DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.DetailCode, 
+				DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.Comment_L2, D.AidDocNo, 
+				D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, DocRelated.Debit AS Debt, 
+				DocRelated.Credit, DocRelated.Debit - DocRelated.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				DG.Status, DocTypes.SORtID,DocRelated.RelatedID, 
+				DocRelated.ItemID , Details.CustAccountNumber, Details.ManageName, 
+				Details.BankName,Details.PaymentCode,
+				d.CurrencyType ,
+				cu.CurrencyCode ,
+				cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance,2 AnalizeType
+		FROM    Acc.Documents as D 
+				INNER JOIN acc.DocGroups as DG ON  
+							D.Serial = DG.Serial AND 
+							D.YearID =DG.YearID AND  
+							D.CompanyCode =DG.CompanyCode 
+				INNER JOIN Acc.Details AS Details ON Details.DetailCode = D.DetailCode 
+				INNER JOIN Acc.DocRelated as DocRelated ON 
+								D.ID = DocRelated.ID AND 
+								D.YearID = DocRelated.YearID AND 
+								D.CompanyCode = DocRelated.CompanyCode AND 
+								D.Serial = DocRelated.Serial 
+				LEFT OUTER JOIN Acc.DocTypes AS DocTypes ON DG.DocTypeCode = DocTypes.DocTypeCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.DetailCode =@DetailCode ) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
                                                
-UNION ALL
+		UNION ALL
 
+		SELECT  DG.YearId , 
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo, 
+				max(DocDate) as DocDate, 
+				'---' as  Comment_L1, 
+				'---' as  Comment_L2, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance ,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,
+				0 as Status ,
+				0 As SORtID,
+				-1 as RelatedID , 
+				0 as ItemID ,
+				Details.CustAccountNumber, 
+				Details.ManageName, 
+				Details.BankName,
+				Details.PaymentCode,
+				-- for currency 
+				case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+				END AS CurrencyDebit,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+				END AS CurrencyCredit,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit - D.CurrencyCredit)
+				END AS CurrencyBalance
+				,0 AnalizeType
+			-- end of currency 
+		FROM    acc.Documents as D  
+				INNER JOIN	Acc.Details AS Details ON Details.DetailCode = D.DetailCode 
+				INNER JOIN	acc.DocGroups as DG  ON D.Serial = DG.Serial AND 
+													D.YearID =DG.YearID AND  
+													D.CompanyCode =DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 	
+				( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))   AND 
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.DetailCode =@DetailCode ) AND 
+				((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+				(DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+				(DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId ,
+				 DG.CompanyCode, 
+				 D.TopicCode, 
+				 D.DetailCode ,
+				 Details.CustAccountNumber, 
+				 Details.ManageName, 
+				 Details.BankName,
+				 Details.PaymentCode,
+				 case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				 case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				 case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 
-SELECT      DocGroups.YearId , 0 as Serial,  0 as ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo,  max(DocDate) as DocDate, '---' as  Comment_L1, '---' as  Comment_L2, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(Documents.Debt) as debt, 
-                      sum(Documents.Credit) as Credit, sum(Documents.Debt - Documents.Credit) AS balance ,
-                      CASE sum(Documents.Debt - Documents.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,0 as Status ,0 As SORtID,-1 as RelatedID , 0 as AnalizeType,
-                      0 as ItemID ,Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-,sum(CASE WHEN Debt   <> 0 THEN AidAmount ELSE 0 END) AS AidAmountBed
-                      ,sum(CASE WHEN Credit <> 0 THEN AidAmount ELSE 0 END) AS AidAmountBes,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         acc.Documents as Documents  INNER JOIN
- Acc.Details AS Details ON Details.DetailCode = Documents.DetailCode INNER JOIN				
-                       acc.DocGroups as DocGroups  ON  Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND     
-			Documents.CompanyCode =DocGroups.CompanyCode
-
-
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 	
-		( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR
-        (DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))   AND 
-		(DocGroups.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(Documents.TopicCode = @AccCode) AND 
-		(Documents.DetailCode =@DetailCode ) AND 
-		
-	    ((DocGroups.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	    (DocGroups.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	    (DocGroups.DocDate < @DocDateFrom )) and (DocGroups.Status <> 0)
- 	     
-group by DocGroups.YearId ,DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode ,Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-
-
-)DocOnDetails
+	)DocOnDetails
 
 )
 GO
 
-
-
-CREATE FUNCTION   [Acc].[DetailsOnTopicBook]  (@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTO Varchar(12)=[0],@AccCode Varchar(12)=[2], @DetailCode Varchar(12)=[11], 
-				@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], @PrimaryDocNoFrom  Varchar(12)=[0], 
-				@PrimaryDocNoTo Varchar(12)=[214748364799] ,@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99'
-                                                     ,@Status1 varchar(150)= '', @Status2  integer=[-1] ,@FromYearID integer,@ToYearID integer
-                                                     ,@DocTypeCodeFrom varchar(150)= '' ,@DocTypeCodeTo integer  =[-1] , @DetailCompanydel integer =[1])
+CREATE FUNCTION   [Acc].[DetailsOnTopicBook]  -- Edit By Rezaei 1402/11/04 for Add Currency
+							(
+								@CompanyCodeFrom Varchar(12)=[0] ,
+								@CompanyCodeTO Varchar(12)=[0],
+								@AccCode Varchar(12)=[2], 
+								@DetailCode Varchar(12)=[11], 
+								@SecondaryDocNoFrom Varchar(12)=[0] ,
+								@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+								@PrimaryDocNoFrom  Varchar(12)=[0], 
+								@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+								@DocDateFrom Varchar(10)='0001/01/01', 
+								@DocDateTo  Varchar(10)='9999/99/99',
+								@Status1 varchar(150)= '', 
+								@Status2  integer=[-1] ,
+								@FromYearID integer,
+								@ToYearID integer,
+								@DocTypeCodeFrom varchar(150)= '' ,
+								@DocTypeCodeTo integer  =[-1] , 
+								@DetailCompanydel integer =[1],
+								@CurrencyTypeFrom  integer=0  , 
+								@CurrencyTypeTo  integer=99999, 
+								@CurrencyKind  integer=0 
+							)
 RETURNS table  AS  
 return (  
 
-select *  from (
-SELECT     DocGroups.YearID, DocGroups.Serial, Documents.ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode, 
-                      DocGroups.SecondaryDocNo, DocGroups.PrimaryDocNo, DocGroups.DocDate, Documents.Comment_L1,  Documents.Comment_L2, Documents.AidDocNo, 
-                      Documents.BudgetTopicID, Documents.ProjectID, Documents.AidDocdate, Documents.AidAmount, Documents.Debt, Documents.Credit, 
-                      Documents.Debt - Documents.Credit AS balance,
-                      CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, DocGroups.Status, DocTypes.SORtID, 0 AS RelatedID, 0 AS AnalizeType, 
-                      0 AS ItemID , Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-		    ,CASE WHEN Debt   <> 0 THEN AidAmount ELSE 0 END AS AidAmountBed
-                      ,CASE WHEN Credit <> 0 THEN AidAmount ELSE 0 END AS AidAmountBes,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-FROM         Acc.Documents AS Documents INNER JOIN
-                      Acc.DocGroups AS DocGroups ON Documents.Serial = DocGroups.Serial AND Documents.YearID = DocGroups.YearID AND 
-                      Documents.CompanyCode = DocGroups.CompanyCode LEFT OUTER JOIN
-                      Acc.DocTypes AS DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode LEFT OUTER JOIN
-					  Acc.Details AS Details ON Details.DetailCode = Documents.DetailCode
-
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO)AND 
-		(DocGroups.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(Documents.TopicCode = @AccCode) AND 
-		(Documents.DetailCode =@DetailCode ) AND 
+	select * 
+	from (
+		SELECT	DG.YearID, 
+				DG.Serial, 
+				D.ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+				DG.SecondaryDocNo, 
+				DG.PrimaryDocNo, 
+				DG.DocDate, 
+				D.Comment_L1,  
+				D.Comment_L2, 
+				D.AidDocNo, 
+				D.BudgetTopicID, 
+				D.ProjectID, 
+				D.AidDocdate, 
+				D.AidAmount, 
+				D.Debt, 
+				D.Credit, 
+				D.Debt - D.Credit AS balance,
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				DG.Status, 
+				DocTypes.SORtID, 
+				0 AS RelatedID, 
+				0 AS ItemID , 
+				Details.CustAccountNumber, 
+				Details.ManageName, 
+				Details.BankName,
+				Details.PaymentCode,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance,
+				0 AnalizeType
+		FROM    Acc.Documents AS D 
+				INNER JOIN Acc.DocGroups AS DG ON D.Serial = DG.Serial 
+										  AND D.YearID = DG.YearID 
+										  AND D.CompanyCode = DG.CompanyCode 
+				LEFT OUTER JOIN Acc.DocTypes AS DocTypes ON DG.DocTypeCode = DocTypes.DocTypeCode 
+				LEFT OUTER JOIN Acc.Details AS Details ON Details.DetailCode = D.DetailCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO)AND 
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.DetailCode =@DetailCode ) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
+ 				(CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		Union All
+		SELECT  DG.YearId , 
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo,  
+				max(DocDate) as DocDate, 
+				'---' as  Comment_L1, 
+				'---' as  Comment_L2 , 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance ,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,
+				0 as Status ,
+				0 As SORtID,
+				-1 as RelatedID,
+				0 as ItemID , 
+				Details.CustAccountNumber, 
+				Details.ManageName, 
+				Details.BankName,
+				Details.PaymentCode ,
+			   -- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		  ,0 AnalizeType
+		FROM    Acc.Documents as D 
+				INNER JOIN  acc.DocGroups as DG ON 
+								D.Serial = DG.Serial AND 
+								D.YearID =DG.YearID AND     
+								D.CompanyCode =DG.CompanyCode 
+				LEFT OUTER JOIN	Acc.Details AS Details ON Details.DetailCode = D.DetailCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(D.TopicCode = @AccCode) AND 
+				(D.DetailCode =@DetailCode ) AND 
 		
-  	    (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DocGroups.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR 
-        (DocGroups.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
- 		(CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-        (DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
-
-Union All
-
-SELECT      DocGroups.YearId , 0 as Serial,  0 as ID, DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo,  max(DocDate) as DocDate, '---' as  Comment_L1, '---' as  Comment_L2 , 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(Documents.Debt) as debt, 
-                      sum(Documents.Credit) as Credit, sum(Documents.Debt - Documents.Credit) AS balance ,
-                      CASE sum(Documents.Debt - Documents.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,0 as Status ,0 As SORtID,-1 as RelatedID,0 as AnalizeType , 
-                      0 as ItemID , Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-					  ,sum(CASE WHEN Debt   <> 0 THEN AidAmount ELSE 0 END) AS AidAmountBed
-                      ,sum(CASE WHEN Credit <> 0 THEN AidAmount ELSE 0 END) AS AidAmountBes,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-
-FROM        Acc.Documents as Documents INNER JOIN
-                      acc.DocGroups as DocGroups 
-			 ON  Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND     
-			Documents.CompanyCode =DocGroups.CompanyCode LEFT OUTER JOIN
-			Acc.Details AS Details ON Details.DetailCode = Documents.DetailCode
-
-WHERE   (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND 
-		(DocGroups.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(Documents.TopicCode = @AccCode) AND 
-		(Documents.DetailCode =@DetailCode ) AND 
-		
-		((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DocGroups.Status <> 0)) OR 
-        (DocGroups.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
- 		(CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-        (DocGroups.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,',')))) AND
-	    ((DocGroups.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	    (DocGroups.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	    (DocGroups.DocDate < @DocDateFrom ))
-group by DocGroups.YearId ,DocGroups.CompanyCode, Documents.TopicCode, Documents.DetailCode ,
-		 Details.CustAccountNumber, Details.ManageName, Details.BankName,Details.PaymentCode
-
-)DocOnDetails
-
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
+ 				(CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,',')))) AND
+				((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+				(DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+				(DG.DocDate < @DocDateFrom ))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId ,DG.CompanyCode, D.TopicCode, D.DetailCode ,
+				 Details.CustAccountNumber, Details.ManageName, Details.BankName,
+				 Details.PaymentCode,
+				 case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				 case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				 case when @CurrencyKind = 0 then null else cu.CurrenciesName END
+	)DocOnDetails
 )
 
 GO
 
-CREATE FUNCTION   [Acc].[DetailsOnTopicBookSpecial]  (@CompanyCode Varchar(12)=[0] ,@AccCodeFrom Varchar(12)=[2],@AccCodeTo Varchar(12)=[2], @DetailCodeFrom Varchar(12)=[11], @DetailCodeTo Varchar(12)=[11],
-				@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], @PrimaryDocNoFrom  Varchar(12)=[0], 
-				@PrimaryDocNoTo Varchar(12)=[214748364799] ,@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99'
-                                                     ,@Status1 varchar(150)='', @Status2  integer=[-1] ,@FromYearID integer,@ToYearID integer)
+CREATE FUNCTION   [Acc].[DetailsOnTopicBookSpecial]   -- Edit By Rezaei 1402/11/04 for Add Currency
+						(
+							@CompanyCode Varchar(12)=[0] ,
+							@AccCodeFrom Varchar(12)=[2],
+							@AccCodeTo Varchar(12)=[2], 
+							@DetailCodeFrom Varchar(12)=[11], 
+							@DetailCodeTo Varchar(12)=[11],
+							@SecondaryDocNoFrom Varchar(12)=[0] ,
+							@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+							@PrimaryDocNoFrom  Varchar(12)=[0], 
+							@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+							@DocDateFrom Varchar(10)='0001/01/01', 
+							@DocDateTo  Varchar(10)='9999/99/99' ,
+							@Status1 varchar(150)='', 
+							@Status2  integer=[-1] ,
+							@FromYearID integer,
+							@ToYearID integer,
+							@CurrencyTypeFrom  integer=0  , 
+							@CurrencyTypeTo  integer=99999, 
+							@CurrencyKind  integer=0 
+						)
 RETURNS table  AS  
-return (  select *,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance  from (
-SELECT      DG.YearID,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.DetailCode, 
-                      DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
-                      D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, 
-                      D.Credit, D.Debt - D.Credit AS balance,
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END as BedBes,DG.Status
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
+return (  
+	select *
+	from (
+		SELECT	DG.YearID,
+				DG.Serial, 
+				D.ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+				DG.SecondaryDocNo, 
+				DG.PrimaryDocNo, 
+				DG.DocDate, 
+				D.Comment_L1, 
+				D.AidDocNo, 
+				D.BudgetTopicID, 
+				D.ProjectID, 
+				D.AidDocdate, 
+				D.AidAmount, 
+				D.Debt, 
+				D.Credit, 
+				D.Debt - D.Credit AS balance,
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END as BedBes,
+				DG.Status,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+		FROM    Acc.Documents D 
+				INNER JOIN  Acc.DocGroups DG ON D.Serial = DG.Serial 
+						AND D.YearID = DG.YearID 
+						AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE    
+				(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(DG.CompanyCode = @CompanyCode) AND 
+				(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTO)  
+				AND (D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 
-WHERE    
-		(DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(DG.CompanyCode = @CompanyCode) AND (D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTO)  AND (D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo) AND 
-  	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-        (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))
+		Union All
 
-Union All
-
-SELECT      DG.YearID, 0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate, '---' as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance,
-                      CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,0 as Status
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-
-WHERE   (DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
-		(DG.CompanyCode = @CompanyCode) AND(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTO)  AND (D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo) AND
-	   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by DG.YearID,DG.CompanyCode, D.TopicCode, D.DetailCode )DocOnDetails
-
+		SELECT	DG.YearID, 
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo, 
+				'01/01' as DocDate, 
+				'---' as  Comment_L1, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes ,
+				0 as Status,
+				-- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		FROM	Acc.Documents D 
+				INNER JOIN  Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND 
+				(DG.CompanyCode = @CompanyCode) AND
+				(D.TopicCode BETWEEN @AccCodeFrom AND @AccCodeTO)  AND 
+				(D.DetailCode BETWEEN @DetailCodeFrom AND @DetailCodeTo) AND
+			   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+			   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+			   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+			   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearID,
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.DetailCode ,
+			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+	)DocOnDetails
 )
+
 GO
-
-
 
 CREATE FUNCTION [Acc].[FORmsInfo_FilterType]   (@FORmType Varchar(4)=[10]  )
 
 RETURNS table AS  
 return
 (
-select     * 
-from    acc.FORmsInfo
-WHERE     FORmtype=@FORmType
-
+	select     * 
+	from    acc.FORmsInfo
+	WHERE     FORmtype=@FORmType
 )
 
 
 GO
 
-CREATE FUNCTION [Acc].[GeneralJournal]  (@LenAccCode Varchar(12)=[2], @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-			@PrimaryDocNoFrom  Varchar(12)=[0], @PrimaryDocNoTo Varchar(12)=[214748364799] ,@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99',
-			@FromYearID integer=88,@ToYearID integer, @CompanyCodeFrom integer = [1], @CompanyCodeTo integer = [1]  )
+CREATE FUNCTION [Acc].[GeneralJournal]  
+			(
+				@LenAccCode Varchar(12)=[2], 
+				@SecondaryDocNoFrom Varchar(12)=[0] ,
+				@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+				@PrimaryDocNoFrom  Varchar(12)=[0], 
+				@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+				@DocDateFrom Varchar(10)='0001/01/01', 
+				@DocDateTo  Varchar(10)='9999/99/99',
+				@FromYearID integer=88,
+				@ToYearID integer, 
+				@CompanyCodeFrom integer = [1], 
+				@CompanyCodeTo integer = [1]  
+			)
 RETURNS table  AS  
 return (
-SELECT     YearId ,serial,TrialBalance.DocDate, TrialBalance.BedBes , TrialBalance.PrimaryDocNo, TrialBalance.SecondaryDocNo, TrialBalance.AccCode, Categories_2.MoeenName_L1 , Categories_2.MoeenName_L2 ,
-                      TrialBalance.Debt, TrialBalance.Credit, TrialBalance.DocTopic_L1 ,TrialBalance.DocTopic_L2,SORtID
-FROM         (
-SELECT DocGroups.YearId ,0 as serial,    '-' as DocDate, 0 as PrimaryDocNo, 0 as SecondaryDocNo, 0 AS BedBes, CAST( 0 AS BIGINT ) AS AccCode,
-        	SUM(Documents.Debt) AS Debt, SUM(Documents.Credit) AS Credit, '??? C? ?E? ' as DocTopic_L1,  '---- ' as DocTopic_L2,0 as SORtID
-FROM Acc.Documents as Documents INNER JOIN acc.DocGroups as DocGroups 
-			      ON Documents.Serial = DocGroups.Serial AND Documents.YearID =DocGroups.YearID AND Documents.CompanyCode =DocGroups.CompanyCode
-WHERE  (DocGroups.Status >= 1)AND (DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
-           AND (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)
-           AND ((DocGroups.DocDate <@DocdateFrom)
-           OR (DocGroups.PrimaryDocNo > 0 AND DocGroups.PrimaryDocNo < @PrimaryDocNoFrom)
-           OR (DocGroups.SecondaryDocNo < @SecondaryDocNoFrom ))
-GROUP BY  DocGroups.YearId            
+	SELECT  YearId ,
+			serial,
+			TrialBalance.DocDate, 
+			TrialBalance.BedBes , 
+			TrialBalance.PrimaryDocNo, 
+			TrialBalance.SecondaryDocNo, 
+			TrialBalance.AccCode, 
+			Categories_2.MoeenName_L1 , 
+			Categories_2.MoeenName_L2 ,
+			TrialBalance.Debt, 
+			TrialBalance.Credit, 
+			TrialBalance.DocTopic_L1 ,
+			TrialBalance.DocTopic_L2,
+			SORtID
+	FROM  (
+			SELECT	DocGroups.YearId ,
+					0 as serial,
+					'-' as DocDate, 
+					0 as PrimaryDocNo, 
+					0 as SecondaryDocNo, 
+					0 AS BedBes, 
+					CAST( 0 AS BIGINT ) AS AccCode,
+        			SUM(Documents.Debt) AS Debt, 
+					SUM(Documents.Credit) AS Credit, 
+					'??? C? ?E? ' as DocTopic_L1,  
+					'---- ' as DocTopic_L2,
+					0 as SORtID
+			FROM	Acc.Documents as Documents 
+					INNER JOIN acc.DocGroups as DocGroups ON Documents.Serial = DocGroups.Serial 
+											AND Documents.YearID =DocGroups.YearID 
+											AND Documents.CompanyCode =DocGroups.CompanyCode
+			WHERE  (DocGroups.Status >= 1)
+					AND (DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
+					AND (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)
+					AND (
+						(DocGroups.DocDate <@DocdateFrom)
+						OR (DocGroups.PrimaryDocNo > 0 AND DocGroups.PrimaryDocNo < @PrimaryDocNoFrom)
+						OR (DocGroups.SecondaryDocNo < @SecondaryDocNoFrom )
+						)
+			GROUP BY  DocGroups.YearId            
 
-UNION ALL
+			UNION ALL
 
-SELECT    DocGroups.YearId , DocGroups.Serial, DocGroups.DocDate, DocGroups.PrimaryDocNo, DocGroups.SecondaryDocNo, 
-               CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, LEFT(Documents.TopicCode, @LenAccCode) AS AccCode, SUM(Documents.Debt) AS Debt, 
-               SUM(Documents.Credit) AS Credit, DocGroups.DocTopic_L1, DocGroups.DocTopic_L2, DocTypes.SORtID
-FROM    Acc.Documents as Documents INNER JOIN 
-              acc.DocGroups as DocGroups ON  Documents.Serial = DocGroups.Serial AND 
-              Documents.YearID = DocGroups.YearID AND Documents.CompanyCode =DocGroups.CompanyCode LEFT OUTER JOIN
-              acc.DocTypes as DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode
-WHERE (DocGroups.Status >= 1) AND (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )
-	         AND (DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
-	         AND (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)
-             AND (DocGroups.PrimaryDocNo BETWEEN  @PrimaryDocNoFrom  AND @PrimaryDocNoTo )
-             AND (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo )
+			SELECT    DocGroups.YearId , DocGroups.Serial, DocGroups.DocDate, DocGroups.PrimaryDocNo, DocGroups.SecondaryDocNo, 
+						   CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, LEFT(Documents.TopicCode, @LenAccCode) AS AccCode, SUM(Documents.Debt) AS Debt, 
+						   SUM(Documents.Credit) AS Credit, DocGroups.DocTopic_L1, DocGroups.DocTopic_L2, DocTypes.SORtID
+			FROM    Acc.Documents as Documents INNER JOIN 
+						  acc.DocGroups as DocGroups ON  Documents.Serial = DocGroups.Serial AND 
+						  Documents.YearID = DocGroups.YearID AND Documents.CompanyCode =DocGroups.CompanyCode LEFT OUTER JOIN
+						  acc.DocTypes as DocTypes ON DocGroups.DocTypeCode = DocTypes.DocTypeCode
+			WHERE (DocGroups.Status >= 1) AND (DocGroups.DocDate BETWEEN @DocDateFrom AND @DocDateTo )
+						 AND (DocGroups.YearID BETWEEN @FromYearID AND @ToYearID)
+						 AND (DocGroups.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo)
+						 AND (DocGroups.PrimaryDocNo BETWEEN  @PrimaryDocNoFrom  AND @PrimaryDocNoTo )
+						 AND (DocGroups.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo )
             
-GROUP BY DocGroups.YearId ,DocGroups.serial,DocGroups.DocDate, DocGroups.PrimaryDocNo, DocGroups.SecondaryDocNo, CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END , LEFT(Documents.TopicCode, @LenAccCode),
-           DocGroups.DocTopic_L1, DocGroups.DocTopic_L2, DocTypes.SORtID) TrialBalance LEFT OUTER JOIN
-Acc.Categories Categories_2 ON TrialBalance.AccCode = Categories_2.TopicCode)
-
+			GROUP BY DocGroups.YearId ,DocGroups.serial,DocGroups.DocDate, DocGroups.PrimaryDocNo, DocGroups.SecondaryDocNo, CASE Documents.debt WHEN 0 THEN '1' ELSE '0' END , LEFT(Documents.TopicCode, @LenAccCode),
+					   DocGroups.DocTopic_L1, DocGroups.DocTopic_L2, DocTypes.SORtID) TrialBalance LEFT OUTER JOIN
+					Acc.Categories Categories_2 ON TrialBalance.AccCode = Categories_2.TopicCode
+)
 
 GO
+
 CREATE FUNCTION [Acc].[rptBalaceDetaillWithSomeColumn](@DetailCodeFrom Varchar(12)=[0], @DetailCodeto Varchar(12)=[214748364799],
                                            @AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=[214748364799] , 
 			                               @DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1] ,
@@ -4673,7 +5426,6 @@ GROUP BY DocGroups.YearId ,Documents.CTopicCode ,  CenterTopics.CTopicName_L1,  
 
 GO
 
-
 CREATE FUNCTION [Acc].[rptBalaceKollWithSomeColumn]        (@LenPrvAccCode Varchar(4)=[1] , @LenAccCode Varchar(4)=[2] ,
 			                            @DocTypeCode1_Not varchar(150)='' ,@DocTypeCode2_Not integer  =[-1] ,@DocTypeCode3_Not integer=[-1] ,
 			                            @DocTypeCodeFrom integer=[0] ,@DocTypeCodeTo integer  =[9999] ,
@@ -4732,7 +5484,6 @@ HAVING ( LEFT(Documents.TopicCode, @LenAccCode) BETWEEN @AccCodeFrom AND @AccCod
 
 GO
 
-
 CREATE  FUNCTION [Acc].[rptDailyDocuments]   (
 					@LenAccCode Varchar(4)=[2], @DocDateFrom  Varchar(10)=[77/12/29] , @DocDateTo  Varchar(10)='9999/99/99' ,@FromYearID integer,@ToYearID integer,
 					@CompanyFrom int=0, @CompanyTo int=9999,@ByDocSerial bit=0)
@@ -4754,14 +5505,13 @@ GROUP BY case when  @ByDocSerial=1  then  DocGroups.Serial else 0 end, DocGroups
 )
 GO
 
+CREATE FUNCTION [Acc].[RptPORtionDocs] 
 -- =============================================
 -- AuthOR:		<Name , Mohammad Hassan Rezaei >
--- Create date: <Create Date,1387/03/18,>
+-- c r e a t e date: <Create Date,1387/03/18,>
 -- Description:	<Description, اين گزارش جهت نمايش اسناد حسابداري مربوط به تسهيم هزينه 
 -- ساخته شده است و براي شركتهايي كه عناوين هزينه در سطح معيين تعريف شده اند كاربرد دارد  >
 -- =============================================
-
-CREATE FUNCTION [Acc].[RptPORtionDocs] 
 (	
 
 	@TopicCodeFrom  int ,  @TopicCodeTo int , @DocDateFrom Char(10) , @DocDateTo Char(10)
@@ -4824,7 +5574,7 @@ CREATE FUNCTION [Acc].[BudgetTopicBook]
 )
 -- =============================================
 -- Author:		<Mehdi Kahdooei>
--- Create date: <Create Date 2016-01-09>
+-- c r e a t e date: <Create Date 2016-01-09>
 -- Description:	<دفتر اعتيارات>
 -- =============================================
 RETURNS TABLE 
@@ -4878,7 +5628,7 @@ CREATE FUNCTION [Acc].[RptBudgetSettlement]
 )
 -- =============================================
 -- Author:		<Mehdi Kahdooei>
--- Create date: <Create Date 2016-01-09>
+-- c r e a t e date: <Create Date 2016-01-09>
 -- Description:	<تفريغ بودجه>
 -- =============================================
 RETURNS TABLE 
@@ -4975,8 +5725,6 @@ WHERE     ( DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo)
 
 GO
 
-
-
 CREATE FUNCTION [Acc].[rptMonthDocuments]   (
 												@LenAccCode Varchar(4)=[2] ,@MonthFrom Varchar(4)=[01] , 
 												@MonthTo Varchar(4)=[12],@DateFrom Varchar(10)=[00/00/00] ,
@@ -5059,8 +5807,6 @@ GROUP BY   DG.YearId ,  substring(DG.DocDate,0,8)   ,  case when debt >0 then 0 
 
  
 GO
- 
-GO
 
 CREATE FUNCTION [Acc].[UpdateCategories]   ( 
                                              @LenAccCode Varchar(4)=[1] ,
@@ -5083,8 +5829,6 @@ WHERE     (LEFT(TopicCode, @LenAccCode) = @OldTopicCode )
 
  
 GO
- 
-GO
 
 CREATE FUNCTION [Acc].[UpdateCompanyCode]   ( @LenCompanyCode Varchar(4)=[1] ,@OldCompanyCode varchar(20)=[1] ,@NewCompanyCode varchar(20)=[2] )
 
@@ -5100,13 +5844,14 @@ WHERE     (LEFT(CompanyCode, @LenCompanyCode) = @OldCompanyCode )
 )
 
 GO
+
+CREATE  FUNCTION [Acc].[RptPORtionDocs_Koll] 
 -- =============================================
 -- AuthOR:		<Name , Mohammad Hassan Rezaei >
--- Create date: <Create Date,1387/03/18,>
+-- c r e a t e date: <Create Date,1387/03/18,>
 -- Description:	<Description, اين گزارش جهت نمايش اسناد حسابداري مربوط به تسهيم هزينه 
 -- ساخته شده است و براي شركتهايي كه عناوين هزينه در سطح معيين تعريف شده اند كاربرد دارد  >
 -- =============================================
-CREATE  FUNCTION [Acc].[RptPORtionDocs_Koll] 
 (	
 
 	@TopicCodeFrom  int ,  @TopicCodeTo int , @DocDateFrom Char(10) , @DocDateTo Char(10)
@@ -5233,6 +5978,7 @@ SELECT   @TopicCode AS Moeen,
                ON Acc.Categories.TopicCode = Acc.CategoriesForUse.PrvTopicCode
                WHERE (Acc.CategoriesForUse.PrvTopicCode IS NULL) and (Acc.Categories.TopicCode = @TopicCode)) AS HassMoeen,
 		(SELECT COUNT(*) AS Expr1 FROM  acc.DetailRange  WHERE (acc.DetailRange.TopicCode = @TopicCode)) AS HassDetail,
+		case when @CtopicCode1=0 then ( SELECT CTopicCodeIsZero FROM Acc.Config) else 1 end *
 		(SELECT COUNT(*) AS Expr1 FROM  acc.CenterTopicRange  WHERE (acc.CenterTopicRange.TopicCode = @TopicCode)) AS HassCTopic,
 		case  ( SELECT CtoipcRelatedKind FROM Acc.Config) 
 			when 0 then case when @CtopicCode2=0 then ( SELECT CTopicCode2IsZero FROM Acc.Config)else 1 end *
@@ -5436,7 +6182,8 @@ GROUP BY D.TopicCode, D.DetailCode, Acc.Categories.MoeenName_L1 , Acc.Details.De
 
 GO
 
-CREATE FUNCTION [Acc].[AccTrialDetailsBalance_arzi] (
+CREATE FUNCTION [Acc].[AccTrialDetailsBalance_arzi] -- باید حذف شود 
+		(
 			@DocTypeCode1_Not varchar(150)='' , @CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[2147483647] ,
 			@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=[214748364799] , 
 			@DetailCodeFrom Varchar(12)=[0],  @DetailCodeTo Varchar(12)=[214748364799] , 
@@ -5486,7 +6233,8 @@ GROUP BY D.TopicCode, D.DetailCode, Acc.Categories.MoeenName_L1 , Acc.Details.De
 		)
 GO
 
-CREATE FUNCTION   [Acc].[DetailsOnTopicBook_arzi]  (
+CREATE FUNCTION   [Acc].[DetailsOnTopicBook_arzi] -- باید حذف شود 
+	(
 		@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTO Varchar(12)=[9999],@AccCode Varchar(12)=[2], 
 		@DetailCode Varchar(12)=[11], @SecondaryDocNoFrom Varchar(12)=[0] ,
 		@SecondaryDocNoTo Varchar(12)=[2147483647999], @PrimaryDocNoFrom  Varchar(12)=[0], 
@@ -5574,7 +6322,8 @@ group by DocGroups.YearId ,DocGroups.CompanyCode, Documents.TopicCode, Documents
 )
 GO
 
-CREATE FUNCTION [Acc].[AccTrialBalance_Arzi] (@DocTypeCode1_Not varchar(150)='' ,
+CREATE FUNCTION [Acc].[AccTrialBalance_Arzi] -- باید حذف شود 
+	(@DocTypeCode1_Not varchar(150)='' ,
 			@CompanyCodeFrom Varchar(12)=[0] ,@CompanyCodeTo Varchar(12)=[2147483647] ,
 			@AccCodeFrom Varchar(12)=[0],  @AccCodeTo Varchar(12)=[214748364799] ,  
 			@SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
@@ -5630,7 +6379,8 @@ HAVING
 
 GO
 
-CREATE  FUNCTION [Acc].[AccBooksCategories_arzi]  (
+CREATE  FUNCTION [Acc].[AccBooksCategories_arzi]  -- باید حذف شود 
+	(
 			@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTo Varchar(12)=[0] ,@LenAccCode Varchar(12)=[2], 
 			@AccCode bigint=[11], @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
 			@PrimaryDocNoFrom  Varchar(12)=[0],  @PrimaryDocNoTo Varchar(12)=[214748364799] ,
@@ -5707,71 +6457,112 @@ WHERE      (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo ) AND( DG
 
 GO
 
-
-
-CREATE FUNCTION [Acc].[CTopics3OnTopicCode]  (@CompanyCode Varchar(12)=[0] ,@AccCode Varchar(12)=[2], @CTopicCode2 Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 varchar(150)='', @Status2  integer=[-1],@FromyearId integer,@ToYearId integer,
-                                    @DocTypeCodeFrom varchar(150)='',
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[CTopics3OnTopicCode]  -- Edit By Rezaei 1402/11/04 for Add Currency
+						(
+							@CompanyCode Varchar(12)=[0] ,
+							@AccCode Varchar(12)=[2], 
+							@CTopicCode2 Varchar(12)=[11], 
+				            @SecondaryDocNoFrom Varchar(12)=[0] ,
+							@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                            @PrimaryDocNoFrom  Varchar(12)=[0],
+							@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                            @DocDateFrom Varchar(10)='0001/01/01', 
+							@DocDateTo  Varchar(10)='9999/99/99' ,
+                            @Status1 varchar(150)='', 
+							@Status2  integer=[-1],
+							@FromyearId integer,
+							@ToYearId integer,
+                            @DocTypeCodeFrom varchar(150)='',
+							@CurrencyTypeFrom  integer=0  , 
+							@CurrencyTypeTo  integer=99999, 
+							@CurrencyKind  integer=0  
+						)
 RETURNS table  AS  
-return (  select * 					  ,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
+return (  
+	select * 
+	from (
+		SELECT	DG.YearId ,  
+				0 as Serial,  
+				0 as ID, DG.CompanyCode, D.TopicCode, D.ctopiccode3, 
+				0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
+				0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,
+				0 As SORtID,
+				-- for currency 
+			   case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+			   case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+			   case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+			   END AS CurrencyDebit,
+			   case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+			   END AS CurrencyCredit,
+			   case 
+				 when @CurrencyKind = 0 then 0 
+				 else SUM(D.CurrencyDebit - D.CurrencyCredit)
+			   END AS CurrencyBalance
+		  -- end of currency 
+		FROM	Acc.Documents D 
+				INNER JOIN  Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode = @CompanyCode) AND  
+				(DG.YearId BETWEEN @FromyearId AND @ToYearId) AND
+				(D.TopicCode = @AccCode) AND 
+				(D.CTopicCode3 =@CTopicCode2 ) AND 
+				((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+				(DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+				(DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId , DG.CompanyCode, D.TopicCode, D.CTopicCode3,
+			case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+			case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+			case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
 
-from (
+		Union All
 
-SELECT     DG.YearId ,  0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.ctopiccode3, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance,
-					  CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes,0 As SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
-
-WHERE   (DG.CompanyCode = @CompanyCode) AND  
-(DG.YearId BETWEEN @FromyearId AND @ToYearId) AND
-	    (D.TopicCode = @AccCode) AND 
-	    (D.CTopicCode3 =@CTopicCode2 ) AND 
-	    ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	    (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	    (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by DG.YearId , DG.CompanyCode, D.TopicCode, D.CTopicCode3
-Union All
- SELECT    DG.YearId , DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode3, DG.SecondaryDocNo, 
-                      DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, D.BudgetTopicID, D.ProjectID, 
-                      D.AidDocdate, D.AidAmount, D.Debt, D.Credit, D.Debt - D.Credit AS balance, 
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
-                      acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
-                      
-WHERE   (DG.CompanyCode = @CompanyCode)  AND  (DG.YearId BETWEEN @FromyearId AND @ToYearId) 
-AND 
-	    (D.TopicCode = @AccCode) 
+		SELECT  DG.YearId , DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode3, DG.SecondaryDocNo, 
+				DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, D.BudgetTopicID, D.ProjectID, 
+				D.AidDocdate, D.AidAmount, D.Debt, D.Credit, D.Debt - D.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				acc.DocTypes.SORtID ,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit ) Currencybalance
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode  
+				LEFT OUTER JOIN  acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+                left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode = @CompanyCode)  AND  (DG.YearId BETWEEN @FromyearId AND @ToYearId) 
 		AND 
-	    (D.CTopicCode3 =@CTopicCode2 ) 
-		AND 
-	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo )
-		AND 
-    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo )
-	 AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )
-		AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
-       (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) 
-		AND
-       (( CASE WHEN (@DocTypeCodeFrom = '' or @DocTypeCodeFrom is null) THEN 1 ELSE 0 END = 1)
-	    OR 
-	    (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
- )DocOnCTopicCode2
+				(D.TopicCode = @AccCode) 
+				AND 
+				(D.CTopicCode3 =@CTopicCode2 ) 
+				AND 
+				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo )
+				AND 
+			(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo )
+			 AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )
+				AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+			   (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) 
+				AND
+			   (( CASE WHEN (@DocTypeCodeFrom = '' or @DocTypeCodeFrom is null) THEN 1 ELSE 0 END = 1)
+				OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
+				AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+	 )DocOnCTopicCode2
 
 )
 
@@ -5803,18 +6594,22 @@ END
 
 GO
 
-CREATE FUNCTION [Acc].[AccTrialCTopics3Balance_CTopics] (@DocTypeCode_Not varchar(150)='-1' ,
-						@CompanyCodeFrom INT=[0] ,@CompanyCodeTo INT=[2147483647] ,
-						@AccCodeFrom INT=[0],  @AccCodeTo INT=[214748364799] , 
-						@DetailCodeFrom INT=[0],  @DetailCodeTo INT=[214748364799] , 
-						@CTopicCodeFrom INT=[0],  @CTopicCodeTo INT=[214748364799] ,
-						@CTopicCode2From INT=[0],  @CTopicCode2To INT=[214748364799] , 
-						@CTopicCode3From INT=[0],  @CTopicCode3To INT=[214748364799] , 
-						@SecondaryDocNoFrom INT=[0] ,@SecondaryDocNoTo INT=[2147483647999], 
-						@PrimaryDocNoFrom INT=[0], @PrimaryDocNoTo INT=[214748364799] ,
-						@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                        @Status varchar(150)='-1', @FromYearID INT ,@ToYearID INT,
-			         @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[AccTrialCTopics3Balance_CTopics] -- Edit By Rezaei 1402/11/04 for Add Currency
+						(
+							@DocTypeCode_Not varchar(150)='-1' ,
+							@CompanyCodeFrom INT=[0] ,@CompanyCodeTo INT=[2147483647] ,
+							@AccCodeFrom INT=[0],  @AccCodeTo INT=[214748364799] , 
+							@DetailCodeFrom INT=[0],  @DetailCodeTo INT=[214748364799] , 
+							@CTopicCodeFrom INT=[0],  @CTopicCodeTo INT=[214748364799] ,
+							@CTopicCode2From INT=[0],  @CTopicCode2To INT=[214748364799] , 
+							@CTopicCode3From INT=[0],  @CTopicCode3To INT=[214748364799] , 
+							@SecondaryDocNoFrom INT=[0] ,@SecondaryDocNoTo INT=[2147483647999], 
+							@PrimaryDocNoFrom INT=[0], @PrimaryDocNoTo INT=[214748364799] ,
+							@DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
+							@Status varchar(150)='-1', @FromYearID INT ,@ToYearID INT,
+							@CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=99999, 
+							@CurrencyKind  integer=0  
+						)
 
 RETURNS table AS  
 return
@@ -5883,6 +6678,7 @@ WHERE  (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom AND @SecondaryDocNoTo )
 			   DG.Status in (Select part From [Acc].[SplitString] (@Status,',')))
 			   AND ((CASE  WHEN @DocTypeCode_Not = '-1' THEN 1 ELSE 0 END) = 1 OR
 		       DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCode_Not,',')))
+			   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
 GROUP BY  D.CTopicCode,  D.CTopicCode2,  D.TopicCode,  D.DetailCode, D.ctopiccode3,
                 Categories.MoeenName_L1, CenterTopics.CTopicName_L1, Details.DetailName_L1,  CenterTopics2.CTopicName2_L1,
 				CenterTopics2.CTopicName2_L2,CenterTopics3.CTopicName3_L1,
@@ -6233,67 +7029,129 @@ END
 
 GO
 
-CREATE FUNCTION [Acc].[CTopics3OnDetailCode]  (@CompanyCodeFrom Varchar(12)=[0],@CompanyCodeTo Varchar(12)=[0] ,@AccCode Varchar(12)=[2], @CTopicCode2 Varchar(12)=[11], @DetailCode Varchar(12)=[11], 
-				                    @SecondaryDocNoFrom Varchar(12)=[0] ,@SecondaryDocNoTo Varchar(12)=[2147483647999], 
-                                    @PrimaryDocNoFrom  Varchar(12)=[0],@PrimaryDocNoTo Varchar(12)=[214748364799] ,
-                                    @DocDateFrom Varchar(10)='0001/01/01', @DocDateTo  Varchar(10)='9999/99/99' ,
-                                    @Status1 Varchar(150)='', @Status2  integer=[-1],@FromYearID integer,@ToYearID integer,
-                                    @DocTypeCodeFrom varchar(150)='' ,
-			            @CurrencyTypeFrom  integer=0  , @CurrencyTypeTo  integer=999, @CurrencyKind  integer=0  )
+CREATE FUNCTION [Acc].[CTopics3OnDetailCode]  -- Edit By Rezaei 1402/11/04 for Add Currency
+						(
+							@CompanyCodeFrom Varchar(12)=[0],
+							@CompanyCodeTo Varchar(12)=[0] ,
+							@AccCode Varchar(12)=[2], 
+							@CTopicCode2 Varchar(12)=[11], 
+							@DetailCode Varchar(12)=[11], 
+				            @SecondaryDocNoFrom Varchar(12)=[0] ,
+							@SecondaryDocNoTo Varchar(12)=[2147483647999], 
+                            @PrimaryDocNoFrom  Varchar(12)=[0],
+							@PrimaryDocNoTo Varchar(12)=[214748364799] ,
+                            @DocDateFrom Varchar(10)='0001/01/01', 
+							@DocDateTo  Varchar(10)='9999/99/99' ,
+                            @Status1 Varchar(150)='', 
+							@Status2  integer=[-1],
+							@FromYearID integer,
+							@ToYearID integer,
+                            @DocTypeCodeFrom varchar(150)='' ,
+							@CurrencyTypeFrom  integer=0  , 
+							@CurrencyTypeTo  integer=99999, 
+							@CurrencyKind  integer=0  
+						)
 RETURNS table  AS  
-return (  select *  ,0 CurrencyType 
-		,0 CurrencyCode 
-		,'' CurrenciesName 
-		,0.0 CurrencyDebit
-		,0.0 CurrencyCredit
-		,0.0 Currencybalance
-from (
+return (  
+	select *  
+	from (
+		SELECT	DG.YearId , 
+				0 as Serial,  
+				0 as ID, 
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.ctopiccode3, 
+				D.DetailCode, 
+				0 as SecondaryDocNo, 
+				0 as PrimaryDocNo, 
+				'01/01' as DocDate,
+				'مجموع مانده از قبل  '  as  Comment_L1, 
+				0 as AidDocNo, 
+				0 as BudgetTopicID, 
+				0 as ProjectID, 
+				'--' as AidDocdate, 
+				0 as AidAmount, 
+				sum(D.Debt) as debt, 
+				sum(D.Credit) as Credit, 
+				sum(D.Debt - D.Credit) AS balance ,
+				CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes, 
+				0 as SORtID,
+			    -- for currency 
+				case when @CurrencyKind = 0 then null else d.CurrencyType end CurrencyType,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end CurrencyCode,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end CurrenciesName,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit) 
+				END AS CurrencyDebit,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyCredit)  
+				END AS CurrencyCredit,
+				case 
+					when @CurrencyKind = 0 then 0 
+					else SUM(D.CurrencyDebit - D.CurrencyCredit)
+				END AS CurrencyBalance
+				-- end of currency 
+		FROM    Acc.Documents D 
+				INNER JOIN Acc.DocGroups DG ON D.Serial = DG.Serial 
+							AND D.YearID = DG.YearID 
+							AND D.CompanyCode = DG.CompanyCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE  (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND (DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND
+			   (D.TopicCode = @AccCode) AND 
+			   (D.CTopicCode3 =@CTopicCode2 ) AND 
+			   (D.DetailCode =@DetailCode ) AND 
+			   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
+			   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
+			   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
+			   AND isnull(d.CurrencyType,0) Between @CurrencyTypeFrom And @CurrencyTypeTo  
+		group by DG.YearId,
+				DG.CompanyCode, 
+				D.TopicCode, 
+				D.CTopicCode3, 
+				D.DetailCode,
+				case when @CurrencyKind = 0 then null else d.CurrencyType end ,
+				case when @CurrencyKind = 0 then null else cu.CurrencyCode end ,
+				case when @CurrencyKind = 0 then null else cu.CurrenciesName end 
+		
+		Union All
 
-SELECT      DG.YearId , 0 as Serial,  0 as ID, DG.CompanyCode, D.TopicCode, D.ctopiccode3, D.DetailCode, 
-                      0 as SecondaryDocNo, 0 as PrimaryDocNo, '01/01' as DocDate,'مجموع مانده از قبل  '  as  Comment_L1, 0 as AidDocNo, 
-                      0 as BudgetTopicID, 0 as ProjectID, '--' as AidDocdate, 0 as AidAmount, sum(D.Debt) as debt, 
-                      sum(D.Credit) as Credit, sum(D.Debt - D.Credit) AS balance ,CASE sum(D.Debt - D.Credit) WHEN 0 THEN '1' ELSE '0' END as BedBes, 0 as SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode
+		SELECT  DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode3, D.DetailCode, 
+				DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
+				D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
+				D.Debt - D.Credit AS balance, 
+				CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, 
+				acc.DocTypes.SORtID,
+				d.CurrencyType ,
+			    cu.CurrencyCode ,
+			    cu.CurrenciesName ,
+				d.CurrencyDebit,
+				d.CurrencyCredit,
+				(d.CurrencyDebit - d.CurrencyCredit )Currencybalance
+		FROM   Acc.Documents D 
+				INNER JOIN  Acc.DocGroups DG ON D.Serial = DG.Serial 
+						AND D.YearID = DG.YearID 
+						AND D.CompanyCode = DG.CompanyCode  
+				LEFT OUTER JOIN acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
+				left Join dbo.Currencies cu on d.CurrencyType = cu.CurrenciesID
+		WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND  
+				(DG.YearID   BETWEEN @FromYearID AND @ToYearID ) AND
+				(D.TopicCode = @AccCode) AND 
+				(D.ctopiccode3 =@CTopicCode2 ) AND 
+				(D.DetailCode =@DetailCode ) AND 
+  				(DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
+				(DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
+				(DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
+				((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
+				(DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
+				( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
+				(DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
 
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND (DG.YearID BETWEEN @FromYearID AND @ToYearID ) AND
-	   (D.TopicCode = @AccCode) AND 
-	   (D.CTopicCode3 =@CTopicCode2 ) AND 
-	   (D.DetailCode =@DetailCode ) AND 
-	   ((DG.SecondaryDocNo <@SecondaryDocNoFrom ) OR
-	   (DG.PrimaryDocNo <@PrimaryDocNoFrom ) OR
-	   (DG.DocDate < @DocDateFrom )) and (DG.Status <> 0)
-group by DG.YearId,DG.CompanyCode, D.TopicCode, D.CTopicCode3, D.DetailCode
-Union All
-
-  SELECT     DG.YearId ,DG.Serial, D.ID, DG.CompanyCode, D.TopicCode, D.CTopicCode3, D.DetailCode, 
-                      DG.SecondaryDocNo, DG.PrimaryDocNo, DG.DocDate, D.Comment_L1, D.AidDocNo, 
-                      D.BudgetTopicID, D.ProjectID, D.AidDocdate, D.AidAmount, D.Debt, D.Credit, 
-                      D.Debt - D.Credit AS balance, 
-                      CASE D.debt WHEN 0 THEN '1' ELSE '0' END AS BedBes, acc.DocTypes.SORtID
-FROM         Acc.Documents D INNER JOIN
-                      Acc.DocGroups DG ON D.Serial = DG.Serial AND D.YearID = DG.YearID AND     
-                      D.CompanyCode = DG.CompanyCode  LEFT OUTER JOIN
-                      acc.DocTypes ON DG.DocTypeCode = acc.DocTypes.DocTypeCode
-
-WHERE   (DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTO) AND  (DG.YearID   BETWEEN @FromYearID AND @ToYearID ) AND
-	    (D.TopicCode = @AccCode) AND 
-	    (D.ctopiccode3 =@CTopicCode2 ) AND 
-	    (D.DetailCode =@DetailCode ) AND 
-  	    (DG.SecondaryDocNo BETWEEN @SecondaryDocNoFrom  AND @SecondaryDocNoTo ) AND 
-	    (DG.PrimaryDocNo BETWEEN @PrimaryDocNoFrom AND @PrimaryDocNoTo ) AND
-	    (DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo )AND
-	    ((CASE WHEN @Status1 = '' THEN 1 ELSE 0 END = 1 and (DG.Status <> 0)) OR 
-        (DG.Status in (Select part From [Acc].[SplitString] (@Status1,',')))) AND 
-        ( CASE WHEN @DocTypeCodeFrom = '' THEN 1 ELSE 0 END = 1 OR 
-	    (DG.DocTypeCode in (Select part From [Acc].[SplitString] (@DocTypeCodeFrom,','))))
- )DocOnDetailCode
-
+	 )DocOnDetailCode
 )
 
 GO
-
 
 CREATE PROCEDURE [Acc].[CreateSanamaXML_By_DateRange] 
 	@YearID int , @CompanyID int , @MonthID int , @CompanyName nvarchar(4000) , @DateFrom Char(10) , @DateTo Char(10) 
@@ -7171,165 +8029,3 @@ GO
 --GO
 --SET ANSI_NULLS OFF 
 GO
-
-CREATE PROCEDURE [acc].[USP_4_InsertIntoPORtion] 
-------------------------------		External Parameters OR Insert From MakeRepORt   ----------------------------
-	@InfoID int ,
-	@InfoName varchar(150) ,
-	@DetailCode int ,
-	@CTopicCode int ,
-	@CtopicCode2 int ,
-	@CTopicCode3 int ,
-	@Mounth int ,
-	@Cofficient Float ,
-	@CofficientItem Float ,
-	@YearId int ,
-	@InsertKind int  , -- baray inkeh etelaat dar PORtionRange insert shavad 
-	@PORtionKind int  , -- baray inkeh etelaat dar (1) pORtiontable ya (2)pORtionDoc insert shavad 
-	@InsertCount int output
-as 
-begin
-SET NOCOUNT ON
-------------------------------		Internal Parameters AND Insert From Config   ---------------------------
-DECLARE @TopicCodeFrom bigint
-DECLARE @TopicCodeTo bigint
-DECLARE @FORmInfoID int
-DECLARE @CofficientID int
-
-
-SET @TopicCodeFrom = ( select TopicCodeFrom from config )
-SET @TopicCodeTo =( select TopicCodeTo from config )
---------------------	Insert Into FORmsInfo	     -------------------------------
-if (SELECT InfoID FROM  Acc.FORmsInfo WHERE   (FORmType = 10) AND (InfoID = @InfoID))  is null
-begin 
-	SET @FORmInfoID = (SELECT MAX(FORmInfoID) FROM   Acc.FORmsInfo) +1 
-
-	INSERT INTO Acc.FORmsInfo
-		(FORmInfoID, InfoID, FORmType, InfoName_L1)
-		VALUES     (@FORmInfoID, @InfoID, 10, @InfoName)
-end else begin 
-	SET @FORmInfoID = (SELECT top 1 FORmInfoID  FROM   Acc.FORmsInfo where InfoID=@InfoID )   
-end 
---------------------	Insert Into PORtionRange     -------------------------------
-if @InsertKind <> 0 
-begin  
-	INSERT INTO Acc.PORtionRange
-                      (CompanyCode, TopicCode, DetailCode, CTopicCode, CTopicCode2, YearID, FORmInfoID)
-	SELECT DISTINCT 
-                      D.CompanyCode, D.TopicCode, D.DetailCode, D.CTopicCode, D.CTopicCode2, 
-                      D.YearID, @FORmInfoID AS FORmInfoID
-	FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.PORtionRange ON D.YearID = Acc.PORtionRange.YearID AND D.CompanyCode = Acc.PORtionRange.CompanyCode AND 
-                      D.TopicCode = Acc.PORtionRange.TopicCode AND D.DetailCode = Acc.PORtionRange.DetailCode AND 
-                      D.CTopicCode = Acc.PORtionRange.CTopicCode AND D.CTopicCode2 = Acc.PORtionRange.CTopicCode2
-	WHERE     (Acc.PORtionRange.FORmInfoID IS NULL) AND (D.YearID = @YearId ) AND 
-		(D.TopicCode BETWEEN @TopicCodeFrom AND @TopicCodeTo ) AND 
-		(case @InsertKind 
-			when 1 then D.CTopicCode 
-			when 2 then D.CTopicCode2
-		else 0 end  = 
-		case @InsertKind
-			when 1 then @InfoID
-			when 2 then @InfoID
-		else 1 end 
-)
-end 
---------==========
-if @PORtionKind=1 
-begin 
-	--------------------	Insert Into PORtionTable     -------------------------------
-	If (SELECT COUNT(*) FROM  Acc.PORtionTable WHERE (YearID = @YearId ) AND (PORtionCunt = @Mounth ) AND (FORmInfoID = @FORmInfoID ) AND (CTopicCode = @CTopicCode ) ) =0
-	begin 
-		SET @CofficientID = (SELECT  MAX(CofficientID) FROM Acc.PORtionTable) +1 
-		INSERT INTO Acc.PORtionTable
-			(CofficientID, FORmInfoID, CTopicCode, Cofficient, PORtionCunt, YearID)
-		VALUES     ( @CofficientID , @FORmInfoID , @CTopicCode , @Cofficient , @Mounth , @YearId )
-		SET @InsertCount =@InsertCount +1
-	end else begin 
-		SET @CofficientID = (SELECT   CofficientID  FROM Acc.PORtionTable  WHERE (YearID = @YearId ) AND (PORtionCunt = @Mounth ) AND (FORmInfoID = @FORmInfoID ) AND (CTopicCode =@CTopicCode ) )  
-	end 
-	--------------------	Insert Into PORtionTable     -------------------------------
-	if @CtopicCode2 >0 
-	begin 
-		if (SELECT     COUNT(*) FROM  Acc.PORtionTableItems WHERE     (CofficientID = @CofficientID) AND (CTopicCode2 = @CtopicCode2 ) ) =0
-		begin 
-			INSERT INTO Acc.PORtionTableItems
-	                      (CofficientID, CTopicCode2, CofficientItem)
-			VALUES     ( @CofficientID , @CtopicCode2 , @CofficientItem )
-			SET @InsertCount =@InsertCount +1
-		end
-	end 
-
-end else --//@PORtionKind=2
-begin 
-	--------------------	Insert Into PORtionTable     -------------------------------
-	If (SELECT COUNT(*) FROM Acc.PORtionDoc WHERE (DetailCode = @DetailCode) AND (FORmInfoID = @FORmInfoID) AND (CTopicCode = @CTopicCode) AND (CTopicCode2 = @CtopicCode2) AND (CTopicCode3 = @CTopicCode3) AND (YearID = @YearId)  AND (PORtionCount = @Mounth) ) =0
-	begin 
-		INSERT INTO Acc.PORtionDoc
-                      (DetailCode, FORmInfoID, CTopicCode, CTopicCode2, CTopicCode3, YearID, PORtionCount)
-		VALUES     ( @DetailCode , @FORmInfoID , @CTopicCode , @CtopicCode2 , @CTopicCode3 , @YearId , @Mounth )
-		SET @InsertCount =@InsertCount +1
-	end 
-end 
---------==========
------------------------           end              ---------------------
-end
-
------------------ بروز رسانی ارتباطات کدینگ حسابهای حساب با سایر سرفصلها --------------
------------------ تفضیلی سطح یک
-INSERT INTO Acc.TopicRange
-                      (TopicCode,DGID)
-SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.DetailRange ON D.TopicCode = Acc.DetailRange.TopicCode AND
-                       D.DetailCode = Acc.DetailRange.DetailCode
-                       INNER JOIN
-                      Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.DetailRange.DetailCode
-                       INNER JOIN
-                      Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
-WHERE     (D.DetailCode <> 0) AND (Acc.DetailRange.TopicCode IS NULL)
-
------------------ تفضیلی سطح دو
-INSERT INTO Acc.TopicRange
-                      (TopicCode,DGID)
-SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.CenterTopicRange ON D.TopicCode = Acc.CenterTopicRange.TopicCode AND
-                       D.CTopicCode = Acc.CenterTopicRange.CTopicCode
-                       INNER JOIN
-                      Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicRange.CTopicCode
-                       INNER JOIN
-                      Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
-WHERE     (D.CTopicCode <> 0) AND (Acc.CenterTopicRange.TopicCode IS NULL)
-
------------------ تفضیلی سطح سه
-INSERT INTO Acc.TopicRange
-                      (TopicCode,DGID)
-SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.CenterTopicAllRange ON D.TopicCode = Acc.CenterTopicAllRange.TopicCode AND
-                       D.CTopicCode2 = Acc.CenterTopicAllRange.CTopicCode2
-                       INNER JOIN
-                      Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicAllRange.CTopicCode2
-                       INNER JOIN
-                      Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
-WHERE     (D.CTopicCode2 <> 0) AND (Acc.CenterTopicAllRange.TopicCode IS NULL)
-
------------------ تفضیلی سطح چهار
-INSERT INTO Acc.TopicRange
-                      (TopicCode,DGID)
-SELECT DISTINCT D.TopicCode, Acc.DetailGroups.DGID
-FROM         Acc.Documents D Left OUTER JOIN
-                      Acc.CenterTopicAllRange ON D.TopicCode = Acc.CenterTopicAllRange.TopicCode AND
-                       D.ctopiccode3 = Acc.CenterTopicAllRange.CTopicCode3
-                       INNER JOIN
-                      Acc.MainDetails ON Acc.MainDetails.DetailCode=Acc.CenterTopicAllRange.CTopicCode3
-                       INNER JOIN
-                      Acc.DetailGroups ON Acc.MainDetails.DetailGroup=Acc.DetailGroups.DGID
-WHERE     (D.ctopiccode3 <> 0) AND (Acc.CenterTopicAllRange.TopicCode IS NULL)
-
---GO
---SET QUOTED_IDENTIFIER OFF 
---GO
---SET ANSI_NULLS ON 
---GO

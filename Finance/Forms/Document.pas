@@ -1110,12 +1110,17 @@ begin
   qry_DocGroupsDocTypeCode.AsInteger := 10;
   qry_DocGroupsStatus.AsInteger := AssignedDocForm;
 
-  if gv_MultiCompany and opta.RestDocCode then
-    SecondaryDocNo := GetANewCode('',
+  // gv_MultiCompany is false for users restricted to a single company.
+  // Keep independent document numbering scoped to that company as well.
+  if opta.RestDocCode and (gv_MultiCompany or CompanyFilterinLogin) then
+    SecondaryDocNo := GetANewCode(
+      Format('Document_SecondaryDocNo_%d',
+        [qry_DocGroupsCompanyCode.AsInteger]),
       Format('select max(SecondaryDocNo) from acc.docGroups where (CompanyCode = %d )'
       + ' and (YearID = %d) AND (SecondaryDocNo BETWEEN %d AND %d)',
       [qry_DocGroupsCompanyCode.AsInteger, APPBank.Year, opta.StartLimitID,
-      opta.EndLimitID]), 'SecondaryDocNo', dmf.adcAccounting)
+      opta.EndLimitID]),
+      'SecondaryDocNo', dmf.adcAccounting)
   else
     SecondaryDocNo := GetANewCode('',
       Format('select max(SecondaryDocNo) from acc.docGroups where (YearID = %d) AND (SecondaryDocNo BETWEEN %d AND %d)',
@@ -1166,7 +1171,8 @@ begin
   // Result := Fields[0].AsInteger + 1;
   // Close;
   // end; // with
-  Result := GetANewCode('',
+  Result := GetANewCode(
+    Format('Document_SecondaryDocNo_%d', [cc]),
     Format('select max(SecondaryDocNo) from acc.docGroups where (CompanyCode = %d )'
     + ' and (YearID = %d) AND (SecondaryDocNo BETWEEN %d AND %d)',
     [cc, APPBank.Year, opta.StartLimitID, opta.EndLimitID]), 'SecondaryDocNo',
@@ -1457,6 +1463,14 @@ begin
     edtCurrencyCredit.Visible := opta.CurrencyActive;
     edtCurrencyDebit.Visible := opta.CurrencyActive;
     lblCurr.Visible := opta.CurrencyActive;
+
+    { The persistent fields used to be fixed at three decimal places in the
+      DFM.  Keep their scale in sync with the accounting currency setting so
+      values entered with more than three decimals are not rounded by the
+      dataset field before posting. }
+    qry_DocumentsCurrencyRate.Size := opta.ArzNumberOfDigits;
+    qry_DocumentsCurrencyDebit.Size := opta.ArzNumberOfDigits;
+    qry_DocumentsCurrencyCredit.Size := opta.ArzNumberOfDigits;
 
     qry_DocumentsCurrencyRate.DisplayFormat :=
       Change_Format(opta.ArzNumberOfDigits);
@@ -4385,7 +4399,7 @@ begin
     Active := True;
   end;
 
-  if gv_MultiCompany and opta.RestDocCode then
+  if opta.RestDocCode and (gv_MultiCompany or CompanyFilterinLogin) then
   begin
     FreeReservedCodes(dmf.adcAccounting, 'Acc.DocGroups', 'SecondaryDocNo');
     if qry_DocGroups.State in dseditmodes then

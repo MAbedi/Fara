@@ -4,90 +4,90 @@ SET NOCOUNT ON
 
  if (Select Count(*) From Util.Analyze WHERE    (TableKind = 4)  )=0
 begin
-DELETE From Util.Analyze
+DELETE From Util.Analyze WHERE TableKind IN (1,2,3,4)
 INSERT INTO Util.Analyze(ID,TableKind,CaptionName,FieldName,TableName,TopicName,AliasName,JoinFieldName)
-SELECT 1,1,N'ماه','SUBSTRING(FunctionSpecialControl.ControlDate,6,2)','Pay.Months','Name','Months','MonthID'
+SELECT 1001,1,N'ماه','SUBSTRING(FunctionSpecialControl.ControlDate,6,2)','Pay.Months','Name','Months','MonthID'
 	UNION ALL
-SELECT 2,1,N'سال‏','Pay.FunctionSpecialControl.YearID','Util.MaliYear','','Y','YearID'
+SELECT 1002,1,N'سال‏','Pay.FunctionSpecialControl.YearID','Util.MaliYear','','Y','YearID'
 	UNION ALL
-SELECT 3,1,N'روز','SUBSTRING(FunctionSpecialControl.ControlDate,9,2)',NULL,'','',''
+SELECT 1003,1,N'روز','SUBSTRING(FunctionSpecialControl.ControlDate,9,2)',NULL,'','',''
 	UNION ALL
-SELECT 4,1,N'واحد سازماني','FunctionSpecialControl.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
+SELECT 1004,1,N'واحد سازماني','FunctionSpecialControl.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
 	UNION ALL
-SELECT 5,1,N'كد پرسنل','Pay.FunctionSpecialControl.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
+SELECT 1005,1,N'كد پرسنل','Pay.FunctionSpecialControl.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
 	UNION ALL
-SELECT 6,1,N'كد پروژه','FunctionSpecialControl.ProjectID','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType  in(39,40,41) )','ProjectName','Project','InfoID'
+SELECT 1006,1,N'كد پروژه','FunctionSpecialControl.ProjectID','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType  in(39,40,41) )','ProjectName','Project','InfoID'
 	UNION ALL
-SELECT 7,1,N'كد خودرو','FunctionSpecialControl.CarCode','(SELECT InfoID, InfoName_L1 as CarName FROM FormsInfo WHERE FormType = 96)','CarName','Car','InfoID'
+SELECT 1007,1,N'كد خودرو','FunctionSpecialControl.CarCode','(SELECT InfoID, InfoName_L1 as CarName FROM FormsInfo WHERE FormType = 96)','CarName','Car','InfoID'
 	UNION ALL
-SELECT 8,1,N'كد محصول','FunctionSpecialControl.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
+SELECT 1008,1,N'كد محصول','FunctionSpecialControl.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
 	UNION ALL
-SELECT 9,1,N'كد فعاليت','FunctionSpecialControl.ActivityCode','(SELECT InfoID, InfoName_L1 as ActivityName FROM FormsInfo WHERE FormType = 66)','ActivityName','Activity','InfoID'
+SELECT 1009,1,N'كد فعاليت','FunctionSpecialControl.ActivityCode','(SELECT InfoID, InfoName_L1 as ActivityName FROM FormsInfo WHERE FormType = 66)','ActivityName','Activity','InfoID'
 	UNION ALL
-SELECT 10,1,N'نوع كاركرد','FunctionSpecialControl.FunctionKind','(SELECT InfoID, InfoName_L1 as FunctionKindName FROM FormsInfo WHERE FormType = 70)','FunctionKindName','FunctionKinds','InfoID'
+SELECT 1010,1,N'نوع كاركرد','FunctionSpecialControl.FunctionKind','(SELECT InfoID, InfoName_L1 as FunctionKindName FROM FormsInfo WHERE FormType = 70)','FunctionKindName','FunctionKinds','InfoID'
 	
 UNION ALL
 
-SELECT 1,2,N'واحد سازماني','FormsInfo.InfoID', 'Pay.FormsInfo',  'InfoName_L1',NULL,'نمي خواد'
+SELECT 1101,2,N'واحد سازماني','FormsInfo.InfoID', 'Pay.FormsInfo',  'InfoName_L1',NULL,'نمي خواد'
 	UNION ALL
-SELECT 2,2,N'سال‏','SUBSTRING( FunctionDay.FunDate,1,4)','Util.MaliYear','StartYear+''تا''+EndYear','Y','YearID'
+SELECT 1102,2,N'سال‏','SUBSTRING( FunctionDay.FunDate,1,4)','Util.MaliYear','StartYear+''تا''+EndYear','Y','YearID'
 	UNION ALL
-SELECT 3,2,N'ماه','SUBSTRING( FunctionDay.FunDate,6,2)','Pay.Months','Name','Months','MonthID'
+SELECT 1103,2,N'ماه','SUBSTRING( FunctionDay.FunDate,6,2)','Pay.Months','Name','Months','MonthID'
 	UNION ALL
-SELECT 4,2,N'روز','SUBSTRING( FunctionDay.FunDate,9,2)',NULL,'','',''
+SELECT 1104,2,N'روز','SUBSTRING( FunctionDay.FunDate,9,2)',NULL,'','',''
 	UNION ALL
-SELECT 5,2,N'كد پرسنل','Pay.FunctionDayItems.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
+SELECT 1105,2,N'كد پرسنل','Pay.FunctionDayItems.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
 	UNION ALL
-SELECT 6,2,N'كد حضور','FunctionDayItems.PeresentID','(SELECT InfoID, InfoName_L1 as PeresentName FROM FormsInfo WHERE FormType = 64)','PeresentName','Peresents','InfoID'
+SELECT 1106,2,N'كد حضور','FunctionDayItems.PeresentID','(SELECT InfoID, InfoName_L1 as PeresentName FROM FormsInfo WHERE FormType = 64)','PeresentName','Peresents','InfoID'
 	UNION ALL
-SELECT 7,2,N'كد شيفت','FunctionDayItems.ShiftNo','(SELECT InfoID, InfoName_L1 as ShiftName FROM FormsInfo WHERE FormType = 65)','ShiftName','Shifts','InfoID'
+SELECT 1107,2,N'كد شيفت','FunctionDayItems.ShiftNo','(SELECT InfoID, InfoName_L1 as ShiftName FROM FormsInfo WHERE FormType = 65)','ShiftName','Shifts','InfoID'
 	UNION ALL
-SELECT 8,2,N'نوع كار','FunctionDayItems.WorkID','(SELECT InfoID, InfoName_L1 as WorkName FROM FormsInfo WHERE FormType = 66)','WorkName','WorkIDs','InfoID'
+SELECT 1108,2,N'نوع كار','FunctionDayItems.WorkID','(SELECT InfoID, InfoName_L1 as WorkName FROM FormsInfo WHERE FormType = 66)','WorkName','WorkIDs','InfoID'
 	UNION ALL
-SELECT 9,2,N'كد زمين','FunctionDayItems.EarthCode','(SELECT InfoID, InfoName_L1 as EarthName FROM FormsInfo WHERE FormType = 69)','EarthName','Earths','InfoID'
+SELECT 1109,2,N'كد زمين','FunctionDayItems.EarthCode','(SELECT InfoID, InfoName_L1 as EarthName FROM FormsInfo WHERE FormType = 69)','EarthName','Earths','InfoID'
 	UNION ALL
-SELECT 10,2,N'كد محصول','FunctionDayItems.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
+SELECT 1110,2,N'كد محصول','FunctionDayItems.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
 
 UNION ALL
 
-SELECT 1,3,N'كد پرسنل','Rpt_Comprasion2.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
+SELECT 2401,3,N'كد پرسنل','Rpt_Comprasion2.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+lastName_L1','C1','PersonelNo'	
 	UNION ALL
-SELECT 2,3,N'واحد سازماني','Rpt_Comprasion2.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
+SELECT 2402,3,N'واحد سازماني','Rpt_Comprasion2.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
 	UNION ALL
-SELECT 3,3,N'كد پروژه','Rpt_Comprasion2.ProjectCode','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType  in(39,40,41) )','ProjectName','Project','InfoID'
+SELECT 2403,3,N'كد پروژه','Rpt_Comprasion2.ProjectCode','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType  in(39,40,41) )','ProjectName','Project','InfoID'
 	UNION ALL
-SELECT 4,3,N'كد شغل','Rpt_Comprasion2.JobCode','(SELECT InfoID, InfoName_L1 as JobName FROM FormsInfo WHERE FormType = 13)','JobName','Job','InfoID'
+SELECT 2404,3,N'كد شغل','Rpt_Comprasion2.JobCode','(SELECT InfoID, InfoName_L1 as JobName FROM FormsInfo WHERE FormType = 13)','JobName','Job','InfoID'
 	UNION ALL
-SELECT 5,3,N'نوع مزايا','Rpt_Comprasion2.SalaryID','(SELECT FormInfoID, InfoName_L1  FROM FormsInfo )','InfoName_L1','Pay.FormsInfo','FormInfoID'
+SELECT 2405,3,N'نوع مزايا','Rpt_Comprasion2.SalaryID','(SELECT FormInfoID, InfoName_L1  FROM FormsInfo )','InfoName_L1','Pay.FormsInfo','FormInfoID'
 	UNION ALL
-SELECT 6,3,N'ماه','Rpt_Comprasion2.Mounth','Pay.Months','Name','Months','MonthID'
+SELECT 2406,3,N'ماه','Rpt_Comprasion2.Mounth','Pay.Months','Name','Months','MonthID'
 	UNION ALL
-SELECT 7,3,N'سال‏','Rpt_Comprasion2.YearID','Util.MaliYear','StartYear+''تا''+EndYear','Y','YearID'
+SELECT 2407,3,N'سال‏','Rpt_Comprasion2.YearID','Util.MaliYear','StartYear+''تا''+EndYear','Y','YearID'
 	UNION ALL
- SELECT 8, 3, N'حساب', N'Rpt_Comprasion2.AccTopicCode', N'%W%.Acc.Categories', N'MoeenName_L1', N'FT1', N'TopicCode'
+ SELECT 2408, 3, N'حساب', N'Rpt_Comprasion2.AccTopicCode', N'%W%.Acc.Categories', N'MoeenName_L1', N'FT1', N'TopicCode'
  UNION ALL
- SELECT 9, 3, N'تفصیلی', N'Rpt_Comprasion2.AccDetailCode', N'%W%.Acc.Details', N'DetailName_L1', N'FD', N'DetailCode'
+ SELECT 2409, 3, N'تفصیلی', N'Rpt_Comprasion2.AccDetailCode', N'%W%.Acc.Details', N'DetailName_L1', N'FD', N'DetailCode'
  UNION ALL
- SELECT 10, 3, N'م‏ه1', N'Rpt_Comprasion2.AccCTopicCode', N'%W%.Acc.CenterTopics', N'CTopicName_L1', N'FCT1', N'CTopicCode'
+ SELECT 2410, 3, N'م‏ه1', N'Rpt_Comprasion2.AccCTopicCode', N'%W%.Acc.CenterTopics', N'CTopicName_L1', N'FCT1', N'CTopicCode'
  UNION ALL
- SELECT 11, 3, N'م‏ه2', N'Rpt_Comprasion2.AccCTopicCode2', N'%W%.Acc.CenterTopics2', N'CTopicName2_L1', N'FCT2', N'CTopicCode2'
+ SELECT 2411, 3, N'م‏ه2', N'Rpt_Comprasion2.AccCTopicCode2', N'%W%.Acc.CenterTopics2', N'CTopicName2_L1', N'FCT2', N'CTopicCode2'
  UNION ALL
- SELECT 12, 3, N'م‏ه3', N'Rpt_Comprasion2.AccCTopicCode3', N'%W%.Acc.CTopicCode3', N'CTopicName3_L1', N'FCT3', N'CTopicCode3'
+ SELECT 2412, 3, N'م‏ه3', N'Rpt_Comprasion2.AccCTopicCode3', N'%W%.Acc.CTopicCode3', N'CTopicName3_L1', N'FCT3', N'CTopicCode3'
 	UNION ALL
-SELECT 13,3,N'كد محصول','Rpt_Comprasion2.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
+SELECT 2413,3,N'كد محصول','Rpt_Comprasion2.ProcCode','(SELECT InfoID, InfoName_L1 as ProcName FROM FormsInfo WHERE FormType = 67)','ProcName','Procs','InfoID'
 
 
 UNION ALL
 
-SELECT 1,4,N'كد پرسنل','Rpt_ProjectCostPrice.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+C1.lastName_L1','C1','PersonelNo'	
+SELECT 2601,4,N'كد پرسنل','Rpt_ProjectCostPrice.PersonelNo','Pay.PersonelInfo','name_L1+'' ''+C1.lastName_L1','C1','PersonelNo'	
 	UNION ALL
-SELECT 2,4,N'واحد سازماني','Rpt_ProjectCostPrice.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
+SELECT 2602,4,N'واحد سازماني','Rpt_ProjectCostPrice.OfficeCode','(SELECT InfoID, InfoName_L1 as OfficeName FROM FormsInfo WHERE FormType = 12)','OfficeName','Office','InfoID'
 	UNION ALL
-SELECT 3,4,N'كد پروژه','Rpt_ProjectCostPrice.ProjectID','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType in(39,40,41) )','ProjectName','Project','InfoID'
+SELECT 2603,4,N'كد پروژه','Rpt_ProjectCostPrice.ProjectID','(SELECT InfoID, InfoName_L1 as ProjectName FROM FormsInfo WHERE FormType in(39,40,41) )','ProjectName','Project','InfoID'
 	UNION ALL
-SELECT 4,4,N'كد شغل','Rpt_ProjectCostPrice.JobCode','(SELECT InfoID, InfoName_L1 as JobName FROM FormsInfo WHERE FormType = 13)','JobName','Job','InfoID'
+SELECT 2604,4,N'كد شغل','Rpt_ProjectCostPrice.JobCode','(SELECT InfoID, InfoName_L1 as JobName FROM FormsInfo WHERE FormType = 13)','JobName','Job','InfoID'
 	UNION ALL
-SELECT 5,4,N'ماه','Rpt_ProjectCostPrice.Mounth','Pay.Months','Name','Months','MonthID'
+SELECT 2605,4,N'ماه','Rpt_ProjectCostPrice.Mounth','Pay.Months','Name','Months','MonthID'
 
 end
 

@@ -148,19 +148,17 @@ object ExcelComparisonRecallF: TExcelComparisonRecallF
       Left = 1008
       Top = 5
       Width = 43
-      Height = 21
+      Height = 13
       Margins.Top = 5
       Align = alRight
       Caption = #1606#1575#1605' sheet'
-      ExplicitLeft = 1012
-      ExplicitHeight = 13
     end
     object Label3: TLabel
       AlignWithMargins = True
-      Left = 3
+      Left = 525
       Top = 3
-      Width = 867
-      Height = 23
+      Width = 345
+      Height = 13
       Align = alClient
       BiDiMode = bdRightToLeft
       Caption = 
@@ -176,9 +174,6 @@ object ExcelComparisonRecallF: TExcelComparisonRecallF
       ParentColor = False
       ParentFont = False
       Transparent = False
-      ExplicitLeft = 529
-      ExplicitWidth = 345
-      ExplicitHeight = 13
     end
     object cmbSheetName1: TComboBox
       Tag = 1

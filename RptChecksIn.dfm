@@ -600,7 +600,6 @@ inherited RptChecksInF: TRptChecksInF
       DisplayWidth = 12
       FieldName = 'CheckNumber'
       FixedChar = True
-      Size = 20
     end
     object qryChecksInCheckDate: TStringField
       Tag = 3

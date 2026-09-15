@@ -3550,7 +3550,7 @@ inherited DocumentF: TDocumentF
       FieldName = 'CurrencyRate'
       OnChange = qry_DocumentsCurrencyRateChange
       Precision = 38
-      Size = 3
+      Size = 0
     end
     object qry_DocumentsCurrencyDebit: TFMTBCDField
       DisplayLabel = #1575#1585#1586' '#1576#1583#1607#1705#1575#1585
@@ -3559,7 +3559,7 @@ inherited DocumentF: TDocumentF
       DisplayFormat = '#,##0.0000;(#,##0.0000)'
       currency = True
       Precision = 38
-      Size = 3
+      Size = 0
     end
     object qry_DocumentsCurrencyCredit: TFMTBCDField
       DisplayLabel = #1575#1585#1586' '#1576#1587#1578#1575#1606#1705#1575#1585
@@ -3568,7 +3568,7 @@ inherited DocumentF: TDocumentF
       DisplayFormat = '#,##0.0000;(#,##0.0000)'
       currency = True
       Precision = 38
-      Size = 3
+      Size = 0
     end
     object qry_DocumentsDebt: TFMTBCDField
       Tag = 3

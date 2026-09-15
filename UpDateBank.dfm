@@ -51,24 +51,20 @@ inherited UpDateBankF: TUpDateBankF
     ExplicitTop = 458
     ExplicitWidth = 416
     object lbl1: TLabel [0]
-      Left = 82
+      Left = 379
       Top = 1
-      Width = 315
-      Height = 35
+      Width = 18
+      Height = 13
       Align = alClient
       Caption = '000'
-      ExplicitLeft = 379
-      ExplicitWidth = 18
-      ExplicitHeight = 13
     end
     object lbl2: TLabel [1]
       Left = 397
       Top = 1
       Width = 18
-      Height = 35
+      Height = 13
       Align = alRight
       Caption = '000'
-      ExplicitHeight = 13
     end
     inherited btnClose: TBitBtn
       AlignWithMargins = True

@@ -192,12 +192,16 @@ inherited ReciptsTradesF: TReciptsTradesF
     Top = 73
     Width = 692
     Height = 436
-    ActivePage = TabSheet2
+    ActivePage = TabSheet1
     Align = alClient
     TabOrder = 2
     TabStop = False
     object TabSheet1: TTabSheet
       Caption = #1575#1591#1604#1575#1593#1575#1578' '#1589#1575#1583#1585#1575#1578'/'#1608#1575#1585#1583#1575#1578
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         684
         408)

@@ -22,7 +22,7 @@ object DmF: TDmF
     BeforeConnect = adcBSellBeforeConnect
     AfterDisconnect = adcBSellAfterDisconnect
     Left = 151
-    Top = 24
+    Top = 16
   end
   object qryTmpTmp: TADOQuery
     AutoCalcFields = False
@@ -52,7 +52,7 @@ object DmF: TDmF
     AfterConnect = adcAccountingAfterConnect
     BeforeConnect = adcAccountingBeforeConnect
     Left = 45
-    Top = 24
+    Top = 16
   end
   object adcFaraSystem: TADOConnection
     Tag = 1
@@ -66,7 +66,7 @@ object DmF: TDmF
     AfterConnect = adcFaraSystemAfterConnect
     BeforeConnect = adcFaraSystemBeforeConnect
     Left = 150
-    Top = 145
+    Top = 137
   end
   object qryGlbTmpTmp: TADOQuery
     AutoCalcFields = False
@@ -100,7 +100,7 @@ object DmF: TDmF
     Provider = 'SQLOLEDB'
     BeforeConnect = adcOldAccountingBeforeConnect
     Left = 38
-    Top = 86
+    Top = 78
   end
   object qry_Temp: TADOQuery
     AutoCalcFields = False
@@ -432,7 +432,7 @@ object DmF: TDmF
     Provider = 'SQLOLEDB.1'
     BeforeConnect = adcsalaryBeforeConnect
     Left = 144
-    Top = 85
+    Top = 77
   end
   object qryMasterLookUps: TADOQuery
     Connection = adcBSell
@@ -1314,7 +1314,7 @@ object DmF: TDmF
     Provider = 'SQLOLEDB'
     BeforeConnect = adcAuditLogBeforeConnect
     Left = 37
-    Top = 152
+    Top = 144
   end
   object qryConfigUser: TADOQuery
     Connection = adcBSell
@@ -1395,7 +1395,7 @@ object DmF: TDmF
     LoginPrompt = False
     BeforeConnect = fdcBSellBeforeConnect
     Left = 216
-    Top = 48
+    Top = 80
   end
   object qryCn: TADOQuery
     AutoCalcFields = False
@@ -1528,5 +1528,20 @@ object DmF: TDmF
       ReadOnly = True
       Size = 3
     end
+  end
+  object fdcAuditLog: TFDConnection
+    Params.Strings = (
+      'User_Name=farauser'
+      'OSAuthent=No'
+      'SERVER=.'
+      'Password=tycedar'
+      'ApplicationName=Fara'
+      'Workstation=D1'
+      'Database=AuditLog'
+      'DriverID=MSSQL')
+    LoginPrompt = False
+    BeforeConnect = fdcAuditLogBeforeConnect
+    Left = 224
+    Top = 136
   end
 end

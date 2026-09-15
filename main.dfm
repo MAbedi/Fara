@@ -39,7 +39,6 @@ object mainF: TmainF
     UnselectedColor = clHighlight
     Visible = False
     OnChange = mdiChildrenTabsChange
-    ExplicitTop = 597
   end
   object Panel1: TPanel
     Left = 0
@@ -65,7 +64,6 @@ object mainF: TmainF
     ParentShowHint = False
     ShowHint = False
     TabOrder = 1
-    ExplicitTop = 618
     object statMain: TsStatusBar
       Left = 0
       Top = 0
@@ -3010,6 +3008,10 @@ object mainF: TmainF
         Caption = #1601#1593#1575#1604#1740#1578' '#1705#1575#1585#1576#1585#1575#1606
         OnClick = mnuUserActivitiesFClick
       end
+      object log2: TMenuItem
+        Caption = #1711#1586#1575#1585#1588' '#1578#1594#1740#1740#1585#1575#1578' log'
+        OnClick = log2Click
+      end
     end
     object MnuPay_N33: TMenuItem
       Caption = #1578#1740#1705#1578' '#1608' '#1662#1588#1578#1740#1576#1575#1606#1740' '
@@ -5178,6 +5180,9 @@ object mainF: TmainF
           Caption = #1575#1606#1578#1602#1575#1604' '#1605#1608#1580#1608#1583#1740' '#1575#1576#1578#1583#1575#1740' '#1583#1608#1585#1607
           OnClick = Mnu_GetFirstEntityFClick
         end
+      end
+      object s1: TMenuItem
+        Action = mdiMainF.actUpdateInfoF
       end
       object N471: TMenuItem
         Caption = '-'

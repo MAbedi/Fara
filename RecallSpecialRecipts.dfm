@@ -281,28 +281,26 @@ inherited RecallSpecialReciptsF: TRecallSpecialReciptsF
       Left = 532
       Top = 17
       Width = 128
-      Height = 15
+      Height = 13
       Margins.Top = 15
       Align = alRight
       Caption = #1578#1593#1583#1575#1583' '#1587#1601#1575#1585#1588' '#1576#1586#1585#1711#1578#1585' '#1575#1586' '#1589#1601#1585' '
       Color = 9816831
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object lblUnitSellPriceCHK: TLabel
       AlignWithMargins = True
       Left = 448
       Top = 17
       Width = 78
-      Height = 15
+      Height = 13
       Margins.Top = 15
       Align = alRight
       Caption = #1601#1740' '#1576#1586#1585#1711#1578#1585' '#1575#1586' '#1589#1601#1585
       Color = 51711
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object BitBtn6: TBitBtn
       AlignWithMargins = True

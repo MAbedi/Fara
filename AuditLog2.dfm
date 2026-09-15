@@ -5,7 +5,6 @@ inherited AuditLog2F: TAuditLog2F
   ClientHeight = 800
   ClientWidth = 1059
   Position = poDesigned
-  ExplicitLeft = -176
   ExplicitWidth = 1067
   ExplicitHeight = 831
   PixelsPerInch = 96
@@ -144,7 +143,7 @@ inherited AuditLog2F: TAuditLog2F
     end
     object BitBtn6: TBitBtn
       AlignWithMargins = True
-      Left = 764
+      Left = 981
       Top = 6
       Width = 75
       Height = 29
@@ -154,19 +153,6 @@ inherited AuditLog2F: TAuditLog2F
       Align = alRight
       Caption = #1606#1605#1575#1740#1588' '#1601#1585#1605
       TabOrder = 4
-    end
-    object BitBtn1: TBitBtn
-      AlignWithMargins = True
-      Left = 845
-      Top = 6
-      Width = 211
-      Height = 29
-      Margins.Top = 6
-      Margins.Bottom = 6
-      Action = actFilter
-      Align = alRight
-      Caption = #1576#1585#1585#1587#1740' '#1578#1594#1740#1740#1585#1575#1578
-      TabOrder = 5
     end
   end
   inherited Panel2: TPanel
@@ -268,6 +254,81 @@ inherited AuditLog2F: TAuditLog2F
           OnDblClick = actShowFormExecute
           ActiveSearchPanel = False
           SelectFooterIndex = 0
+          Columns = <
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'RowCreateSource'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 92
+            end
+            item
+              Alignment = taCenter
+              CellButtons = <>
+              Color = 13431799
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'RowCreateDateTime'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 49
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'HostName'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 60
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'ApplicationName'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 47
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'LastRead'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 65
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'LastWrite'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 65
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'client_net_address'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 96
+            end
+            item
+              CellButtons = <>
+              DynProps = <>
+              EditButtons = <>
+              FieldName = 'local_net_address'
+              Footers = <>
+              Title.TitleButton = True
+              Width = 92
+            end>
           object RowDetailData: TRowDetailPanelControlEh
           end
         end
@@ -278,6 +339,48 @@ inherited AuditLog2F: TAuditLog2F
           Height = 222
           Align = alBottom
           TabOrder = 1
+          object lstOld: TValueListEditor
+            Left = 1
+            Top = 1
+            Width = 306
+            Height = 220
+            Align = alLeft
+            TabOrder = 0
+            ColWidths = (
+              150
+              150)
+            RowHeights = (
+              18
+              18)
+          end
+          object lstNew: TValueListEditor
+            Left = 307
+            Top = 1
+            Width = 219
+            Height = 220
+            Align = alClient
+            TabOrder = 1
+            ColWidths = (
+              150
+              63)
+            RowHeights = (
+              18
+              18)
+          end
+          object lstDif: TValueListEditor
+            Left = 526
+            Top = 1
+            Width = 306
+            Height = 220
+            Align = alRight
+            TabOrder = 2
+            ColWidths = (
+              150
+              150)
+            RowHeights = (
+              18
+              18)
+          end
         end
         object Panel6: TPanel
           Left = 2
@@ -288,7 +391,7 @@ inherited AuditLog2F: TAuditLog2F
           TabOrder = 2
           object BitBtn2: TBitBtn
             AlignWithMargins = True
-            Left = 688
+            Left = 471
             Top = 7
             Width = 141
             Height = 27
@@ -298,6 +401,19 @@ inherited AuditLog2F: TAuditLog2F
             Caption = #1576#1585#1585#1587#1740' '#1580#1586#1574#1740#1575#1578
             TabOrder = 0
             OnClick = BitBtn2Click
+          end
+          object BitBtn1: TBitBtn
+            AlignWithMargins = True
+            Left = 618
+            Top = 7
+            Width = 211
+            Height = 27
+            Margins.Top = 6
+            Margins.Bottom = 6
+            Align = alRight
+            Caption = #1576#1585#1585#1587#1740' '#1578#1594#1740#1740#1585#1575#1578' '#1602#1576#1604' '#1578#1585
+            TabOrder = 1
+            OnClick = BitBtn1Click
           end
         end
       end
@@ -354,9 +470,9 @@ inherited AuditLog2F: TAuditLog2F
             CellButtons = <>
             DynProps = <>
             EditButtons = <>
-            FieldName = 'DisplayCaption'
+            FieldName = 'TableCaption'
             Footers = <>
-            Width = 160
+            Width = 167
           end>
         object RowDetailData: TRowDetailPanelControlEh
         end
@@ -368,17 +484,18 @@ inherited AuditLog2F: TAuditLog2F
     object actFilter: TAction [0]
       Caption = #1576#1585#1585#1587#1740' '#1578#1594#1740#1740#1585#1575#1578
       ShortCut = 113
-      OnExecute = actFilterExecute
     end
     object actPrint: TAction [1]
       Caption = #1670#1575#1662
       ShortCut = 118
+      OnExecute = actPrintExecute
     end
     object actSpecial: TAction [2]
       Caption = #1670#1575#1662' '#1608#1610#1688#1607
     end
     object actSendToExcel: TAction [3]
       Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
+      OnExecute = actSendToExcelExecute
     end
     object actSort: TAction [4]
       Caption = #1578#1585#1578#1610#1576
@@ -397,7 +514,6 @@ inherited AuditLog2F: TAuditLog2F
     inherited actshowChart: TAction [11]
     end
     inherited actSearch_: TAction [12]
-      OnExecute = actSearch_Execute
     end
     object actDefault: TAction
       Caption = #1662#1740#1588' '#1601#1585#1590' '#1607#1575
@@ -682,173 +798,32 @@ inherited AuditLog2F: TAuditLog2F
       FFFFE007FFFFFE0FFFFFF81FFFFFFFFF00000000000000000000000000000000
       000000000000}
   end
-  object qryAuditLog2: TADOQuery
-    Connection = DmF.adcAuditLog
-    CursorType = ctStatic
-    LockType = ltBatchOptimistic
-    CommandTimeout = 0
-    Parameters = <>
-    SQL.Strings = (
-      
-        'SELECT PreviousRowXmlValues.value('#39'(/deleted/@InputEntity)[1]'#39','#39 +
-        'varchar(max)'#39') as PreviousVal,'
-      
-        '       CurrentRowXmlValues.value('#39'(/inserted/@InputEntity)[1]'#39','#39 +
-        'varchar(max)'#39') as CurrentVal, * '
-      'FROM            MetaDataChangeLog'
-      'WHERE  TableName ='#39'ReciptItems'#39
-      
-        'and CurrentRowXmlValues.value('#39'(/inserted/@InputEntity)[1]'#39','#39'var' +
-        'char'#39') <> PreviousRowXmlValues.value('#39'(/deleted/@InputEntity)[1]' +
-        #39','#39'varchar'#39') '
-      ''
-      ''
-      ''
-      ''
-      ''
-      ''
-      '')
-    Left = 336
-    Top = 133
-  end
   object srcAuditLog2: TDataSource
     DataSet = qryAuditLog2
     Left = 264
     Top = 184
   end
-  object ADOCommand1: TADOCommand
-    CommandText = 
-      'IF NOT EXISTS(SELECT 1 FROM sysobjects WHERE id = object_id(N'#39'lo' +
-      'gTable'#39') AND OBJECTPROPERTY(id, N'#39'IsUserTable'#39') = 1)  '#13#10' CREATE ' +
-      'TABLE logTable( '#13#10' ID int IDENTITY(1,1) NOT NULL,'#9#13#10' OwnerName v' +
-      'archar(80) NOT NULL,   '#13#10' Tablename varchar(80) NOT NULL,   '#13#10' T' +
-      'ableCaption varchar(80) ,   '#13#10' ColumnName varchar(80) NOT NULL, ' +
-      '  '#13#10' ColumnCaption varchar(80) ,   '#13#10' DataType varchar(80) NOT N' +
-      'ULL,   '#13#10' CONSTRAINT [PK_DepTable] PRIMARY KEY CLUSTERED (OwnerN' +
-      'ame ASC,Tablename ASC,ColumnName ASC) '#13#10' ON [PRIMARY] ) ON [PRIM' +
-      'ARY]   '#13#10#13#10#13#10'if (select count(*) from logTable )=0  '#13#10'begin'#13#10'del' +
-      'ete logTable'#13#10'INSERT INTO logTable'#13#10'              ( OwnerName,  ' +
-      '             Tablename,             TableCaption,               ' +
-      '   ColumnName,             ColumnCaption,      DataType)'#13#10#13#10'SELE' +
-      'CT '#39'acc'#39' AS OwnerName,'#39'DocGroups'#39' AS TableName ,'#39#1575#1587#1606#1575#1583#39' AS Table' +
-      'Caption ,'#39'SecondaryDocNo'#39' ColumnName,'#39#1588#1605#1575#1585#1607' '#1605#1608#1602#1578#39' ColumnCaption,' +
-      #39'int'#39' DataType'#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'DocGroups'#39' ,'#39#1575#1587#1606#1575#1583#39'  ,'#39 +
-      'PrimaryDocNo'#39' ,'#39#1588#1605#1575#1585#1607' '#1587#1606#1583#39' ,'#39'int'#39' '#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'Doc' +
-      'Groups'#39' ,'#39#1575#1587#1606#1575#1583#39'  ,'#39'DocDate'#39' ,'#39#1578#1575#1585#1740#1582' '#1587#1606#1583#39' ,'#39'varchar(10)'#39' '#13#10'union' +
-      ' ALL'#13#10'SELECT '#39'acc'#39','#39'DocGroups'#39' ,'#39#1575#1587#1606#1575#1583#39'  ,'#39'DocTypeCode'#39' ,'#39#1606#1608#1593' '#1587#1606 +
-      #1583' '#1581#1587#1575#1576#1583#1575#1585#1610#39' ,'#39'int'#39' '#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'DocGroups'#39' ,'#39#1575#1587#1606#1575#1583 +
-      #39'  ,'#39'Status'#39' ,'#39#1603#1583' '#1608#1575#1581#1583#39' ,'#39'int'#39' '#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'DocGro' +
-      'ups'#39' ,'#39#1575#1587#1606#1575#1583#39'  ,'#39'CompanyCode'#39' ,'#39#1608#1590#1593#1610#1578' '#1587#1606#1583' '#39' ,'#39'int'#39' '#13#10'union ALL'#13#10 +
-      'SELECT '#39'acc'#39','#39'DocGroups'#39'  ,'#39#1575#1587#1606#1575#1583#39' ,'#39'SecondUser'#39' , '#39#1608#1740#1585#1575#1740#1588' '#1705#1606#1606#1583#1607 +
-      #39' ,'#39'varchar(50)'#39#13#10'union ALL '#13#10'SELECT '#39'acc'#39','#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585 +
-      #1578#1740#1705#1604')'#39' ,'#39'Debt'#39','#39#1576#1583#1607#1705#1575#1585#39','#39'money'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'Docume' +
-      'nts'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'Credit'#39','#39#1576#1587#1578#1575#1606#1705#1575#1585#39','#39'money'#39#13#10'union ALL'#13#10'SE' +
-      'LECT '#39'acc'#39','#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'TopicCode'#39','#39#1603#1583' '#1581#1587#1575#1576#39','#39'b' +
-      'igint'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'De' +
-      'tailCode'#39','#39#1578#1601#1589#1610#1604#1610'1'#39','#39'int'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39','#39'Documents'#39'  ' +
-      ','#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'CTopicCode'#39','#39#1578#1601#1589#1610#1604#1610'2'#39','#39'int'#39#13#10'union ALL'#13#10'SELECT ' +
-      #39'acc'#39' ,'#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'CTopicCode2'#39','#39#1578#1601#1589#1610#1604#1610'3'#39','#39'int' +
-      #39#13#10'union ALL'#13#10'SELECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'CTopic' +
-      'Code3'#39','#39#1578#1601#1589#1610#1604#1610'4'#39','#39'int'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39 +
-      #1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'Comment_L1'#39','#39#1588#1585#1581' '#1587#1606#1583' '#1581#1587#1575#1576#1583#1575#1585#1610#39','#39'varchar(1000)'#39#13#10'u' +
-      'nion ALL'#13#10'SELECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'AidDocNo'#39',' +
-      #39#1588#1605#1575#1585#1607' '#1705#1605#1705#1740#39','#39'float'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39#1587#1606 +
-      #1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'AidDocdate'#39','#39#1578#1575#1585#1610#1582' '#1603#1605#1603#1610#39','#39'char(10)'#39#13#10'union ALL'#13#10'SEL' +
-      'ECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39#1587#1606#1583'('#1570#1585#1578#1740#1705#1604')'#39' ,'#39'AidAmount'#39','#39#1605#1602#1583#1575#1585' '#1705#1605#1705#1740#39 +
-      ','#39'float'#39#13#10'union ALL'#13#10'SELECT '#39'acc'#39' ,'#39'Documents'#39'  ,'#39#1575#1587#1606#1575#1583' '#1570#1585#1578#1740#1705#1604#39' ' +
-      ','#39'LastUser'#39' , '#39#1608#1740#1585#1575#1740#1588' '#1705#1606#1606#1583#1607#39' ,'#39'varchar(100)'#39#13#10'union ALL '#13#10'SELECT' +
-      ' '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'CheckNumber'#39','#39#1588#1605#1575#1585#1607' '#1670#1603#39','#39'char' +
-      '(100)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'Chec' +
-      'kDate'#39','#39#1587#1585#1585#1587#1610#1583' '#1670#1603#39','#39'char(10)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormIte' +
-      'ms'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'CheckType'#39','#39#1606#1608#1593' '#1670#1603#39','#39'int'#39#13#10'union ALL'#13#10'SELECT ' +
-      #39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'ItemAmount'#39','#39#1605#1576#1604#1594#39','#39'money'#39#13#10'un' +
-      'ion ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'ItemNote'#39','#39#1578#1608#1590 +
-      #1610#1581#1575#1578#39','#39'varchar(1000)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705 +
-      '/'#1578#1606#1582#1608#1575#1607#39' ,'#39'BankName'#39','#39#1606#1575#1605' '#1576#1575#1606#1603#39','#39'varchar(100)'#39#13#10'union ALL'#13#10'SELEC' +
-      'T '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'City'#39','#39#1588#1607#1585#39','#39'varchar(100)'#39#13#10 +
-      'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'AccountNumbe' +
-      'rNew'#39','#39#1588#1605#1575#1585#1607#8207#1581#1587#1575#1576#39','#39'varchar(100)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'For' +
-      'mItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'CheckFor'#39','#39#1583#1585' '#1608#1580#1607#39','#39'varchar(100)'#39#13#10'union ' +
-      'ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'FormItems'#39' ,'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39' ,'#39'CheckCounter'#39','#39#1662#1588#1578 +
-      ' '#1606#1605#1585#1607#39','#39'varchar(100)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39','#39'FormItems'#39'  ,'#39#1670#1705 +
-      '/'#1578#1606#1582#1608#1575#1607#39' ,'#39'LastUser'#39' , '#39#1608#1740#1585#1575#1740#1588' '#1705#1606#1606#1583#1607#39' ,'#39'varchar(100)'#39#13#10'union ALL' +
-      ' '#13#10'SELECT '#39'dbo'#39' ,'#39'Forms'#39' ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,'#39'FormNumber'#39','#39#1588#1605#1575#1585#1607' ' +
-      #1601#1585#1605#39','#39'int'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'Forms'#39' ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,' +
-      #39'FormDate'#39','#39#1578#1575#1585#1610#1582' '#1601#1585#1605#39','#39'char(10)'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'For' +
-      'ms'#39' ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,'#39'CustomerID1'#39','#39#1576#1575#1606#1603'/'#1589#1606#1583#1608#1602#39','#39'int'#39#13#10'union A' +
-      'LL'#13#10'SELECT '#39'dbo'#39' ,'#39'Forms'#39' ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,'#39'CustomerID2'#39','#39#1591#1585#1601' ' +
-      #1605#1602#1575#1576#1604#39','#39'int'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'Forms'#39' ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39 +
-      ' ,'#39'Amount'#39','#39#1605#1576#1604#1594#39','#39'money'#39#13#10'union ALL'#13#10'SELECT '#39'dbo'#39' ,'#39'Forms'#39' ,'#39#1608#1580 +
-      #1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,'#39'FomNote'#39','#39#1578#1608#1590#1610#1581#1575#1578' '#1601#1585#1605#39','#39'varchar(1000)'#39#13#10'union AL' +
-      'L'#13#10'SELECT '#39'dbo'#39','#39'Forms'#39'  ,'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39' ,'#39'LastUser'#39' , '#39#1608#1740#1585#1575#1740#1588 +
-      ' '#1705#1606#1606#1583#1607#39' ,'#39'varchar(100)'#39#13#10'union ALL '#13#10#13#10#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39' ' +
-      ' ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'ReciptNumber'#39' ,'#39#1588#1605#1575#1585#1607' '#1601#1585#1605#39' ,'#39'int'#39#13#10'union ALL'#13#10'S' +
-      'ELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'StoreID'#39' , '#39#1603#1583' '#1575#1606#1576#1575#1585#39' ,'#39'i' +
-      'nt'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'ReciptD' +
-      'ate'#39' , '#39#1578#1575#1585#1610#1582' '#1601#1585#1605#39' ,'#39'varchar(10)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Rec' +
-      'ipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'PersonID1'#39' , '#39#1605#1588#1578#1585#1740'1'#39' ,'#39'int'#39#13#10'union ALL '#13 +
-      #10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'PersonID2'#39' , '#39#1605#1588#1578#1585#1740'2'#39' ,' +
-      #39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'DocNo' +
-      #39' , '#39#1588#1605#1575#1585#1607' '#1587#1606#1583#39' ,'#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606 +
-      #1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'ReciptNote'#39' , '#39#1578#1608#1590#1610#1581#1575#1578' '#1601#1585#1605#39','#39'varchar(1000)'#39#13#10'union ' +
-      'ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'ModifyDate'#39' , '#39#1578#1575 +
-      #1585#1740#1582' '#1608#1740#1585#1575#1740#1588#39','#39'datetime'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606 +
-      #1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'ReciptState'#39' , '#39#1608#1590#1593#1740#1578#39','#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'd' +
-      'bo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'UseUnitID'#39' , '#39#1603#1583#1605'.'#1605#1589#1585#1601#39','#39'int'#39#13#10'u' +
-      'nion ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'MachineNo'#39' , ' +
-      #39#1588#1605#1575#1585#1607' '#1605#1575#1588#1610#1606#39' ,'#39'varchar(100)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts' +
-      #39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'SecondType'#39' , '#39#1606#1608#1593' '#1575#1591#1604#1575#1593#1575#1578#39' ,'#39'int'#39#13#10'union ALL' +
-      ' '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'SellsEmporium'#39' , '#39#1605#1585 +
-      #1603#1586' '#1601#1585#1608#1588#39','#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588 +
-      #39' ,'#39'SellsMethod'#39' , '#39#1606#1581#1608#1607' '#1601#1585#1608#1588#39' ,'#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39',' +
-      #39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'MachineName'#39' , '#39#1606#1575#1605' '#1585#1575#1606#1606#1583#1607#39','#39'varchar' +
-      '(100)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'Pers' +
-      'onID3'#39' , '#39#1605#1588#1578#1585#1740'3'#39' ,'#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39 +
-      #1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'PersonID4'#39' , '#39#1605#1588#1578#1585#1740'4'#39','#39'int'#39#13#10'union ALL '#13#10'SELECT '#39 +
-      'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' , '#39'PersonID5'#39' , '#39#1605#1588#1578#1585#1740'5'#39','#39'int'#39#13#10'un' +
-      'ion ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'DefaultDate'#39' ,' +
-      ' '#39#1578#1575#1585#1610#1582' '#1580#1575#1606#1576#1610#39' ,'#39'char(10)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ' +
-      ','#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'MachineInfo'#39' , '#39#1575#1591#1604#1575#1593#1575#1578#39' ,'#39'varchar(100)'#39#13#10'union ' +
-      'ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'AidNumber'#39' , '#39#1588#1605#1575#1585 +
-      #1607' '#1705#1605#1705#1740#39' ,'#39'varchar(100)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipts'#39'  ,'#39#1575 +
-      #1606#1576#1575#1585'/'#1601#1585#1608#1588#39' ,'#39'LastUser'#39' , '#39#1608#1740#1585#1575#1740#1588' '#1705#1606#1606#1583#1607#39' ,'#39'varchar(100)'#39#13#10'union A' +
-      'LL '#13#10#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'InputE' +
-      'ntity'#39' ,'#39#1605#1602#1583#1575#1585' '#1608#1575#1585#1583#1607#39' ,'#39'float'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Recipt' +
-      'Items'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'OutputEntity'#39' ,'#39#1605#1602#1583#1575#1585' '#1589#1575#1583#1585#1607#39' ,'#39'fl' +
-      'oat'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705 +
-      #1604#39' ,'#39'InputWeight'#39' ,'#39#1608#1586#1606' '#1608#1575#1585#1583#1607#39' ,'#39'float'#39#13#10'union ALL '#13#10'SELECT '#39'dbo' +
-      #39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'OutputWeight'#39' ,'#39#1608#1586#1606' '#1589#1575#1583#1585 +
-      #1607#39' ,'#39'float'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608 +
-      #1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'TotalInputPrice'#39' ,'#39#1605#1576#1604#1594' '#1608#1575#1585#1583#1607#39' ,'#39'money'#39#13#10'union ALL '#13 +
-      #10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'TotalOutputP' +
-      'rice'#39' ,'#39#1605#1576#1604#1594' '#1589#1575#1583#1585#1607#39' ,'#39'money'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptIt' +
-      'ems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'UnitSellPrice'#39' ,'#39#1601#1740#39' ,'#39'money'#39#13#10'unio' +
-      'n ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'Total' +
-      'lSellPrice'#39' ,'#39#1576#1607#1575#1740' '#1582#1575#1604#1589#39' ,'#39'money'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'Rec' +
-      'iptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'DeficitValue'#39' , '#39#1605#1576#1604#1594' '#1578#1582#1601#1610#1601#39' ,' +
-      #39'money'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585 +
-      #1578#1740#1705#1604#39' ,'#39'DeficitValue2'#39' , '#39#1605#1576#1604#1594' '#1578#1582#1601#1610#1601' 2'#39' ,'#39'money'#39#13#10'union ALL '#13#10'SE' +
-      'LECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'DeficitValue3'#39' ' +
-      ', '#39#1605#1576#1604#1594' '#1578#1581#1601#1610#1601'3'#39' ,'#39'money'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39 +
-      '  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' , '#39'DeficitValue4'#39' , '#39#1605#1576#1604#1594' '#1578#1582#1601#1610#1601' 4'#39','#39'money' +
-      #39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ' +
-      ','#39'ItemNote'#39' , '#39#1578#1608#1590#1610#1581#1575#1578#39' ,'#39'varchar(1000)'#39#13#10'union ALL '#13#10'SELECT '#39'db' +
-      'o'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'StuffCode'#39' , '#39#1603#1583' '#1603#1575#1604#1575#39' ' +
-      ','#39'bigint'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' ' +
-      #1570#1585#1578#1740#1705#1604#39' , '#39'ControlCode'#39' , '#39#1585#1575#1607#1606#1605#1575#39','#39'float'#39#13#10'union ALL '#13#10'SELECT '#39 +
-      'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'PersonID1'#39' , '#39#1605#1588#1578#1585#1740' '#1570 +
-      #1585#1578#1740#1705#1604#39' ,'#39'int'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601 +
-      #1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'ProductModel'#39' , '#39#1603#1583' '#1605#1583#1604#39' ,'#39'int'#39#13#10'union ALL '#13#10'SELEC' +
-      'T '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'ItemDate'#39' , '#39#1578#1575#1585#1610#1582 +
-      ' '#1570#1585#1578#1740#1705#1604#39' ,'#39'varchar(100)'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39 +
-      '  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' , '#39'SecondTypeItem'#39' , '#39#1606#1608#1593' '#1575#1591#1604#1575#1593#1575#1578' '#1570#1740#1578#1605#39','#39 +
-      'money'#39#13#10'union ALL '#13#10'SELECT '#39'dbo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578 +
-      #1740#1705#1604#39' , '#39'AidNumber'#39' , '#39#1588#1605#1575#1585#1607' '#1705#1605#1705#1740#39','#39'float'#39#13#10'union ALL '#13#10'SELECT '#39'd' +
-      'bo'#39','#39'ReciptItems'#39'  ,'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1740#1705#1604#39' ,'#39'LastUser'#39' , '#39#1608#1740#1585#1575#1740#1588' '#1705#1606 +
-      #1606#1583#1607#39' ,'#39'varchar(100)'#39#13#10#13#10'end'#13#10
-    Parameters = <>
-    Left = 104
-    Top = 189
+  object qryAuditDetail: TADOQuery
+    Connection = DmF.adcAuditLog
+    CursorType = ctStatic
+    LockType = ltBatchOptimistic
+    CommandTimeout = 0
+    Parameters = <
+      item
+        Name = 'LogId'
+        DataType = ftLargeint
+        Size = 8
+        Value = Null
+      end>
+    SQL.Strings = (
+      'EXEC dbo.sp_GetAuditDetail @LogId = :LogId')
+    Left = 432
+    Top = 184
+  end
+  object srcAuditDetail: TDataSource
+    DataSet = qryAuditDetail
+    Left = 512
+    Top = 184
   end
   object srcAuditTableCaption: TDataSource
     DataSet = qryAuditTableCaption
@@ -859,32 +834,139 @@ inherited AuditLog2F: TAuditLog2F
     Connection = DmF.adcAuditLog
     CursorType = ctStatic
     LockType = ltBatchOptimistic
+    AfterScroll = qryAuditTableCaptionAfterScroll
     CommandTimeout = 0
     Parameters = <>
     SQL.Strings = (
-      'SELECT '
+      'SELECT DISTINCT '
       '    TableName,'
+      '    CASE '
+      '        WHEN TableName = '#39'Amval'#39'          THEN N'#39#1575#1605#1608#1575#1604#39
+      '        WHEN TableName = '#39'BudgetItems'#39'    THEN N'#39#1575#1602#1604#1575#1605' '#1576#1608#1583#1580#1607#39
+      '        WHEN TableName = '#39'Budgets'#39'        THEN N'#39#1576#1608#1583#1580#1607#8204#1607#1575#39
+      '        WHEN TableName = '#39'BudgetsInfo'#39'    THEN N'#39#1575#1591#1604#1575#1593#1575#1578' '#1576#1608#1583#1580#1607#39
+      '        WHEN TableName = '#39'Customers'#39'      THEN N'#39#1605#1588#1578#1585#1740#1575#1606#39
+      '        WHEN TableName = '#39'DocExports'#39'     THEN N'#39#1582#1585#1608#1580#1740' '#1575#1587#1606#1575#1583#39
+      '        WHEN TableName = '#39'DocGroups'#39'      THEN N'#39#1575#1587#1606#1575#1583#39
       
-        '    COALESCE(TableCaption, PersianCaption, TableName) AS Display' +
-        'Caption,'
-      '    ModuleName'
-      'FROM dbo.AuditTableCaption'
-      'WHERE IsActive = 1'
-      'ORDER BY SortOrder, DisplayCaption;')
+        '        WHEN TableName = '#39'Documents'#39'      THEN N'#39#1575#1587#1606#1575#1583' '#1570#1585#1578#1610#1705#1604#39'  ' +
+        '     '
+      '        WHEN TableName = '#39'Expenses'#39'       THEN N'#39#1607#1586#1740#1606#1607#8204#1607#1575#39
+      '        WHEN TableName = '#39'FormItems'#39'      THEN N'#39#1670#1705'/'#1578#1606#1582#1608#1575#1607#39
+      '        WHEN TableName = '#39'Forms'#39'          THEN N'#39#1608#1580#1607' '#1606#1602#1583'/'#1601#1585#1605' '#1670#1705#39
+      '        WHEN TableName = '#39'Functions'#39'      THEN N'#39#1593#1605#1604#1740#1575#1578#39
+      '        WHEN TableName = '#39'FunctionsItems'#39' THEN N'#39#1575#1602#1604#1575#1605' '#1593#1605#1604#1740#1575#1578#39
+      
+        '        WHEN TableName = '#39'PersonelDecExt'#39' THEN N'#39#1578#1589#1605#1740#1605#1575#1578' '#1662#1585#1587#1606#1604#1740' ' +
+        '('#1575#1601#1586#1608#1606#1607')'#39
+      
+        '        WHEN TableName = '#39'ReciptItems'#39'    THEN N'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588' '#1570#1585#1578#1610 +
+        #1705#1604#39
+      '        WHEN TableName = '#39'Recipts'#39'        THEN N'#39#1575#1606#1576#1575#1585'/'#1601#1585#1608#1588#39
+      '        WHEN TableName = '#39'StuffCoding'#39'    THEN N'#39#1705#1583#1740#1606#1711' '#1705#1575#1604#1575#39
+      '        ELSE TableName'
+      '    END AS TableCaption'
+      'FROM MetaDataChangeLog'
+      'ORDER BY TableName;'
+      '')
     Left = 960
     Top = 149
-    object qryAuditTableCaptionTableName: TWideStringField
+    object qryAuditTableCaptionTableName: TStringField
       FieldName = 'TableName'
-      Size = 256
+      Size = 255
     end
-    object qryAuditTableCaptionDisplayCaption: TWideStringField
-      DisplayLabel = #1593#1606#1608#1575#1606' '#1601#1585#1605
-      FieldName = 'DisplayCaption'
+    object qryAuditTableCaptionTableCaption: TWideStringField
+      DisplayLabel = #1593#1606#1608#1575#1606' '#1575#1591#1604#1575#1593#1575#1578
+      FieldName = 'TableCaption'
       ReadOnly = True
-      Size = 300
+      Size = 255
     end
-    object qryAuditTableCaptionModuleName: TWideStringField
-      FieldName = 'ModuleName'
+  end
+  object qryAuditLog2: TFDQuery
+    AfterScroll = qryAuditLog2AfterScroll
+    Connection = DmF.fdcAuditLog
+    SQL.Strings = (
+      
+        'select top (200) * from MetaDataChangeLog order by MetaDataChang' +
+        'eLogId desc')
+    Left = 336
+    Top = 133
+    object qryAuditLog2MetaDataChangeLogId: TFDAutoIncField
+      FieldName = 'MetaDataChangeLogId'
+      Origin = 'MetaDataChangeLogId'
+      ProviderFlags = [pfInWhere, pfInKey]
+      ReadOnly = True
+    end
+    object qryAuditLog2TableName: TStringField
+      FieldName = 'TableName'
+      Origin = 'TableName'
+      Required = True
+      Size = 255
+    end
+    object qryAuditLog2PreviousRowXmlValues: TWideMemoField
+      FieldName = 'PreviousRowXmlValues'
+      Origin = 'PreviousRowXmlValues'
+      BlobType = ftWideMemo
+    end
+    object qryAuditLog2CurrentRowXmlValues: TWideMemoField
+      FieldName = 'CurrentRowXmlValues'
+      Origin = 'CurrentRowXmlValues'
+      BlobType = ftWideMemo
+    end
+    object qryAuditLog2RowCreateSource: TStringField
+      FieldName = 'RowCreateSource'
+      Origin = 'RowCreateSource'
+      Required = True
+      Size = 255
+    end
+    object qryAuditLog2RowCreateDateTime: TSQLTimeStampField
+      DisplayLabel = #1586#1605#1575#1606' '#1575#1740#1580#1575#1583
+      FieldName = 'RowCreateDateTime'
+      Origin = 'RowCreateDateTime'
+      Required = True
+    end
+    object qryAuditLog2DataBaseName: TStringField
+      FieldName = 'DataBaseName'
+      Origin = 'DataBaseName'
+      Size = 100
+    end
+    object qryAuditLog2HostName: TStringField
+      DisplayLabel = #1606#1575#1605' '#1587#1740#1587#1578#1605
+      FieldName = 'HostName'
+      Origin = 'HostName'
+      Size = 100
+    end
+    object qryAuditLog2ApplicationName: TStringField
+      DisplayLabel = #1606#1575#1605' '#1576#1585#1606#1575#1605#1607
+      FieldName = 'ApplicationName'
+      Origin = 'ApplicationName'
+      Size = 100
+    end
+    object qryAuditLog2LoginName: TStringField
+      FieldName = 'LoginName'
+      Origin = 'LoginName'
+      Size = 100
+    end
+    object qryAuditLog2LastRead: TStringField
+      DisplayLabel = #1570#1582#1585#1740#1606' '#1582#1608#1575#1606#1583#1606
+      FieldName = 'LastRead'
+      Origin = 'LastRead'
+      Size = 100
+    end
+    object qryAuditLog2LastWrite: TStringField
+      DisplayLabel = #1575#1582#1585#1740#1606' '#1606#1608#1588#1578#1606
+      FieldName = 'LastWrite'
+      Origin = 'LastWrite'
+      Size = 100
+    end
+    object qryAuditLog2client_net_address: TStringField
+      FieldName = 'client_net_address'
+      Origin = 'client_net_address'
+      Size = 100
+    end
+    object qryAuditLog2local_net_address: TStringField
+      FieldName = 'local_net_address'
+      Origin = 'local_net_address'
       Size = 100
     end
   end

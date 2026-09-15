@@ -2718,6 +2718,8 @@ type
     mnuRptCardex2F: TMenuItem;
     N488: TMenuItem;
     tmrForceNotification: TTimer;
+    log2: TMenuItem;
+    s1: TMenuItem;
     procedure FormShow(Sender: TObject);
     procedure UnitsF0Click(Sender: TObject);
     procedure StuffGroupsF0Click(Sender: TObject);
@@ -3463,6 +3465,7 @@ type
     procedure N488Click(Sender: TObject);
     procedure mnuSellsWithCostClick(Sender: TObject);
     procedure tmrForceNotificationTimer(Sender: TObject);
+    procedure log2Click(Sender: TObject);
     ///
   private
     tsControlReports: TStringList;
@@ -3665,7 +3668,7 @@ uses GlobalPro, mdiMain, CustGroups, Stores, CompanyBankAccounts,
   RptTrialBalance_AccStore, GetFirstDepTable, SellsEmporiums, Rpt001FD,
   FindMenuInfo, feedback, StuffTransactionDate, ImportData, ListBimehRetired,
   OperatorsNew, CustomersNotUse, IntegratingAcc2Fara, RptControlCardexFD,
-  Operators4, rptCash2, RptSalaryAdjustment, UserActivities;
+  Operators4, rptCash2, RptSalaryAdjustment, UserActivities, AuditLog2;
 
 {$R *.dfm}
 
@@ -6038,6 +6041,12 @@ procedure TmainF.log1Click(Sender: TObject);
 begin
   SelectItem(Sender);
   CreateMDIForm2(TAuditLogF, AuditLogF, Self)
+end;
+
+procedure TmainF.log2Click(Sender: TObject);
+begin
+  SelectItem(Sender);
+  CreateMDIForm2(TAuditLog2F, AuditLog2F, Self)
 end;
 
 procedure TmainF.LookUp1Click(Sender: TObject);

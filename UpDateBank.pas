@@ -507,6 +507,10 @@ begin
   AddFieldConfig('NationalCode', 'Varchar(20)');
   AddFieldConfig('JamePassWord', 'Varchar(200)');
   AddFieldConfig('UserRoleId', 'int NOT NULL DEFAULT(0)');
+  AddFieldConfig('AutoBackupActive',
+    'tinyint NOT NULL CONSTRAINT DF_Config_AutoBackupActive DEFAULT (1)');
+  AddFieldConfig('AutoBackupResetVersion',
+    'int NOT NULL CONSTRAINT DF_Config_AutoBackupResetVersion DEFAULT (0)');
 
 end;
 
@@ -533,6 +537,9 @@ begin
 
   AddFieldConfig('POActive',
     'tinyint NOT NULL CONSTRAINT DF_Config_POActive DEFAULT (0)');
+
+  AddFieldConfig('CTopicCodeIsZero',
+    'Tinyint NOT NULL CONSTRAINT DF_Config_CTopicCodeIsZero DEFAULT (1)');
 
   AddFieldConfig('CTopicCode2IsZero',
     'Tinyint NOT NULL CONSTRAINT DF_Config_CTopicCode2IsZero DEFAULT (1)');
@@ -692,9 +699,11 @@ begin
     begin
       if trim(ts.Strings[i]) = 'GO' then
         ts.Strings[i] := '  ';
-      if pos('QUOTED_IDENTIFIER', ts.Strings[i]) <> 0 then
+      if (pos('QUOTED_IDENTIFIER', ts.Strings[i]) <> 0) and
+        (not SameText(fileAddress, 'Script\Generals.sql')) then
         ts.Strings[i] := '  ';
-      if pos('SET ANSI_NULLS', ts.Strings[i]) <> 0 then
+      if (pos('SET ANSI_NULLS', ts.Strings[i]) <> 0) and
+        (not SameText(fileAddress, 'Script\Generals.sql')) then
         ts.Strings[i] := '  ';
     end;
     tsTemp.Text := '';

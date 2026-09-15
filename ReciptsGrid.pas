@@ -5212,7 +5212,7 @@ begin
       qryLookUP.FieldByName('LookUpID').AsInteger;
 
   if qryinit.FieldByName('AutoPrice').AsInteger in [14, 15] then
-    DataSet.FieldByName('ProductCode').AsInteger := 0;
+    DataSet.FieldByName('ProductCode').AsLargeInt := 0;
 
   qryItemsIRow.ReadOnly := False;
   if (qryItems.State in dsEditModes) then
@@ -5371,6 +5371,11 @@ end;
 
 procedure TReciptsGridF.FormDestroy(Sender: TObject);
 begin
+  // zAPIBalloon allocates FToolInfo.lpszText for every Show call. Its
+  // destructor does not release that buffer when the balloon is still
+  // active, so close it while the component is still alive.
+  if Assigned(zbal) then
+    zbal.Close;
   inherited;
   opt.PayablePrice := 0;
   opt.CustomerID1 := 0;
@@ -5740,6 +5745,8 @@ end;
 procedure TReciptsGridF.SetqryUnit2Stuffs(IsEnter: Boolean);
 var
   b: Boolean;
+  UnitCount: Integer;
+  SingleUnitCode: Integer;
 begin
   if UnitCoAct then
   begin
@@ -5760,13 +5767,34 @@ begin
       end;
       Active := True;
       if qryItems.State in dsEditModes then
-        if qryItems.FieldByName('UnitCode2').AsString = '' then
+      begin
+        { A single configured second unit is unambiguous and can be selected
+          automatically.  When more than one unit is configured, leave the
+          field empty so the user can choose it manually. }
+        UnitCount := 0;
+        SingleUnitCode := 0;
+        First;
+        while not Eof do
+        begin
+          Inc(UnitCount);
+          if UnitCount = 1 then
+            SingleUnitCode := FieldByName('UnitCode').AsInteger;
+          if UnitCount > 1 then
+            Break;
+          Next;
+        end;
+        First;
+
+        if IsEnter and (UnitCount = 1) and
+          (qryItems.FieldByName('UnitCode2').IsNull or
+          (qryItems.FieldByName('UnitCode2').AsInteger = 0)) then
         begin
           b := qryItems.FieldByName('UnitCode2').ReadOnly;
           qryItems.FieldByName('UnitCode2').ReadOnly := False;
-          qryUnit2Stuffs.FieldByName('UnitCode').AsInteger;
+          qryItems.FieldByName('UnitCode2').AsInteger := SingleUnitCode;
           qryItems.FieldByName('UnitCode2').ReadOnly := b;
         end;
+      end;
 
     end;
   end;
@@ -8042,7 +8070,7 @@ begin
     exit;
   SellPrice := qryItemsUnitSellPrice.AsFloat;
   Entity := qryItems.FieldByName(FieldNameEntity).AsFloat;
-  if (qryinit.FieldByName('ArzActive').AsInteger = 1) and
+  if (qryinit.FieldByName('ArzActive').AsInteger in [1]) and
     (qryinit.FieldByName('ArzTypeID').AsInteger <> 0) then
   begin
     qryItems.FieldByName('ArzAmount').AsFloat :=
@@ -8052,6 +8080,18 @@ begin
       ('RialsEqual').AsFloat);
     exit;
   end;
+
+  // مقدار * بهای واحد ارز = بهای کل صادره
+  // TotalOutputPrice = ArzRate  *  OutputEntity
+  if (qryinit.FieldByName('ArzActive').AsInteger in [5]) and
+    (qryinit.FieldByName('ArzTypeID').AsInteger <> 0) then
+  begin
+    // qryItems.FieldByName('ArzAmount').AsFloat :=      RoundTo(Entity * SellPrice, RoundCount);
+    qryItems.FieldByName(FieldNamePrice).AsCurrency :=
+      Trunc(qryItems.FieldByName('ArzRate').AsFloat * Entity);
+    exit;
+  end;
+
   Weight := qryItems.FieldByName(FieldNameWeight).AsFloat;
   Weight := RoundTo(Weight, opt.RoundEntity);
   Total := 0;
@@ -11133,8 +11173,20 @@ begin
     colTopics_1_3[0] := 'کد';
     colTopics_1_3[1] := 'نام كالا';
     colTopics_1_3[2] := 'مشخصات فني';
-    colTopics_1_3[3] := 'بهاي فروش/خرید 1';
-    colTopics_1_3[4] := 'بهاي فروش/خرید 2';
+
+    if PriceOn_StoreType then
+    begin
+      colTopics_1_3[3] := 'بهاي فروش/خرید 1';
+      colTopics_1_3[4] := 'بهاي فروش/خرید 2';
+    end
+    else
+    begin
+      colTopics_1_3[3] := '';
+      colTopics_1_3[4] := '';
+      colWidths_1_3[3] := 0;
+      colWidths_1_3[4] := 0;
+    end;
+
     if EntityDisplay and (ShowEntityOnSearch <> 2) then
     begin
       colTopics_1_3[5] := opt.EntityCaption;
@@ -11410,21 +11462,27 @@ begin
             colWidths_1_3[4] := 0;
           end;
 
-          colWidths_1_3[5] := 80;
-          colTopics_1_3[5] := 'بهاي فروش 1';
-          colWidths_1_3[6] := 80;
-          colTopics_1_3[6] := 'بهاي فروش 2';
-          colWidths_1_3[7] := 80;
-          colTopics_1_3[7] := 'بيشترين بها';
+          if PriceOn_StoreType then
+          begin
+            colWidths_1_3[5] := 80;
+            colTopics_1_3[5] := 'بهاي فروش 1';
+            colWidths_1_3[6] := 80;
+            colTopics_1_3[6] := 'بهاي فروش 2';
+            colWidths_1_3[7] := 80;
+            colTopics_1_3[7] := 'بيشترين بها';
+          end;
 
           if ShowEntityOnSearch = 10 then
           begin
-            colWidths_1_3[8] := 80;
-            colTopics_1_3[8] := 'بهاي فروش 3';
-            colWidths_1_3[9] := 80;
-            colTopics_1_3[9] := 'بهاي فروش 4';
-            colWidths_1_3[10] := 80;
-            colTopics_1_3[10] := 'بهاي فروش 5';
+            if PriceOn_StoreType then
+            begin
+              colWidths_1_3[8] := 80;
+              colTopics_1_3[8] := 'بهاي فروش 3';
+              colWidths_1_3[9] := 80;
+              colTopics_1_3[9] := 'بهاي فروش 4';
+              colWidths_1_3[10] := 80;
+              colTopics_1_3[10] := 'بهاي فروش 5';
+            end;
             colWidths_1_3[11] := 80;
             colTopics_1_3[11] := 'واحد شمارش';
 
@@ -12415,7 +12473,7 @@ var
   r: Currency;
 begin
   inherited;
-  if (qryinit.FieldByName('ArzActive').AsInteger = 1) then
+  if (qryinit.FieldByName('ArzActive').AsInteger in [1]) then
   begin
     r := Trunc(GetArzAmount * GetRialsEqual); // , RoundCount);
     if qryItems.FieldByName(FieldNamePrice).AsCurrency <> r then
@@ -12463,6 +12521,15 @@ begin
     if qryItems.FieldByName('ArzAmount').AsCurrency <> r then
       qryItems.FieldByName('ArzAmount').AsCurrency := r;
   end;
+
+//  if (qryinit.FieldByName('ArzActive').AsInteger = 5) then
+//  begin
+//    r := RoundTo(qryItems.FieldByName('ArzRate').AsFloat *
+//      (qryItems.FieldByName(FieldNameEntity).AsFloat), RoundCount);
+//
+//    if qryItems.FieldByName('ArzAmount').AsCurrency <> r then
+//      qryItems.FieldByName('ArzAmount').AsCurrency := r;
+//  end;
 
   if (qryinit.FieldByName('ArzActive').AsInteger in [2]) then
     ChangeUnitSellPrice;
@@ -15283,7 +15350,7 @@ procedure TReciptsGridF.qryReciptsRialsEqualChange(Sender: TField);
 begin
   inherited;
   if not((Settings and Integer(ChkArzType2)) <> 0) then
-    if ((qryinit.FieldByName('ArzActive').AsInteger = 1) and
+    if ((qryinit.FieldByName('ArzActive').AsInteger in [1]) and
       (qryinit.FieldByName('ArzTypeID').AsInteger = 0)) then
       RialsEqualChange
 end;
@@ -15994,6 +16061,15 @@ var
   b: Boolean;
   DsItem: TDataSet;
 
+  CapValue: Largeint;
+  TadisValue: Largeint;
+  CashRatio: Double;
+  RowAdis: Largeint;
+  RowTax: Largeint;
+  VsValue: Largeint;
+  OsValue: Largeint;
+  KsValue: Largeint;
+
 begin
   inherited;
   if qryRecipts.State in dsEditModes then
@@ -16214,55 +16290,44 @@ begin
       aTax.InvoiceHeaderDto.Crn := qryReciptsCRN.AsString;
     end;
 
-    // وش ت�ویه شامل: نقدی 1 ،نسیه 2 و نقدی/نسیه3 است.
+    // وش ت�ویه شامل: نقدی ۱ ،نسیه ۲ و نقدی/نسیه ۳ است.
     if qryReciptsLoanPayment.AsCurrency > 0 then
     begin
       if ((qryReciptsLoanPayment.AsCurrency = TotallSellPrice_T) or
         (TaxFormKind = TaxCancellation)) then
-        // if qryReciptsLoanPayment.AsCurrency = TotallSellPrice_T then
-        aTax.InvoiceHeaderDto.setm := '2'
+      begin
+        // نسیه کامل
+        aTax.InvoiceHeaderDto.setm := '2';
+        aTax.InvoiceHeaderDto.cap := '0';
+        aTax.InvoiceHeaderDto.insp := IntToStr(TotallSellPrice_T);
+      end
       else
       begin
+        // نقد و نسیه (setm = 3)
         aTax.InvoiceHeaderDto.setm := '3';
+
+        // طبق فرمول رسمی سند (صفحه ۴۶ و ۴۷):
+        // C  = Xs - W2 - W - Cr
+        // Cr = مبلغ نسیه (LoanPayment)
+        // W  = tvam
+        // W2 = todam (در کد شما همیشه ۰ است)
+        // Xs = TotallSellPrice_T (tbill)
+
+        aTax.InvoiceHeaderDto.insp :=
+          IntToStr(qryReciptsLoanPayment.AsLargeInt); // Cr
+
         aTax.InvoiceHeaderDto.cap :=
           IntToStr(TotallSellPrice_T - qryReciptsLoanPayment.AsLargeInt -
           tvam_TaxValue);
-        // مبلغ نقدی
-        // مبلغ پرداختی نقدی از فرمول زیر محاسبه میشود.
-        // C= Xs - W2 – W – Cr
-        // Cr : مبلغ نسیه
-        // W : مجموع مالیات بر ارزش افزوده
-        // W2 : مجموع سایر مالیات، عوارض و وجوه قانونی
-        // Xs : مجموع صورتحساب
-
-        aTax.InvoiceHeaderDto.insp :=
-          IntToStr(TotallSellPrice_T - (TotallSellPrice_T -
-          qryReciptsLoanPayment.AsLargeInt));
-
-        /// - tvam_TaxValue     برداشته شد
-
-
-        // مبلغ نسیه
-        // مبلغ نسیه از فرمول زیر محاسبه میشود.
-        // Cr= Xs - W2 – W– C
-        // C : مبلغ پرداختی نقدی
-        // W : مجموع مالیات بر ارزش افزوده
-        // W2 : مجموع سایر مالیات، عوارض و وجوه قانونی
-        // Xs : مجموع صورتحساب
-
+        // C = Xs - Cr - W   (چون W2 = 0)
       end;
-
-      // 1 -عدم پرداخت      ///     2 -پرداخت
-      // aTax.InvoiceHeaderDto.dpvb := '2';
-
     end
     else
     begin
+      // نقدی کامل
       aTax.InvoiceHeaderDto.setm := '1';
-      aTax.InvoiceHeaderDto.cap := IntToStr(TotalPrice_T - DeficitValue);
-      // مبلغ نقدی
+      aTax.InvoiceHeaderDto.cap := IntToStr(TotallSellPrice_T);
       aTax.InvoiceHeaderDto.insp := '0';
-      // aTax.InvoiceHeaderDto.dpvb := '1';
     end;
 
     aTax.InvoiceHeaderDto.tins := opt.Economic_Number;
@@ -16468,24 +16533,38 @@ begin
         Item.tsstam := IntToStr(tsstam);
         // Item.tsstam := tadis;//  مبلغ کل کالا و خدمت
 
-        // وش تسویه شامل: نقدی 1 ،نسیه 2 و نقدی/نسیه3 است.
-
-        if aTax.InvoiceHeaderDto.setm = '3' then // نقد و نسیه
+        // وش تسویه شامل: نقدی ۱ ،نسیه ۲ و نقدی/نسیه ۳ است.
+        if aTax.InvoiceHeaderDto.setm = '3' then
         begin
-          vop := Trunc((DsItem.FieldByName('TaxValue').AsLargeInt *
-            StrToInt64(aTax.InvoiceHeaderDto.cap)) /
-            (TotallSellPrice_T - DeficitValue)); //
-          Item.vop := vop.ToString;
+          CapValue := StrToInt64Def(aTax.InvoiceHeaderDto.cap, 0);
+          VsValue := StrToInt64Def(aTax.InvoiceHeaderDto.Tadis, 0);
 
-          tvop := tvop + vop;
+          if (VsValue > 0) and (CapValue > 0) then
+          begin
+            // مبلغ بعد از تخفیف ردیف
+            RowAdis := StrToInt64Def(Item.adis, 0); // یا prdis - DeficitValue
 
-          cop := Trunc
-            ((TotallSellPrice_T * StrToInt64(aTax.InvoiceHeaderDto.cap)) /
-            (TotallSellPrice_T));
-          Item.cop := cop.ToString;
+            // cop صحیح
+            cop := Trunc((int64(RowAdis) * CapValue) / VsValue);
+            if cop < 0 then
+              cop := 0;
+            Item.cop := IntToStr(cop);
 
+            // vop صحیح
+            RowTax := DsItem.FieldByName('TaxValue').AsLargeInt;
+            vop := Trunc((int64(RowTax) * CapValue) / VsValue);
+            if vop < 0 then
+              vop := 0;
+            Item.vop := IntToStr(vop);
+
+            tvop := tvop + vop;
+          end
+          else
+          begin
+            Item.cop := '0';
+            Item.vop := '0';
+          end;
         end;
-
         aTax.InvoiceBodyDto.Add(Item);
       end;
       Next;

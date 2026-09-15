@@ -636,6 +636,7 @@ CREATE TABLE Acc.Config(
 	ChkBalancCTopicCode3 tinyint NOT NULL,
 	ChkSelfDocShow tinyint NOT NULL,
 	POActive tinyint NOT NULL,
+	CTopicCodeIsZero tinyint NOT NULL,
 	CTopicCode2IsZero tinyint NOT NULL,
 	CTopicCode3IsZero tinyint NOT NULL,
 	TopicCaptionActive tinyint NOT NULL,
@@ -921,6 +922,43 @@ CREATE TABLE Acc.Documents(
 )  ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
+
+-- Currency columns must support the configured number of decimal places.
+-- Older databases created them as decimal(38,3), which truncates values such
+-- as 10.123457 before the accounting form can display or post them.
+IF COL_LENGTH(N'Acc.Documents', N'CurrencyDebit') IS NULL
+  ALTER TABLE Acc.Documents ADD CurrencyDebit decimal(38,18) NOT NULL
+    CONSTRAINT DF_Documents_CurrencyDebit DEFAULT (0)
+IF COL_LENGTH(N'Acc.Documents', N'CurrencyCredit') IS NULL
+  ALTER TABLE Acc.Documents ADD CurrencyCredit decimal(38,18) NOT NULL
+    CONSTRAINT DF_Documents_CurrencyCredit DEFAULT (0)
+IF COL_LENGTH(N'Acc.Documents', N'CurrencyRate') IS NULL
+  ALTER TABLE Acc.Documents ADD CurrencyRate decimal(38,18) NOT NULL
+    CONSTRAINT DF_Documents_CurrencyRate DEFAULT (1)
+
+IF EXISTS (
+    SELECT 1 FROM INFORMATION_SCHEMA.COLUMNS
+    WHERE TABLE_SCHEMA = N'Acc' AND TABLE_NAME = N'Documents'
+      AND COLUMN_NAME IN (N'CurrencyDebit', N'CurrencyCredit', N'CurrencyRate')
+      AND DATA_TYPE = N'decimal' AND NUMERIC_SCALE < 18
+)
+BEGIN
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyDebit')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyDebit
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyCredit')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyCredit
+  IF EXISTS (SELECT 1 FROM sysobjects WHERE name = 'DF_Documents_CurrencyRate')
+    ALTER TABLE Acc.Documents DROP CONSTRAINT DF_Documents_CurrencyRate
+
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyDebit decimal(38,18) NOT NULL
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyCredit decimal(38,18) NOT NULL
+  ALTER TABLE Acc.Documents ALTER COLUMN CurrencyRate decimal(38,18) NOT NULL
+
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyDebit DEFAULT 0 FOR CurrencyDebit
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyCredit DEFAULT 0 FOR CurrencyCredit
+  ALTER TABLE Acc.Documents ADD CONSTRAINT DF_Documents_CurrencyRate DEFAULT 1 FOR CurrencyRate
+END
+
 /****** Object:  Table Acc.Expense    Script Date: 22/10/1403 06:06:15 ب.ظ ******/
 SET ANSI_NULLS ON
 GO
@@ -1780,6 +1818,8 @@ IF NOT EXISTS (SELECT 1 from sysobjects where name = 'DF_Config_ChkSelfDocShow')
 ALTER TABLE Acc.Config ADD  CONSTRAINT DF_Config_ChkSelfDocShow  DEFAULT ((0)) FOR ChkSelfDocShow
 IF NOT EXISTS (SELECT 1 from sysobjects where name = 'DF_Config_POActive')
 ALTER TABLE Acc.Config ADD  CONSTRAINT DF_Config_POActive  DEFAULT ((0)) FOR POActive
+IF NOT EXISTS (SELECT 1 from sysobjects where name = 'DF_Config_CTopicCodeIsZero')
+ALTER TABLE Acc.Config ADD  CONSTRAINT DF_Config_CTopicCodeIsZero  DEFAULT ((1)) FOR CTopicCodeIsZero
 IF NOT EXISTS (SELECT 1 from sysobjects where name = 'DF_Config_CTopicCode2IsZero')
 ALTER TABLE Acc.Config ADD  CONSTRAINT DF_Config_CTopicCode2IsZero  DEFAULT ((1)) FOR CTopicCode2IsZero
 IF NOT EXISTS (SELECT 1 from sysobjects where name = 'DF_Config_CTopicCode3IsZero')

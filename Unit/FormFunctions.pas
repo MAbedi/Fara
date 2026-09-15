@@ -7632,8 +7632,8 @@ begin
         qryItemsNew.FieldByName('StuffCode').Value :=
           qryItems.FieldByName('ProductCode').AsLargeInt;
         /// //    add
-        qryItemsNew.FieldByName('ProductCode').AsInteger :=
-          qryItems.FieldByName('StuffCode').AsInteger;
+        qryItemsNew.FieldByName('ProductCode').AsLargeInt :=
+          qryItems.FieldByName('StuffCode').AsLargeInt;
         /// //    add
 
         qryItemsNew.FieldByName(ChildFieldIOName + 'Entity').Value :=
@@ -8035,8 +8035,8 @@ begin
       qryItemsNew.FieldByName('ControlCode').AsString :=
         qryItems.FieldByName('ControlCode').AsString;
 
-      qryItemsNew.FieldByName('ProductCode').AsInteger :=
-        qryTransFormItems.FieldByName('ProductCode').AsInteger;
+      qryItemsNew.FieldByName('ProductCode').AsLargeInt :=
+        qryTransFormItems.FieldByName('ProductCode').AsLargeInt;
 
       if qryinit.FieldByName('ConversionCoSerialFormula').AsInteger = 4 then
         qryItemsNew.FieldByName(ChildFieldIOName + 'Entity').Value :=
@@ -9575,6 +9575,13 @@ begin
           opt._ArchivePath := IncludeTrailingBackslash
             (ExtractFilePath(ParamStr(0))) + 'Archive\';
         opt.ServerName := ReadConfig(APPID, 'SqlServerName');
+        if StrToIntDef(ReadConfig(APPID, 'AutoBackupResetVersion', '0'), 0) <
+          StrToIntDef(ReadOptionConfig('AutoBackupResetVersion', '0'), 0) then
+        begin
+          SaveConfig(APPID, 'AutoBackup', BoolToStr(False));
+          SaveConfig(APPID, 'AutoBackupResetVersion',
+            ReadOptionConfig('AutoBackupResetVersion', '0'));
+        end;
         opt.AutoBackup := StrToBool(ReadConfig(APPID, 'AutoBackup', '-1'));
         opt.CheckWarn := StrToBool(ReadConfig(APPID, 'CheckWarn', '-1'));
         opt.showBig := StrToBool(ReadConfig(APPID, 'showBig', '-1'));
@@ -10171,6 +10178,7 @@ begin
       ChkBalancCTopicCode3 := CheckHasField('ChkBalancCTopicCode3') = 1;
       ChkSelfDocShow := CheckHasField('ChkSelfDocShow') = 1;
 
+      CTopicCodeIsZero := CheckHasField('CTopicCodeIsZero') = 1;
       CTopicCode2IsZero := CheckHasField('CTopicCode2IsZero') = 1;
       CTopicCode3IsZero := CheckHasField('CTopicCode3IsZero') = 1;
       TopicCaptionActive := CheckHasField('TopicCaptionActive') = 1;

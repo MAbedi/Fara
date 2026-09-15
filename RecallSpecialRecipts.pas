@@ -777,8 +777,8 @@ begin
                 if (qryini.FieldByName('ProcedureActive').AsInteger in [1, 2, 4])
                 then
                 begin
-                  qryI.FieldByName('ProductCode').AsInteger :=
-                    FieldByName('ProductCode').AsInteger;
+                  qryI.FieldByName('ProductCode').AsLargeInt :=
+                    FieldByName('ProductCode').AsLargeInt;
                 end;
 
                 if (qryini.FieldByName('ProcedureActive').AsInteger in [1, 2, 3])
@@ -1109,7 +1109,7 @@ begin
               ' CROSS JOIN Fitful LEFT OUTER JOIN ' +
               ' dbo.StoreEntity(:StuffFrom, :StuffTo, :StoreFrom, :StoreTo, :YearFrom, :YearTo) AS Mojudi '
               + ' ON Mojudi.StuffCode = ReciptItems.StuffCode AND Mojudi.YearID = ReciptItems.YearID '
-              + ' AND Mojudi.StoreID = Recipts.StoreID ', [rfReplaceAll]);
+              + ' AND Mojudi.StoreID = CASE ReciptTypes.IncreasingInventoryStore WHEN 2 THEN Recipts.StoreID2 ELSE Recipts.StoreID END ', [rfReplaceAll]);
 
             SQL.Text := StringReplace(SQL.Text, ', ReciptItems.ItemDate',
               ' , ReciptItems.ItemDate ,Mojudi.Entity as CurentEntity ',
@@ -1548,8 +1548,7 @@ begin
     SQL.Add('AND(Recipts.PersonID3 BETWEEN :PersonID3From AND :PersonID3To )');
     SQL.Add('AND(Recipts.PersonID4 BETWEEN :PersonID4From AND :PersonID4To )');
     SQL.Add('');
-//    SQL.Add('AND(ISNULL(Recipts.AidNumber,0) BETWEEN :AidNumberFrom AND :AidNumberTo)');
-
+    // SQL.Add('AND(ISNULL(Recipts.AidNumber,0) BETWEEN :AidNumberFrom AND :AidNumberTo)');
 
     SQL.Add('AND ((Recipts.AidNumber='''')or(Recipts.AidNumber=''0'')or(ISNULL(Recipts.AidNumber,''0'') BETWEEN :AidNumberFrom AND :AidNumberTo))');
     SQL.Add('');
@@ -1737,7 +1736,7 @@ end;
 
 procedure TRecallSpecialReciptsF.actFilterExecute(Sender: TObject);
 var
-  SQLTxt, s: string;
+  SQLTxt, s, StoreID_MinMaxSQL: string;
   dateM: TDateTime;
 begin
   inherited;
@@ -1871,9 +1870,16 @@ begin
 
       AddItemFilter(GetFilter, TFilterSellsEmporium);
 
+      if qryinit.FieldByName('RecallType').AsInteger in [18] then
+        StoreID_MinMaxSQL := 'select ' + qryReci.FieldByName('StoreID').AsString
+          + ',' + qryReci.FieldByName('StoreID').AsString
+
+      else
+        StoreID_MinMaxSQL := UseStoreID_MinMaxSQL;
+
       AddItem(DMf.adcBSell, 'Storid', 'نام انبار ', 'كد انبار', ftInteger,
         dvMinMax, '', '', ciLookup,
-        'SELECT n_StoreID, c_StoreName FROM Stores ', UseStoreID_MinMaxSQL);
+        'SELECT n_StoreID, c_StoreName FROM Stores ', StoreID_MinMaxSQL);
 
       if qryinit.FieldByName('RecallType').AsInteger = 22 then
         Var_glb_NoFilter := True;
@@ -1927,9 +1933,9 @@ begin
     if ((AidInfoActive) and (Parameters.FindParam('AidNumberFrom') <> nil)) then
     begin
       Parameters.ParamByName('AidNumberFrom').Value :=
-        GetcFrom(myParams.ParamValues['AidNumber'], ftString );
+        GetcFrom(myParams.ParamValues['AidNumber'], ftString);
       Parameters.ParamByName('AidNumberTo').Value :=
-        GetcTo(myParams.ParamValues['AidNumber'], ftString );
+        GetcTo(myParams.ParamValues['AidNumber'], ftString);
 
     end
     else

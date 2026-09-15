@@ -4,13 +4,12 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
   Caption = #1711#1586#1575#1585#1588' '#1711#1585#1583#1588' '#1603#1575#1604#1575#1610' '#1575#1606#1576#1575#1585
   ClientHeight = 547
   ClientWidth = 1056
-  ExplicitLeft = -156
   ExplicitWidth = 1064
   ExplicitHeight = 578
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
-    Top = 464
+    Top = 506
     Width = 1056
     ExplicitTop = 464
     ExplicitWidth = 1056
@@ -133,6 +132,7 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
         Width = 532
         Height = 388
         Align = alClient
+        Color = clCream
         DataSource = SrcStuff
         DynProps = <>
         Flat = True
@@ -265,6 +265,7 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
           Width = 514
           Height = 193
           Align = alClient
+          Color = clCream
           DataSource = SrcStuffDec
           DynProps = <>
           Flat = True
@@ -367,6 +368,7 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
           Width = 514
           Height = 165
           Align = alClient
+          Color = clCream
           DataSource = SrcStuffInc
           DynProps = <>
           Flat = True
@@ -489,12 +491,14 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
   end
   object GroupBox1: TGroupBox [4]
     Left = 0
-    Top = 505
+    Top = 464
     Width = 1056
     Height = 42
     Align = alBottom
     Caption = #1605#1588#1582#1589#1575#1578' '#1601#1606#1610' '#1603#1575#1604#1575
     TabOrder = 4
+    ExplicitLeft = -8
+    ExplicitTop = 377
     DesignSize = (
       1056
       42)
@@ -513,7 +517,8 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
     end
   end
   inherited ActionList: TActionList
-    Left = 288
+    Left = 328
+    Top = 16
     inherited actSearch_: TAction
       OnExecute = actSearch_Execute
     end
@@ -655,7 +660,21 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       
         'SELECT   StuffCoding.GroupID, ReciptItems.StuffCode, StuffCoding' +
         '.c_StuffName,'
-      '         StuffCoding.c_StuffTecInfo,Units.UnitName,  '
+      '         StuffCoding.c_StuffTecInfo,Units.UnitName,'
+      ''
+      
+        '         SUM(CAST(ReciptItems.InputEntity AS DECIMAL(18,2))  ) A' +
+        'S EntityInc,'
+      '         SUM(ReciptItems.InputWeight ) AS WeightInc,'
+      '         SUM(ReciptItems.TotalInputPrice) AS PriceInc,'
+      ''
+      
+        '         SUM( CAST(ReciptItems.OutputEntity AS DECIMAL(18,2)) ) ' +
+        'AS EntityDec,'
+      '         SUM(ReciptItems.OutputWeight) AS WeightDec,'
+      '         SUM(ReciptItems.TotalOutputPrice) AS PriceDec,'
+      ''
+      ''
       '         SUM(CAST(ReciptItems.InputEntity AS DECIMAL(18,2))'
       
         '           - CAST(ReciptItems.OutputEntity AS DECIMAL(18,2)) ) A' +
@@ -764,6 +783,40 @@ inherited StuffTranction_DetailF: TStuffTranction_DetailF
       FieldName = 'TotallSellPrice'
       currency = True
       Precision = 19
+    end
+    object qryStuffEntityInc: TFMTBCDField
+      FieldName = 'EntityInc'
+      ReadOnly = True
+      Precision = 38
+      Size = 2
+    end
+    object qryStuffWeightInc: TFMTBCDField
+      FieldName = 'WeightInc'
+      ReadOnly = True
+      Precision = 38
+    end
+    object qryStuffPriceInc: TFMTBCDField
+      FieldName = 'PriceInc'
+      ReadOnly = True
+      Precision = 38
+      Size = 0
+    end
+    object qryStuffEntityDec: TFMTBCDField
+      FieldName = 'EntityDec'
+      ReadOnly = True
+      Precision = 38
+      Size = 2
+    end
+    object qryStuffWeightDec: TFMTBCDField
+      FieldName = 'WeightDec'
+      ReadOnly = True
+      Precision = 38
+    end
+    object qryStuffPriceDec: TFMTBCDField
+      FieldName = 'PriceDec'
+      ReadOnly = True
+      Precision = 38
+      Size = 0
     end
   end
   object qryStuffInc: TADOQuery

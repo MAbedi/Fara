@@ -289,7 +289,7 @@ inherited ConfigF: TConfigF
     Top = 73
     Width = 765
     Height = 443
-    ActivePage = TabSheet6
+    ActivePage = TabSheet4
     Align = alClient
     TabOrder = 1
     object TabSheet1: TTabSheet
@@ -677,14 +677,14 @@ inherited ConfigF: TConfigF
         Top = 0
         Width = 757
         Height = 415
-        ActivePage = tbsSMS
+        ActivePage = TabSheet16
         Align = alClient
         TabOrder = 0
         object TabSheet16: TTabSheet
           Caption = #1587#1610#1587#1578#1605
           object GroupBox3: TGroupBox
             Left = 0
-            Top = 170
+            Top = 197
             Width = 749
             Height = 42
             Align = alTop
@@ -789,7 +789,7 @@ inherited ConfigF: TConfigF
           object pnlServer: TPanel
             AlignWithMargins = True
             Left = 3
-            Top = 139
+            Top = 166
             Width = 743
             Height = 28
             Align = alTop
@@ -864,10 +864,11 @@ inherited ConfigF: TConfigF
           object BitBtn4: TBitBtn
             AlignWithMargins = True
             Left = 200
-            Top = 104
+            Top = 131
             Width = 349
             Height = 29
             Margins.Left = 200
+            Margins.Top = 30
             Margins.Right = 200
             Align = alTop
             Caption = #1578#1593#1605#1740#1605' '#1586#1740#1585' '#1587#1740#1587#1578#1605#1607#1575#1740' '#1580#1575#1585#1740' '#1576#1607' '#1587#1575#1740#1585' '#1576#1575#1606#1705#1607#1575#1740' '#1575#1591#1604#1575#1593#1575#1578#1740'...'
@@ -878,7 +879,7 @@ inherited ConfigF: TConfigF
           object dbchkOperatorsNewActive: TDBCheckBox
             AlignWithMargins = True
             Left = 3
-            Top = 215
+            Top = 242
             Width = 743
             Height = 42
             Align = alTop
@@ -890,6 +891,26 @@ inherited ConfigF: TConfigF
             TabOrder = 5
             ValueChecked = '1'
             ValueUnchecked = '0'
+          end
+          object dbchkAutoBackupActive: TDBCheckBox
+            Left = 0
+            Top = 328
+            Width = 749
+            Height = 30
+            Align = alBottom
+            Caption = #1576#1705#1575#1662' '#1582#1608#1583#1705#1575#1585' '#1607#1605#1607' '#1705#1604#1575#1740#1606#1578#8204#1607#1575' '#1601#1593#1575#1604' '#1576#1575#1588#1583
+            DataField = 'AutoBackupActive'
+            DataSource = srcConfig
+            Font.Charset = ARABIC_CHARSET
+            Font.Color = clRed
+            Font.Height = -11
+            Font.Name = 'Tahoma'
+            Font.Style = [fsBold]
+            ParentFont = False
+            TabOrder = 6
+            ValueChecked = '1'
+            ValueUnchecked = '0'
+            OnClick = dbchkAutoBackupActiveClick
           end
         end
         object TabSheet17: TTabSheet
@@ -2923,7 +2944,7 @@ inherited ConfigF: TConfigF
         Top = 0
         Width = 757
         Height = 415
-        ActivePage = TabSheet8
+        ActivePage = TabSheet7
         Align = alClient
         TabOrder = 0
         object TabSheet7: TTabSheet
@@ -3993,6 +4014,10 @@ inherited ConfigF: TConfigF
     object TabSheet12: TTabSheet
       Caption = #1711#1586#1575#1585#1588#1575#1578
       ImageIndex = 9
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       object dbchkSpecialReportsActive: TDBCheckBox
         Left = 416
         Top = 20
@@ -4186,6 +4211,10 @@ inherited ConfigF: TConfigF
     object TabSheet18: TTabSheet
       Caption = #1582#1586#1575#1606#1607' '#1583#1575#1585#1610
       ImageIndex = 11
+      ExplicitLeft = 0
+      ExplicitTop = 0
+      ExplicitWidth = 0
+      ExplicitHeight = 0
       DesignSize = (
         757
         415)
@@ -5189,6 +5218,12 @@ inherited ConfigF: TConfigF
       OnGetText = qryConfigJamePassWordGetText
       OnSetText = qryConfigJamePassWordSetText
       Size = 200
+    end
+    object qryConfigAutoBackupResetVersion: TWordField
+      FieldName = 'AutoBackupResetVersion'
+    end
+    object qryConfigAutoBackupActive: TIntegerField
+      FieldName = 'AutoBackupActive'
     end
   end
   object srcConfig: TDataSource

@@ -559,8 +559,8 @@ begin
               if (qryini.FieldByName('ProcedureActive').AsInteger in [1, 2, 4])
               then
               begin
-                qryI.FieldByName('ProductCode').AsInteger :=
-                  FieldByName('ProductCode').AsInteger;
+                qryI.FieldByName('ProductCode').AsLargeInt :=
+                  FieldByName('ProductCode').AsLargeInt;
               end;
 
               if (qryini.FieldByName('ProcedureActive').AsInteger in [1, 2, 3])
@@ -789,7 +789,7 @@ begin
               ' CROSS JOIN Fitful LEFT OUTER JOIN ' +
               ' dbo.StoreEntity(:StuffFrom, :StuffTo, :StoreFrom, :StoreTo, :YearFrom, :YearTo) AS Mojudi '
               + ' ON Mojudi.StuffCode = ReciptItems.StuffCode AND Mojudi.YearID = ReciptItems.YearID '
-              + ' AND Mojudi.StoreID = Recipts.StoreID ', [rfReplaceAll]);
+              + ' AND Mojudi.StoreID = CASE ReciptTypes.IncreasingInventoryStore WHEN 2 THEN Recipts.StoreID2 ELSE Recipts.StoreID END ', [rfReplaceAll]);
 
             SQL.Text := StringReplace(SQL.Text, ', ReciptItems.ItemDate',
               ' , ReciptItems.ItemDate ,Mojudi.Entity as CurentEntity ',

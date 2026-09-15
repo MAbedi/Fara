@@ -1,4 +1,4 @@
-﻿-- Modify Data :  1405/05/04   fun&view_Accounting -- 
+﻿-- Modify Data :  1405/06/24   fun&view_Accounting -- 
 
 set nocount on
 
@@ -1406,6 +1406,22 @@ open QAnalize ;
 FETCH FROM QAnalize into @tblName,@fldName,@AliasName ,@JoinFldName ,@CaptionName,@TopicName ;
 while @@fetch_status = 0 
 begin
+	-- شماره سند نیازی به join با Acc.DocList ندارد. استفاده از view در SQL
+	-- پویا عبارت حاوی " - " تولید می‌کرد و در برخی ترکیب ستون‌ها نامعتبر می‌شد.
+	IF @CaptionName = N'شماره سند'
+	BEGIN
+		SET @fldName = 'Acc.DocGroups.SecondaryDocNo';
+		SET @JoinFldName = '';
+		SET @TopicName = '';
+
+		IF (@MergeCaption = 1)
+		BEGIN
+			IF (@ShowColumnSamelevel = 1)
+				SET @SqlTopic = 'cast(MAX(Acc.DocGroups.DocDate) as nvarchar(4000)) AS [تاریخ سند],';
+			ELSE
+				SET @SqlTopic = @SqlTopic + 'cast(MAX(Acc.DocGroups.DocDate) as nvarchar(4000)) AS [تاریخ سند],';
+		END;
+	END;
 
 	IF ((@JoinFldName <> '' ))
 		SET @JoinFldName =   ISNULL(@AliasName,@tblName)  + '.' + @JoinFldName
@@ -1422,9 +1438,9 @@ begin
 		IF (@MergeCaption  = 1)
 		begin
 			if (@ShowColumnSamelevel = 1 )
-				SET @SqlTopic  =    'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS ''عنوان‏' +  @CaptionName +''',' ; 
+				SET @SqlTopic  =    'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS [عنوان ' + REPLACE(@CaptionName, N']', N']]') + N'],' ;
 			else
-				SET @SqlTopic  =  @SqlTopic  +  'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS ''عنوان' +  @CaptionName +''',' ; 
+				SET @SqlTopic  =  @SqlTopic  +  'cast( ' +ISNULL(@AliasName,@tblName) + '.' + @TopicName + ' as nvarchar(4000)) AS [عنوان ' + REPLACE(@CaptionName, N']', N']]') + N'],' ;
 		end;
 	end;
 
@@ -1436,9 +1452,9 @@ begin
 	IF (@MergeCode = 1)
 	begin
 		if (@ShowColumnSamelevel = 1 )
-			SET @Sqlselect =  @fldName + ' AS  ''' +  @CaptionName  +''',' ; 
+			SET @Sqlselect =  @fldName + ' AS  ''' +  @CaptionName  +''',' ;
 		else
-			SET @Sqlselect = @Sqlselect + ' ' + @fldName + ' AS  ''' +  @CaptionName  +''',' ; 
+			SET @Sqlselect = @Sqlselect + ' ' + @fldName + ' AS  ''' +  @CaptionName  +''',' ;
 		SET @SqlGroup  = @SqlGroup  + ' ' + @fldName + ' ,' ;
 	end;			
 	FETCH FROM QAnalize into @tblName,@fldName,@AliasName ,@JoinFldName ,@CaptionName,@TopicName ;
@@ -6642,6 +6658,7 @@ SELECT   @TopicCode AS Moeen,
                ON Acc.Categories.TopicCode = Acc.CategoriesForUse.PrvTopicCode
                WHERE (Acc.CategoriesForUse.PrvTopicCode IS NULL) and (Acc.Categories.TopicCode = @TopicCode)) AS HassMoeen,
 		(SELECT COUNT(*) AS Expr1 FROM  acc.DetailRange  WHERE (acc.DetailRange.TopicCode = @TopicCode)) AS HassDetail,
+		case when @CtopicCode1=0 then ( SELECT CTopicCodeIsZero FROM Acc.Config) else 1 end *
 		(SELECT COUNT(*) AS Expr1 FROM  acc.CenterTopicRange  WHERE (acc.CenterTopicRange.TopicCode = @TopicCode)) AS HassCTopic,
 		case  ( SELECT CtoipcRelatedKind FROM Acc.Config) 
 			when 0 then case when @CtopicCode2=0 then ( SELECT CTopicCode2IsZero FROM Acc.Config)else 1 end *
@@ -8622,7 +8639,7 @@ CREATE FUNCTION Acc.rptElectronicsBooks_Detail (
     @DocDateTo Varchar(10) = '9999/99/99',
     @YearIDFrom Integer = 1403,
     @YearIDTo integer = 1404,
-    @DocTypeCodes Varchar(100) = '1,2,3,4,5,6,7,8,9,10,11' -- پارامتر جدید
+    @DocTypeCodes Varchar(1000) = '1,2,3,4,5,6,7,8,9,10,11' -- پارامتر جدید
 )
 RETURNS TABLE AS
 RETURN (
@@ -8664,7 +8681,7 @@ CREATE FUNCTION Acc.rptElectronicsBooks_Summary (
     @DocDateTo Varchar(10) = '9999/99/99',
     @YearIDFrom Integer = 1403,
     @YearIDTo integer = 1404,
-    @DocTypeCodes Varchar(100) = '1,2,3,4,5,6,7,8,9,10,11' -- پارامتر جدید
+    @DocTypeCodes Varchar(1000) = '1,2,3,4,5,6,7,8,9,10,11' -- پارامتر جدید
 )
 RETURNS TABLE AS
 RETURN (
@@ -8749,7 +8766,36 @@ RETURN
             LEFT(D.TopicCode, @LenAccCode), 
             CK.MoeenName_L1
 
-        UNION ALL  
+        UNION ALL
+
+        -- اسناد اختتامیه
+        SELECT
+            14 AS DocNo,
+            MIN(DG.DocDate) AS BaseDocDate,
+            LEFT(D.TopicCode, @LenAccCode) AS AccCode,
+            CK.MoeenName_L1 AS KolName_L1,
+            CAST(0 AS BIGINT) AS TopicCode,
+            '' AS MoeenName_L1,
+            SUM(D.Debt) AS SumDebt,
+            SUM(D.Credit) AS SumCredit
+        FROM Acc.DocGroups DG
+        INNER JOIN Acc.Documents D
+            ON DG.Serial = D.Serial
+           AND DG.CompanyCode = D.CompanyCode
+           AND DG.YearID = D.YearID
+        INNER JOIN Acc.Categories CK
+            ON LEFT(D.TopicCode, @LenAccCode) = CK.TopicCode
+        INNER JOIN TypeFilter TF ON DG.DocTypeCode = TF.Code
+        WHERE
+            DG.YearID BETWEEN @YearIDFrom AND @YearIDTo
+            AND DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo
+            AND DG.DocTypeCode = 5
+            AND DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo
+        GROUP BY case when D.Debt > 0 then 1 else 0 end,
+            LEFT(D.TopicCode, @LenAccCode),
+            CK.MoeenName_L1
+
+        UNION ALL
 
         -- اسناد عادی ماهیانه
         SELECT
@@ -8773,7 +8819,7 @@ RETURN
             DG.YearID BETWEEN @YearIDFrom AND @YearIDTo
             AND DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo
             AND DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo
-            AND DG.DocTypeCode <> 1
+            AND DG.DocTypeCode NOT IN (1, 5)
         GROUP BY case when D.Debt > 0 then 1 else 0 end,
             LEFT(DG.DocDate,7),
             LEFT(D.TopicCode, @LenAccCode), 
@@ -8785,6 +8831,7 @@ RETURN
             DocNo AS PrimaryDocNo,
             CASE 
                 WHEN DocNo = 1 THEN BaseDocDate 
+                WHEN DocNo = 14 THEN BaseDocDate
                 WHEN DocNo BETWEEN 2 AND 7 THEN LEFT(BaseDocDate,7) + '/31'
                 WHEN DocNo BETWEEN 8 AND 12 THEN LEFT(BaseDocDate,7) + '/30'
                 ELSE LEFT(BaseDocDate,7) + '/29' 
@@ -8795,6 +8842,7 @@ RETURN
             MoeenName_L1,
             CASE 
                 WHEN DocNo = 1 THEN N'سند افتتاحیه سال مالی' 
+                WHEN DocNo = 14 THEN N'سند اختتامیه سال مالی'
                 ELSE N'تجمیع رویدادهای ماه ' + RIGHT('0' + CAST(DocNo - 1 AS VARCHAR(2)), 2) + 
                      N' ختم به تاریخ ' + 
                      (CASE 
