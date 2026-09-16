@@ -60,7 +60,7 @@ type
     PnlCompany: TPanel;
     lbl1: TLabel;
     btn1: TBitBtn;
-    DBEdit12: TDBEdit;
+    edt_ComponyName: TDBEdit;
     Panel5: TPanel;
     lbl4: TLabel;
     lbl5: TLabel;
@@ -105,6 +105,8 @@ type
     Label13: TLabel;
     Label14: TLabel;
     Label15: TLabel;
+    lblRemainingCaption: TLabel;
+    lblRemainingValue: TLabel;
     DBEdit3: TDBEdit;
     DBEdit9: TDBEdit;
     BitBtn3: TBitBtn;
@@ -286,6 +288,7 @@ type
     procedure DBEdit9KeyDown(Sender: TObject; var Key: Word;
       Shift: TShiftState);
     procedure qryItemsBudgetTopicIDChange(Sender: TField);
+    procedure qryItemsCompanyCodeChange(Sender: TField);
     procedure qryItemsCtypeChange(Sender: TField);
     procedure N1Click(Sender: TObject);
     procedure actPrintExecute(Sender: TObject);
@@ -787,7 +790,7 @@ begin
   CalcRemaining;
   if (DataSet.fieldbyname('bed').AsCurrency <= 0) or
     ((DataSet.fieldbyname('CType').AsInteger = 1) and
-    (SumRemaining - DataSet.fieldbyname('bed').AsCurrency <= 0)) then
+    (SumRemaining - DataSet.fieldbyname('bed').AsCurrency < 0)) then
   begin
     Warn('مبلغ  معتبر نيست.');
     DBEdit10.SetFocus;
@@ -821,6 +824,12 @@ procedure TCommitmentsF.qryItemsBudgetTopicIDChange(Sender: TField);
 begin
   inherited;
   History;
+  CalcRemaining;
+end;
+
+procedure TCommitmentsF.qryItemsCompanyCodeChange(Sender: TField);
+begin
+  inherited;
   CalcRemaining;
 end;
 
@@ -1076,7 +1085,9 @@ procedure TCommitmentsF.CalcRemaining;
 var
   sumcommitments, sumapproved: Currency;
 begin
-  if ((qryItemsBudgetTopicID.AsInteger <> 0) and (qryItemsCtype.AsInteger = 1))
+  if ((qryItemsBudgetTopicID.AsInteger <> 0) and
+//    (qryMasterCompanyCode.AsInteger <> 0) and
+    (qryItemsCtype.AsInteger = 1))
   then
   begin
     with Dmf.qry_Temp do
@@ -1086,9 +1097,10 @@ begin
         Format(' select isnull(SUM(BI.Bes*BI.Bed),0) from acc.BudgetItems as BI'
         + ' inner join acc.Budgets B' + ' on BI.BudgetID=B.BudgetID' +
         ' inner join acc.Interfaces as I' + ' on I.InterfaceID=B.InterfaceID' +
-        ' where (I.BudgetEffect=1) and (BI.BudgetTopicID=%d) and (BI.Cashtype=%d)'
+        ' where (I.BudgetEffect=1) and (BI.BudgetTopicID=%d) and (BI.CompanyCode=%d) and (BI.Cashtype=%d)'
         + ' and (B.BudgetDate<=''%s'') and (B.YearID=%d)',
-        [qryItemsBudgetTopicID.AsInteger, qryItemsCashtype.AsInteger,
+        [qryItemsBudgetTopicID.AsInteger, qryMasterCompanyCode.AsInteger,
+        qryItemsCashtype.AsInteger,
         qryMasterBudgetDate.AsString, APPBank.Year]);
       Open;
       sumapproved := Fields[0].AsCurrency;
@@ -1097,21 +1109,25 @@ begin
         Format(' select isnull(SUM(BI.Bes*BI.Bed),0) from acc.BudgetItems as BI'
         + ' inner join acc.Budgets B' + ' on BI.BudgetID=B.BudgetID' +
         ' inner join acc.Interfaces as I' + ' on I.InterfaceID=B.InterfaceID' +
-        ' where (I.BudgetEffect=2) and (BI.BudgetTopicID=%d) and (BI.Cashtype=%d) and (B.BudgetID<%d)'
-        + ' and (BI.Ctype=1) and (BI.BudgetItemID<>%d)',
-        [qryItemsBudgetTopicID.AsInteger, qryItemsCashtype.AsInteger,
-        qryMasterBudgetID.AsInteger, qryItemsBudgetItemID.AsInteger]);
+        ' where (I.BudgetEffect=2) and (BI.BudgetTopicID=%d) and (BI.CompanyCode=%d) and (BI.Cashtype=%d) and (B.BudgetID<%d)'
+        + ' and (B.YearID=%d) and (BI.Ctype=1) and (BI.BudgetItemID<>%d)',
+        [qryItemsBudgetTopicID.AsInteger, qryMasterCompanyCode.AsInteger,
+        qryItemsCashtype.AsInteger,
+        qryMasterBudgetID.AsInteger, APPBank.Year,
+        qryItemsBudgetItemID.AsInteger]);
       Open;
       sumcommitments := Fields[0].AsCurrency;
       Close;
     end;
     SumRemaining := sumapproved - sumcommitments;
+    lblRemainingValue.Caption := CurrToStrF(SumRemaining, ffCurrency, 0);
     StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + CurrToStrF(SumRemaining,
       ffCurrency, 0);
   end
   else
   begin
     SumRemaining := 0;
+    lblRemainingValue.Caption := 'ــــ';
     StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + 'ــــ';
   end;
 end;

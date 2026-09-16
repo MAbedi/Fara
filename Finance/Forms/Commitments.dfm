@@ -25,7 +25,6 @@ inherited CommitmentsF: TCommitmentsF
       AutoSize = True
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 581
       object BitBtn9: TBitBtn
         AlignWithMargins = True
         Left = 84
@@ -73,8 +72,6 @@ inherited CommitmentsF: TCommitmentsF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 1
-        ExplicitTop = 3
-        ExplicitHeight = 33
       end
       object BitBtn10: TBitBtn
         AlignWithMargins = True
@@ -123,8 +120,6 @@ inherited CommitmentsF: TCommitmentsF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 0
-        ExplicitTop = 3
-        ExplicitHeight = 33
       end
     end
     inherited BtnReject: TBitBtn
@@ -139,7 +134,6 @@ inherited CommitmentsF: TCommitmentsF
       AutoSize = True
       BevelOuter = bvNone
       TabOrder = 0
-      ExplicitLeft = 737
       object BitBtn6: TBitBtn
         AlignWithMargins = True
         Left = 165
@@ -191,9 +185,6 @@ inherited CommitmentsF: TCommitmentsF
       Align = alLeft
       Caption = #1670#1575#1662
       TabOrder = 6
-      ExplicitLeft = 318
-      ExplicitTop = 6
-      ExplicitHeight = 25
     end
     object BitBtn12: TBitBtn
       AlignWithMargins = True
@@ -206,9 +197,6 @@ inherited CommitmentsF: TCommitmentsF
       Align = alLeft
       Caption = #1575#1585#1587#1575#1604' '#1576#1607' Excel'
       TabOrder = 5
-      ExplicitLeft = 237
-      ExplicitTop = 8
-      ExplicitHeight = 25
     end
     object BitBtn13: TBitBtn
       AlignWithMargins = True
@@ -256,9 +244,6 @@ inherited CommitmentsF: TCommitmentsF
         FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00C69C
         8C00CEA59C00C69C9400FF00FF00FF00FF00FF00FF00FF00FF00}
       TabOrder = 4
-      ExplicitLeft = 160
-      ExplicitTop = 8
-      ExplicitHeight = 25
     end
     object BitBtn14: TBitBtn
       AlignWithMargins = True
@@ -306,9 +291,6 @@ inherited CommitmentsF: TCommitmentsF
         7B0011007B0011007B0011007B0011007B0011007B00FF00FF00FF00FF00FF00
         FF00FF00FF00FF00FF00067B1100FF00FF00FF00FF00FF00FF00}
       TabOrder = 3
-      ExplicitLeft = 83
-      ExplicitTop = 8
-      ExplicitHeight = 25
     end
     object DBNavigator1: TDBNavigator
       Left = 406
@@ -320,10 +302,6 @@ inherited CommitmentsF: TCommitmentsF
       Align = alClient
       Flat = True
       TabOrder = 7
-      ExplicitLeft = 468
-      ExplicitTop = 9
-      ExplicitWidth = 96
-      ExplicitHeight = 23
     end
     object BitBtn19: TBitBtn
       AlignWithMargins = True
@@ -337,7 +315,6 @@ inherited CommitmentsF: TCommitmentsF
       Align = alRight
       Caption = #1662#1610#1608#1587#1578'...'
       TabOrder = 8
-      ExplicitLeft = 472
     end
   end
   inherited Panel2: TPanel
@@ -365,250 +342,122 @@ inherited CommitmentsF: TCommitmentsF
     ExplicitTop = 49
     ExplicitWidth = 991
     ExplicitHeight = 598
-    object Panel6: TPanel
+    object DBGrid1: TDBGrid
+      Tag = 111
       Left = 2
-      Top = 2
+      Top = 137
       Width = 987
-      Height = 63
-      Align = alTop
-      BevelOuter = bvLowered
-      TabOrder = 0
-      object PnlCompany: TPanel
-        Left = 375
-        Top = 1
-        Width = 611
-        Height = 61
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 0
-        object lbl1: TLabel
-          Left = 532
-          Top = 8
-          Width = 56
-          Height = 13
-          Caption = #1608#1575#1581#1583' '#1575#1580#1585#1575#1740#1740
+      Height = 427
+      TabStop = False
+      Align = alClient
+      Color = clCream
+      DataSource = srcItems
+      DrawingStyle = gdsGradient
+      FixedColor = clSkyBlue
+      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
+      ReadOnly = True
+      TabOrder = 4
+      TitleFont.Charset = DEFAULT_CHARSET
+      TitleFont.Color = clWindowText
+      TitleFont.Height = -11
+      TitleFont.Name = 'Tahoma'
+      TitleFont.Style = []
+      Columns = <
+        item
+          Expanded = False
+          FieldName = 'BudgetTopicID'
+          Visible = True
         end
-        object lbl6: TLabel
-          Left = 532
-          Top = 35
-          Width = 39
-          Height = 13
-          Caption = #1606#1608#1593' '#1578#1593#1607#1583
+        item
+          Expanded = False
+          FieldName = '_BudjectName'
+          Width = 70
+          Visible = True
         end
-        object Label1: TLabel
-          Left = 170
-          Top = 8
-          Width = 58
-          Height = 13
-          Caption = #1608#1590#1593#1740#1578' '#1578#1593#1607#1583
+        item
+          Expanded = False
+          FieldName = 'CompanyCode'
+          Width = 73
+          Visible = True
         end
-        object DBText5: TDBText
-          Left = 109
-          Top = 6
-          Width = 53
-          Height = 16
-          Alignment = taRightJustify
-          AutoSize = True
-          BiDiMode = bdLeftToRight
-          DataField = 'Status'
-          DataSource = srcMaster
-          Font.Charset = DEFAULT_CHARSET
-          Font.Color = clHighlight
-          Font.Height = -13
-          Font.Name = 'Tahoma'
-          Font.Style = [fsBold]
-          ParentBiDiMode = False
-          ParentFont = False
+        item
+          Expanded = False
+          FieldName = '_Companyname'
+          Width = 91
+          Visible = True
         end
-        object btn1: TBitBtn
-          Tag = 1
-          Left = 296
-          Top = 6
-          Width = 23
-          Height = 20
-          Caption = '...'
-          TabOrder = 0
-          OnClick = btn1Click
+        item
+          Expanded = False
+          FieldName = 'Cashtype'
+          Title.Alignment = taCenter
+          Width = 84
+          Visible = True
         end
-        object DBEdit12: TDBEdit
-          Left = 322
-          Top = 6
-          Width = 204
-          Height = 19
-          TabStop = False
-          Color = 14342874
-          Ctl3D = False
-          DataField = '_ComponyName'
-          DataSource = srcMaster
-          ParentCtl3D = False
-          ReadOnly = True
-          TabOrder = 2
+        item
+          Expanded = False
+          FieldName = 'Ctype'
+          Width = 44
+          Visible = True
         end
-        object dblkcbbInterfaceID: TDBLookupComboBox
-          Left = 322
-          Top = 32
-          Width = 204
-          Height = 21
-          DataField = 'InterfaceID'
-          DataSource = srcMaster
-          KeyField = 'InterfaceID'
-          ListField = 'InterfaceCaption_L1'
-          ListSource = srcInterface
-          TabOrder = 1
+        item
+          Expanded = False
+          FieldName = 'Bes'
+          Title.Alignment = taCenter
+          Width = 63
+          Visible = True
         end
-      end
-      object Panel5: TPanel
-        Left = 1
-        Top = 1
-        Width = 248
-        Height = 61
-        Align = alLeft
-        BevelOuter = bvNone
-        TabOrder = 1
-        object lbl4: TLabel
-          Left = 161
-          Top = 8
+        item
+          Expanded = False
+          FieldName = 'Bed'
+          Title.Alignment = taCenter
           Width = 50
-          Height = 13
-          Caption = #1588#1605#1575#1585#1607' '#1601#1585#1605
+          Visible = True
         end
-        object lbl5: TLabel
-          Left = 161
-          Top = 35
-          Width = 41
-          Height = 13
-          Caption = #1578#1575#1585#1610#1582' '#1601#1585#1605
+        item
+          Expanded = False
+          FieldName = 'ItemNote_L1'
+          Width = 49
+          Visible = True
         end
-        object edtBudgetSerial: TDBEdit
-          Left = 48
-          Top = 6
-          Width = 105
-          Height = 21
-          DataField = 'BudgetSerial'
-          DataSource = srcMaster
-          TabOrder = 1
+        item
+          Expanded = False
+          FieldName = 'CustomerID'
+          Visible = True
         end
-        object DBEdit6: TDBEdit
-          Left = 48
-          Top = 32
-          Width = 105
-          Height = 21
-          Color = clInfoBk
-          DataField = 'BudgetDate'
-          DataSource = srcMaster
-          TabOrder = 2
+        item
+          Expanded = False
+          FieldName = '_CustomerName'
+          Width = 78
+          Visible = True
         end
-        object btn2: TBitBtn
-          Left = 22
-          Top = 6
-          Width = 23
-          Height = 20
-          Caption = '...'
-          TabOrder = 0
-          TabStop = False
-          OnClick = btn2Click
+        item
+          Expanded = False
+          FieldName = '_CostTypeName'
+          Width = 82
+          Visible = True
         end
-      end
-    end
-    object grp1: TGroupBox
-      Left = 2
-      Top = 65
-      Width = 987
-      Height = 72
-      Align = alTop
-      Caption = '   '#1578#1608#1590#1740#1581#1575#1578'   '
-      TabOrder = 1
-      object dbredtNote_L1: TDBRichEdit
-        Left = 2
-        Top = 15
-        Width = 983
-        Height = 55
-        Align = alClient
-        DataField = 'Note_L1'
-        DataSource = srcMaster
-        Font.Charset = ARABIC_CHARSET
-        Font.Color = clWindowText
-        Font.Height = -11
-        Font.Name = 'Tahoma'
-        Font.Style = []
-        TabOrder = 0
-        Zoom = 100
-      end
-    end
-    object Panel1: TPanel
-      Left = 2
-      Top = 564
-      Width = 987
-      Height = 32
-      Align = alBottom
-      TabOrder = 3
-      object PnlNewItem: TPanel
-        Left = 721
-        Top = 1
-        Width = 265
-        Height = 30
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 1
-        DesignSize = (
-          265
-          30)
-        object BitBtn16: TBitBtn
-          Left = 16
-          Top = 2
-          Width = 75
-          Height = 25
-          Action = DataSetDelete1
-          Anchors = [akTop, akRight]
-          Caption = #1581#1584#1601' '#1585#1583#1610#1601
-          TabOrder = 2
+        item
+          Expanded = False
+          FieldName = 'CostCode'
+          Width = 102
+          Visible = True
         end
-        object BitBtn15: TBitBtn
-          Left = 96
-          Top = 2
-          Width = 75
-          Height = 25
-          Action = DataSetEdit_
-          Caption = #1608#1740#1585#1575#1740#1588' '#1585#1583#1740#1601
-          TabOrder = 1
+        item
+          Expanded = False
+          FieldName = 'AidDate'
+          Visible = True
         end
-        object BitBtn5: TBitBtn
-          Left = 175
-          Top = 2
-          Width = 75
-          Height = 25
-          Action = DataSetInsert_
-          Caption = #1575#1601#1586#1608#1583#1606' '#1585#1583#1740#1601
-          TabOrder = 0
+        item
+          Expanded = False
+          FieldName = 'AidNum'
+          Width = 83
+          Visible = True
         end
-      end
-      object PnlOkItem: TPanel
-        Left = 516
-        Top = 1
-        Width = 205
-        Height = 30
-        Align = alRight
-        BevelOuter = bvNone
-        TabOrder = 0
-        object BitBtn17: TBitBtn
-          Left = 114
-          Top = 2
-          Width = 75
-          Height = 25
-          Action = DataSetPost_
-          Caption = #1578#1575#1740#1740#1583
-          TabOrder = 0
-        end
-        object BitBtn18: TBitBtn
-          Left = 31
-          Top = 2
-          Width = 75
-          Height = 25
-          Action = DataSetCancel_
-          Caption = #1575#1606#1589#1585#1575#1601
-          TabOrder = 1
-        end
-      end
+        item
+          Expanded = False
+          FieldName = 'ItemNote_L2'
+          Visible = False
+        end>
     end
     object Panel4: TPanel
       Left = 2
@@ -729,12 +578,36 @@ inherited CommitmentsF: TCommitmentsF
           ParentColor = False
         end
         object DBText2: TDBText
-          Left = 237
-          Top = 15
-          Width = 404
+          Left = 417
+          Top = 13
+          Width = 230
           Height = 17
           DataField = '_BudjectName'
           DataSource = srcItems
+        end
+        object lblRemainingCaption: TLabel
+          Left = 290
+          Top = 13
+          Width = 23
+          Height = 13
+          Caption = #1605#1575#1606#1583#1607
+        end
+        object lblRemainingValue: TLabel
+          Left = 272
+          Top = 13
+          Width = 12
+          Height = 13
+          BiDiMode = bdRightToLeft
+          Caption = #1600#1600#1600#1600
+          Color = clBtnFace
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHighlight
+          Font.Height = -11
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentColor = False
+          ParentFont = False
         end
         object DBText3: TDBText
           Left = 237
@@ -1045,122 +918,250 @@ inherited CommitmentsF: TCommitmentsF
         end
       end
     end
-    object DBGrid1: TDBGrid
-      Tag = 111
+    object Panel6: TPanel
       Left = 2
-      Top = 137
+      Top = 2
       Width = 987
-      Height = 427
-      TabStop = False
-      Align = alClient
-      Color = clCream
-      DataSource = srcItems
-      DrawingStyle = gdsGradient
-      FixedColor = clSkyBlue
-      Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgConfirmDelete, dgCancelOnExit, dgTitleClick, dgTitleHotTrack]
-      ReadOnly = True
-      TabOrder = 4
-      TitleFont.Charset = DEFAULT_CHARSET
-      TitleFont.Color = clWindowText
-      TitleFont.Height = -11
-      TitleFont.Name = 'Tahoma'
-      TitleFont.Style = []
-      Columns = <
-        item
-          Expanded = False
-          FieldName = 'BudgetTopicID'
-          Visible = True
+      Height = 63
+      Align = alTop
+      BevelOuter = bvLowered
+      TabOrder = 0
+      object PnlCompany: TPanel
+        Left = 375
+        Top = 1
+        Width = 611
+        Height = 61
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 0
+        object lbl1: TLabel
+          Left = 532
+          Top = 8
+          Width = 56
+          Height = 13
+          Caption = #1608#1575#1581#1583' '#1575#1580#1585#1575#1740#1740
         end
-        item
-          Expanded = False
-          FieldName = '_BudjectName'
-          Width = 70
-          Visible = True
+        object lbl6: TLabel
+          Left = 532
+          Top = 35
+          Width = 39
+          Height = 13
+          Caption = #1606#1608#1593' '#1578#1593#1607#1583
         end
-        item
-          Expanded = False
-          FieldName = 'CompanyCode'
-          Width = 73
-          Visible = True
+        object Label1: TLabel
+          Left = 170
+          Top = 8
+          Width = 58
+          Height = 13
+          Caption = #1608#1590#1593#1740#1578' '#1578#1593#1607#1583
         end
-        item
-          Expanded = False
-          FieldName = '_Companyname'
-          Width = 91
-          Visible = True
+        object DBText5: TDBText
+          Left = 109
+          Top = 6
+          Width = 53
+          Height = 16
+          Alignment = taRightJustify
+          AutoSize = True
+          BiDiMode = bdLeftToRight
+          DataField = 'Status'
+          DataSource = srcMaster
+          Font.Charset = DEFAULT_CHARSET
+          Font.Color = clHighlight
+          Font.Height = -13
+          Font.Name = 'Tahoma'
+          Font.Style = [fsBold]
+          ParentBiDiMode = False
+          ParentFont = False
         end
-        item
-          Expanded = False
-          FieldName = 'Cashtype'
-          Title.Alignment = taCenter
-          Width = 84
-          Visible = True
+        object btn1: TBitBtn
+          Tag = 1
+          Left = 296
+          Top = 6
+          Width = 23
+          Height = 20
+          Caption = '...'
+          TabOrder = 0
+          OnClick = btn1Click
         end
-        item
-          Expanded = False
-          FieldName = 'Ctype'
-          Width = 44
-          Visible = True
+        object edt_ComponyName: TDBEdit
+          Left = 322
+          Top = 6
+          Width = 204
+          Height = 19
+          TabStop = False
+          Color = 14342874
+          Ctl3D = False
+          DataField = '_ComponyName'
+          DataSource = srcMaster
+          ParentCtl3D = False
+          ReadOnly = True
+          TabOrder = 2
         end
-        item
-          Expanded = False
-          FieldName = 'Bes'
-          Title.Alignment = taCenter
-          Width = 63
-          Visible = True
+        object dblkcbbInterfaceID: TDBLookupComboBox
+          Left = 322
+          Top = 32
+          Width = 204
+          Height = 21
+          DataField = 'InterfaceID'
+          DataSource = srcMaster
+          KeyField = 'InterfaceID'
+          ListField = 'InterfaceCaption_L1'
+          ListSource = srcInterface
+          TabOrder = 1
         end
-        item
-          Expanded = False
-          FieldName = 'Bed'
-          Title.Alignment = taCenter
+      end
+      object Panel5: TPanel
+        Left = 1
+        Top = 1
+        Width = 248
+        Height = 61
+        Align = alLeft
+        BevelOuter = bvNone
+        TabOrder = 1
+        object lbl4: TLabel
+          Left = 161
+          Top = 8
           Width = 50
-          Visible = True
+          Height = 13
+          Caption = #1588#1605#1575#1585#1607' '#1601#1585#1605
         end
-        item
-          Expanded = False
-          FieldName = 'ItemNote_L1'
-          Width = 49
-          Visible = True
+        object lbl5: TLabel
+          Left = 161
+          Top = 35
+          Width = 41
+          Height = 13
+          Caption = #1578#1575#1585#1610#1582' '#1601#1585#1605
         end
-        item
-          Expanded = False
-          FieldName = 'CustomerID'
-          Visible = True
+        object edtBudgetSerial: TDBEdit
+          Left = 48
+          Top = 6
+          Width = 105
+          Height = 21
+          DataField = 'BudgetSerial'
+          DataSource = srcMaster
+          TabOrder = 1
         end
-        item
-          Expanded = False
-          FieldName = '_CustomerName'
-          Width = 78
-          Visible = True
+        object DBEdit6: TDBEdit
+          Left = 48
+          Top = 32
+          Width = 105
+          Height = 21
+          Color = clInfoBk
+          DataField = 'BudgetDate'
+          DataSource = srcMaster
+          TabOrder = 2
         end
-        item
-          Expanded = False
-          FieldName = '_CostTypeName'
-          Width = 82
-          Visible = True
+        object btn2: TBitBtn
+          Left = 22
+          Top = 6
+          Width = 23
+          Height = 20
+          Caption = '...'
+          TabOrder = 0
+          TabStop = False
+          OnClick = btn2Click
         end
-        item
-          Expanded = False
-          FieldName = 'CostCode'
-          Width = 102
-          Visible = True
+      end
+    end
+    object grp1: TGroupBox
+      Left = 2
+      Top = 65
+      Width = 987
+      Height = 72
+      Align = alTop
+      Caption = '   '#1578#1608#1590#1740#1581#1575#1578'   '
+      TabOrder = 1
+      object dbredtNote_L1: TDBRichEdit
+        Left = 2
+        Top = 15
+        Width = 983
+        Height = 55
+        Align = alClient
+        DataField = 'Note_L1'
+        DataSource = srcMaster
+        Font.Charset = ARABIC_CHARSET
+        Font.Color = clWindowText
+        Font.Height = -11
+        Font.Name = 'Tahoma'
+        Font.Style = []
+        TabOrder = 0
+        Zoom = 100
+      end
+    end
+    object Panel1: TPanel
+      Left = 2
+      Top = 564
+      Width = 987
+      Height = 32
+      Align = alBottom
+      TabOrder = 3
+      object PnlNewItem: TPanel
+        Left = 721
+        Top = 1
+        Width = 265
+        Height = 30
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 1
+        DesignSize = (
+          265
+          30)
+        object BitBtn16: TBitBtn
+          Left = 16
+          Top = 2
+          Width = 75
+          Height = 25
+          Action = DataSetDelete1
+          Anchors = [akTop, akRight]
+          Caption = #1581#1584#1601' '#1585#1583#1610#1601
+          TabOrder = 2
         end
-        item
-          Expanded = False
-          FieldName = 'AidDate'
-          Visible = True
+        object BitBtn15: TBitBtn
+          Left = 96
+          Top = 2
+          Width = 75
+          Height = 25
+          Action = DataSetEdit_
+          Caption = #1608#1740#1585#1575#1740#1588' '#1585#1583#1740#1601
+          TabOrder = 1
         end
-        item
-          Expanded = False
-          FieldName = 'AidNum'
-          Width = 83
-          Visible = True
+        object BitBtn5: TBitBtn
+          Left = 175
+          Top = 2
+          Width = 75
+          Height = 25
+          Action = DataSetInsert_
+          Caption = #1575#1601#1586#1608#1583#1606' '#1585#1583#1740#1601
+          TabOrder = 0
         end
-        item
-          Expanded = False
-          FieldName = 'ItemNote_L2'
-          Visible = False
-        end>
+      end
+      object PnlOkItem: TPanel
+        Left = 516
+        Top = 1
+        Width = 205
+        Height = 30
+        Align = alRight
+        BevelOuter = bvNone
+        TabOrder = 0
+        object BitBtn17: TBitBtn
+          Left = 114
+          Top = 2
+          Width = 75
+          Height = 25
+          Action = DataSetPost_
+          Caption = #1578#1575#1740#1740#1583
+          TabOrder = 0
+        end
+        object BitBtn18: TBitBtn
+          Left = 31
+          Top = 2
+          Width = 75
+          Height = 25
+          Action = DataSetCancel_
+          Caption = #1575#1606#1589#1585#1575#1601
+          TabOrder = 1
+        end
+      end
     end
   end
   object StatusBar1: TStatusBar [3]
@@ -1813,6 +1814,7 @@ inherited CommitmentsF: TCommitmentsF
       DisplayLabel = #1705#1583' '#1605#1581#1604' '#1578#1575#1605#1740#1606
       FieldName = 'CompanyCode'
       Required = True
+      OnChange = qryItemsCompanyCodeChange
     end
     object qryItemsCashtype: TWordField
       Tag = 3
@@ -2217,8 +2219,8 @@ inherited CommitmentsF: TCommitmentsF
     DataSource = srcMaster
     OpenDataSource = False
     UserName = 'DBPipeline1'
-    Left = 552
-    Top = 208
+    Left = 608
+    Top = 288
   end
   object ppDBPipeline2: TppDBPipeline
     DataSource = srcItems
@@ -3383,8 +3385,8 @@ inherited CommitmentsF: TCommitmentsF
       
         'SELECT ReciptType, ReciptCaption FROM ReciptTypes WHERE (ReciptT' +
         'ype IN ($))')
-    Left = 400
-    Top = 200
+    Left = 416
+    Top = 248
     object qrylookupReciptType: TWordField
       FieldName = 'ReciptType'
     end
@@ -3395,7 +3397,7 @@ inherited CommitmentsF: TCommitmentsF
   end
   object srcLookUp: TDataSource
     DataSet = qrylookup
-    Left = 456
-    Top = 200
+    Left = 480
+    Top = 264
   end
 end
