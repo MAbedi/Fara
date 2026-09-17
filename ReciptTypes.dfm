@@ -272,7 +272,7 @@ inherited ReciptTypesF: TReciptTypesF
         Top = 1
         Width = 1067
         Height = 496
-        ActivePage = TabSheet28
+        ActivePage = ts3
         Align = alClient
         MultiLine = True
         TabOrder = 0
@@ -1761,6 +1761,8 @@ inherited ReciptTypesF: TReciptTypesF
             object TabSheet35: TTabSheet
               Caption = #1603#1606#1578#1585#1604' '#1605#1602#1583#1575#1585'/'#1608#1586#1606'/'#1605#1576#1604#1594
               ImageIndex = 4
+              ExplicitLeft = -3
+              ExplicitTop = -75
               DesignSize = (
                 1051
                 422)
@@ -8303,7 +8305,8 @@ inherited ReciptTypesF: TReciptTypesF
               '2-'#1601#1593#1575#1604' '#1576#1575#1588#1583' '#1548' '#1576#1607#1575#1740' '#1608#1575#1581#1583' '#1575#1585#1586'/ '#1576#1607#1575#1740' '#1705#1604
               '3-'#1601#1593#1575#1604' '#1576#1575#1588#1583' '#1548' '#1578#1593#1583#1575#1583' * '#1576#1607#1575#1740' '#1608#1575#1581#1583' '#1575#1585#1586
               '4-'#1601#1593#1575#1604' '#1576#1575#1588#1583' '#1601#1740' '#1608' '#1576#1607#1575#1740' '#1705#1604' '#1578#1594#1740#1740#1585' '#1606#1705#1606#1583'(ArzAmount>Not ReadOnly)'
-              '5-'#1601#1593#1575#1604' '#1576#1575#1588#1583'('#1605#1602#1583#1575#1585')')
+              '5-'#1601#1593#1575#1604' '#1576#1575#1588#1583'('#1605#1602#1583#1575#1585')'
+              '6- '#1605#1602#1583#1575#1585' '#1575#1585#1586' = '#1608#1586#1606'  * '#1576#1607#1575#1740' '#1575#1585#1586' ')
             TabOrder = 3
             OnEnter = cmbEffectTypeEnter
           end
@@ -11111,7 +11114,7 @@ inherited ReciptTypesF: TReciptTypesF
   end
   object srcPosition: TDataSource
     DataSet = qryPosition
-    Left = 441
-    Top = 473
+    Left = 481
+    Top = 441
   end
 end

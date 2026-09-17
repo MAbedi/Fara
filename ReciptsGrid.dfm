@@ -26,7 +26,7 @@ inherited ReciptsGridF: TReciptsGridF
       Left = 1223
       Top = 18
       Width = 37
-      Height = 19
+      Height = 13
       Margins.Left = 10
       Margins.Right = 6
       Align = alRight
@@ -34,13 +34,12 @@ inherited ReciptsGridF: TReciptsGridF
       Caption = #1578#1601#1589#1610#1604#1610
       Color = clGradientActiveCaption
       ParentColor = False
-      ExplicitHeight = 13
     end
     object dbtxt_DetailCode: TDBText
       Left = 1129
       Top = 15
       Width = 84
-      Height = 25
+      Height = 13
       Align = alRight
       AutoSize = True
       Color = 13948116
@@ -48,14 +47,13 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcItems
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object Lblacc_CTopicCode2: TLabel
       AlignWithMargins = True
       Left = 261
       Top = 18
       Width = 43
-      Height = 19
+      Height = 13
       Margins.Left = 10
       Margins.Right = 6
       Align = alLeft
@@ -63,13 +61,12 @@ inherited ReciptsGridF: TReciptsGridF
       Caption = #1578#1601#1589#1740#1604#1740'3'
       Color = clGradientActiveCaption
       ParentColor = False
-      ExplicitHeight = 13
     end
     object dbtxt_CTopicCode2: TDBText
       Left = 97
       Top = 15
       Width = 95
-      Height = 25
+      Height = 13
       Align = alLeft
       AutoSize = True
       Color = 13948116
@@ -77,13 +74,12 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcItems
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object dbtxt_CTopicCode3: TDBText
       Left = 2
       Top = 15
       Width = 95
-      Height = 25
+      Height = 13
       Align = alLeft
       AutoSize = True
       Color = 13948116
@@ -91,14 +87,13 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcItems
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object Label1: TLabel
       AlignWithMargins = True
       Left = 1385
       Top = 18
       Width = 31
-      Height = 19
+      Height = 13
       Margins.Left = 10
       Margins.Right = 6
       Align = alRight
@@ -112,13 +107,12 @@ inherited ReciptsGridF: TReciptsGridF
       Font.Style = []
       ParentColor = False
       ParentFont = False
-      ExplicitHeight = 13
     end
     object dbtxt_CTopicCode: TDBText
       Left = 981
       Top = 15
       Width = 89
-      Height = 25
+      Height = 13
       Align = alRight
       AutoSize = True
       Color = 13948116
@@ -126,13 +120,12 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcItems
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object dbtxt_TopicCodeName: TDBText
       Left = 1266
       Top = 15
       Width = 109
-      Height = 25
+      Height = 13
       Align = alRight
       AutoSize = True
       Color = 13948116
@@ -140,14 +133,13 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcItems
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object Label6: TLabel
       AlignWithMargins = True
       Left = 1080
       Top = 18
       Width = 43
-      Height = 19
+      Height = 13
       Margins.Left = 10
       Margins.Right = 6
       Align = alRight
@@ -155,14 +147,13 @@ inherited ReciptsGridF: TReciptsGridF
       Caption = #1578#1601#1589#1610#1604#1610'2'
       Color = clGradientActiveCaption
       ParentColor = False
-      ExplicitHeight = 13
     end
     object Lblacc_CTopicCode3: TLabel
       AlignWithMargins = True
       Left = 202
       Top = 18
       Width = 43
-      Height = 19
+      Height = 13
       Margins.Left = 10
       Margins.Right = 6
       Align = alLeft
@@ -170,7 +161,6 @@ inherited ReciptsGridF: TReciptsGridF
       Caption = #1578#1601#1589#1740#1604#1740'4'
       Color = clGradientActiveCaption
       ParentColor = False
-      ExplicitHeight = 13
     end
   end
   inherited PnlUnderButton: TPanel
@@ -2057,8 +2047,8 @@ inherited ReciptsGridF: TReciptsGridF
     object grd1: TCedarDbgrid
       Tag = 1
       AlignWithMargins = True
-      Left = 10015
-      Top = 9720
+      Left = 10021
+      Top = 9726
       Width = 366
       Height = 158
       Align = alCustom
@@ -2197,21 +2187,19 @@ inherited ReciptsGridF: TReciptsGridF
             object Label18: TLabel
               Left = 85
               Top = 0
-              Width = 69
-              Height = 23
+              Width = 56
+              Height = 13
               Align = alClient
               Alignment = taRightJustify
               BiDiMode = bdRightToLeft
               Caption = #1587#1575#1593#1578'  '#1608#1585#1608#1583
               ParentBiDiMode = False
-              ExplicitWidth = 56
-              ExplicitHeight = 13
             end
             object edtInsertTime: TDBEdit
               Left = 0
               Top = 0
               Width = 85
-              Height = 23
+              Height = 19
               TabStop = False
               Align = alLeft
               Color = clInactiveCaption
@@ -2221,7 +2209,6 @@ inherited ReciptsGridF: TReciptsGridF
               ParentCtl3D = False
               ReadOnly = True
               TabOrder = 0
-              ExplicitHeight = 19
             end
           end
           object Panel8: TPanel
@@ -2235,21 +2222,19 @@ inherited ReciptsGridF: TReciptsGridF
             object Label20: TLabel
               Left = 85
               Top = 0
-              Width = 69
-              Height = 20
+              Width = 58
+              Height = 13
               Align = alClient
               Alignment = taRightJustify
               BiDiMode = bdRightToLeft
               Caption = #1587#1575#1593#1578' '#1582#1585#1608#1580
               ParentBiDiMode = False
-              ExplicitWidth = 58
-              ExplicitHeight = 13
             end
             object edtEditTime: TDBEdit
               Left = 0
               Top = 0
               Width = 85
-              Height = 20
+              Height = 19
               TabStop = False
               Align = alLeft
               Color = clInactiveCaption
@@ -2259,7 +2244,6 @@ inherited ReciptsGridF: TReciptsGridF
               ParentCtl3D = False
               ReadOnly = True
               TabOrder = 0
-              ExplicitHeight = 19
             end
           end
         end
@@ -2282,15 +2266,13 @@ inherited ReciptsGridF: TReciptsGridF
             object Label16: TLabel
               Left = 120
               Top = 0
-              Width = 79
-              Height = 23
+              Width = 49
+              Height = 13
               Align = alClient
               Alignment = taRightJustify
               BiDiMode = bdRightToLeft
               Caption = #1740#1575#1583#1583#1575#1588#1578' '#1777
               ParentBiDiMode = False
-              ExplicitWidth = 49
-              ExplicitHeight = 13
             end
             object edtNti1: TDBEdit
               Left = 0
@@ -2316,15 +2298,13 @@ inherited ReciptsGridF: TReciptsGridF
             object Label17: TLabel
               Left = 120
               Top = 0
-              Width = 79
-              Height = 20
+              Width = 49
+              Height = 13
               Align = alClient
               Alignment = taRightJustify
               BiDiMode = bdRightToLeft
               Caption = #1740#1575#1583#1583#1575#1588#1578' 2'
               ParentBiDiMode = False
-              ExplicitWidth = 49
-              ExplicitHeight = 13
             end
             object edtNti2: TDBEdit
               Left = 0
@@ -2351,10 +2331,10 @@ inherited ReciptsGridF: TReciptsGridF
         TabOrder = 1
         OnDblClick = grpLoanPaymentDblClick
         object lblLoanPayment: TLabel
-          Left = 2
+          Left = 126
           Top = 15
-          Width = 226
-          Height = 16
+          Width = 102
+          Height = 14
           Align = alClient
           Caption = #1662#1585#1583#1575#1582#1578' '#1605#1575#1604#1740#1575#1578' '#1606#1587#1740#1607
           Font.Charset = DEFAULT_CHARSET
@@ -2364,9 +2344,6 @@ inherited ReciptsGridF: TReciptsGridF
           Font.Style = []
           ParentFont = False
           Visible = False
-          ExplicitLeft = 126
-          ExplicitWidth = 102
-          ExplicitHeight = 14
         end
         object edtLoanPayment: TDBEdit
           Tag = 14
@@ -2396,7 +2373,7 @@ inherited ReciptsGridF: TReciptsGridF
       Left = 1179
       Top = 3
       Width = 47
-      Height = 23
+      Height = 13
       Align = alRight
       AutoSize = True
       Color = clCream
@@ -2404,14 +2381,13 @@ inherited ReciptsGridF: TReciptsGridF
       DataSource = srcRecipts
       ParentColor = False
       Transparent = True
-      ExplicitHeight = 13
     end
     object Label2: TLabel
       AlignWithMargins = True
       Left = 1232
       Top = 3
       Width = 36
-      Height = 23
+      Height = 13
       Align = alRight
       Alignment = taRightJustify
       Caption = #1606#1575#1605' '#1603#1575#1585#1576#1585
@@ -2421,7 +2397,6 @@ inherited ReciptsGridF: TReciptsGridF
       Font.Name = 'Tahoma'
       Font.Style = []
       ParentFont = False
-      ExplicitHeight = 13
     end
     object BtnDeficits: TBitBtn
       AlignWithMargins = True
@@ -2820,13 +2795,12 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 313
           Top = 6
           Width = 21
-          Height = 20
+          Height = 13
           Margins.Top = 6
           Align = alRight
           BiDiMode = bdLeftToRight
           Caption = #1605#1583#1578
           ParentBiDiMode = False
-          ExplicitHeight = 13
         end
         object dbedtDefaultDate: TDBEdit
           Tag = 14
@@ -3042,7 +3016,7 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 1131
           Top = 3
           Width = 85
-          Height = 19
+          Height = 13
           Hint = 'Double Click On Code'
           Align = alRight
           AutoSize = True
@@ -3052,7 +3026,6 @@ inherited ReciptsGridF: TReciptsGridF
           ParentColor = False
           Transparent = True
           OnDblClick = DBTextPersonID1DblClick
-          ExplicitHeight = 13
         end
         object btnTax1: TSpeedButton
           AlignWithMargins = True
@@ -3097,10 +3070,10 @@ inherited ReciptsGridF: TReciptsGridF
           BevelOuter = bvNone
           TabOrder = 1
           object DBText8: TDBText
-            Left = 0
+            Left = 225
             Top = 0
-            Width = 266
-            Height = 25
+            Width = 41
+            Height = 13
             Align = alClient
             AutoSize = True
             Color = clBtnFace
@@ -3114,15 +3087,12 @@ inherited ReciptsGridF: TReciptsGridF
             ParentColor = False
             ParentFont = False
             Transparent = True
-            ExplicitLeft = 225
-            ExplicitWidth = 41
-            ExplicitHeight = 13
           end
           object LblReMainPerson1: TLabel
             Left = 266
             Top = 0
             Width = 23
-            Height = 25
+            Height = 13
             CustomHint = DmF.BalloonHint1
             Align = alRight
             Caption = #1605#1575#1606#1583#1607
@@ -3135,7 +3105,6 @@ inherited ReciptsGridF: TReciptsGridF
             ParentColor = False
             ParentFont = False
             Transparent = True
-            ExplicitHeight = 13
           end
         end
         object PnlAidInfoMaster: TPanel
@@ -3152,25 +3121,23 @@ inherited ReciptsGridF: TReciptsGridF
             Left = 405
             Top = 3
             Width = 33
-            Height = 19
+            Height = 13
             Align = alRight
             Alignment = taRightJustify
             Caption = #1588#1605#1575#1585#1607' '
             FocusControl = edtAidNumber
-            ExplicitHeight = 13
           end
           object LblAidInfoDate: TLabel
             AlignWithMargins = True
             Left = 119
             Top = 6
             Width = 24
-            Height = 16
+            Height = 13
             Margins.Top = 6
             Align = alLeft
             Alignment = taRightJustify
             Caption = #1578#1575#1585#1610#1582' '
             FocusControl = edtAidDate
-            ExplicitHeight = 13
           end
           object edtAidNumber: TDBEdit
             Tag = 20
@@ -3251,7 +3218,7 @@ inherited ReciptsGridF: TReciptsGridF
             Left = 122
             Top = 3
             Width = 72
-            Height = 20
+            Height = 13
             Align = alRight
             AutoSize = True
             Color = clCream
@@ -3259,7 +3226,6 @@ inherited ReciptsGridF: TReciptsGridF
             DataSource = srcRecipts
             ParentColor = False
             Transparent = True
-            ExplicitHeight = 13
           end
           object EdtStoreID: TDBEdit
             Tag = 1
@@ -3290,7 +3256,7 @@ inherited ReciptsGridF: TReciptsGridF
             Left = 3
             Top = 3
             Width = 96
-            Height = 20
+            Height = 13
             Align = alLeft
             AutoSize = True
             Color = clCream
@@ -3298,7 +3264,6 @@ inherited ReciptsGridF: TReciptsGridF
             DataSource = srcRecipts
             ParentColor = False
             Transparent = True
-            ExplicitHeight = 13
           end
           object btnStoreID2: TSpeedButton
             Tag = 2
@@ -3320,7 +3285,7 @@ inherited ReciptsGridF: TReciptsGridF
             Left = 204
             Top = 3
             Width = 41
-            Height = 20
+            Height = 13
             Align = alLeft
             Alignment = taRightJustify
             Caption = #1603#1583' '#1576#1606#1711#1575#1607'2'
@@ -3331,7 +3296,6 @@ inherited ReciptsGridF: TReciptsGridF
             Font.Name = 'Tahoma'
             Font.Style = []
             ParentFont = False
-            ExplicitHeight = 13
           end
           object EdtStoreID2: TDBEdit
             Tag = 2
@@ -3388,14 +3352,13 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 1147
           Top = 3
           Width = 68
-          Height = 18
+          Height = 13
           Align = alRight
           AutoSize = True
           Color = clCream
           DataSource = srcRecipts
           ParentColor = False
           Transparent = True
-          ExplicitHeight = 13
         end
         object Label11: TLabel
           AlignWithMargins = True
@@ -3818,14 +3781,13 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 171
           Top = 3
           Width = 76
-          Height = 21
+          Height = 13
           Align = alRight
           AutoSize = True
           Color = clCream
           DataSource = srcRecipts
           ParentColor = False
           Transparent = True
-          ExplicitHeight = 13
         end
         object btnPersonID5: TSpeedButton
           Tag = 5
@@ -3922,12 +3884,11 @@ inherited ReciptsGridF: TReciptsGridF
         Left = 529
         Top = 3
         Width = 40
-        Height = 21
+        Height = 13
         Align = alLeft
         Alignment = taRightJustify
         Caption = #1575#1591#1604#1575#1593#1575#1578' '
         FocusControl = edtMachineInfo
-        ExplicitHeight = 13
       end
       object edtMachineName: TDBEdit
         Tag = 333
@@ -4435,14 +4396,13 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 205
           Top = 3
           Width = 76
-          Height = 20
+          Height = 13
           Align = alRight
           AutoSize = True
           Color = clCream
           DataSource = srcRecipts
           ParentColor = False
           Transparent = True
-          ExplicitHeight = 13
         end
         object LblPerson3: TLabel
           AlignWithMargins = True
@@ -4674,7 +4634,7 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 372
           Top = 1
           Width = 150
-          Height = 21
+          Height = 22
           Margins.Top = 1
           Align = alLeft
           TabOrder = 3
@@ -4710,7 +4670,7 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 277
           Top = 1
           Width = 63
-          Height = 21
+          Height = 22
           Margins.Top = 1
           Align = alLeft
           TabOrder = 5
@@ -4729,14 +4689,13 @@ inherited ReciptsGridF: TReciptsGridF
           Left = 155
           Top = 3
           Width = 76
-          Height = 20
+          Height = 13
           Align = alRight
           AutoSize = True
           Color = clCream
           DataSource = srcRecipts
           ParentColor = False
           Transparent = True
-          ExplicitHeight = 13
         end
         object btnPersonID4: TSpeedButton
           Tag = 4
@@ -4815,10 +4774,10 @@ inherited ReciptsGridF: TReciptsGridF
         ExplicitLeft = 641
         ExplicitWidth = 481
         DesignSize = (
-          572
+          481
           27)
         object Label3: TLabel
-          Left = -92
+          Left = -183
           Top = 7
           Width = 46
           Height = 13
@@ -4829,7 +4788,7 @@ inherited ReciptsGridF: TReciptsGridF
           ExplicitLeft = 454
         end
         object Label21: TLabel
-          Left = -322
+          Left = -413
           Top = 7
           Width = 27
           Height = 13
@@ -4841,7 +4800,7 @@ inherited ReciptsGridF: TReciptsGridF
         end
         object edtMachineWeight: TDBEdit
           Tag = 1
-          Left = -291
+          Left = -382
           Top = 3
           Width = 193
           Height = 21
@@ -4849,11 +4808,10 @@ inherited ReciptsGridF: TReciptsGridF
           DataField = 'MachineWeight'
           DataSource = srcRecipts
           TabOrder = 0
-          ExplicitLeft = -382
         end
         object edtMachineFullWeight: TDBEdit
           Tag = 1
-          Left = -521
+          Left = -612
           Top = 3
           Width = 193
           Height = 21
@@ -4861,11 +4819,10 @@ inherited ReciptsGridF: TReciptsGridF
           DataField = 'MachineFullWeight'
           DataSource = srcRecipts
           TabOrder = 1
-          ExplicitLeft = -612
         end
       end
       object dbchkCalcCostStorage: TDBCheckBox
-        Left = 370
+        Left = 461
         Top = 0
         Width = 180
         Height = 27
@@ -4874,7 +4831,6 @@ inherited ReciptsGridF: TReciptsGridF
         DataField = 'CalcCostStorage'
         DataSource = srcRecipts
         TabOrder = 1
-        ExplicitLeft = 461
       end
       object pnlBarCode: TPanel
         Left = 1122
@@ -4919,6 +4875,7 @@ inherited ReciptsGridF: TReciptsGridF
         Properties.BarCodeSymbologyClassName = 'TdxBarCode39Symbology'
         Properties.FitMode = ifmStretch
         Visible = False
+        ExplicitHeight = 100
       end
     end
   end

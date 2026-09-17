@@ -2439,7 +2439,7 @@ begin
     b := FieldByName('ArzActive').AsInteger >= 1;
     setColumns2(DBGrid1, b, 'ArzAmount');
     setColumns2(DBGrid1, b, 'CurrencyDiscounts');
-    setColumns2(DBGrid1, not FieldByName('ArzActive').AsInteger in [3, 4],
+    setColumns2(DBGrid1, not FieldByName('ArzActive').AsInteger in [3, 4, 6],
       'ArzAmount', aReadOnly);
 
     // qryReciptsArzTypeID.Required := b;
@@ -8045,7 +8045,7 @@ begin
     SellPrice := RoundTo(SellPrice, RoundCount);
 
     // فی =  بهای واحد ارز (Detail) * ریال/ارز (Master)
-    if (qryinit.FieldByName('ArzActive').AsInteger = 3) then
+    if (qryinit.FieldByName('ArzActive').AsInteger in [3, 6]) then
       if (qryRecipts.FieldByName('RialsEqual').AsFloat *
         qryItems.FieldByName('ArzRate').AsFloat) <> 0 then
       begin
@@ -8133,7 +8133,7 @@ begin
   end;
 
   // مقدار ارز (Detail) =  تعداد *  بهای واحد ارز (Detail)
-  if (qryinit.FieldByName('ArzActive').AsInteger = 3) then
+  if (qryinit.FieldByName('ArzActive').AsInteger in [3]) then
   begin
     // ArzAmount := Entity * qryItems.FieldByName('ArzRate').AsFloat;
     case MyEntityDisplayType of
@@ -12510,7 +12510,7 @@ var
   r: Currency;
 begin
   inherited;
-  if (qryinit.FieldByName('ArzActive').AsInteger = 1) then
+  if (qryinit.FieldByName('ArzActive').AsInteger in [1, 6]) then
   begin
     r := RoundTo(qryItems.FieldByName('ArzRate').AsFloat *
       (qryItems.FieldByName(FieldNameWeight).AsFloat), RoundCount);
@@ -12522,14 +12522,14 @@ begin
       qryItems.FieldByName('ArzAmount').AsCurrency := r;
   end;
 
-//  if (qryinit.FieldByName('ArzActive').AsInteger = 5) then
-//  begin
-//    r := RoundTo(qryItems.FieldByName('ArzRate').AsFloat *
-//      (qryItems.FieldByName(FieldNameEntity).AsFloat), RoundCount);
-//
-//    if qryItems.FieldByName('ArzAmount').AsCurrency <> r then
-//      qryItems.FieldByName('ArzAmount').AsCurrency := r;
-//  end;
+  // if (qryinit.FieldByName('ArzActive').AsInteger = 5) then
+  // begin
+  // r := RoundTo(qryItems.FieldByName('ArzRate').AsFloat *
+  // (qryItems.FieldByName(FieldNameEntity).AsFloat), RoundCount);
+  //
+  // if qryItems.FieldByName('ArzAmount').AsCurrency <> r then
+  // qryItems.FieldByName('ArzAmount').AsCurrency := r;
+  // end;
 
   if (qryinit.FieldByName('ArzActive').AsInteger in [2]) then
     ChangeUnitSellPrice;
@@ -12542,7 +12542,6 @@ begin
     if qryItemsUnitSellPrice.AsCurrency <> r then
       qryItemsUnitSellPrice.AsCurrency := r;
   end;
-
 end;
 
 procedure TReciptsGridF.qryReciptsArzTypeIDChange(Sender: TField);
@@ -16415,7 +16414,8 @@ begin
           Item.bsrn := DsItem.FieldByName('bsrn').AsString;
         end;
 
-        if mnuEntity.Checked then
+        if ((mnuEntity.Checked) or
+          (DsItem.FieldByName('DiagnosisCalcTotalPrice').AsInteger = 0)) then
         begin
           Item.am := FloatToStr(DsItem.FieldByName('OutputEntity').AsFloat +
             DsItem.FieldByName('InputEntity').AsFloat);
@@ -16426,7 +16426,8 @@ begin
             Item.Fee := FloatToStrF(DsItem.FieldByName('UnitSellPriceE').AsFloat
               + 0.000001, ffFixed, 38, 8);
         end;
-        if mnuWeight.Checked then
+        if ((mnuWeight.Checked) or
+          (DsItem.FieldByName('DiagnosisCalcTotalPrice').AsInteger = 1)) then
         begin
           Item.am := FloatToStr(DsItem.FieldByName('OutputWeight').AsFloat +
             DsItem.FieldByName('InputWeight').AsFloat);
