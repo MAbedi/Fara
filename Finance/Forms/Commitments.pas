@@ -311,6 +311,7 @@ type
     procedure InitForm;
     procedure History;
     procedure CalcRemaining;
+    procedure CalcAvailableForPost;
     { Private declarations }
   public
     procedure FindBudget(budgectID: Integer);
@@ -456,6 +457,7 @@ begin
     qryItems.Post;
   qryItems.UpdateBatch();
   CalculateSummary;
+  CalcRemaining;
   BigMessage('ثبـت شد.', 1);
 end;
 
@@ -787,7 +789,7 @@ begin
   inherited;
   if qryItemsBed.AsString = '' then
     qryItemsBed.AsString := '0';
-  CalcRemaining;
+  CalcAvailableForPost;
   if (DataSet.fieldbyname('bed').AsCurrency <= 0) or
     ((DataSet.fieldbyname('CType').AsInteger = 1) and
     (SumRemaining - DataSet.fieldbyname('bed').AsCurrency < 0)) then
@@ -1044,6 +1046,8 @@ procedure TCommitmentsF.srcItemsDataChange(Sender: TObject; Field: TField);
 begin
   inherited;
   CalculateSummary;
+  if Field = nil then
+    CalcRemaining;
 end;
 
 procedure TCommitmentsF.srcItemsStateChange(Sender: TObject);
@@ -1083,6 +1087,51 @@ end;
 
 procedure TCommitmentsF.CalcRemaining;
 var
+  Remaining: Currency;
+  RemainingQuery: TADOQuery;
+begin
+  lblRemainingValue.Caption := 'ــــ';
+  StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + lblRemainingValue.Caption;
+  if not qryItems.Active or not qryMaster.Active then
+    Exit;
+  if (qryItemsBudgetTopicID.AsInteger = 0) or
+    qryMasterCompanyCode.IsNull or qryMasterYearID.IsNull or
+    (Trim(qryMasterBudgetDate.AsString) = '') then
+    Exit;
+
+  RemainingQuery := TADOQuery.Create(nil);
+  try
+    RemainingQuery.Connection := Dmf.adcAccounting;
+    RemainingQuery.SQL.Text :=
+      'select ISNULL(SUM(BudgetPrice), 0) - ' +
+      'ABS(ISNULL(SUM(BudgetCommitPrice), 0)) as Remaining ' +
+      'from acc.BudgetTopicBook(:BudgetTopicFrom, :BudgetTopicTo, ' +
+      ':DateFrom, :DateTo, :CompanyCode, 0, 999999999999999, ' +
+      ':YearIDFrom, :YearIDTo, :UserAdmin, :UserID) BudgetTopicBook';
+    with RemainingQuery.Parameters do
+    begin
+      ParamByName('BudgetTopicFrom').Value := qryItemsBudgetTopicID.AsInteger;
+      ParamByName('BudgetTopicTo').Value := qryItemsBudgetTopicID.AsInteger;
+      ParamByName('DateFrom').Value := '0001/01/01';
+      ParamByName('DateTo').Value := qryMasterBudgetDate.AsString;
+      ParamByName('CompanyCode').Value := qryMasterCompanyCode.AsString;
+      ParamByName('YearIDFrom').Value := qryMasterYearID.AsInteger;
+      ParamByName('YearIDTo').Value := qryMasterYearID.AsInteger;
+      ParamByName('UserAdmin').Value := IfThen(User.PowerAdmin, 1, 0);
+      ParamByName('UserID').Value := User.ID;
+    end;
+    RemainingQuery.Open;
+    Remaining := RemainingQuery.FieldByName('Remaining').AsCurrency;
+  finally
+    RemainingQuery.Free;
+  end;
+  lblRemainingValue.Caption := CurrToStrF(Remaining, ffCurrency, 0);
+  StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + lblRemainingValue.Caption;
+end;
+
+// Posting validation excludes the current item; the displayed balance includes it.
+procedure TCommitmentsF.CalcAvailableForPost;
+var
   sumcommitments, sumapproved: Currency;
 begin
   if ((qryItemsBudgetTopicID.AsInteger <> 0) and
@@ -1120,15 +1169,10 @@ begin
       Close;
     end;
     SumRemaining := sumapproved - sumcommitments;
-    lblRemainingValue.Caption := CurrToStrF(SumRemaining, ffCurrency, 0);
-    StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + CurrToStrF(SumRemaining,
-      ffCurrency, 0);
   end
   else
   begin
     SumRemaining := 0;
-    lblRemainingValue.Caption := 'ــــ';
-    StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + 'ــــ';
   end;
 end;
 
