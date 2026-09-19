@@ -54,7 +54,8 @@ type
   public
     function SelectChecks(var checkeds: string;
       const Fcode, Fcaption, tblName: String; where: string = '';
-      ADC: TADOConnection = nil; SendStr: boolean = False): boolean;
+      ADC: TADOConnection = nil; SendStr: boolean = False;
+      const SelectionCaption: string = ''): boolean;
     { Public declarations }
   end;
 
@@ -69,7 +70,8 @@ uses StrUtils, DM, GlobalPro, search1, sort;
 
 function TChooseItemF.SelectChecks(var checkeds: string;
   const Fcode, Fcaption, tblName: String; where: string = '';
-  ADC: TADOConnection = nil; SendStr: boolean = False): boolean;
+  ADC: TADOConnection = nil; SendStr: boolean = False;
+  const SelectionCaption: string = ''): boolean;
 var
   r: String;
   s: String;
@@ -82,6 +84,8 @@ begin
       ADC := DMf.adcBSell;
     with ChooseItemF do
     begin
+      if SelectionCaption <> '' then
+        Caption := SelectionCaption;
       with qryCustomers do
       begin
         Active := False;

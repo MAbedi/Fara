@@ -119,6 +119,8 @@ type
     FldScan: String;
     Tabl4GetANew: String;
     MsgOK: Boolean;
+    procedure AddStoreRestrictionsExecute(Sender: TObject);
+    procedure AddStoreRestrictionsUpdate(Sender: TObject);
     function GetValuInit(flName, ResultfldName: String): String;
     Procedure InitForm;
     procedure gridkeyenter(Sender: TObject; var Key: Char);
@@ -138,7 +140,7 @@ implementation
 
 uses Dm, GlobalPro, searchCode_ADO, search2,
   sort2, sndkey32, mmessage, DBGrid2Print, ScanImage, GetExcel, options,
-  FaraConsts;
+  FaraConsts, StoreRestrictionsBatch;
 
 {$R *.dfm}
 
@@ -221,17 +223,78 @@ end; // case
 end;
 
 procedure TFormDesignF.FormCreate(Sender: TObject);
+var
+  BatchAction: TAction;
 begin
   inherited;
   MsgOK := True;
   try
     FormType := var_glb_gParam;
     InitForm;
+    if FormType = 89 then
+    begin
+      BatchAction := TAction.Create(Self);
+      BatchAction.Caption := 'محدودیت گروهی';
+      BatchAction.OnExecute := AddStoreRestrictionsExecute;
+      BatchAction.OnUpdate := AddStoreRestrictionsUpdate;
+      BitBtn3.Action := BatchAction;
+      BatchAction.Visible := True;
+      AddStoreRestrictionsUpdate(BatchAction);
+      BitBtn3.Visible := BatchAction.Visible;
+      BitBtn3.Enabled := BatchAction.Enabled;
+    end;
   except
     on E: Exception do
     begin
       Warn('بروز رساني گزارشات پویا را اجرا كنيد.‏' + #13#10 + ' فرم ' +
         IntToStr(FormType) + 'وجود ندارد.‏' + E.Message);
+      add2log(E.Message);
+    end;
+  end;
+end;
+
+procedure TFormDesignF.AddStoreRestrictionsUpdate(Sender: TObject);
+var
+  CanShow, CanExecute: Boolean;
+  Action: TAction;
+begin
+  Action := TAction(Sender);
+  CanShow := (FormType = 89) and DataSetInsert1.Visible;
+  CanExecute := False;
+  if CanShow and Assigned(QMaster) and Assigned(QItems) then
+    if QMaster.Active and QItems.Active then
+      CanExecute := DataSetInsert1.Enabled and
+        not QMaster.IsEmpty and (QItems.State = dsBrowse) and QItems.CanModify;
+
+  // OnUpdate runs repeatedly while idle; do not toggle the linked button.
+  if Action.Visible <> CanShow then
+    Action.Visible := CanShow;
+  if Action.Enabled <> CanExecute then
+    Action.Enabled := CanExecute;
+end;
+
+procedure TFormDesignF.AddStoreRestrictionsExecute(Sender: TObject);
+var
+  Added: Integer;
+begin
+  DataSetInsert1.Update;
+  AddStoreRestrictionsUpdate(Sender);
+  if not TAction(Sender).Visible or not TAction(Sender).Enabled then
+    Exit;
+  try
+    if not AddUserStoreRestrictions(QItems.Connection,
+      QMaster.FieldByName('UserID').AsInteger,
+      QMaster.FieldByName('name').AsString, Added) then
+      Exit;
+    // Invalidate before refreshing the grid, even if the refresh fails.
+    Dmf.qryUsersStoreReciptTypes.Close;
+    BigMessage(Format('%d محدودیت جدید ثبت شد. موارد تکراری حفظ شدند.',
+      [Added]), 1);
+    QItems.Requery;
+  except
+    on E: Exception do
+    begin
+      Warn(E.Message);
       add2log(E.Message);
     end;
   end;
