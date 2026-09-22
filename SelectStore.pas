@@ -21,7 +21,8 @@ type
       var MyEntityDisplayType: Byte);
   public
     function GetStore(out aStore: TStore; myCaption: String;
-      StoreKindList: String; var MyEntityDisplayType: Byte): Boolean;
+      StoreKindList: String; var MyEntityDisplayType: Byte;
+      ReciptType: Integer = 0): Boolean;
     { Public declarations }
   end;
 
@@ -46,11 +47,12 @@ begin
 end;
 
 function TSelectStoreF.GetStore(out aStore: TStore; myCaption: String;
-  StoreKindList: String; var MyEntityDisplayType: Byte): Boolean;
+  StoreKindList: String; var MyEntityDisplayType: Byte;
+  ReciptType: Integer = 0): Boolean;
 begin
   Result := False;
   SelectStoreF := TSelectStoreF.Create(Application);
-  SelectStoreF.Caption := 'ÇäÊÎÇÈ ' + myCaption;
+  SelectStoreF.Caption := 'Ø§Ù†ØªØ®Ø§Ø¨ ' + myCaption;
   try
     with SelectStoreF do
     begin
@@ -69,10 +71,14 @@ begin
 
         Parameters.ParamByName('UserIDAdmin').Value :=
           ifthen(User.PowerUser, 127, User.id);
+
+        // Ù…Ø­Ø¯ÙˆØ¯ÛŒØª Ø¨Ø± Ø§Ø³Ø§Ø³ Ø¬Ø¯ÙˆÙ„ UsersStoreReciptTypes (StoreID + ReciptType)
+        Parameters.ParamByName('ReciptType').Value := ReciptType;
+
         Active := True;
         if IsEmpty then
-          raise Exception.Create('åí ' + myCaption +
-            'í ÏÑ ÓíÓÊã ÈÑÇí ÔãÇ ÊÚÑíİ äÔÏå ÇÓÊ.');
+          raise Exception.Create('Ù‡ÙŠÚ† ' + myCaption +
+            'ÙŠ Ø¯Ø± Ø³ÙŠØ³ØªÙ… Ø¨Ø±Ø§ÙŠ Ø´Ù…Ø§ ØªØ¹Ø±ÙŠÙ Ù†Ø´Ø¯Ù‡ Ø§Ø³Øª.');
         ListStores.Clear;
         while not eof do
         begin

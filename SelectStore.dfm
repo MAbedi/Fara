@@ -67,6 +67,14 @@ object SelectStoreF: TSelectStoreF
         Value = 0
       end
       item
+        Name = 'ReciptType'
+        Attributes = [paSigned]
+        DataType = ftInteger
+        Precision = 10
+        Size = 4
+        Value = 0
+      end
+      item
         Name = 'StoreKindList'
         Size = -1
         Value = Null
@@ -85,6 +93,13 @@ object SelectStoreF: TSelectStoreF
         'WHERE   (Stores.n_StoreID > 0) AND   ( (UsersStore.n_UserID = :U' +
         'serID) OR'
       '                      (127 = :UserIDAdmin))'
+      '  AND ('
+      '       NOT EXISTS (SELECT 1 FROM UsersStoreReciptTypes '
+      '                   WHERE UserID = :UserID AND ReciptType = :ReciptType)'
+      '       OR'
+      '       Stores.n_StoreID IN (SELECT StoreID FROM UsersStoreReciptTypes '
+      '                           WHERE UserID = :UserID AND ReciptType = :ReciptType)'
+      '      )'
       ' :StoreKindList'
       
         'GROUP BY Stores.n_StoreID, Stores.c_StoreName, Stores.c_accTopic' +
