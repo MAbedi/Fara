@@ -10501,7 +10501,7 @@ begin
       if (FilterShow) then
         SelectStoreF.GetStore(myStore, qryinit.FieldByName('StoreCaption')
           .AsString, qryinit.FieldByName('StoreKindList').AsString,
-          MyEntityDisplayType);
+          MyEntityDisplayType,formType);
 
       EdtStoreID.Enabled := False;
       btnStoreID.Enabled := False;
@@ -12018,7 +12018,13 @@ begin
   if qryinit.FieldByName('StoreKindList').AsString <> EmptyStr then
     txt := txt + ' AND (StoreKind IN (' + qryinit.FieldByName('StoreKindList')
       .AsString + '))';
+  // محدودیت بر اساس UsersStoreReciptTypes
+  txt := txt + ' AND ( NOT EXISTS (SELECT 1 FROM UsersStoreReciptTypes WHERE UserID = ' +
+    User.id.ToString + ' AND ReciptType = ' + IntToStr(formType) + ')' +
+    ' OR Stores.n_StoreID IN (SELECT StoreID FROM UsersStoreReciptTypes WHERE UserID = ' +
+    User.id.ToString + ' AND ReciptType = ' + IntToStr(formType) + ') )';
   // txt:=GetUsersStore(txt);
+
 
   s := searchCode_ADOF.SearchCode(DMf.adcBSell, c,
     qryinit.FieldByName('StoreCaption').AsString + 'ها', txt,
