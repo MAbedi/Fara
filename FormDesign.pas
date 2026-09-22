@@ -79,7 +79,7 @@ type
     actSort: TAction;
     actDelSelected: TAction;
     BitBtn3: TBitBtn;
-    CedarDbgrid1: TCedarDbgrid;
+    CedarDbgrid1: TCedarDbGrid;
     procedure FormCreate(Sender: TObject);
     procedure srcDetailStateChange(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
@@ -128,6 +128,8 @@ type
     procedure MyGetText(Sender: TField; var Text: String; DisplayText: Boolean);
     procedure MySetText(Sender: TField; const Text: String);
     procedure InitReportFile(ReportName: TppReport; GeneralFileName: string);
+    procedure AddPositionStoreRestrictionsExecute(Sender: TObject);
+    procedure AddPositionStoreRestrictionsUpdate(Sender: TObject);
     { Private declarations }
   public
     { Public declarations }
@@ -242,12 +244,65 @@ begin
       AddStoreRestrictionsUpdate(BatchAction);
       BitBtn3.Visible := BatchAction.Visible;
       BitBtn3.Enabled := BatchAction.Enabled;
+
+
+            // محدودیت گروهی بر اساس پست سازمانی
+      BatchAction := TAction.Create(Self);
+      BatchAction.Caption := 'محدودیت بر اساس پست';
+      BatchAction.OnExecute := AddPositionStoreRestrictionsExecute;
+      BatchAction.OnUpdate := AddPositionStoreRestrictionsUpdate;
+      BitBtn6.Action := BatchAction;
+      BatchAction.Visible := True;
+      AddPositionStoreRestrictionsUpdate(BatchAction);
+      BitBtn6.Visible := BatchAction.Visible;
+      BitBtn6.Enabled := BatchAction.Enabled;
+
     end;
   except
     on E: Exception do
     begin
       Warn('بروز رساني گزارشات پویا را اجرا كنيد.‏' + #13#10 + ' فرم ' +
         IntToStr(FormType) + 'وجود ندارد.‏' + E.Message);
+      add2log(E.Message);
+    end;
+  end;
+end;
+
+procedure TFormDesignF.AddPositionStoreRestrictionsUpdate(Sender: TObject);
+var
+  CanShow, CanExecute: Boolean;
+  Action: TAction;
+begin
+  Action := TAction(Sender);
+  CanShow := (FormType = 89) and DataSetInsert1.Visible;
+  CanExecute := CanShow and Assigned(QItems) and QItems.Active and
+    DataSetInsert1.Enabled and (QItems.State = dsBrowse) and QItems.CanModify;
+
+  if Action.Visible <> CanShow then
+    Action.Visible := CanShow;
+  if Action.Enabled <> CanExecute then
+    Action.Enabled := CanExecute;
+end;
+
+procedure TFormDesignF.AddPositionStoreRestrictionsExecute(Sender: TObject);
+var
+  Added: Integer;
+begin
+  DataSetInsert1.Update;
+  AddPositionStoreRestrictionsUpdate(Sender);
+  if not TAction(Sender).Visible or not TAction(Sender).Enabled then
+    Exit;
+  try
+    if not AddPositionStoreRestrictions(QItems.Connection, Added) then
+      Exit;
+    Dmf.qryUsersStoreReciptTypes.Close;
+    BigMessage(Format('%d محدودیت جدید (بر اساس پست) ثبت شد. موارد تکراری حفظ شدند.',
+      [Added]), 1);
+    QItems.Requery;
+  except
+    on E: Exception do
+    begin
+      Warn(E.Message);
       add2log(E.Message);
     end;
   end;
@@ -260,11 +315,11 @@ var
 begin
   Action := TAction(Sender);
   CanShow := (FormType = 89) and DataSetInsert1.Visible;
-  CanExecute := False;
+  CanExecute := false;
   if CanShow and Assigned(QMaster) and Assigned(QItems) then
     if QMaster.Active and QItems.Active then
-      CanExecute := DataSetInsert1.Enabled and
-        not QMaster.IsEmpty and (QItems.State = dsBrowse) and QItems.CanModify;
+      CanExecute := DataSetInsert1.Enabled and not QMaster.IsEmpty and
+        (QItems.State = dsBrowse) and QItems.CanModify;
 
   // OnUpdate runs repeatedly while idle; do not toggle the linked button.
   if Action.Visible <> CanShow then
@@ -280,12 +335,12 @@ begin
   DataSetInsert1.Update;
   AddStoreRestrictionsUpdate(Sender);
   if not TAction(Sender).Visible or not TAction(Sender).Enabled then
-    Exit;
+    exit;
   try
     if not AddUserStoreRestrictions(QItems.Connection,
-      QMaster.FieldByName('UserID').AsInteger,
-      QMaster.FieldByName('name').AsString, Added) then
-      Exit;
+      QMaster.FieldByName('UserID').AsInteger, QMaster.FieldByName('name')
+      .AsString, Added) then
+      exit;
     // Invalidate before refreshing the grid, even if the refresh fails.
     Dmf.qryUsersStoreReciptTypes.Close;
     BigMessage(Format('%d محدودیت جدید ثبت شد. موارد تکراری حفظ شدند.',
@@ -335,21 +390,21 @@ begin
     SQL.Add('BaseConnections ON FormDesign.ConnectionCode = BaseConnections.ConnectionCode');
     SQL.Add('WHERE (FormDesign.FormID = ' + IntToStr(FormType) + ')');
     Open;
-    CnName := TADOConnection(Dmf.FindComponent(fieldbyname('ConnectionName')
+    CnName := TADOConnection(Dmf.FindComponent(FieldByName('ConnectionName')
       .AsString));
     if CnName = nil then
       CnName := theMainConnection;
 
-    Self.Caption := Trim(fieldbyname('FormCaption').AsString);
-    SQLItem := Trim(fieldbyname('DetailSQL').AsString);
-    SQLMASTER := Trim(fieldbyname('MasterSQL').AsString);
-    FormKind := fieldbyname('FormKind').AsInteger;
-    ReportName := fieldbyname('PrintFileNames').AsString;
-    CaptionName := fieldbyname('PrintCaptions').AsString;
-    TblScan := fieldbyname('TableScan').AsString;
-    FldScan := fieldbyname('FieldScan').AsString;
+    Self.Caption := Trim(FieldByName('FormCaption').AsString);
+    SQLItem := Trim(FieldByName('DetailSQL').AsString);
+    SQLMASTER := Trim(FieldByName('MasterSQL').AsString);
+    FormKind := FieldByName('FormKind').AsInteger;
+    ReportName := FieldByName('PrintFileNames').AsString;
+    CaptionName := FieldByName('PrintCaptions').AsString;
+    TblScan := FieldByName('TableScan').AsString;
+    FldScan := FieldByName('FieldScan').AsString;
     mnuScan.Visible := TblScan <> EmptyStr;
-    QItems.MsgCancel := fieldbyname('MsgCancel').AsInteger = 1;
+    QItems.MsgCancel := FieldByName('MsgCancel').AsInteger = 1;
     Close;
     SQL.Text := Format(SqlTxt, [FormType, 0]);
     Open;
@@ -442,9 +497,9 @@ begin
         Open;
         while not Eof do
         begin
-          Fld := QMaster.fieldbyname(Trim(fieldbyname('fldName').AsString));
-          Fld.DisplayLabel := Trim(fieldbyname('fldcaption').AsString);
-          case fieldbyname('align').AsInteger of
+          Fld := QMaster.FieldByName(Trim(FieldByName('fldName').AsString));
+          Fld.DisplayLabel := Trim(FieldByName('fldcaption').AsString);
+          case FieldByName('align').AsInteger of
             0:
               Fld.Alignment := taRightJustify;
             1:
@@ -452,13 +507,13 @@ begin
             2:
               Fld.Alignment := taCenter;
           end; // case
-          If fieldbyname('ShowSearch').AsInteger <> 0 then
+          If FieldByName('ShowSearch').AsInteger <> 0 then
             Fld.Tag := 3;
           if FormKind <> 2 then
             with DBgridMaster.Columns.Add do
             begin
               FieldName := Fld.FieldName;
-              case fieldbyname('StateShow').AsInteger of
+              case FieldByName('StateShow').AsInteger of
                 0:
                   Visible := True;
                 1:
@@ -494,37 +549,37 @@ begin
     with FormDesignF.QInit do
       while not Eof do
       begin
-        FldName := Trim(fieldbyname('fldName').AsString);
-        Self.fieldbyname(FldName).DisplayLabel :=
-          Trim(fieldbyname('fldCaption').AsString);
-        Self.fieldbyname(FldName).Required := fieldbyname('Required')
+        FldName := Trim(FieldByName('fldName').AsString);
+        Self.FieldByName(FldName).DisplayLabel :=
+          Trim(FieldByName('fldCaption').AsString);
+        Self.FieldByName(FldName).Required := FieldByName('Required')
           .AsInteger <> 0;
-        Self.fieldbyname(FldName).ReadOnly := fieldbyname('StateShow')
+        Self.FieldByName(FldName).ReadOnly := FieldByName('StateShow')
           .AsInteger = 2;
-        Self.fieldbyname(FldName).Index := fieldbyname('row').AsInteger;
-        if Self.fieldbyname(FldName).DataType in [ftCurrency, ftBCD] then
-          TCurrencyField(Self.fieldbyname(FldName)).currency := True;
+        Self.FieldByName(FldName).Index := FieldByName('row').AsInteger;
+        if Self.FieldByName(FldName).DataType in [ftCurrency, ftBCD] then
+          TCurrencyField(Self.FieldByName(FldName)).currency := True;
 
         if pos('DATE', UpperCase(FldName)) <> 0 then
         begin
-          Self.fieldbyname(FldName).EditMask := '9999/99/99';
+          Self.FieldByName(FldName).EditMask := '9999/99/99';
         end;
-        ALookUp := fieldbyname('StatePost').AsInteger = 2;
-        APickList := fieldbyname('StatePost').AsInteger = 4;
+        ALookUp := FieldByName('StatePost').AsInteger = 2;
+        APickList := FieldByName('StatePost').AsInteger = 4;
         if APickList then
         begin
-          Self.fieldbyname(FldName).OnGetText := FormDesignF.MyGetText;
-          Self.fieldbyname(FldName).OnSetText := FormDesignF.MySetText;
+          Self.FieldByName(FldName).OnGetText := FormDesignF.MyGetText;
+          Self.FieldByName(FldName).OnSetText := FormDesignF.MySetText;
         end;
-        If fieldbyname('ShowSearch').AsInteger <> 0 then
-          Self.fieldbyname(FldName).Tag := 3;
-        case FormDesignF.QInit.fieldbyname('align').AsInteger of
+        If FieldByName('ShowSearch').AsInteger <> 0 then
+          Self.FieldByName(FldName).Tag := 3;
+        case FormDesignF.QInit.FieldByName('align').AsInteger of
           0:
-            Self.fieldbyname(FldName).Alignment := taRightJustify;
+            Self.FieldByName(FldName).Alignment := taRightJustify;
           1:
-            Self.fieldbyname(FldName).Alignment := taLeftJustify;
+            Self.FieldByName(FldName).Alignment := taLeftJustify;
           2:
-            Self.fieldbyname(FldName).Alignment := taCenter;
+            Self.FieldByName(FldName).Alignment := taCenter;
         end;
 
         If ALookUp then
@@ -534,20 +589,20 @@ begin
           with QLookUp do
           begin
             Close;
-            if FormDesignF.QInit.fieldbyname('LookUpConnection').AsString <> EmptyStr
+            if FormDesignF.QInit.FieldByName('LookUpConnection').AsString <> EmptyStr
             then
               CnLookUp := TADOConnection
-                (Dmf.FindComponent(FormDesignF.QInit.fieldbyname
+                (Dmf.FindComponent(FormDesignF.QInit.FieldByName
                 ('ConnectionName').AsString))
             else
               CnLookUp := Self.Connection;
 
             Connection := CnLookUp;
-            SQL.Text := FormDesignF.QInit.fieldbyname('SqlTxt').AsString;
-            Filter := FormDesignF.QInit.fieldbyname('WhereSearch').AsString;
+            SQL.Text := FormDesignF.QInit.FieldByName('SqlTxt').AsString;
+            Filter := FormDesignF.QInit.FieldByName('WhereSearch').AsString;
             Open;
             FList.Text :=
-              StringReplace(FormDesignF.QInit.fieldbyname('LookUpCaption')
+              StringReplace(FormDesignF.QInit.FieldByName('LookUpCaption')
               .AsString, ',', #13, [rfReplaceAll]);
             for i := 0 to FList.Count - 1 do
               QLookUp.Fields[i].DisplayLabel := FList[i];
@@ -556,7 +611,7 @@ begin
           begin
             FieldName := '_' + FldName;
             DisplayLabel := QLookUp.Fields
-              [FormDesignF.QInit.fieldbyname('IndexLookUpName').AsInteger]
+              [FormDesignF.QInit.FieldByName('IndexLookUpName').AsInteger]
               .DisplayLabel;
             FieldKind := fkLookup;
             DataSet := Self;
@@ -566,10 +621,10 @@ begin
             Size := 150;
             LookUpDataset := QLookUp;
             LookUpKeyFields := QLookUp.Fields
-              [FormDesignF.QInit.fieldbyname('IndexLookUpKey').AsInteger]
+              [FormDesignF.QInit.FieldByName('IndexLookUpKey').AsInteger]
               .FieldName;
             LookUpResultField := QLookUp.Fields
-              [FormDesignF.QInit.fieldbyname('IndexLookUpName').AsInteger]
+              [FormDesignF.QInit.FieldByName('IndexLookUpName').AsInteger]
               .FieldName;
             Self.FieldDefs.Add(Name, ftString, 150, True);
           end;
@@ -583,7 +638,7 @@ begin
             FieldName := FldName;
             ReadOnly := false;
             Visible := false;
-            case FormDesignF.QInit.fieldbyname('StateShow').AsInteger of
+            case FormDesignF.QInit.FieldByName('StateShow').AsInteger of
               0:
                 Visible := True;
               1:
@@ -594,7 +649,7 @@ begin
             if (ALookUp) then
               FormDesignF.DBgrid.Columns.Add.FieldName := '_' + FldName;
             if APickList then
-              PickList.Text := FormDesignF.QInit.fieldbyname('SqlTxt').AsString;
+              PickList.Text := FormDesignF.QInit.FieldByName('SqlTxt').AsString;
           end;
         next;
       end;
@@ -621,11 +676,12 @@ begin
   newPanel.Visible := not okPanel.Visible;
   BtnReject.Cancel := newPanel.Visible;
   FreeReservedCodes(Dmf.adcBSell, Tabl4GetANew);
-  DBgrid.ReadOnly := newPanel.Visible  ;
+  DBgrid.ReadOnly := newPanel.Visible;
   if newPanel.Visible then
     DBgrid.options := DBgrid.options + [dgRowSelect, dgMultiSelect]
   else
-    DBgrid.options := DBgrid.options +[dgediting]- [dgRowSelect, dgMultiSelect];
+    DBgrid.options := DBgrid.options + [dgEditing] -
+      [dgRowSelect, dgMultiSelect];
 
 end;
 
@@ -682,7 +738,7 @@ function TFormDesignF.GetValuInit(flName, ResultfldName: String): String;
 begin
   Result := EmptyStr;
   if QInit.Locate('FldName', flName, []) then
-    Result := QInit.fieldbyname(ResultfldName).AsString
+    Result := QInit.FieldByName(ResultfldName).AsString
 end;
 
 procedure TFormDesignF.MyMasterScroll(DataSet: TDataSet);
@@ -695,7 +751,7 @@ begin
         with QItems do
         begin
           Close;
-          Parameters[i].Value := DataSet.fieldbyname
+          Parameters[i].Value := DataSet.FieldByName
             (Parameters[i].Name).AsString;
           Open;
           if DBgrid <> NIL then
@@ -750,7 +806,7 @@ begin
         Self.Fields[i].AsInteger := 0;
       3:
         if FormDesignF.QMaster.FindField(SqlNewCode) <> nil then
-          Self.Fields[i].AsString := FormDesignF.QMaster.fieldbyname
+          Self.Fields[i].AsString := FormDesignF.QMaster.FieldByName
             (SqlNewCode).AsString;
       5:
         Self.Fields[i].AsString := var_glb_CurrentDate;
@@ -816,7 +872,7 @@ begin
   if Self.Columns[INX].ButtonStyle = cbsEllipsis then
   begin
     FldName := Self.Columns[INX].FieldName;
-    aDataSet := TADOQuery(FormDesignF.QItems.fieldbyname('_' + FldName)
+    aDataSet := TADOQuery(FormDesignF.QItems.FieldByName('_' + FldName)
       .LookUpDataset);
     SqlTxt := aDataSet.SQL.Text;
     SetLength(Results, aDataSet.FieldCount);
@@ -842,7 +898,7 @@ begin
     begin
       if not(FormDesignF.QItems.State in dseditmodes) then
         FormDesignF.QItems.Edit;
-      FormDesignF.QItems.fieldbyname(FldName).AsString :=
+      FormDesignF.QItems.FieldByName(FldName).AsString :=
         Results[StrToIntDef(FormDesignF.GetValuInit(FldName,
         'IndexLookUpKey'), 0)];
     end;
@@ -1036,7 +1092,7 @@ begin
     try
       BigMessage(IntToStr(ExecSQL) + ' سطر‌ حذف شد.', 2);
       Active := false;
-      i := QItems.fieldbyname('VarianceId').AsInteger;
+      i := QItems.FieldByName('VarianceId').AsInteger;
       QItems.Requery;
       QItems.Locate('VarianceId', i, [])
     except
