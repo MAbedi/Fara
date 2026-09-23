@@ -44,7 +44,6 @@ begin
   Forms := TStringList.Create;
   Query := TADOQuery.Create(nil);
   try
-    // SelectChecks returns comma-separated codes with a trailing comma.
     Stores.CommaText := Copy(StoreCodes, 1, Length(StoreCodes) - 1);
     Forms.CommaText := Copy(FormCodes, 1, Length(FormCodes) - 1);
     if (Stores.Count = 0) or (Forms.Count = 0) then
@@ -55,7 +54,6 @@ begin
       [UserName, Forms.Count, Stores.Count, Forms.Count * Stores.Count])) <> mrYes then
       Exit;
 
-    // Do not commit or roll back a transaction owned by another operation.
     if Connection.InTransaction then
       raise Exception.Create('عملیات دیگری در حال ثبت است. پس از پایان آن دوباره تلاش کنید.');
     Query.Connection := Connection;
@@ -110,21 +108,18 @@ begin
   StoreCodes := '';
   FormCodes := '';
 
-  // 1) انتخاب پست(های) سازمانی
   if not ChooseItemF.SelectChecks(PositionCodes, 'PositionCode', 'PositionTitle',
     'Position', '', Connection, False, 'انتخاب پست سازمانی') then
     Exit;
   if PositionCodes = '' then
     Exit;
 
-  // 2) انتخاب انبارها
   if not ChooseItemF.SelectChecks(StoreCodes, 'n_StoreID', 'c_StoreName',
     'Stores', '', Connection, False, 'انتخاب انبارها برای محدودیت') then
     Exit;
   if StoreCodes = '' then
     Exit;
 
-  // 3) انتخاب فرم‌ها (نوع رسید)
   if not ChooseItemF.SelectChecks(FormCodes, 'ReciptType', 'ReciptCaption',
     'ReciptTypes', '', Connection, False, 'انتخاب فرم‌های ممنوع در انبارهای انتخاب‌شده') then
     Exit;
@@ -142,10 +137,9 @@ begin
     if (Positions.Count = 0) or (Stores.Count = 0) or (Forms.Count = 0) then
       Exit;
 
-    // تعداد کاربران این پست‌ها
     Query.Connection := Connection;
     Query.SQL.Text :=
-      'SELECT COUNT(*) FROM dbo.Operators WHERE PositionCode IN (' +
+      'SELECT COUNT(*) FROM Farasystems.dbo.Operators WHERE PositionCode IN (' +
       Copy(PositionCodes, 1, Length(PositionCodes) - 1) + ')';
     Query.Open;
     UserCount := Query.Fields[0].AsInteger;
@@ -168,13 +162,12 @@ begin
     if Connection.InTransaction then
       raise Exception.Create('عملیات دیگری در حال ثبت است. پس از پایان آن دوباره تلاش کنید.');
 
-    // برای هر پست × انبار × فرم: درج برای همه کاربران آن پست
     Query.SQL.Text :=
       'INSERT INTO dbo.UsersStoreReciptTypes (UserID, StoreID, ReciptType) ' +
       'SELECT O.UserID, :StoreID, :ReciptType ' +
-      'FROM dbo.Operators O ' +
+      'FROM Farasystems.dbo.Operators O ' +
       'WHERE O.PositionCode = :PositionCode ' +
-      'AND NOT EXISTS (SELECT 1 FROM dbo.UsersStoreReciptTypes WITH (UPDLOCK, HOLDLOCK) U ' +
+      'AND NOT EXISTS (SELECT 1 FROM dbo.UsersStoreReciptTypes AS U WITH (UPDLOCK, HOLDLOCK) ' +
       'WHERE U.UserID = O.UserID AND U.StoreID = :ExistingStoreID ' +
       'AND U.ReciptType = :ExistingReciptType)';
     for I := 0 to Query.Parameters.Count - 1 do
