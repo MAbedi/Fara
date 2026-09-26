@@ -1886,22 +1886,30 @@ inherited ReciptsGridF: TReciptsGridF
           Width = 28
         end
         item
+          AutoDropDown = True
+          ButtonStyle = cbsDropDown
           CellButtons = <>
+          DropDownRows = 12
           DynProps = <>
+          EditButton.Visible = True
           EditButtons = <>
           FieldName = 'MachineName'
           Footers = <>
           Title.TitleButton = True
-          Width = 45
+          Width = 120
         end
         item
+          AutoDropDown = True
+          ButtonStyle = cbsDropDown
           CellButtons = <>
+          DropDownRows = 12
           DynProps = <>
+          EditButton.Visible = True
           EditButtons = <>
           FieldName = 'MachineNo'
           Footers = <>
           Title.TitleButton = True
-          Width = 70
+          Width = 120
         end
         item
           CellButtons = <>

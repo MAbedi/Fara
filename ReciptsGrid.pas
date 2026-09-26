@@ -10440,6 +10440,9 @@ procedure TReciptsGridF.FormCreate(Sender: TObject);
 var
   UserSCA: Largeint;
   b: Boolean;
+  MachineNames: TADOQuery;
+  MachineNameColumn: Integer;
+  MachineNoColumn: Integer;
 begin
   inherited;
 
@@ -10489,6 +10492,49 @@ begin
       Warn2(E.Message);
       Self.Free;
       exit;
+    end;
+  end;
+  MachineNameColumn := GlobalPro.ColumnIndexByFieldName(DBGrid1,
+    'MachineName');
+  MachineNoColumn := GlobalPro.ColumnIndexByFieldName(DBGrid1, 'MachineNo');
+  if (MachineNameColumn >= 0) or (MachineNoColumn >= 0) then
+  begin
+    MachineNames := TADOQuery.Create(nil);
+    try
+      MachineNames.Connection := DMf.adcBSell;
+      if MachineNameColumn >= 0 then
+      begin
+        MachineNames.SQL.Text :=
+          'SELECT DISTINCT LTRIM(RTRIM(MachineName)) AS MachineName ' +
+          'FROM ReciptItems WHERE MachineName IS NOT NULL ' +
+          'AND LTRIM(RTRIM(MachineName)) <> '''' ORDER BY MachineName';
+        MachineNames.Open;
+        DBGrid1.Columns[MachineNameColumn].PickList.Clear;
+        while not MachineNames.Eof do
+        begin
+          DBGrid1.Columns[MachineNameColumn].PickList.Add(
+            MachineNames.Fields[0].AsString);
+          MachineNames.Next;
+        end;
+        MachineNames.Close;
+      end;
+      if MachineNoColumn >= 0 then
+      begin
+        MachineNames.SQL.Text :=
+          'SELECT DISTINCT LTRIM(RTRIM(MachineNo)) AS MachineNo ' +
+          'FROM ReciptItems WHERE MachineNo IS NOT NULL ' +
+          'AND LTRIM(RTRIM(MachineNo)) <> '''' ORDER BY MachineNo';
+        MachineNames.Open;
+        DBGrid1.Columns[MachineNoColumn].PickList.Clear;
+        while not MachineNames.Eof do
+        begin
+          DBGrid1.Columns[MachineNoColumn].PickList.Add(
+            MachineNames.Fields[0].AsString);
+          MachineNames.Next;
+        end;
+      end;
+    finally
+      MachineNames.Free;
     end;
   end;
   With qryAllRecipts do
