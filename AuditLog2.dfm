@@ -346,6 +346,7 @@ inherited AuditLog2F: TAuditLog2F
             Height = 220
             Align = alLeft
             TabOrder = 0
+            OnDrawCell = lstValuesDrawCell
             ColWidths = (
               150
               150)
@@ -356,27 +357,29 @@ inherited AuditLog2F: TAuditLog2F
           object lstNew: TValueListEditor
             Left = 307
             Top = 1
-            Width = 219
+            Width = 61
             Height = 220
             Align = alClient
             TabOrder = 1
+            OnDrawCell = lstValuesDrawCell
+            ExplicitWidth = 141
             ColWidths = (
               150
-              63)
+              -95)
             RowHeights = (
               18
               18)
           end
           object lstDif: TValueListEditor
-            Left = 526
+            Left = 368
             Top = 1
-            Width = 306
+            Width = 464
             Height = 220
             Align = alRight
             TabOrder = 2
             ColWidths = (
               150
-              150)
+              308)
             RowHeights = (
               18
               18)

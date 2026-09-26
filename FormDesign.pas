@@ -80,6 +80,7 @@ type
     actDelSelected: TAction;
     BitBtn3: TBitBtn;
     CedarDbgrid1: TCedarDbGrid;
+    BitBtn4: TBitBtn;
     procedure FormCreate(Sender: TObject);
     procedure srcDetailStateChange(Sender: TObject);
     procedure actSearchExecute(Sender: TObject);
@@ -235,6 +236,19 @@ begin
     InitForm;
     if FormType = 89 then
     begin
+      // محدودیت گروهی بر اساس پست سازمانی
+      BatchAction := TAction.Create(Self);
+      BatchAction.Caption := 'محدودیت بر اساس پست';
+      BatchAction.OnExecute := AddPositionStoreRestrictionsExecute;
+      BatchAction.OnUpdate := AddPositionStoreRestrictionsUpdate;
+      BitBtn4.Action := BatchAction;
+      BatchAction.Visible := True;
+      AddPositionStoreRestrictionsUpdate(BatchAction);
+      BitBtn4.Visible := BatchAction.Visible;
+      BitBtn4.Enabled := BatchAction.Enabled;
+      BitBtn4.Align := alRight;
+      BitBtn4.AlignWithMargins := True;
+
       BatchAction := TAction.Create(Self);
       BatchAction.Caption := 'محدودیت گروهی';
       BatchAction.OnExecute := AddStoreRestrictionsExecute;
@@ -244,18 +258,8 @@ begin
       AddStoreRestrictionsUpdate(BatchAction);
       BitBtn3.Visible := BatchAction.Visible;
       BitBtn3.Enabled := BatchAction.Enabled;
-
-
-            // محدودیت گروهی بر اساس پست سازمانی
-      BatchAction := TAction.Create(Self);
-      BatchAction.Caption := 'محدودیت بر اساس پست';
-      BatchAction.OnExecute := AddPositionStoreRestrictionsExecute;
-      BatchAction.OnUpdate := AddPositionStoreRestrictionsUpdate;
-      BitBtn6.Action := BatchAction;
-      BatchAction.Visible := True;
-      AddPositionStoreRestrictionsUpdate(BatchAction);
-      BitBtn6.Visible := BatchAction.Visible;
-      BitBtn6.Enabled := BatchAction.Enabled;
+      BitBtn3.Align := alLeft;
+      BitBtn3.AlignWithMargins := True;
 
     end;
   except
@@ -291,12 +295,13 @@ begin
   DataSetInsert1.Update;
   AddPositionStoreRestrictionsUpdate(Sender);
   if not TAction(Sender).Visible or not TAction(Sender).Enabled then
-    Exit;
+    exit;
   try
     if not AddPositionStoreRestrictions(QItems.Connection, Added) then
-      Exit;
+      exit;
     Dmf.qryUsersStoreReciptTypes.Close;
-    BigMessage(Format('%d محدودیت جدید (بر اساس پست) ثبت شد. موارد تکراری حفظ شدند.',
+    BigMessage
+      (Format('%d محدودیت جدید (بر اساس پست) ثبت شد. موارد تکراری حفظ شدند.',
       [Added]), 1);
     QItems.Requery;
   except
@@ -419,6 +424,8 @@ begin
     srcDetail.DataSet := QItems;
     if Parameters.FindParam('YearID') <> nil then
       Parameters.ParamByName('YearID').Value := APPBank.Year;
+    if Parameters.FindParam('UserID') <> nil then
+      Parameters.ParamByName('UserID').Value := User.ID;
     Open;
   end;
 

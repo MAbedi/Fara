@@ -4,7 +4,6 @@ inherited RptOperationalF: TRptOperationalF
   Caption = #1711#1586#1575#1585#1588' '#1585#1740#1586' '#1575#1591#1604#1575#1593#1575#1578' '#1575#1606#1576#1575#1585
   ClientHeight = 529
   ClientWidth = 815
-  ExplicitTop = -5
   ExplicitWidth = 823
   ExplicitHeight = 560
   PixelsPerInch = 96
@@ -1767,7 +1766,7 @@ inherited RptOperationalF: TRptOperationalF
       DisplayLabel = #1601#1585#1575#1582#1608#1575#1606' '#1588#1583#1607' '#1575#1586'/'#1576#1575
       FieldName = 'ParentForm'
       ReadOnly = True
-      Size = 500
+      Size = 1500
     end
     object qryReciptsProductModel: TLargeintField
       Tag = 3

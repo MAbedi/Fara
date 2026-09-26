@@ -1,7 +1,6 @@
 inherited BudgetTopicBookF: TBudgetTopicBookF
   Caption = ''
   ClientWidth = 871
-  ExplicitTop = -43
   ExplicitWidth = 879
   PixelsPerInch = 96
   TextHeight = 13
@@ -266,6 +265,14 @@ inherited BudgetTopicBookF: TBudgetTopicBookF
           FieldName = 'BudgetCommitPrice'
           Footers = <>
           Width = 78
+        end
+        item
+          CellButtons = <>
+          DynProps = <>
+          EditButtons = <>
+          FieldName = 'CommitBalance'
+          Footers = <>
+          Width = 105
         end
         item
           CellButtons = <>
@@ -943,28 +950,34 @@ inherited BudgetTopicBookF: TBudgetTopicBookF
       end
       item
         Name = 'YearIDFrom'
-        Size = -1
-        Value = Null
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
       end
       item
         Name = 'YearIDTo'
-        Size = -1
-        Value = Null
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
       end
       item
         Name = 'UserAdmin'
-        Size = -1
-        Value = Null
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
       end
       item
         Name = 'UserID'
-        Size = -1
-        Value = Null
+        DataType = ftWideString
+        Size = 1
+        Value = '0'
       end>
     SQL.Strings = (
       
         'select  Fitful.FitfulIDc as CalcBalance, Fitful.FitfulIDc as Bed' +
-        ', Fitful.FitfulIDc as Bes, BudgetTopicBook.*  from  '
+        ', Fitful.FitfulIDc as Bes'
+      ', Fitful.FitfulIDc as CommitBalance'
+      ', BudgetTopicBook.*  from'
       
         'acc.BudgetTopicBook(:BudgetTopicFrom , :BudgetTopicTo , :DateFro' +
         'm , :DateTo , :CompanyCode , '
@@ -1030,6 +1043,12 @@ inherited BudgetTopicBookF: TBudgetTopicBookF
       DisplayLabel = #1605#1576#1604#1594' '#1578#1593#1607#1583' '#1588#1583#1607
       FieldName = 'BudgetCommitPrice'
       ReadOnly = True
+      currency = True
+      Precision = 19
+    end
+    object qryBudgetTopicBookCommitBalance: TBCDField
+      DisplayLabel = #1605#1575#1606#1583#1607' '#1578#1593#1607#1583
+      FieldName = 'CommitBalance'
       currency = True
       Precision = 19
     end

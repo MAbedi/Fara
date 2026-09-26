@@ -158,6 +158,7 @@ CREATE TABLE Pay.Config(
 	AccDetailCodeEqualPersonelNo int NOT NULL,
 	OffTimeControlMessages tinyint NOT NULL,
 	SysSmsActive tinyint NOT NULL,
+	BirthdaySmsActive tinyint NOT NULL CONSTRAINT DF_Config_BirthdaySmsActive DEFAULT (0),
 	LastVersion char(20) NULL,
 	EidiDisplayedSeparatelyOnTaxList tinyint NOT NULL,
 	HasSeprateDetailCompany tinyint NOT NULL,

@@ -267,7 +267,7 @@ inherited ConfigPayF: TConfigPayF
     Top = 73
     Width = 647
     Height = 375
-    ActivePage = tsFish
+    ActivePage = TabSheet2
     Align = alClient
     TabOrder = 2
     object TabSheet1: TTabSheet
@@ -584,6 +584,19 @@ inherited ConfigPayF: TConfigPayF
           #1575#1585#1587#1575#1604' '#1662#1610#1575#1605#1603' '#1601#1593#1575#1604' '#1576#1575#1588#1583'.'#8207'('#1587#1575#1605#1575#1606#1607' '#1602#1575#1589#1583#1705')'
           #1575#1585#1587#1575#1604' (Client) '#1662#1610#1575#1605#1603' '#1601#1593#1575#1604' '#1576#1575#1588#1583'.'#8207'('#1587#1575#1605#1575#1606#1607' '#1602#1575#1589#1583#1705')')
         TabOrder = 4
+      end
+      object dbchkBirthdaySmsActive: TDBCheckBox
+        Left = 7
+        Top = 146
+        Width = 311
+        Height = 17
+        Alignment = taLeftJustify
+        Caption = #1575#1585#1587#1575#1604' '#1662#1610#1575#1605#1705' '#1578#1576#1585#1740#1705' '#1585#1608#1586' '#1578#1608#1604#1583' '#1662#1585#1587#1606#1604' '#1601#1593#1575#1604' '#1576#1575#1588#1583'.'#8207
+        DataField = 'BirthdaySmsActive'
+        DataSource = srcConfig
+        TabOrder = 5
+        ValueChecked = '1'
+        ValueUnchecked = '0'
       end
     end
     object TabSheet3: TTabSheet
@@ -2432,6 +2445,11 @@ inherited ConfigPayF: TConfigPayF
     end
     object qryConfigSysSmsActive: TWordField
       FieldName = 'SysSmsActive'
+      OnGetText = ALLGetText
+      OnSetText = ALLSetText
+    end
+    object qryConfigBirthdaySmsActive: TWordField
+      FieldName = 'BirthdaySmsActive'
       OnGetText = ALLGetText
       OnSetText = ALLSetText
     end

@@ -2,7 +2,6 @@ inherited rptCustomerTransactionF: TrptCustomerTransactionF
   Left = 352
   Top = 355
   Caption = #1711#1586#1575#1585#1588' '#1593#1605#1604#1705#1585#1583
-  ExplicitTop = -43
   PixelsPerInch = 96
   TextHeight = 13
   object LblLimit: TLabel [0]
@@ -1022,6 +1021,12 @@ inherited rptCustomerTransactionF: TrptCustomerTransactionF
     object qryCustomersCustName: TStringField
       FieldName = 'CustName'
       Size = 120
+    end
+    object qryCustomersAccountNumber: TStringField
+      DisplayLabel = #1588#1605#1575#1585#1607' '#1581#1587#1575#1576
+      FieldName = 'AccountNumber'
+      FixedChar = True
+      Size = 25
     end
   end
   object SrcCustomers: TDataSource

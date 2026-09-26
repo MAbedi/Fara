@@ -22,3 +22,9 @@ if ( COLUMNPROPERTY( OBJECT_ID('Manifesto'),'Active','IsRowGuidCol')is null )
 
 if ( COLUMNPROPERTY( OBJECT_ID('ManifestoItems'),'Active','IsRowGuidCol')is null )
   ALTER TABLE ManifestoItems ADD Active bit NOT NULL CONSTRAINT DF_ManifestoItems_Active DEFAULT (1)
+
+-- ارسال خودکار پیامک تبریک تولد پرسنل
+IF OBJECT_ID(N'Pay.Config', N'U') IS NOT NULL
+AND COLUMNPROPERTY(OBJECT_ID(N'Pay.Config'), N'BirthdaySmsActive', 'ColumnId') IS NULL
+  ALTER TABLE Pay.Config ADD BirthdaySmsActive tinyint NOT NULL
+    CONSTRAINT DF_Config_BirthdaySmsActive DEFAULT (0)

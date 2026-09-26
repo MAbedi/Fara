@@ -303,6 +303,7 @@ type
     procedure qryItemsCostTypeChange(Sender: TField);
     procedure qryInterfaceAfterScroll(DataSet: TDataSet);
     procedure actViewFileExecute(Sender: TObject);
+    procedure qryMasterCompanyCodeChange(Sender: TField);
   private
     SumRemaining: Currency;
     formType: byte;
@@ -427,7 +428,7 @@ begin
   newPanel.Visible := not okPanel.Visible;
   BtnReject.Cancel := newPanel.Visible;
   FreeReservedCodes(Dmf.adcAccounting, 'acc.Budgets');
-  btn1.Enabled:=  okPanel.Visible;
+  btn1.Enabled := okPanel.Visible;
 
 end;
 
@@ -436,14 +437,16 @@ begin
   inherited;
   DataSet.fieldbyname('BudgetID').AsInteger := GetANewCode('', 'acc.Budgets',
     'BudgetID', Dmf.adcAccounting);
+  DataSet.fieldbyname('CompanyCode').AsInteger := opta.DefaultCompany;
   DataSet.fieldbyname('BudgetSerial').AsInteger :=
     GetANewCode('',
     'select ISNULL(MAX(BudgetSerial),0) from acc.Budgets  inner join  acc.Interfaces'
     + ' ON  acc.Interfaces.InterfaceID=acc.Budgets.InterfaceID' +
     ' WHERE  (acc.Interfaces.BudgetEffect=2)and (acc.Budgets.YearID=' +
-    APPBank.Year.ToString + ')', 'BudgetSerial', Dmf.adcAccounting);
-  DataSet.fieldbyname('BudgetDate').AsString := var_glb_CurrentDate;
-  DataSet.fieldbyname('CompanyCode').AsInteger := opta.DefaultCompany;
+    APPBank.Year.ToString + ')and (acc.Budgets.CompanyCode=' +
+    qryMasterCompanyCode.asString + ')', 'BudgetSerial', Dmf.adcAccounting);
+
+  DataSet.fieldbyname('BudgetDate').asString := var_glb_CurrentDate;
   DataSet.fieldbyname('YearID').AsInteger := APPBank.Year;
   DataSet.fieldbyname('Status').AsInteger := 1;
   // DBEdit5.SetFocus;
@@ -473,7 +476,7 @@ begin
     Parameters.ParamByName('CompanyCode').Value :=
       qryMaster.fieldbyname('CompanyCode').AsInteger;
 
-//    SetCompanyFilterinLogin(Parameters);
+    // SetCompanyFilterinLogin(Parameters);
 
     Active := True;
   end;
@@ -578,7 +581,7 @@ begin
     with _qryCustomers do
     begin
       Close;
-      CustGroups := ',' + qryInterfaceCustGroups.AsString + ',';
+      CustGroups := ',' + qryInterfaceCustGroups.asString + ',';
       Parameters.ParamByName('CustomerGrps').Value := QuotedStr(CustGroups);
       Open;
     end;
@@ -673,8 +676,8 @@ end;
 procedure TCommitmentsF.actViewFileExecute(Sender: TObject);
 begin
   inherited;
-  ViewFileOnServerF.Enter(qryMaster.FieldByName('BudgetID').AsString,
-    'BudgetsCommitmentsFiles', False);
+  ViewFileOnServerF.Enter(qryMaster.fieldbyname('BudgetID').asString,
+    'BudgetsCommitmentsFiles', false);
 
 end;
 
@@ -689,7 +692,7 @@ begin
     + '(select MAX(LevelID) from acc.BudgetTopics)';
   if searchCode_L1_L2F.SearchCode2(Dmf.adcAccounting, 'بودجه', sqlText,
     ['كد ', 'شرح', 'Budget Caption'], Results, [80, 350, 350], alLeft) then
-    qryItems.fieldbyname('BudgetTopicID').AsString := Results[0];
+    qryItems.fieldbyname('BudgetTopicID').asString := Results[0];
 end;
 
 procedure TCommitmentsF.BitBtn2Click(Sender: TObject);
@@ -701,7 +704,7 @@ begin
   sqlText := qryComponyName.SQL.Text;
   if searchCode_L1_L2F.SearchCode2(Dmf.adcAccounting, 'محل تامین/مرکز هزینه',
     sqlText, ['کد', 'نام ', 'caption'], Results, [30, 200, 200], alLeft) then
-    qryItems.fieldbyname('CompanyCode').AsString := Results[0];
+    qryItems.fieldbyname('CompanyCode').asString := Results[0];
 end;
 
 procedure TCommitmentsF.BitBtn3Click(Sender: TObject);
@@ -713,7 +716,7 @@ begin
   sqlText := _qryCustomers.SQL.Text;
   if searchCode_L1_L2F.SearchCode2(Dmf.adcAccounting, 'شخص عامل', sqlText,
     ['کد', 'نام ', 'caption'], Results, [80, 200, 200], alLeft) then
-    qryItems.fieldbyname('CustomerID').AsString := Results[0];
+    qryItems.fieldbyname('CustomerID').asString := Results[0];
 end;
 
 procedure TCommitmentsF.BitBtn4Click(Sender: TObject);
@@ -735,7 +738,7 @@ begin
   if searchCode_L1_L2F.SearchCode2(Dmf.adcAccounting, 'عامل هزینه', sqlText,
     ['کد', 'نام ', 'caption', '', ''], Results, [80, 200, 200, 0, 0], alLeft)
   then
-    qryItems.fieldbyname('CostCode').AsString := Results[3];
+    qryItems.fieldbyname('CostCode').asString := Results[3];
 end;
 
 procedure TCommitmentsF.qryMasterBeforePost(DataSet: TDataSet);
@@ -756,6 +759,21 @@ begin
   // Abort;
   // exit;
   // end; // if
+end;
+
+procedure TCommitmentsF.qryMasterCompanyCodeChange(Sender: TField);
+begin
+  inherited;
+  FreeReservedCodes(Dmf.adcAccounting, 'acc.Budgets', 'BudgetSerial');
+
+  qryMaster.fieldbyname('BudgetSerial').AsInteger :=
+    GetANewCode('',
+    'select ISNULL(MAX(BudgetSerial),0) from acc.Budgets  inner join  acc.Interfaces'
+    + ' ON  acc.Interfaces.InterfaceID=acc.Budgets.InterfaceID' +
+    ' WHERE  (acc.Interfaces.BudgetEffect=2)and (acc.Budgets.YearID=' +
+    APPBank.Year.ToString + ')and (acc.Budgets.CompanyCode=' +
+    qryMasterCompanyCode.asString + ')', 'BudgetSerial', Dmf.adcAccounting);
+
 end;
 
 procedure TCommitmentsF.qryMasterStatusGetText(Sender: TField; var Text: string;
@@ -787,8 +805,8 @@ end;
 procedure TCommitmentsF.qryItemsBeforePost(DataSet: TDataSet);
 begin
   inherited;
-  if qryItemsBed.AsString = '' then
-    qryItemsBed.AsString := '0';
+  if qryItemsBed.asString = '' then
+    qryItemsBed.asString := '0';
   CalcAvailableForPost;
   if (DataSet.fieldbyname('bed').AsCurrency <= 0) or
     ((DataSet.fieldbyname('CType').AsInteger = 1) and
@@ -1094,17 +1112,15 @@ begin
   StatusBar2.Panels[1].Text := 'مانده اعتبار:   ' + lblRemainingValue.Caption;
   if not qryItems.Active or not qryMaster.Active then
     Exit;
-  if (qryItemsBudgetTopicID.AsInteger = 0) or
-    qryMasterCompanyCode.IsNull or qryMasterYearID.IsNull or
-    (Trim(qryMasterBudgetDate.AsString) = '') then
+  if (qryItemsBudgetTopicID.AsInteger = 0) or qryMasterCompanyCode.IsNull or
+    qryMasterYearID.IsNull or (Trim(qryMasterBudgetDate.asString) = '') then
     Exit;
 
   RemainingQuery := TADOQuery.Create(nil);
   try
     RemainingQuery.Connection := Dmf.adcAccounting;
-    RemainingQuery.SQL.Text :=
-      'select ISNULL(SUM(BudgetPrice), 0) - ' +
-      'ABS(ISNULL(SUM(BudgetCommitPrice), 0)) as Remaining ' +
+    RemainingQuery.SQL.Text := 'select ISNULL(SUM(BudgetPrice), 0) + ' +
+      '(ISNULL(SUM(BudgetCommitPrice), 0)) as Remaining ' +
       'from acc.BudgetTopicBook(:BudgetTopicFrom, :BudgetTopicTo, ' +
       ':DateFrom, :DateTo, :CompanyCode, 0, 999999999999999, ' +
       ':YearIDFrom, :YearIDTo, :UserAdmin, :UserID) BudgetTopicBook';
@@ -1112,16 +1128,18 @@ begin
     begin
       ParamByName('BudgetTopicFrom').Value := qryItemsBudgetTopicID.AsInteger;
       ParamByName('BudgetTopicTo').Value := qryItemsBudgetTopicID.AsInteger;
-      ParamByName('DateFrom').Value := '0001/01/01';
-      ParamByName('DateTo').Value := qryMasterBudgetDate.AsString;
-      ParamByName('CompanyCode').Value := qryMasterCompanyCode.AsString;
+      ParamByName('DateFrom').Value := APPBank.StartYear;
+      ParamByName('DateTo').Value := qryMasterBudgetDate.asString;
+      ParamByName('CompanyCode').Value := qryMasterCompanyCode.asString;
       ParamByName('YearIDFrom').Value := qryMasterYearID.AsInteger;
       ParamByName('YearIDTo').Value := qryMasterYearID.AsInteger;
-      ParamByName('UserAdmin').Value := IfThen(User.PowerAdmin, 1, 0);
+      ParamByName('UserAdmin').Value := IfThen(True { User.PowerAdmin } , 1, 0);
       ParamByName('UserID').Value := User.ID;
     end;
+    if CtrlDown then
+      ShowQryParam(RemainingQuery);
     RemainingQuery.Open;
-    Remaining := RemainingQuery.FieldByName('Remaining').AsCurrency;
+    Remaining := RemainingQuery.fieldbyname('Remaining').AsCurrency;
   finally
     RemainingQuery.Free;
   end;
@@ -1135,9 +1153,8 @@ var
   sumcommitments, sumapproved: Currency;
 begin
   if ((qryItemsBudgetTopicID.AsInteger <> 0) and
-//    (qryMasterCompanyCode.AsInteger <> 0) and
-    (qryItemsCtype.AsInteger = 1))
-  then
+    // (qryMasterCompanyCode.AsInteger <> 0) and
+    (qryItemsCtype.AsInteger = 1)) then
   begin
     with Dmf.qry_Temp do
     begin
@@ -1149,8 +1166,8 @@ begin
         ' where (I.BudgetEffect=1) and (BI.BudgetTopicID=%d) and (BI.CompanyCode=%d) and (BI.Cashtype=%d)'
         + ' and (B.BudgetDate<=''%s'') and (B.YearID=%d)',
         [qryItemsBudgetTopicID.AsInteger, qryMasterCompanyCode.AsInteger,
-        qryItemsCashtype.AsInteger,
-        qryMasterBudgetDate.AsString, APPBank.Year]);
+        qryItemsCashtype.AsInteger, qryMasterBudgetDate.asString,
+        APPBank.Year]);
       Open;
       sumapproved := Fields[0].AsCurrency;
       Close;
@@ -1161,8 +1178,7 @@ begin
         ' where (I.BudgetEffect=2) and (BI.BudgetTopicID=%d) and (BI.CompanyCode=%d) and (BI.Cashtype=%d) and (B.BudgetID<%d)'
         + ' and (B.YearID=%d) and (BI.Ctype=1) and (BI.BudgetItemID<>%d)',
         [qryItemsBudgetTopicID.AsInteger, qryMasterCompanyCode.AsInteger,
-        qryItemsCashtype.AsInteger,
-        qryMasterBudgetID.AsInteger, APPBank.Year,
+        qryItemsCashtype.AsInteger, qryMasterBudgetID.AsInteger, APPBank.Year,
         qryItemsBudgetItemID.AsInteger]);
       Open;
       sumcommitments := Fields[0].AsCurrency;

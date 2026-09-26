@@ -1,4 +1,4 @@
-﻿-- Modify Data :  1405/06/24   fun&view_Accounting -- 
+﻿-- Modify Data :  1405/06/26   fun&view_Accounting -- 
 
 set nocount on
 
@@ -8768,9 +8768,38 @@ RETURN
 
         UNION ALL
 
-        -- اسناد اختتامیه
+        -- اسناد بستن حسابهاي موقت
         SELECT
             14 AS DocNo,
+            MIN(DG.DocDate) AS BaseDocDate,
+            LEFT(D.TopicCode, @LenAccCode) AS AccCode,
+            CK.MoeenName_L1 AS KolName_L1,
+            CAST(0 AS BIGINT) AS TopicCode,
+            '' AS MoeenName_L1,
+            SUM(D.Debt) AS SumDebt,
+            SUM(D.Credit) AS SumCredit
+        FROM Acc.DocGroups DG
+        INNER JOIN Acc.Documents D
+            ON DG.Serial = D.Serial
+           AND DG.CompanyCode = D.CompanyCode
+           AND DG.YearID = D.YearID
+        INNER JOIN Acc.Categories CK
+            ON LEFT(D.TopicCode, @LenAccCode) = CK.TopicCode
+        INNER JOIN TypeFilter TF ON DG.DocTypeCode = TF.Code
+        WHERE
+            DG.YearID BETWEEN @YearIDFrom AND @YearIDTo
+            AND DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo
+            AND DG.DocTypeCode = 4
+            AND DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo
+        GROUP BY case when D.Debt > 0 then 1 else 0 end,
+            LEFT(D.TopicCode, @LenAccCode),
+            CK.MoeenName_L1
+
+        UNION ALL
+
+        -- اسناد اختتامیه
+        SELECT
+            15 AS DocNo,
             MIN(DG.DocDate) AS BaseDocDate,
             LEFT(D.TopicCode, @LenAccCode) AS AccCode,
             CK.MoeenName_L1 AS KolName_L1,
@@ -8819,7 +8848,7 @@ RETURN
             DG.YearID BETWEEN @YearIDFrom AND @YearIDTo
             AND DG.CompanyCode BETWEEN @CompanyCodeFrom AND @CompanyCodeTo
             AND DG.DocDate BETWEEN @DocDateFrom AND @DocDateTo
-            AND DG.DocTypeCode NOT IN (1, 5)
+            AND DG.DocTypeCode NOT IN (1, 4, 5)
         GROUP BY case when D.Debt > 0 then 1 else 0 end,
             LEFT(DG.DocDate,7),
             LEFT(D.TopicCode, @LenAccCode), 
@@ -8831,7 +8860,7 @@ RETURN
             DocNo AS PrimaryDocNo,
             CASE 
                 WHEN DocNo = 1 THEN BaseDocDate 
-                WHEN DocNo = 14 THEN BaseDocDate
+                WHEN DocNo IN (14, 15) THEN BaseDocDate
                 WHEN DocNo BETWEEN 2 AND 7 THEN LEFT(BaseDocDate,7) + '/31'
                 WHEN DocNo BETWEEN 8 AND 12 THEN LEFT(BaseDocDate,7) + '/30'
                 ELSE LEFT(BaseDocDate,7) + '/29' 
@@ -8842,7 +8871,8 @@ RETURN
             MoeenName_L1,
             CASE 
                 WHEN DocNo = 1 THEN N'سند افتتاحیه سال مالی' 
-                WHEN DocNo = 14 THEN N'سند اختتامیه سال مالی'
+                WHEN DocNo = 14 THEN N'سند بستن حسابهای موقت'
+                WHEN DocNo = 15 THEN N'سند اختتامیه سال مالی'
                 ELSE N'تجمیع رویدادهای ماه ' + RIGHT('0' + CAST(DocNo - 1 AS VARCHAR(2)), 2) + 
                      N' ختم به تاریخ ' + 
                      (CASE 

@@ -48,6 +48,7 @@ type
     actSort: TAction;
     BitBtn6: TBitBtn;
     DBGrid1: TCedarDbgrid;
+    qryBudgetTopicBookCommitBalance: TBCDField;
     procedure FormShow(Sender: TObject);
     procedure actFilterExecute(Sender: TObject);
     procedure qryBudgetAfterScroll(DataSet: TDataSet);
@@ -162,7 +163,7 @@ end;
 
 procedure TBudgetTopicBookF.qryBudgetTopicBookAfterOpen(DataSet: TDataSet);
 var
-  c, bes, bed: Currency;
+  c,c2, bes, bed: Currency;
 begin
   with qryBudgetTopicBook do
     try
@@ -171,13 +172,16 @@ begin
       c := 0;
       bed := 0;
       bes := 0;
+      c2:= fieldByName('BudgetPrice').AsCurrency;;
       while not eof do
       begin
+        c2 := c2 + fieldByName('BudgetCommitPrice').AsCurrency;
         c := c + fieldByName('Balance').AsCurrency;
         bed := bed + fieldByName('BudgetPrice').AsCurrency;
         bes := bes + fieldByName('AccPrice').AsCurrency;
         edit;
         fieldByName('calcBalance').AsCurrency := c;
+        fieldByName('CommitBalance').AsCurrency := c2;
         fieldByName('bed').AsCurrency := bed;
         fieldByName('bes').AsCurrency := bes;
         post;

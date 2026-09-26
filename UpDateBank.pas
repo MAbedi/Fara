@@ -572,6 +572,8 @@ procedure TUpDateBankF.Add_Field_ConfigPay;
 begin
   AddFieldConfig('OffTimeControlMessages', 'Tinyint NOT NULL DEFAULT(0)');
   AddFieldConfig('SysSmsActive', 'Tinyint NOT NULL DEFAULT(0)');
+  AddFieldConfig('BirthdaySmsActive',
+    'Tinyint NOT NULL CONSTRAINT DF_Config_BirthdaySmsActive DEFAULT (0)');
   AddFieldConfig('LastVersion', 'char(20)');
   AddFieldConfig('EidiDisplayedSeparatelyOnTaxList',
     'Tinyint NOT NULL DEFAULT(0)');

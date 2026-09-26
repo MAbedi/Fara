@@ -302,7 +302,18 @@ begin
       SQL.Add('((FormItems_1.CheckDate BETWEEN :Date2From AND :Date2To) or FormItems_1.CheckDate IS NULL ) AND');
     SQL.Add('(Forms.FormType in( ' + FormType + '))AND');
 
-    SQL.Add('(Forms.CustomerID1 BETWEEN :CustID1From AND :CustID1To)AND');
+    if formTypeInt = 10 then
+    begin
+      SQL.Add('((Forms.CustomerID1 BETWEEN :CustID1From AND :CustID1To)or');
+      SQL.Add(' (Forms.CustomerID2 BETWEEN :CustID12From AND :CustID12To))AND');
+      Parameters.ParamByName('CustID12From').Value :=
+        GetcFrom(myParams.ParamValues['CustomerID1'], ftInteger);
+      Parameters.ParamByName('CustID12To').Value :=
+        GetcTo(myParams.ParamValues['CustomerID1'], ftInteger);
+    end
+    else
+      SQL.Add('(Forms.CustomerID1 BETWEEN :CustID1From AND :CustID1To)AND');
+
     SQL.Add('(FormItems.CustomerID2 BETWEEN :CustID2From AND :CustID2To) AND');
     SQL.Add('((Forms.BudgetCode BETWEEN :BudgetCodeFrom AND :BudgetCodeTo)OR (Forms.BudgetCode IS NULL )) AND');
     if historicalCheckInventory then

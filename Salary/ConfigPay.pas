@@ -187,6 +187,7 @@ type
     cmbSituationTime: TDBComboBox;
     Label42: TLabel;
     qryConfigSysSmsActive: TWordField;
+    qryConfigBirthdaySmsActive: TWordField;
     qryConfigEidiDisplayedSeparatelyOnTaxList: TWordField;
     Label44: TLabel;
     cmbPrvBank: TDBComboBox;
@@ -248,6 +249,7 @@ type
     Label55: TLabel;
     cmbSysSmsActive: TDBComboBox;
     Label56: TLabel;
+    dbchkBirthdaySmsActive: TDBCheckBox;
     qryConfigUnicNationalID: TWordField;
     cmbUnicNationalID: TDBComboBox;
     Label57: TLabel;
@@ -435,9 +437,10 @@ begin
   initCombos;
   qryConfig.Active := True;
 
-  TabSheet2.TabVisible := User.PowerUser;
+  TabSheet2.TabVisible := User.PowerUser or User.admin;
   edtCompanyName.Visible := User.PowerUser;
   Label1.Visible := User.PowerUser;
+  dbchkBirthdaySmsActive.Visible := User.admin;
   // cmbMainMenu.Text:=ReadConfig(APPID,'MainMenu','MainMenuTogether');
 end;
 

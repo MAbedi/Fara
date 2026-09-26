@@ -173,6 +173,7 @@ type
     qryCustTrancSellsEmporiumName: TWideStringField;
     qryCustTrancAidInfoNo: TStringField;
     qryCustTrancAidInfoDate: TStringField;
+    qryCustomersAccountNumber: TStringField;
     procedure actFilterExecute(Sender: TObject);
     procedure FormShow(Sender: TObject);
     procedure actSendExelExecute(Sender: TObject);
@@ -509,11 +510,11 @@ end;
 procedure TrptCustomerTransactionF.SpeedButton1Click(Sender: TObject);
 var
   b: Boolean;
-  Results: array [0 .. 1] of String;
+  Results: array [0 .. 2] of String;
   Txt: String;
 begin
   inherited;
-  Txt := 'SELECT DISTINCT CustID, CustName FROM Vu_CustomersGroups ' +
+  Txt := 'SELECT DISTINCT CustID, CustName,AccountNumber FROM Vu_CustomersGroups ' +
     'WHERE (GroupType IN (' + formTypes + ')) ' + ' AND (CustID <> 0) ' +
     'AND (CustID BETWEEN ' +
     IntToStr(qryCustomers.Parameters.ParamByName('PersonID1From').Value) +
@@ -524,7 +525,7 @@ begin
       ('AND (dbo.ChkUsersCustomersGroups( %d , %d , CustID  ) = 1)',
       [IfThen(User.PowerUser, 1, 0), User.ID]);
   b := searchCode_ADOF.SearchCode2(dmF.adcBSell, LblPerson1.Caption, Txt,
-    ['کد', 'نام '], Results, [50, 150], alLeft);
+    ['کد', 'نام ','شماره حساب'], Results, [50, 150,100], alLeft);
   if b then
   begin
     qryCustomers.Locate('CustID', Results[0], []);
@@ -601,7 +602,7 @@ begin
   Bed_Bes := 0;
   with qryCustomers do
   begin
-    SQL.Text := 'SELECT DISTINCT CustID, CustName';
+    SQL.Text := 'SELECT DISTINCT CustID, CustName, AccountNumber';
     SQL.Add('FROM Vu_CustomersGroups');
     SQL.Add('WHERE (GroupType IN ( :GroupType ))');
     SQL.Add('AND (CustID BETWEEN :PersonID1From AND :PersonID1To)');

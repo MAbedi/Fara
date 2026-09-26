@@ -272,7 +272,7 @@ inherited ReciptTypesF: TReciptTypesF
         Top = 1
         Width = 1067
         Height = 496
-        ActivePage = ts3
+        ActivePage = TabSheet28
         Align = alClient
         MultiLine = True
         TabOrder = 0
@@ -1761,8 +1761,6 @@ inherited ReciptTypesF: TReciptTypesF
             object TabSheet35: TTabSheet
               Caption = #1603#1606#1578#1585#1604' '#1605#1602#1583#1575#1585'/'#1608#1586#1606'/'#1605#1576#1604#1594
               ImageIndex = 4
-              ExplicitLeft = -3
-              ExplicitTop = -75
               DesignSize = (
                 1051
                 422)
@@ -8062,6 +8060,7 @@ inherited ReciptTypesF: TReciptTypesF
               #1588#1605#1575#1585#1607' '#1662#1740#1711#1740#1585#1740' TTMS  '#1583#1585' '#1601#1585#1605' '#1601#1593#1575#1604' '#1576#1575#1588#1583)
             TabOrder = 1
             OnClick = chklstSettingsClick
+            ExplicitTop = 225
           end
         end
         object TabSheet33: TTabSheet

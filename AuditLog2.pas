@@ -81,6 +81,8 @@ type
     procedure LoadNextAuditPage;
     procedure qryAuditTableCaptionAfterScroll(DataSet: TDataSet);
     procedure BitBtn1Click(Sender: TObject);
+    procedure lstValuesDrawCell(Sender: TObject; ACol, ARow: Integer;
+      Rect: TRect; State: TGridDrawState);
   private
     function GetTextVal(s: string): string;
     procedure ParseAuditXml(const XmlText: string; List: TStrings);
@@ -192,9 +194,19 @@ procedure TAuditLog2F.BitBtn2Click(Sender: TObject);
 var
   OldValues, NewValues: TStringList;
   CleanOld, CleanNew: TStringList;
-  I, J: Integer;
+  I: Integer;
   FieldName, CleanName: string;
   OldValue, NewValue: string;
+  procedure SetDisplayValue(List: TStringList; const Name, Value: string);
+  var
+    Index: Integer;
+  begin
+    Index := List.IndexOfName(Name);
+    if Index < 0 then
+      List.Add(Name + '=' + Value)
+    else
+      List[Index] := Name + '=' + Value;
+  end;
 begin
   lstOld.Strings.Clear;
   lstNew.Strings.Clear;
@@ -229,7 +241,7 @@ begin
       if SameText(CleanName, 'نوع') then
         Continue;
 
-      CleanOld.Values[CleanName] := OldValues.ValueFromIndex[I];
+      SetDisplayValue(CleanOld, CleanName, OldValues.ValueFromIndex[I]);
     end;
 
     for I := 0 to NewValues.Count - 1 do
@@ -245,7 +257,7 @@ begin
       if SameText(CleanName, 'نوع') then
         Continue;
 
-      CleanNew.Values[CleanName] := NewValues.ValueFromIndex[I];
+      SetDisplayValue(CleanNew, CleanName, NewValues.ValueFromIndex[I]);
     end;
 
     lstOld.Strings.Assign(CleanOld);
@@ -258,9 +270,19 @@ begin
       OldValue  := CleanOld.ValueFromIndex[I];
       NewValue  := CleanNew.Values[FieldName];
 
-      if OldValue <> NewValue then
+      if (CleanNew.IndexOfName(FieldName) < 0) or (OldValue <> NewValue) then
         lstDif.Strings.Values[FieldName] := OldValue + ' <> ' + NewValue;
     end;
+
+    for I := 0 to CleanNew.Count - 1 do
+    begin
+      FieldName := CleanNew.Names[I];
+      if CleanOld.IndexOfName(FieldName) < 0 then
+        lstDif.Strings.Values[FieldName] := ' <> ' + CleanNew.ValueFromIndex[I];
+    end;
+
+    lstOld.Invalidate;
+    lstNew.Invalidate;
 
   finally
     OldValues.Free;
@@ -268,6 +290,30 @@ begin
     CleanOld.Free;
     CleanNew.Free;
   end;
+end;
+
+procedure TAuditLog2F.lstValuesDrawCell(Sender: TObject; ACol, ARow: Integer;
+  Rect: TRect; State: TGridDrawState);
+var
+  Grid: TValueListEditor;
+  TextRect: TRect;
+  Flags: Cardinal;
+begin
+  Grid := TValueListEditor(Sender);
+  if (ARow <= 0) or (ARow >= Grid.RowCount) or (gdSelected in State) or
+    (lstDif.Strings.IndexOfName(Grid.Keys[ARow]) < 0) then
+    Exit;
+
+  Grid.Canvas.Brush.Color := $00D9F3FF;
+  Grid.Canvas.FillRect(Rect);
+  Grid.Canvas.Font.Color := clWindowText;
+  TextRect := Rect;
+  InflateRect(TextRect, -3, 0);
+  Flags := DT_SINGLELINE or DT_VCENTER or DT_END_ELLIPSIS;
+  if Grid.BiDiMode = bdRightToLeft then
+    Flags := Flags or DT_RIGHT or DT_RTLREADING;
+  DrawText(Grid.Canvas.Handle, PChar(Grid.Cells[ACol, ARow]), -1,
+    TextRect, Flags);
 end;
 
 procedure TAuditLog2F.actSendToExcelExecute(Sender: TObject);

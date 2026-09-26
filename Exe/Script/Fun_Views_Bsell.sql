@@ -1,4 +1,4 @@
-﻿--1  تاريخ 1405/05/24     Fun_Views_Bsell
+﻿--1  تاريخ 1405/06/29     Fun_Views_Bsell
 
 SET NOCOUNT ON
 IF OBJECT_ID ('TR_UpdateAcconting', 'TR') IS NOT NULL 
@@ -34861,7 +34861,7 @@ CREATE FUNCTION GetParentForm(
     @ReciptItemID    INT,
     @YearID          INT
 )
-RETURNS NVARCHAR(500)
+RETURNS NVARCHAR(1500)
 AS
 BEGIN
     DECLARE @Recall    NVARCHAR(500) = ''
@@ -34917,7 +34917,7 @@ GO
 SET ANSI_NULLS OFF 
 GO 
 CREATE FUNCTION GetParentForm2(@ReciptID int,@ServerID int,@YearID int )
-RETURNS 	Nvarchar(500)
+RETURNS 	Nvarchar(1500)
 BEGIN	
 RETURN(
 SELECT  TOP 1 * FROM(

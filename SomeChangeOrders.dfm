@@ -2,12 +2,10 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
   Left = 365
   Top = 265
   Caption = #1578#1594#1610#1610#1585' '#1711#1585#1608#1607#1610' '#1587#1601#1575#1585#1588#1575#1578
-  ClientHeight = 517
   OnResize = FormResize
-  ExplicitWidth = 794
+  PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
-    Top = 476
     inherited BtnReject: TBitBtn
       Left = 2
       Margins.Left = 1
@@ -61,7 +59,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
     object btnSlelectInverse: TBitBtn
       AlignWithMargins = True
-      Left = 559
+      Left = 555
       Top = 7
       Width = 75
       Height = 27
@@ -76,7 +74,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
     object btnSelectAll: TBitBtn
       AlignWithMargins = True
-      Left = 636
+      Left = 632
       Top = 7
       Width = 75
       Height = 27
@@ -91,7 +89,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
     object btnSelectd: TBitBtn
       AlignWithMargins = True
-      Left = 482
+      Left = 478
       Top = 7
       Width = 75
       Height = 27
@@ -112,7 +110,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
     object btnSelectAll1: TBitBtn
       AlignWithMargins = True
-      Left = 713
+      Left = 709
       Top = 7
       Width = 75
       Height = 27
@@ -127,7 +125,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
     object BitBtn2: TBitBtn
       AlignWithMargins = True
-      Left = 405
+      Left = 401
       Top = 7
       Width = 75
       Height = 27
@@ -157,9 +155,6 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
   end
   inherited Panel2: TPanel
-    inherited lblCaption: TLabel
-      Height = 16
-    end
     object img_Unchecked: TImage
       Left = 360
       Top = 16
@@ -230,12 +225,11 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     end
   end
   inherited Panel3: TPanel
-    Height = 423
     object DBGrid1: TDBGrid
       Left = 2
       Top = 142
-      Width = 778
-      Height = 278
+      Width = 782
+      Height = 279
       CustomHint = DmF.BalloonHint1
       Align = alClient
       Color = clCream
@@ -386,26 +380,24 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     object GroupBox1: TGroupBox
       Left = 2
       Top = 2
-      Width = 778
+      Width = 782
       Height = 140
       CustomHint = DmF.BalloonHint1
       Align = alTop
       Caption = ' '#1605#1608#1575#1585#1583' '#1602#1575#1576#1604' '#1579#1576#1578' '
       TabOrder = 1
-      ExplicitWidth = 786
       object PnlPerson1: TPanel
         Left = 2
         Top = 15
-        Width = 774
+        Width = 778
         Height = 31
         CustomHint = DmF.BalloonHint1
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 0
-        ExplicitWidth = 782
         object LblPerson1: TLabel
           AlignWithMargins = True
-          Left = 485
+          Left = 481
           Top = 5
           Width = 110
           Height = 21
@@ -429,7 +421,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object btnPersonID1: TSpeedButton
           AlignWithMargins = True
-          Left = 373
+          Left = 369
           Top = 5
           Width = 23
           Height = 21
@@ -445,10 +437,10 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object dbtxt_CustName: TDBText
           AlignWithMargins = True
-          Left = 286
+          Left = 282
           Top = 7
           Width = 81
-          Height = 13
+          Height = 17
           Margins.Top = 7
           Margins.Bottom = 7
           CustomHint = DmF.BalloonHint1
@@ -459,10 +451,12 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
           DataSource = srcFitful
           ParentColor = False
           Transparent = False
+          ExplicitLeft = 286
+          ExplicitHeight = 13
         end
         object edtPersonID: TDBEdit
           AlignWithMargins = True
-          Left = 402
+          Left = 398
           Top = 5
           Width = 70
           Height = 21
@@ -477,7 +471,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object chkPersonID: TCheckBox
           AlignWithMargins = True
-          Left = 608
+          Left = 604
           Top = 3
           Width = 171
           Height = 25
@@ -491,16 +485,15 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
       object Panel1: TPanel
         Left = 2
         Top = 77
-        Width = 774
+        Width = 778
         Height = 31
         CustomHint = DmF.BalloonHint1
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 1
-        ExplicitWidth = 782
         object Label1: TLabel
           AlignWithMargins = True
-          Left = 485
+          Left = 481
           Top = 5
           Width = 110
           Height = 21
@@ -524,7 +517,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object edtControlCode: TDBEdit
           AlignWithMargins = True
-          Left = 373
+          Left = 369
           Top = 5
           Width = 99
           Height = 21
@@ -539,7 +532,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object chkControlCode: TCheckBox
           AlignWithMargins = True
-          Left = 608
+          Left = 604
           Top = 3
           Width = 171
           Height = 25
@@ -553,16 +546,15 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
       object Panel4: TPanel
         Left = 2
         Top = 46
-        Width = 774
+        Width = 778
         Height = 31
         CustomHint = DmF.BalloonHint1
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 2
-        ExplicitWidth = 782
         object Label2: TLabel
           AlignWithMargins = True
-          Left = 477
+          Left = 481
           Top = 5
           Width = 110
           Height = 21
@@ -585,7 +577,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object dblkcbb_SecondTypeItemName: TDBLookupComboBox
           AlignWithMargins = True
-          Left = 296
+          Left = 300
           Top = 3
           Width = 168
           Height = 21
@@ -595,11 +587,10 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
           DataSource = srcFitful
           TabOrder = 0
           OnCloseUp = dblkcbb_SecondTypeItemNameCloseUp
-          ExplicitLeft = 304
         end
         object chk_SecondTypeItemName: TCheckBox
           AlignWithMargins = True
-          Left = 600
+          Left = 604
           Top = 3
           Width = 171
           Height = 25
@@ -608,22 +599,20 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
           Caption = #1578#1594#1610#1610#1585#1575#1578' '#1608#1590#1593#1610#1578' '#1579#1576#1578' '#1588#1608#1583
           State = cbGrayed
           TabOrder = 1
-          ExplicitLeft = 608
         end
       end
       object pnl1: TPanel
         Left = 2
         Top = 108
-        Width = 774
+        Width = 778
         Height = 31
         CustomHint = DmF.BalloonHint1
         Align = alTop
         BevelOuter = bvNone
         TabOrder = 3
-        ExplicitWidth = 782
         object lbl1: TLabel
           AlignWithMargins = True
-          Left = 485
+          Left = 481
           Top = 5
           Width = 110
           Height = 21
@@ -647,7 +636,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object edtAidDate: TDBEdit
           AlignWithMargins = True
-          Left = 373
+          Left = 369
           Top = 5
           Width = 99
           Height = 21
@@ -662,7 +651,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
         end
         object chkAidDate: TCheckBox
           AlignWithMargins = True
-          Left = 608
+          Left = 604
           Top = 3
           Width = 171
           Height = 25
@@ -1044,7 +1033,7 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
       DisplayLabel = #1601#1585#1575#1582#1608#1575#1606' '#1588#1583#1607' '#1575#1586'/'#1576#1575
       FieldName = 'ParentForm'
       ReadOnly = True
-      Size = 101
+      Size = 1500
     end
   end
   object srcRecipts: TDataSource
@@ -1674,10 +1663,13 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
     EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RedirectURI = 'http://localhost'
     EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RedirectPort = 0
+    EmailSettings.ConnectionSettings.WebMail.GmailSettings.OAuth2.RefreshTokenLifeSpan = 365
     EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
     EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RedirectURI = 'http://localhost'
     EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RedirectPort = 0
+    EmailSettings.ConnectionSettings.WebMail.Outlook365Settings.OAuth2.RefreshTokenLifeSpan = 365
     EmailSettings.ConnectionSettings.EnableMultiPlugin = False
+    EmailSettings.ConnectionSettings.ConnectionStatusInfo = [csiStatusBar]
     LanguageID = 'Default'
     OpenFile = False
     OutlineSettings.CreateNode = False
@@ -1704,6 +1696,8 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     PDFSettings.FontEncoding = feAnsi
     PDFSettings.ImageCompressionLevel = 25
     PDFSettings.PDFAFormat = pafNone
+    PDFSettings.Layers = True
+    PDFSettings.Outline = True
     PreviewFormSettings.PageBorder.mmPadding = 0
     PreviewFormSettings.WindowState = wsMaximized
     PreviewFormSettings.ZoomSetting = zsPageWidth
@@ -1726,18 +1720,24 @@ inherited SomeChangeOrdersF: TSomeChangeOrdersF
     CloudDriveSettings.DropBoxSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
     CloudDriveSettings.DropBoxSettings.OAuth2.RedirectURI = 'http://localhost'
     CloudDriveSettings.DropBoxSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.DropBoxSettings.OAuth2.RefreshTokenLifeSpan = 365
     CloudDriveSettings.DropBoxSettings.DirectorySupport = True
+    CloudDriveSettings.DropBoxSettings.SharedResources = True
     CloudDriveSettings.GoogleDriveSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
     CloudDriveSettings.GoogleDriveSettings.OAuth2.RedirectURI = 'http://localhost'
     CloudDriveSettings.GoogleDriveSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.GoogleDriveSettings.OAuth2.RefreshTokenLifeSpan = 365
     CloudDriveSettings.GoogleDriveSettings.DirectorySupport = False
+    CloudDriveSettings.GoogleDriveSettings.SharedResources = False
     CloudDriveSettings.OneDriveSettings.OAuth2.AuthStorage = [oasAccessToken, oasRefreshToken]
     CloudDriveSettings.OneDriveSettings.OAuth2.RedirectURI = 'http://localhost'
     CloudDriveSettings.OneDriveSettings.OAuth2.RedirectPort = 0
+    CloudDriveSettings.OneDriveSettings.OAuth2.RefreshTokenLifeSpan = 365
     CloudDriveSettings.OneDriveSettings.DirectorySupport = True
+    CloudDriveSettings.OneDriveSettings.SharedResources = True
     Left = 424
     Top = 360
-    Version = '22.02'
+    Version = '23.0'
     mmColumnWidth = 0
     DataPipelineName = 'ppDBPipeline1'
     object ppHeaderBand1: TppHeaderBand

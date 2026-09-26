@@ -2,13 +2,13 @@ inherited FormDesignF: TFormDesignF
   Left = 194
   Top = 157
   Caption = 'FormDesignF'
-  ClientWidth = 870
+  ClientWidth = 1123
   OnResize = FormResize
-  ExplicitWidth = 886
+  ExplicitWidth = 1131
   PixelsPerInch = 96
   TextHeight = 13
   inherited PnlUnderButton: TPanel
-    Width = 870
+    Width = 1123
     ExplicitWidth = 870
     inherited BtnReject: TBitBtn
       Left = 3
@@ -17,7 +17,7 @@ inherited FormDesignF: TFormDesignF
       ExplicitLeft = 3
     end
     object newPanel: TPanel
-      Left = 520
+      Left = 773
       Top = 1
       Width = 349
       Height = 39
@@ -25,6 +25,7 @@ inherited FormDesignF: TFormDesignF
       BevelOuter = bvNone
       Caption = '`'
       TabOrder = 1
+      ExplicitLeft = 520
       object BitBtn6: TBitBtn
         AlignWithMargins = True
         Left = 273
@@ -87,23 +88,22 @@ inherited FormDesignF: TFormDesignF
       end
     end
     object okPanel: TPanel
-      Left = 358
+      Left = 611
       Top = 1
       Width = 162
       Height = 39
       Align = alRight
       BevelOuter = bvNone
       TabOrder = 2
-      DesignSize = (
-        162
-        39)
+      ExplicitLeft = 358
       object BitBtn1: TBitBtn
-        Left = 85
-        Top = 8
+        AlignWithMargins = True
+        Left = 84
+        Top = 3
         Width = 75
-        Height = 25
+        Height = 33
         Action = DataSetPost1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1578#1575#1610#1610#1583
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -141,14 +141,18 @@ inherited FormDesignF: TFormDesignF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 0
+        ExplicitLeft = 85
+        ExplicitTop = 8
+        ExplicitHeight = 25
       end
       object BitBtn2: TBitBtn
-        Left = 6
-        Top = 8
+        AlignWithMargins = True
+        Left = 3
+        Top = 3
         Width = 75
-        Height = 25
+        Height = 33
         Action = DataSetCancel1
-        Anchors = [akTop, akRight]
+        Align = alRight
         Caption = #1575#1606#1589#1585#1575#1601
         Glyph.Data = {
           36040000424D3604000000000000360000002800000010000000100000000100
@@ -186,6 +190,9 @@ inherited FormDesignF: TFormDesignF
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00
           FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00FF00}
         TabOrder = 1
+        ExplicitLeft = 6
+        ExplicitTop = 8
+        ExplicitHeight = 25
       end
     end
     object btnSearch_: TBitBtn
@@ -262,23 +269,41 @@ inherited FormDesignF: TFormDesignF
       PopupMenu = popOther
       TabOrder = 7
     end
+    object BitBtn4: TBitBtn
+      AlignWithMargins = True
+      Left = 476
+      Top = 3
+      Width = 134
+      Height = 35
+      Margins.Left = 1
+      Margins.Top = 2
+      Margins.Right = 1
+      Margins.Bottom = 2
+      Action = actDelSelected
+      Align = alRight
+      Caption = '...'
+      TabOrder = 8
+      ExplicitLeft = 1
+      ExplicitTop = 2
+      ExplicitWidth = 116
+    end
   end
   inherited Panel2: TPanel
-    Width = 870
+    Width = 1123
     Height = 64
     ExplicitWidth = 870
     ExplicitHeight = 64
     inherited ImgTemplate: TImage
-      Left = 865
+      Left = 1118
       ExplicitLeft = 865
     end
     inherited lblCaption: TLabel
-      Left = 762
-      Height = 16
+      Left = 1015
+      Height = 44
       ExplicitLeft = 762
     end
     inherited lblBaseDate: TLabel
-      Left = 391
+      Left = 512
       ExplicitLeft = 391
     end
     object grpMaster: TGroupBox
@@ -334,22 +359,23 @@ inherited FormDesignF: TFormDesignF
   end
   inherited Panel3: TPanel
     Top = 64
-    Width = 870
+    Width = 1123
     Height = 412
     ExplicitTop = 64
     ExplicitWidth = 870
-    ExplicitHeight = 413
+    ExplicitHeight = 412
     object pnlMaster: TPanel
-      Left = 617
+      Left = 870
       Top = 2
       Width = 251
-      Height = 409
+      Height = 408
       Align = alRight
       TabOrder = 0
       Visible = False
+      ExplicitLeft = 617
       object Panel4: TPanel
         Left = 1
-        Top = 376
+        Top = 375
         Width = 249
         Height = 32
         Align = alBottom

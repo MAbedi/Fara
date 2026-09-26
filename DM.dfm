@@ -1298,7 +1298,7 @@ object DmF: TDmF
     Parameters = <>
     SQL.Strings = (
       'select 0')
-    Left = 373
+    Left = 397
     Top = 15
   end
   object adcAuditLog: TADOConnection

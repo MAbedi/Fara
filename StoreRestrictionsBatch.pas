@@ -1,4 +1,4 @@
-unit StoreRestrictionsBatch;
+﻿unit StoreRestrictionsBatch;
 
 interface
 
@@ -109,7 +109,7 @@ begin
   FormCodes := '';
 
   if not ChooseItemF.SelectChecks(PositionCodes, 'PositionCode', 'PositionTitle',
-    'Position', '', Connection, False, 'انتخاب پست سازمانی') then
+    'Farasystems.dbo.Position', '', Connection, False, 'انتخاب پست سازمانی') then
     Exit;
   if PositionCodes = '' then
     Exit;
@@ -167,7 +167,7 @@ begin
       'SELECT O.UserID, :StoreID, :ReciptType ' +
       'FROM Farasystems.dbo.Operators O ' +
       'WHERE O.PositionCode = :PositionCode ' +
-      'AND NOT EXISTS (SELECT 1 FROM dbo.UsersStoreReciptTypes AS U WITH (UPDLOCK, HOLDLOCK) ' +
+      'AND NOT EXISTS (SELECT 1 FROM dbo.UsersStoreReciptTypes U WITH (UPDLOCK, HOLDLOCK) ' +
       'WHERE U.UserID = O.UserID AND U.StoreID = :ExistingStoreID ' +
       'AND U.ReciptType = :ExistingReciptType)';
     for I := 0 to Query.Parameters.Count - 1 do

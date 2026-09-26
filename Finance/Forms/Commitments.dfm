@@ -1697,6 +1697,7 @@ inherited CommitmentsF: TCommitmentsF
     end
     object qryMasterCompanyCode: TIntegerField
       FieldName = 'CompanyCode'
+      OnChange = qryMasterCompanyCodeChange
     end
     object qryMaster_ComponyName: TStringField
       FieldKind = fkLookup
